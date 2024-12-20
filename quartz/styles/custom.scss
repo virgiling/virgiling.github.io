@@ -85,7 +85,8 @@ button#toc {
 }
 
 article:has(p:not(:empty)) {
-   border: dashed 1px var(--gray);
+   border-left: dashed 1px var(--gray);
+   border-right: dashed 1px var(--gray);
    border-radius: var(--border-radius);
    padding: 0 1rem 1rem;
 }
