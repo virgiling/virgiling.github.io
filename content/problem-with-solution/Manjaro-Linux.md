@@ -376,6 +376,7 @@ A:可以下载安装宋体字体文件`simsun.ttc`，重启微信即可正常显
 选择一个 wps app，右键，点击 “编辑应用程序”，配置如下：
 
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20231005161932.png)
+
 在环境变量处加上 `QT_FONT_DPI=xxx` 即可（xxx 为你需要缩放的 DPI 值，一般为 100, 120, 144）
 
 WPS Word 无法导出 pdf：
