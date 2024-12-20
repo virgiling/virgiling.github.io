@@ -5,7 +5,7 @@ tags:
   - IPADS
   - 操作系统
 date: 2023-09-01
-lastmod: 2024-12-15
+lastmod: 2024-12-20
 draft: false
 ---
 
@@ -29,7 +29,7 @@ git merge lab1
 
 但 `aarch64` 方便的一点在于他有两个页表寄存器，`risc-v` 只有一个 `satp`，我们通过如下配置：
 
-```c
+```c wrap
 vaddr = PHYSMEM_START;
 
 boot_ttbr1_l0[GET_L0_INDEX(vaddr + KERNEL_VADDR)] =
@@ -62,7 +62,7 @@ for (vaddr = PERIPHERAL_BASE; vaddr < PHYSMEM_END; vaddr += SIZE_2M) {
 
 但在这里还是简单介绍以下伙伴系统。
 
-实际上想法很简单，我们维护一个数组（假定全局只有这一个），这个数组的索引表示阶(i.e. `order`)，可以看作是物理块的大小（$2^{order}$），数组的每一项是一个`struct` ，这个结构体维护了一个链表和链表的长度（或许我们就可以把它当作是一个链表），链表维护了物理内存中大小为 $2^{order}$ 的物理块。
+实际上想法很简单，我们维护一个数组（假定全局只有这一个），这个数组的索引表示阶(i.e. `order`)，可以看作是物理块的大小（$2^("order")$），数组的每一项是一个`struct` ，这个结构体维护了一个链表和链表的长度（或许我们就可以把它当作是一个链表），链表维护了物理内存中大小为 $2^("order")$ 的物理块。
 
 而所谓的伙伴系统，实际上我们可以简化成如下两个函数：
 
@@ -73,7 +73,7 @@ for (vaddr = PERIPHERAL_BASE; vaddr < PHYSMEM_END; vaddr += SIZE_2M) {
 
 ## buddy_get_pages
 
-```c
+```c wrap
 struct page *page = NULL;
 u64 current_order = order;
 
@@ -112,7 +112,7 @@ return page;
 
 接着，我们开始完善 `split_page`，这个函数需要做的事情是很简单的，只需要不断的分裂即可，但需要在分裂时维护链表，我们直接给出实现：
 
-```c
+```c wrap
 if (page->allocated) {
 		kwarn("The page 0x%lx is allocated\n", page);
 		return NULL;
@@ -147,7 +147,7 @@ return page;
 
 第二个功能就很简单了，实际上就是第一个的逆向：
 
-```c
+```c wrap
 static struct page *merge_page(struct phys_mem_pool *pool, struct page *page)
 {
         /* LAB 2 TODO 2 BEGIN */
@@ -235,7 +235,7 @@ void buddy_free_pages(struct phys_mem_pool *pool, struct page *page)
 1. L1 与 L2 页表可以直接指向物理块，因此我们需要对这部分进行判断
 2. 记得看 `get_next_ptp` 的实现还有它的注释，我们需要用到 `virt_to_phys` 这个函数，如果不看的话就不知道，
 
-```c
+```c wrap
 int query_in_pgtbl(void *pgtbl, vaddr_t va, paddr_t *pa, pte_t **entry)
 {
         /* LAB 2 TODO 3 BEGIN */
@@ -298,7 +298,7 @@ int query_in_pgtbl(void *pgtbl, vaddr_t va, paddr_t *pa, pte_t **entry)
 
 于是，代码如下：
 
-```c
+```c wrap
 int map_range_in_pgtbl(void *pgtbl, vaddr_t va, paddr_t pa, size_t len,
                        vmr_prop_t flags)
 {
@@ -354,7 +354,7 @@ int map_range_in_pgtbl(void *pgtbl, vaddr_t va, paddr_t pa, size_t len,
 
 而关于 `unmap` 的部分，相较于 `map` 应该更为简单，我们只需要将 `is_valid` 字段置为 0 即可，如下：
 
-```c
+```c wrap
 int unmap_range_in_pgtbl(void *pgtbl, vaddr_t va, size_t len)
 {
         /* LAB 2 TODO 3 BEGIN */
@@ -415,7 +415,7 @@ int unmap_range_in_pgtbl(void *pgtbl, vaddr_t va, size_t len)
 
 注意的是我们需要时刻维护 `len` 这个变量（因为最后的函数需要用到），代码如下：
 
-```c
+```c wrap
 int map_range_in_pgtbl_huge(void *pgtbl, vaddr_t va, paddr_t pa, size_t len,
                             vmr_prop_t flags)
 {
@@ -489,8 +489,6 @@ back:
 注意这里定义的宏即可，关于这个宏的定义，请参考此图：
 
 ![lab2-pte-1.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/lab2-pte-1.png)
-
->
 
 > 参考此图 `block` 中的 `output address` 位置即可, 我们用的还是 4KB 的粒度
 
