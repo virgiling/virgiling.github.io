@@ -39,12 +39,6 @@ function setupFloatingButtons() {
           </span>
           <span class="shortcut-desc">全局图谱</span>
         </div>
-        <div class="shortcut-item" data-shortcut="reader">
-          <span class="shortcut-keys">
-            <kbd class="retro-key">⌘</kbd> / <kbd class="retro-key">Ctrl</kbd> + <kbd class="retro-key">E</kbd>
-          </span>
-          <span class="shortcut-desc">阅读模式</span>
-        </div>
       </div>
     `
 
