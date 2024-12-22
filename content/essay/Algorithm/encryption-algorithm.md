@@ -4,7 +4,7 @@ description: 加密算法 (MD5, AES, RSA)（蓝旭算法课）
 tags:
   - 算法讲义
 date: 2022-07-10
-lastmod: 2024-12-15
+lastmod: 2024-12-22
 draft: false
 ---
 
@@ -397,7 +397,7 @@ $$
 
 一些前置知识：
 
-- [素数](https://topdeoo.github.io/29/Algorithm/NumberTheory/about-prime/)
+- [[Prime|素数]]
 
 - 同余
 

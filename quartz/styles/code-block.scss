@@ -86,24 +86,3 @@
 .expressive-code .frame.has-title:not(.is-terminal) .title {
     border-radius: 0 !important;
 }
-
-//terminal类型的左上角三个点图标
-.expressive-code .frame.is-terminal .header::before {
-    background: linear-gradient(to right,
-            #ff6666 0%, // 红色
-            #ff6666 26%, // 红色结束
-            transparent 26%,
-            transparent 37%,
-            #ffdb4d 37%, // 黄色
-            #ffdb4d 63%, // 黄色结束
-            transparent 63%,
-            transparent 74%,
-            #84a59d 74%, // 绿色
-            #84a59d 100% // 绿色结束
-        );
-
-    opacity: 1 !important;
-    // expressive-code 官网三个灰色点
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 16' preserveAspectRatio='xMidYMid meet'%3E%3Ccircle cx='8' cy='8' r='8'/%3E%3Ccircle cx='30' cy='8' r='8'/%3E%3Ccircle cx='52' cy='8' r='8'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 16' preserveAspectRatio='xMidYMid meet'%3E%3Ccircle cx='8' cy='8' r='8'/%3E%3Ccircle cx='30' cy='8' r='8'/%3E%3Ccircle cx='52' cy='8' r='8'/%3E%3C/svg%3E");
-}

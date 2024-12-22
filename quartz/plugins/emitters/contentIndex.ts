@@ -17,6 +17,7 @@ export type ContentDetails = {
   content: string
   richContent?: string
   date?: Date
+  lastmod?: Date
   description?: string
 }
 
@@ -40,12 +41,12 @@ function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndex): string {
   const base = cfg.baseUrl ?? ""
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<url>
     <loc>https://${joinSegments(base, encodeURI(slug))}</loc>
-    ${content.date && `<lastmod>${content.date.toISOString()}</lastmod>`}
+    ${(content.lastmod && `<lastmod>${content.lastmod.toISOString()}</lastmod>`) || (content.date &&  `<lastmod>${content.date.toISOString()}</lastmod>`)}
   </url>`
   const urls = Array.from(idx)
     .map(([slug, content]) => createURLEntry(simplifySlug(slug), content))
     .join("")
-  return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${urls}</urlset>`
+  return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"> ${urls} </urlset>`
 }
 
 function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndex, limit?: number): string {

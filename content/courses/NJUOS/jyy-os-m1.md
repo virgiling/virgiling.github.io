@@ -11,7 +11,7 @@ draft: false
 
 # Lab Configuration
 
-关于实验的配置部分，请看 [实验须知](https://jyywiki.cn/OS/2023/labs/Labs)，而关于 `M1` 部分，请看 [实验文档](https://jyywiki.cn/OS/2023/labs/M1)
+关于实验的配置部分，请看 [实验须知](https://jyywiki.cn/OS/2023/labs/Labs.html)，而关于 `M1` 部分，请看 [实验文档](https://jyywiki.cn/OS/2023/labs/M1.html)
 
 简而言之，下载完代码，进入 `pstree` 文件夹后，就可以开始愉快的实验了
 

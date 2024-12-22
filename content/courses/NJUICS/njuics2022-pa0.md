@@ -5,13 +5,13 @@ tags:
   - NJU
   - 计算机系统
 date: 2023-07-16
-lastmod: 2024-12-15
+lastmod: 2024-12-22
 draft: false
 ---
 
 # 实验环境
 
-按照 [文档](https://nju-projectn.github.io/ics-pa-gitbook/ics2022/pa0/) 中的提示即可完成。
+按照 [文档](https://nju-projectn.github.io/ics-pa-gitbook/ics2022/PA0.html) 中的提示即可完成。
 
 由于本人的系统为 `Manjaro`，因此并不需要安装双系统，这里直接开始搭建软件环境。
 

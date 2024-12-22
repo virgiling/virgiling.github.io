@@ -6,7 +6,7 @@ tags:
   - 一些随笔
   - 编译器
 date: 2023-07-03
-lastmod: 2024-12-15
+lastmod: 2024-12-22
 draft: false
 ---
 
@@ -389,9 +389,9 @@ gcc -E -C hello.c -o hello.i
 
 请看：
 
-[AI 编译器前端优化](https://zh0ngtian.github.io/2021/07/08/ee655d7b.html)
+[AI 编译器前端优化](http://zh0ngtian.tech/posts/ee655d7b.html)
 
-[AI 编译器后端优化](https://zh0ngtian.github.io/2021/07/08/4b419b6f.html)
+[AI 编译器后端优化](http://zh0ngtian.tech/posts/4b419b6f.html)
 
 ## PyTorch 2.0 的编译流程
 
