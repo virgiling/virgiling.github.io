@@ -6,7 +6,7 @@ tags:
   - 一些随笔
   - 算法讲义
 date: 2023-09-20
-lastmod: 2024-12-15
+lastmod: 2024-12-22
 draft: false
 ---
 
@@ -198,7 +198,7 @@ int main(void) {
 
 ### Tutorial
 
-这题可以参考 [[codeforces-practice]] 文章中的(链接为[Practice](http://localhost:8080/posts/Algorithm/codeforces-practice.html)) H. Beppa and SwerChat
+这题可以参考 [[codeforces-practice]] 文章中的(链接为 [[codeforces-practice|Practice]] )) H. Beppa and SwerChat
 
 ### Solution
 
