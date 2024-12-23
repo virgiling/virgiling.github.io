@@ -39,24 +39,9 @@
 }
 
 :root {
-    --gird-width: 30px;
-    --gird-height: 30px;
-    --line-color: #e5e3e3;
-    --dot-color: #ccc;
-    --dot-size: 2px;
-    --point-gap-width: calc(var(--gird-width) * 4);
-    --point-gap-height: calc(var(--gird-height) * 4);
-    // 顶部滚动通知高度
-    --top-scroll-height: 30px;
-    //有通知栏
-    --body-height-min: calc(100vh - var(--top-scroll-height));
-    //无通知栏
-    --body-height-max: 100vh;
     //加粗字体、代码块高亮色
     --custom-highlight: #8b2e2e;
-
     --border-radius: 4px;
-
 }
 
 button#explorer {
