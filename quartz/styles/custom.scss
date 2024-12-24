@@ -1,5 +1,5 @@
 @use "./base.scss";
-@use "./variables.scss";
+@use "./variables.scss" as *;
 @use "./external.scss";
 @use "./keyboard.scss";
 @use "./code-block.scss";
@@ -27,6 +27,14 @@
     font-weight: normal;
     font-display: swap;
     src: url("/static/fonts/Biro_Script.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Shokaki Sarari";
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    src: url("/static/fonts/Shokaki_Sarari.woff2") format("woff2");
 }
 
 @font-face {
@@ -121,8 +129,21 @@ a.external {
     font-weight: 500;
 }
 
+pre.poetry {
+    font-size: 1.2rem;
+    font-family: 'Shokaki Sarari';
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border: none;
+    padding-bottom: .8rem;
+    padding-top: .5rem;
+    position: unset;
+    background-color: var(--lightgray);
+    color: #025399;
+}
+
+.meta,
 .content-meta {
-    font-family: 'Biro';
+    font-family: 'Biro', var(--bodyFont);
 }
 
 #toc-content>ul.overflow {
