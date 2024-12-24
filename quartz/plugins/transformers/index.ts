@@ -1,3 +1,4 @@
+import { Poetry } from './poetry';
 export { FrontMatter } from "./frontmatter"
 export { GitHubFlavoredMarkdown } from "./gfm"
 export { Citations } from "./citations"
@@ -12,3 +13,4 @@ export { TableOfContents } from "./toc"
 export { HardLineBreaks } from "./linebreaks"
 export { RoamFlavoredMarkdown } from "./roam"
 export { LightBox } from "./lightbox"
+export { Poetry } from "./poetry"
