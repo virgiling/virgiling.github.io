@@ -3,9 +3,9 @@ title: gprof 的一些使用指北
 description: 
 tags:
   - Linux
-  - 疑难杂症
+  - 各类环境问题
 date: 2024-07-09
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

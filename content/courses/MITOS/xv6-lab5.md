@@ -4,8 +4,9 @@ description: 实验早就做好了但是…… 思路借鉴了课程中 `Prof. R
 tags:
   - MIT
   - 操作系统
+  - 课程实验
 date: 2022-09-04
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

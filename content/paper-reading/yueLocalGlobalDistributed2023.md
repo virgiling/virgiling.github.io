@@ -2,11 +2,11 @@
 title: 伪布尔优化中的分布式 QAOA 算法
 description: 
 tags:
-  - 论文阅读
   - 量子算法
   - 组合优化
+  - 论文阅读笔记
 date: 2024-12-12
-lastmod: 2024-12-24
+lastmod: 2024-12-25
 draft: false
 zotero-key: FS3KXWKE
 zt-attachments:
@@ -17,6 +17,7 @@ citekey: yueLocalGlobalDistributed2023
 > [!tldr]
 >
 > [文章链接](http://arxiv.org/abs/2310.05062)
+> 
 > 主要的贡献为：
 >
 > 1.  将 PBO 问题编码为 QAOA 的形式

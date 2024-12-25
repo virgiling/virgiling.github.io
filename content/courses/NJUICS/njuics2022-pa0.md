@@ -4,8 +4,9 @@ description: ICS PA 的实验环境准备
 tags:
   - NJU
   - 计算机系统
+  - 课程实验
 date: 2023-07-16
-lastmod: 2024-12-22
+lastmod: 2024-12-25
 draft: false
 ---
 

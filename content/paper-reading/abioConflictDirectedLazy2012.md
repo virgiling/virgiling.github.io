@@ -2,11 +2,11 @@
 title: Conflict Directed Lazy Decomposition
 description: 
 tags:
-  - 论文阅读
   - 约束求解
   - SAT
+  - 论文阅读笔记
 date: 2024-12-17
-lastmod: 2024-12-19
+lastmod: 2024-12-25
 draft: false
 zotero-key: W57CN6LV
 zt-attachments:
@@ -21,6 +21,8 @@ citekey: abioConflictDirectedLazy2012
 > 在 SAT 问题的全局约束中，如果将约束编码为 SAT，会导致变量与子句的急速膨胀，造成求解困难。但有时候，编码的辅助变量又属于 nogood 类型的变量，能够指导搜索的过程。
 >
 > 因此本文提出了一种求解器框架，在约束传播的过程中，我们有选择的分解（编码）那些 nogood 类型的变量，使得能够更快的求解问题。
+>
+> [查看 Slides](https://github.com/topdeoo/Course-Slides/tree/master/Seminar/2024-12-19)
 
 # Conflict Directed Lazy Decomposition
 

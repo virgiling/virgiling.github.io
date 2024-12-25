@@ -4,8 +4,9 @@ description: 一个一开始完全不知道怎么做的实验
 tags:
   - CMU
   - 计算机系统
+  - 课程实验
 date: 2022-04-06
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

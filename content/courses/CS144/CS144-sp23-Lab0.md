@@ -5,8 +5,9 @@ tags:
   - Stanford
   - 计算机网络
   - 环境配置
+  - 课程实验
 date: 2023-10-05
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

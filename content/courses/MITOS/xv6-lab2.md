@@ -4,8 +4,9 @@ description: Lab2 熟悉一些系统调用
 tags:
   - MIT
   - 操作系统
+  - 课程实验
 date: 2022-04-01
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

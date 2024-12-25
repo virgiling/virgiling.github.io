@@ -5,8 +5,9 @@ tags:
   - Linux
   - Manjaro
   - 环境配置
+  - 开发工具与工作流
 date: 2023-05-12
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 > [!info]

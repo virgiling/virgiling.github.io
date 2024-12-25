@@ -4,9 +4,10 @@ description: "省赛配置流程，当做遗产留下来   "
 tags:
   - NENU
   - XCPC
+  - 各类环境问题
   - 环境配置
 date: 2023-04-19
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

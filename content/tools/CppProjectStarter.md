@@ -4,8 +4,9 @@ description: 一份简单的 C++ Project init 指北
 tags:
   - 一些随笔
   - 环境配置
+  - 开发工具与工作流
 date: 2024-12-21
-lastmod: 2024-12-23
+lastmod: 2024-12-25
 draft: false
 ---
 

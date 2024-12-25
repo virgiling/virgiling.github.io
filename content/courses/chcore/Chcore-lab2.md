@@ -4,8 +4,9 @@ description: 内存管理，伙伴系统（Buddy System）与页表配置（Page
 tags:
   - IPADS
   - 操作系统
+  - 课程实验
 date: 2023-09-01
-lastmod: 2024-12-20
+lastmod: 2024-12-25
 draft: false
 ---
 

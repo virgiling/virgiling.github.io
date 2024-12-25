@@ -4,8 +4,9 @@ description: 优化 xv6 中的锁结构
 tags:
   - MIT
   - 操作系统
+  - 课程实验
 date: 2022-09-12
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

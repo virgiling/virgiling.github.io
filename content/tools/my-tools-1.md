@@ -3,9 +3,9 @@ title: 差生文具店（第一集）
 description: 科研&学习工具分享
 tags:
   - 环境配置
-  - 开发工具
+  - 开发工具与工作流
 date: 2024-10-27
-lastmod: 2024-12-23
+lastmod: 2024-12-25
 draft: false
 ---
 
