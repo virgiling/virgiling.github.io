@@ -3,9 +3,9 @@ title: 外包项目问题记录与解决
 description: 
 tags:
   - Linux
-  - 疑难杂症
+  - 各类环境问题
 date: 2024-11-13
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

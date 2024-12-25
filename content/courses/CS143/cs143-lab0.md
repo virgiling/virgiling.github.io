@@ -5,8 +5,9 @@ tags:
   - Stanford
   - 编译器
   - 环境配置
+  - 课程实验
 date: 2022-07-16
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

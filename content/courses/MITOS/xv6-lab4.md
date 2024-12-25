@@ -4,8 +4,9 @@ description: 2020年的课和这个不太兼容（需要看完中断之后才能
 tags:
   - MIT
   - 操作系统
+  - 课程实验
 date: 2022-04-19
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

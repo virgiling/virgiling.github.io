@@ -4,8 +4,9 @@ description: 这个实验倒是比较简单，没什么可说的
 tags:
   - CMU
   - 计算机系统
+  - 课程实验
 date: 2023-10-03
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

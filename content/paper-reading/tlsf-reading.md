@@ -2,10 +2,10 @@
 title: Two-Level Segregated Fit 阅读
 description: 
 tags:
-  - 论文阅读
   - 操作系统
+  - 论文阅读笔记
 date: 2024-04-15
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

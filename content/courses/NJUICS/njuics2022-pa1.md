@@ -4,8 +4,9 @@ description: ICS PA1 sdb
 tags:
   - NJU
   - 计算机系统
+  - 课程实验
 date: 2023-07-16
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

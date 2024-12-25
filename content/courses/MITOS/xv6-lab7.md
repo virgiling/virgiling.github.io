@@ -4,8 +4,9 @@ description: 使用 E1000 网卡写一个驱动程序
 tags:
   - MIT
   - 操作系统
+  - 课程实验
 date: 2022-09-08
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

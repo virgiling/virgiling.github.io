@@ -4,8 +4,9 @@ description: Assignment 1 实现词法分析器
 tags:
   - Stanford
   - 编译器
+  - 课程实验
 date: 2022-11-20
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 

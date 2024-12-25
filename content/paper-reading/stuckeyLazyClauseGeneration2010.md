@@ -2,11 +2,11 @@
 title: Lazy Clause Generation
 description: 
 tags:
-  - 论文阅读
   - 约束求解
   - SAT
+  - 论文阅读笔记
 date: 2024-12-17
-lastmod: 2024-12-19
+lastmod: 2024-12-25
 draft: false
 zotero-key: RADMDA7D
 zt-attachments:

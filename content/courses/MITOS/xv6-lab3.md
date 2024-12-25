@@ -4,8 +4,9 @@ description: 你说的 easy 不是 easy，我说的 hard 是什么 hard😭
 tags:
   - MIT
   - 操作系统
+  - 课程实验
 date: 2022-04-18
-lastmod: 2024-12-15
+lastmod: 2024-12-25
 draft: false
 ---
 
