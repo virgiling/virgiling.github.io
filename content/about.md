@@ -1,9 +1,10 @@
 ---
-title: 关于
+title: 🛌 关于
 description: 关于 Virgil 的详细内容，这里记录了一些个人喜好，发表论文以及修习的课程
-tags: 
+tags:
+  - About
 date: 2022-03-29
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 comments: false
 ---
@@ -42,12 +43,24 @@ None 😭
 # Project
 
 - [NENU 学位论文模板-Typst 版](https://github.com/topdeoo/NENU-Thesis-Typst)：目前只实现了本科的格式，持续维护中
+
 - [XCPC 现场打印服务](https://github.com/topdeoo/CodePrint)：提供给 XCPC 线下比赛中，不会使用 domjudge 的打印服务的主办方，目前缺少 docker 构建方式，考虑后续补为一键构建的方式
+
 - [Hyprland 配置文件](https://github.com/topdeoo/hyprland-dotfiles)：先前使用的 `Hyprland` + `Archlinux` 的一些桌面配置文件，仅供参考，可能已过时
 
 还有一些不太有意思的项目，可以在我的 [Github](https://github.com/topdeoo/) 中找到
 
+# Experience
+
+- 协助举办了 2023 CCPC 吉林省赛，2024 CCPC 吉林省赛与东北四省赛 （技术支持），可以参考随笔中的 [[Intro-To-Provincial-Contest|2023 吉林省赛环境配置]]
+
+- 在 ICT 简单实习了一个多月，学习了一些 #MLSys/AI编译器  的内容，可以参考随笔中的 [[essay/ICT/index|ICT 实习经历]]
+
 # Courses
+
+> [!hint]
+>
+> 关于国外公开课的实验，详细可以参考 [[courses|公开课实验汇总]] 部分
 
 - [x] CMU 15-445 Database Systems
 

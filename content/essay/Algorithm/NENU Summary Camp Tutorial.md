@@ -2,11 +2,10 @@
 title: 2023 NENU夏令营机试题解
 description: 2023 NENU夏令营机试 Tutorial
 tags:
-  - NENU
-  - 一些随笔
-  - 算法讲义
+  - 一些随笔/2023
+  - 算法讲义/XCPC
 date: 2023-09-20
-lastmod: 2024-12-22
+lastmod: 2024-12-29
 draft: false
 ---
 

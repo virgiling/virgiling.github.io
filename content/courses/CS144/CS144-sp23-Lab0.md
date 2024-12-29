@@ -2,12 +2,12 @@
 title: 实验环境与 Lab0 (sp23)
 description: Stanford CS144 Spring 2023 实验环境与 Lab0
 tags:
-  - Stanford
-  - 计算机网络
   - 环境配置
-  - 课程实验
+  - Stanford/CS144
+  - 公开课/课程实验
+  - OS/Linux
 date: 2023-10-05
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

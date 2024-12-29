@@ -2,12 +2,11 @@
 title: Machine Boot
 description: Set the envrionment and boot the machine
 tags:
-  - IPADS
-  - 操作系统
   - 环境配置
-  - 课程实验
+  - 公开课/课程实验
+  - OS/Linux
 date: 2023-09-11
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

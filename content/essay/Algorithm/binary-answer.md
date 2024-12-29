@@ -2,9 +2,9 @@
 title: 二分答案
 description: 二分答案（不是二分搜索）（蓝旭算法课）
 tags:
-  - 算法讲义
+  - 算法讲义/XCPC
 date: 2022-07-10
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

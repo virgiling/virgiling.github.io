@@ -2,9 +2,9 @@
 title: 基础网络流
 description: 介绍一些基础的网络流算法（蓝旭算法课）
 tags:
-  - 算法讲义
+  - 算法讲义/XCPC
 date: 2022-07-29
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

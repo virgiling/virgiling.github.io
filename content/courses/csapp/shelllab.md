@@ -2,11 +2,11 @@
 title: shell-lab
 description: ​不如我自己写的 `shell` 难度大（不过关于信号处理的部分还是很有意思的）
 tags:
-  - CMU
   - 计算机系统
-  - 课程实验
+  - CMU/15-213
+  - 公开课/课程实验
 date: 2022-11-03
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

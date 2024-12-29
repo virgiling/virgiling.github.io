@@ -34,17 +34,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
     Component.DesktopOnly(Component.RecentNotes({ limit: 1, showTags: false })),
-    Component.DesktopOnly(Component.Explorer({
-      mapFn: (node) => {
-        if (node.depth > 0) {
-          if (node.file) {
-            node.displayName = "📄 " + node.displayName
-          } else {
-            node.displayName = "📁 " + node.displayName
-          }
-        }
-      },
-    })),
+    Component.DesktopOnly(Component.Explorer({})),
     Component.DesktopOnly(Component.FloatingButtons({
       position: 'right'
     })),
@@ -69,9 +59,15 @@ export const defaultListPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
+    Component.DesktopOnly(Component.RecentNotes({ limit: 1, showTags: false })),
+    Component.DesktopOnly(Component.Explorer({})),
     Component.DesktopOnly(Component.FloatingButtons({
       position: 'right'
     })),
   ],
-  right: [],
+  right: [
+    Component.Graph(),
+    Component.DesktopOnly(Component.TableOfContents()),
+    Component.Backlinks(),
+  ],
 }

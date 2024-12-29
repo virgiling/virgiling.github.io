@@ -1,18 +1,16 @@
 ---
 title: Lab3 Page Tables
-description: 你说的 easy 不是 easy，我说的 hard 是什么 hard😭
+description: 
 tags:
-  - MIT
   - 操作系统
-  - 课程实验
+  - MIT/6-S081
+  - 公开课/课程实验
 date: 2022-04-18
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 
-实验难度 `easy`, `easy`, `hard`。
-
-结果第一题差点把我送走了……MIT，你坏事做尽 😭
+你说的 easy 不是 easy，我说的 hard 是什么 hard😭，实验难度 `easy`, `easy`, `hard`，结果第一题差点把我送走了……MIT，你坏事做尽 😭
 
 ## 实验准备
 

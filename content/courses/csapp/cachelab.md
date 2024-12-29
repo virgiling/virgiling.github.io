@@ -2,11 +2,11 @@
 title: cache-lab
 description: 这个实验倒是比较简单，没什么可说的
 tags:
-  - CMU
   - 计算机系统
-  - 课程实验
+  - CMU/15-213
+  - 公开课/课程实验
 date: 2023-10-03
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

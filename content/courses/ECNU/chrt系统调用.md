@@ -2,11 +2,10 @@
 title: 2020 OS_HW2 chrt
 description: 实现 chrt 系统调用（简易版）
 tags:
-  - ECNU
-  - 操作系统
-  - 课程实验
+  - ECNU-DaSE/操作系统
+  - 公开课/课程实验
 date: 2022-03-29
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

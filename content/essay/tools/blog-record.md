@@ -2,10 +2,10 @@
 title: 博客迁移记录
 description: 记录博客从 Hugo 迁移到 Quartz 的过程
 tags:
-  - 环境配置
-  - 开发工具与工作流
+  - 博客相关
+  - 一些随笔/2024
 date: 2024-12-20
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

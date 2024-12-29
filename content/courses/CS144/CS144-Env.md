@@ -2,12 +2,12 @@
 title: 环境配置
 description: CS144 的一些准备工作
 tags:
-  - Stanford
-  - 计算机网络
   - 环境配置
-  - 课程实验
+  - Stanford/CS144
+  - 公开课/课程实验
+  - OS/Win
 date: 2023-02-20
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

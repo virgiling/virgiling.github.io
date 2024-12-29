@@ -2,11 +2,12 @@
 title: C++ 项目初始化指北
 description: 一份简单的 C++ Project init 指北
 tags:
-  - 一些随笔
+  - 一些随笔/2024
   - 环境配置
-  - 开发工具与工作流
+  - 文具袋/文具推荐
+  - OS/Linux
 date: 2024-12-21
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

@@ -2,9 +2,9 @@
 title: 并查集
 description: 不相交集合数据结构(disjoint-set data structure)，简称并查集（ACM培训）
 tags:
-  - 算法讲义
+  - 算法讲义/XCPC
 date: 2022-11-25
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

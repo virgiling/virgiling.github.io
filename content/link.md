@@ -1,11 +1,11 @@
 ---
-title: 友链
+title: 🔗友链
 description: 
-tags: 
+tags:
+  - About
 date: 2022-03-29
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
-comments: true
 ---
 
 > [!NOTE]
@@ -14,3 +14,4 @@ comments: true
 - [Windlinxy's blog](https://windlinxy.top/)
  ^05ac4c
 - [Do ごみ箱](https://dodolalorc.cn/)
+

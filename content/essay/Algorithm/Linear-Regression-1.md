@@ -2,10 +2,10 @@
 title: 线性回归第一讲
 description: 一个传统的线性回归讲义
 tags:
-  - 一些随笔
-  - 机器学习
+  - 一些随笔/2022
+  - 算法讲义/机器学习
 date: 2022-07-31
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

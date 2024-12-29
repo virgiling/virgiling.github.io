@@ -2,11 +2,11 @@
 title: bomb-lab
 description: 很有意思的实验，至少在我做过的里面这个带来的正反馈是最多的
 tags:
-  - CMU
   - 计算机系统
-  - 课程实验
+  - CMU/15-213
+  - 公开课/课程实验
 date: 2022-03-29
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

@@ -2,12 +2,12 @@
 title: 环境配置
 description: Stanford CS143 实验环境安装与配置
 tags:
-  - Stanford
-  - 编译器
   - 环境配置
-  - 课程实验
+  - Stanford/CS143
+  - 公开课/课程实验
+  - OS/Win
 date: 2022-07-16
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

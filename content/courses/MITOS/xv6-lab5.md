@@ -1,16 +1,16 @@
 ---
 title: Lab5 CoW Fork
-description: 实验早就做好了但是…… 思路借鉴了课程中 `Prof. Robert Morris` 的思路
+description: 
 tags:
-  - MIT
   - 操作系统
-  - 课程实验
+  - MIT/6-S081
+  - 公开课/课程实验
 date: 2022-09-04
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 
-hh 实验只有一题但是是 `hard`
+实验早就做好了但是…… 思路借鉴了课程中 `Prof. Robert Morris` 的思路，实验只有一题但是是 `hard`
 
 不过如果看完了视频的思路我觉得对这个和后续的实验都有帮助（教了一种做实验的思路，就是 `bug` 有时候是你故意想要的）
 

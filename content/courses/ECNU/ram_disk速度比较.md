@@ -2,11 +2,10 @@
 title: 2020 OS_HW3 RAM与Disk读写速度对比
 description: 为什么MINIX你是微内核！我不理解！
 tags:
-  - ECNU
-  - 操作系统
-  - 课程实验
+  - ECNU-DaSE/操作系统
+  - 公开课/课程实验
 date: 2022-05-08
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 
