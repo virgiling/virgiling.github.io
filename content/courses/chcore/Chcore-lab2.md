@@ -2,11 +2,11 @@
 title: 内存管理
 description: 内存管理，伙伴系统（Buddy System）与页表配置（Page Table） 重回中文写作
 tags:
-  - IPADS
+  - 公开课/课程实验
+  - SJTU/SE-315
   - 操作系统
-  - 课程实验
 date: 2023-09-01
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

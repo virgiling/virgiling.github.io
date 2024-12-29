@@ -2,9 +2,9 @@
 title: 基础计算几何
 description: 基础计算几何与碰撞检测算法（蓝旭算法课）
 tags:
-  - 算法讲义
+  - 算法讲义/XCPC
 date: 2022-08-01
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

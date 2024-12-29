@@ -2,11 +2,11 @@
 title: Lab6 Multithreading
 description: 
 tags:
-  - MIT
   - 操作系统
-  - 课程实验
+  - MIT/6-S081
+  - 公开课/课程实验
 date: 2022-09-06
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

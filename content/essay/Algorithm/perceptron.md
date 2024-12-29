@@ -2,10 +2,10 @@
 title: 感知机与神经网络
 description: 
 tags:
-  - 一些随笔
-  - 机器学习
+  - 一些随笔/2022
+  - 算法讲义/机器学习
 date: 2022-08-02
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

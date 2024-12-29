@@ -2,9 +2,9 @@
 title: 素数相关
 description: 这里介绍一些关于找素数的方法，可能是素数筛，也可能是快速判断一个数是不是素数
 tags:
-  - 算法讲义
+  - 算法讲义/XCPC
 date: 2022-03-29
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

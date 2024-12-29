@@ -2,11 +2,11 @@
 title: Lab1 词法分析
 description: Assignment 1 实现词法分析器
 tags:
-  - Stanford
   - 编译器
-  - 课程实验
+  - Stanford/CS143
+  - 公开课/课程实验
 date: 2022-11-20
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

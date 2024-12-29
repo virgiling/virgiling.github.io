@@ -2,11 +2,11 @@
 title: Lab1 重组字节流
 description: 实现重组字节流
 tags:
-  - Stanford
   - 计算机网络
-  - 课程实验
+  - Stanford/CS144
+  - 公开课/课程实验
 date: 2023-02-26
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

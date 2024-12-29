@@ -2,11 +2,10 @@
 title: "SparrOS: A Toy OS 0x00"
 description: 
 tags:
-  - NENU
-  - 编译器
-  - 一些随笔
+  - 一些随笔/2024
+  - 操作系统
 date: 2024-04-14
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: true
 ---
 

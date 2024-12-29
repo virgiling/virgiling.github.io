@@ -1,16 +1,16 @@
 ---
 title: Lab1 Utils
-description: Lab1简单的熟悉xv6操作系统和怎么做实验
+description: 
 tags:
-  - MIT
   - 操作系统
-  - 课程实验
+  - MIT/6-S081
+  - 公开课/课程实验
 date: 2022-04-01
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 
-官网上对实验难度的描述是`easy` , `easy`, `moderate/hard`, `moderate`, `moderate`。
+Lab1 的内容是简单的熟悉 xv6 操作系统和怎么做实验，官网上对实验难度的描述是`easy` , `easy`, `moderate/hard`, `moderate`, `moderate`。
 
 我感觉是`moderate`, `moderate`, `??`, `hard`, `???`
 

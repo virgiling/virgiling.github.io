@@ -2,12 +2,12 @@
 title: 环境搭建
 description: Project Setup & Simple Test
 tags:
-  - PKU
-  - 操作系统
   - 环境配置
-  - 课程实验
+  - PKU/OS
+  - 公开课/课程实验
+  - OS/Linux
 date: 2023-08-10
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

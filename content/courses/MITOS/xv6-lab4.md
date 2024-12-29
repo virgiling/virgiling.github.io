@@ -1,16 +1,16 @@
 ---
 title: Lab4 Trap
-description: 2020年的课和这个不太兼容（需要看完中断之后才能做这个实验）
+description: 
 tags:
-  - MIT
   - 操作系统
-  - 课程实验
+  - MIT/6-S081
+  - 公开课/课程实验
 date: 2022-04-19
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 
-实验难度为 `easy`, `moderate`, `hard`。
+2020 年的课和这个不太兼容（需要看完中断之后才能做这个实验），实验难度为 `easy`, `moderate`, `hard`。
 
 第三题需要用到中断的内容（或者说第三题就是中断
 

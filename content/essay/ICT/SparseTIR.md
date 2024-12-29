@@ -2,10 +2,9 @@
 title: SparseTIR 解读
 description: 
 tags:
-  - MLSys
-  - 编译器
+  - MLSys/AI编译器
 date: 2023-06-16
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

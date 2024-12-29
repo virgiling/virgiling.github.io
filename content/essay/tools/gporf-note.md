@@ -2,10 +2,10 @@
 title: gprof 的一些使用指北
 description: 
 tags:
-  - Linux
-  - 各类环境问题
+  - 文具袋/各类Issues
+  - OS/Linux
 date: 2024-07-09
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

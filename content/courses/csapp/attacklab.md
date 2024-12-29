@@ -2,11 +2,11 @@
 title: attack-lab
 description: 一个一开始完全不知道怎么做的实验
 tags:
-  - CMU
+  - CMU/15-213
   - 计算机系统
-  - 课程实验
+  - 公开课/课程实验
 date: 2022-04-06
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

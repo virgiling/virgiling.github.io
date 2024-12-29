@@ -2,9 +2,9 @@
 title: 基础加密算法
 description: 加密算法 (MD5, AES, RSA)（蓝旭算法课）
 tags:
-  - 算法讲义
+  - 算法讲义/Bluemsun
 date: 2022-07-10
-lastmod: 2024-12-22
+lastmod: 2024-12-29
 draft: false
 ---
 

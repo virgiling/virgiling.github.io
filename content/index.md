@@ -1,9 +1,10 @@
 ---
-title: About The Garden
+title: 🏡 About The Garden
 description: 
-tags: 
+tags:
+  - ToC
 date: 2022-03-29
-lastmod: 2024-12-24
+lastmod: 2024-12-29
 draft: false
 ---
 
@@ -13,7 +14,7 @@ draft: false
     <span style="font-size: 1.5rem;"> Welcome! </span>
 </div>
 
-> 这个网站从 `Hexo`, `Vuepress`, `Hugo` 到现在的 `Quartz`，感觉已经迁移了太多次，希望这是最后一次迁移。
+> 这个网站从 `Hexo`, `Vuepress`, `Hugo` 到现在的 `Quartz`，感觉已经迁移了太多次，希望这是最后一次迁移，迁移的过程可以参考 [[blog-record|博客迁移日记]]
 >
 > 选择 `Quartz` 是因为只有它能够和 `Obsidian` 的双链进行联动，让博客更有 `wiki` 的感觉，文章之间的联系更紧密
 
@@ -31,17 +32,12 @@ draft: false
 
 这个博客记录了很多杂七杂八的东西，相比于别人条理清晰的博客，这个可能更像是一个杂货铺，连载的文章时常鸽子，又时常开了新坑（
 
-- 如果你对可能（大概率）鸽子的公开课教程感兴趣，可以参考 [[courses/index|公开课实验教程]] 中提及的所有课程（如果我没有上过的话），在 [csdiy](https://csdiy.wiki)上想必会有更好的博客教程。
-- 如果你对一些组合优化/约束求解 的论文（当然可能也不止这一个主题）感兴趣，我偶尔会在 [[paper-reading/index|论文阅读笔记]] 中写一些内容（这个不是因为懒得写，只是因为在做 slides 时，我都是用的`typst`，但目前 `quartz` 的数学模式还不支持 `typst`，详见 [issue1605](https://github.com/jackyzha0/quartz/issues/1605)）
-- 如果是想寻找一些教程（主要是环境的配置问题），可以在 [[problem-with-solution/index|遇到的环境问题wiki]] 中搜索
-
-> [!note]
->
-> 关于本人所使用的工具和工作流等，会在 [[tools/index|单一的专栏]] 进行更新
+- 如果你对可能（大概率）鸽子的公开课教程感兴趣，可以参考 [[courses|公开课实验教程]] 中提及的所有课程（如果我没有上过的话），在 [csdiy](https://csdiy.wiki)上想必会有更好的博客教程。
+- 如果你对一些组合优化/约束求解 的论文（当然可能也不止这一个主题）感兴趣，我偶尔会在 [[paper-reading|论文阅读笔记]] 中写一些内容（这个不是因为懒得写，只是因为在做 slides 时，我都是用的`typst`，但目前 `quartz` 的数学模式还不支持 `typst`，详见 [issue1605](https://github.com/jackyzha0/quartz/issues/1605)）
 
 # 关于我
 
-一个正在读研挣扎的 CS 学生，方向为组合优化与约束求解，可以在 [[about | 关于]] 里找到更详细的信息
+一个正在读研挣扎的 CS 学生，方向为组合优化与约束求解，可以在 [[about|关于我]] 里找到更详细的信息
 
 ## 联系方式
 

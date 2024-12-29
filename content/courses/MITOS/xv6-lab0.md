@@ -1,13 +1,13 @@
 ---
 title: Lab0 Tools
-description: 实验所需要安装的环境😶
+description: 
 tags:
-  - MIT
-  - 操作系统
   - 环境配置
-  - 课程实验
+  - MIT/6-S081
+  - 公开课/课程实验
+  - OS/Linux
 date: 2022-04-01
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

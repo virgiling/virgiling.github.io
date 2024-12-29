@@ -2,9 +2,9 @@
 title: 匈牙利算法
 description: 用以解决二分图的最大匹配（蓝旭算法课）
 tags:
-  - 算法讲义
+  - 算法讲义/XCPC
 date: 2022-07-30
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

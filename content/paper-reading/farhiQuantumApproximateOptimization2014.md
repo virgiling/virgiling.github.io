@@ -2,10 +2,10 @@
 title: QAOA 算法
 description: 
 tags:
-  - 量子算法
-  - 论文阅读笔记
+  - 论文阅读笔记/组合优化
+  - 算法讲义/量子算法
 date: 2024-12-12
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 zotero-key: E58SF83N
 zt-attachments:

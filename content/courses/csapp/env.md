@@ -2,12 +2,12 @@
 title: 实验环境搭建
 description: 一些搭建环境的远古方法
 tags:
-  - CMU
-  - 计算机系统
   - 环境配置
-  - 课程实验
+  - CMU/15-213
+  - 公开课/课程实验
+  - OS/Win
 date: 2022-03-29
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

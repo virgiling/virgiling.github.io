@@ -2,11 +2,10 @@
 title: Conflict Directed Lazy Decomposition
 description: 
 tags:
-  - 约束求解
-  - SAT
-  - 论文阅读笔记
+  - 论文阅读笔记/约束求解
+  - Paper/SAT
 date: 2024-12-17
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 zotero-key: W57CN6LV
 zt-attachments:

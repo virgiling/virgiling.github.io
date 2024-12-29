@@ -2,11 +2,11 @@
 title: data-lab
 description: 一个做了很久，做完之后其实还挺有收获的实验（我愿称之为最难🥺）
 tags:
-  - CMU
   - 计算机系统
-  - 课程实验
+  - CMU/15-213
+  - 公开课/课程实验
 date: 2022-03-29
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

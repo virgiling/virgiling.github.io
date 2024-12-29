@@ -2,10 +2,10 @@
 title: 量子算法的预备知识
 description: 
 tags:
-  - 量子算法
-  - 一些随笔
+  - 一些随笔/2024
+  - 算法讲义/量子算法
 date: 2024-12-15
-lastmod: 2024-12-23
+lastmod: 2024-12-29
 draft: false
 ---
 

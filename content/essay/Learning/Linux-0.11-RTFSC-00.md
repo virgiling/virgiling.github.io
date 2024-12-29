@@ -2,12 +2,11 @@
 title: Linux-0.11 RTFSC 环境配置
 description: 
 tags:
-  - Linux
-  - dodola
-  - 操作系统
   - 环境配置
+  - 一些随笔/2024
+  - OS/Linux
 date: 2023-11-17
-lastmod: 2024-12-15
+lastmod: 2024-12-29
 draft: false
 ---
 

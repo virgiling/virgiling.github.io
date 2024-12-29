@@ -2,10 +2,10 @@
 title: 外包项目问题记录与解决
 description: 
 tags:
-  - Linux
-  - 各类环境问题
+  - 文具袋/各类Issues
+  - 一些随笔/2024
 date: 2024-11-13
-lastmod: 2024-12-25
+lastmod: 2024-12-29
 draft: false
 ---
 

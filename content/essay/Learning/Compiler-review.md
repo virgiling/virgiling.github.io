@@ -2,11 +2,10 @@
 title: 编译原理复习
 description: 编译原理的一些简单复习
 tags:
-  - NENU
-  - 一些随笔
-  - 编译器
+  - 一些随笔/2023
+  - dodola
 date: 2023-07-03
-lastmod: 2024-12-22
+lastmod: 2024-12-29
 draft: false
 ---
 
