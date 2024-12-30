@@ -6,8 +6,9 @@ tags:
   - ECNU-DaSE/计网
   - 公开课/课程实验
 date: 2022-06-23
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: covers/Dase-cover.png
 ---
 
 > 本项目源代码已上传至 Github: [topdeoo/Computer-Net-Project (github.com)](https://github.com/topdeoo/Computer-Net-Project)

@@ -5,8 +5,9 @@ tags:
   - Stanford/CS144
   - 公开课/课程简介
 date: 2024-12-29
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628184344.png
 ---
 
 # 课程简介

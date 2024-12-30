@@ -6,8 +6,9 @@ tags:
   - MIT/6-S081
   - 公开课/课程实验
 date: 2022-04-01
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628183743.png
 ---
 
 Lab2 熟悉一些系统调用，这个实验有一些小坑 😤

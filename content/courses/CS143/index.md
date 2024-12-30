@@ -5,8 +5,9 @@ tags:
   - Stanford/CS143
   - 公开课/课程简介
 date: 2023-02-20
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: covers/cs143-cover.png
 ---
 
 # 课程简介

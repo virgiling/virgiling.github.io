@@ -1,9 +1,9 @@
 ---
-title: ECNU 数据学院相关
+title: 个人学习笔记
 description: 
 tags:
-  - ECNU-DaSE
-date: 2024-12-30
+  - 一些随笔
+date: 2024-12-29
 lastmod: 2024-12-30
 draft: false
 cover:

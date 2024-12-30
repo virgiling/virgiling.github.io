@@ -6,8 +6,9 @@ tags:
   - NJU/ICS
   - 公开课/课程实验
 date: 2023-07-16
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230716221813.png
 ---
 
 **计算机可以没有寄存器吗? (建议二周目思考)**

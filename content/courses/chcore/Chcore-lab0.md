@@ -6,8 +6,9 @@ tags:
   - 公开课/课程实验
   - OS/Linux
 date: 2023-09-11
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: Chcore-cover.svg
 ---
 
 # Envrionment Setting

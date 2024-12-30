@@ -6,8 +6,9 @@ tags:
   - Stanford/CS144
   - 公开课/课程实验
 date: 2023-02-26
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628184344.png
 ---
 
 > 一个函数写了两天，学成这样确实可以放弃了

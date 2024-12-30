@@ -7,8 +7,9 @@ tags:
   - 公开课/课程实验
   - OS/Win
 date: 2023-02-20
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628184344.png
 ---
 
 # 选修原因

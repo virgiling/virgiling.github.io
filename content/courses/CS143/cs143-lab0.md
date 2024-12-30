@@ -7,8 +7,9 @@ tags:
   - 公开课/课程实验
   - OS/Win
 date: 2022-07-16
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: covers/cs143-cover.png
 ---
 
 > [!important]

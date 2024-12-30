@@ -5,9 +5,9 @@ tags:
   - CMU/15-213
   - 公开课/课程简介
 date: 2022-03-29
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
-comments: false
+cover: 20230628184041.png
 ---
 
 > [!cite]

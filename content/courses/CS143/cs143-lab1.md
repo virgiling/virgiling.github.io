@@ -6,8 +6,9 @@ tags:
   - Stanford/CS143
   - 公开课/课程实验
 date: 2022-11-20
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: covers/cs143-cover.png
 ---
 
 > [!note]

@@ -6,8 +6,9 @@ tags:
   - MIT/6-S081
   - 公开课/课程实验
 date: 2022-09-12
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628183743.png
 ---
 
 两个实验，难度为 `moderate` 与 `hard`。

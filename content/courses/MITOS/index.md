@@ -5,8 +5,9 @@ tags:
   - MIT/6-S081
   - 公开课/课程简介
 date: 2024-12-28
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628183743.png
 ---
 
 # 课程简介
@@ -26,7 +27,7 @@ draft: false
 
 其实还有一些水平很好的助教，但助教一般负责实验的基础讲解，我十分推荐助教课中对 `gdb` 等工具使用的讲解。
 
-如果你是初学者的话，这部分应该是必看内容，但我更推荐[[courses#MIT Missing Semester]]
+如果你是初学者的话，这部分应该是必看内容，但我更推荐[[courses-toc#MIT Missing Semester]]
 
 ## 难度
 

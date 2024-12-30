@@ -6,8 +6,9 @@ tags:
   - Stanford/CS144
   - 公开课/课程实验
 date: 2023-02-20
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628184344.png
 ---
 
 前面的简单实践跳过，主要是需要熟悉 `HTTP` 报文的结构即可

@@ -6,8 +6,9 @@ tags:
   - SJTU/SE-315
   - 操作系统
 date: 2023-09-01
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: Chcore-cover.svg
 ---
 
 # Before Lab

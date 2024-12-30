@@ -7,8 +7,9 @@ tags:
   - 公开课/课程实验
   - OS/Win
 date: 2022-03-29
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628184041.png
 ---
 
 > 先决条件：
