@@ -4,11 +4,12 @@ description:
 tags:
   - ToC
 date: 2024-12-28
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover:
 ---
 
-这里收录了我在 [csdiy](https://csdiy.wiki) 上学习的一系列公开实验（当然，也有一部分不在这个网站上收录）
+这里收录了我在 [csdiy](https://csdiy.wiki) 上学习的一系列公开实验（当然，也有一部分不在这个网站上收录），归档参考 [[courses/index|📖公开课目录]]
 
 # 基础工具
 

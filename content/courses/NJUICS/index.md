@@ -5,9 +5,9 @@ tags:
   - NJU/ICS
   - 公开课/课程简介
 date: 2023-07-16
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
-comments: false
+cover: 20230716221813.png
 ---
 
 # 课程简介

@@ -7,8 +7,9 @@ tags:
   - 公开课/课程实验
   - OS/Linux
 date: 2022-04-01
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628183743.png
 ---
 
 # 实验准备

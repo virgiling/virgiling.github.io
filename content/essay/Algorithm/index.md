@@ -1,8 +1,8 @@
 ---
-title: ECNU 数据学院相关
+title: 一些算法讲义
 description: 
 tags:
-  - ECNU-DaSE
+  - 算法讲义
 date: 2024-12-30
 lastmod: 2024-12-30
 draft: false

@@ -4,11 +4,12 @@ description:
 tags:
   - ToC
 date: 2023-04-19
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover:
 ---
 
-这里收录了我论文的阅读笔记，主要和研究方向相关（当然也可能读一些和我方向没什么关系的文章）
+这里收录了我论文的阅读笔记，主要和研究方向相关（当然也可能读一些和我方向没什么关系的文章），归档参考 [[paper-reading/index|📖论文笔记目录]]
 
 # #论文阅读笔记/约束求解
 
@@ -16,7 +17,7 @@ draft: false
 >
 > 约束求解，正式的说法是约束满足问题（Constraint satisfaction problem），简称 CSP
 
-这里阅读的 CSP 问题其实是一个子集，主要聚焦于 #Paper/SAT  与 #Paper/PB 问题
+这里阅读的 CSP 问题其实是一个子集，主要聚焦于 #Paper/SAT 与 #Paper/PB 问题
 
 # #论文阅读笔记/组合优化
 

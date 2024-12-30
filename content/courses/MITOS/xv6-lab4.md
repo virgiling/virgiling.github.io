@@ -6,8 +6,9 @@ tags:
   - MIT/6-S081
   - 公开课/课程实验
 date: 2022-04-19
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628183743.png
 ---
 
 2020 年的课和这个不太兼容（需要看完中断之后才能做这个实验），实验难度为 `easy`, `moderate`, `hard`。

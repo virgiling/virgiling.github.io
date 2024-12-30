@@ -4,11 +4,12 @@ description:
 tags:
   - ToC
 date: 2024-12-29
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover:
 ---
 
-这里记录了一些随笔
+这里记录了一些随笔，归档可以参考 [[essay/index|📖随笔目录]]
 
 # #一些随笔/2024
 

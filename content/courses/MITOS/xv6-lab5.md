@@ -6,8 +6,9 @@ tags:
   - MIT/6-S081
   - 公开课/课程实验
 date: 2022-09-04
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628183743.png
 ---
 
 实验早就做好了但是…… 思路借鉴了课程中 `Prof. Robert Morris` 的思路，实验只有一题但是是 `hard`

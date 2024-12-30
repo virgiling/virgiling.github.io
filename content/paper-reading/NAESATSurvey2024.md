@@ -1,12 +1,13 @@
 ---
 title: NAE-SAT 的一份简单调研
-description: 
+description:
 tags:
   - 论文阅读笔记/约束求解
   - Paper/SAT
 date: 2024-12-25
 lastmod: 2024-12-29
 draft: false
+zotero-key: 综述/调研
 ---
 
 > [!important]

@@ -4,8 +4,9 @@ description:
 tags:
   - ToC
 date: 2024-12-29
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover:
 ---
 
 这里记录了我的文具袋系列，会写一些遇到的各种环境问题，推荐一些工具，以及分享我使用的开发工具与工作流等

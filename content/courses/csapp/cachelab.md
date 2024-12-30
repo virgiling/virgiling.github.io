@@ -6,8 +6,9 @@ tags:
   - CMU/15-213
   - 公开课/课程实验
 date: 2023-10-03
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628184041.png
 ---
 
 # 实验准备

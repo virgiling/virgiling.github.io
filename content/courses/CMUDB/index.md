@@ -5,8 +5,9 @@ tags:
   - CMU/15-445
   - 公开课/课程简介
 date: 2023-05-24
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230628182840.png
 ---
 
 # 课程简介

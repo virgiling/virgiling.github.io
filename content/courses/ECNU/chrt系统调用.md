@@ -5,8 +5,9 @@ tags:
   - ECNU-DaSE/操作系统
   - 公开课/课程实验
 date: 2022-03-29
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: covers/Dase-cover.png
 ---
 
 # 需要修改的文件

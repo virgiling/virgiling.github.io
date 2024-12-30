@@ -60,7 +60,7 @@ None 😭
 
 > [!hint]
 >
-> 关于国外公开课的实验，详细可以参考 [[courses|公开课实验汇总]] 部分
+> 关于国外公开课的实验，详细可以参考 [[courses-toc|公开课实验汇总]] 部分
 
 - [x] CMU 15-445 Database Systems
 

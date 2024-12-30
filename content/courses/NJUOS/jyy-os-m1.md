@@ -6,8 +6,9 @@ tags:
   - NJU/OS
   - 公开课/课程实验
 date: 2023-07-27
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 draft: false
+cover: 20230727232116.png
 ---
 
 # Lab Configuration
