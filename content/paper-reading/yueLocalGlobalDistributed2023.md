@@ -6,8 +6,9 @@ tags:
   - 算法讲义/量子算法
   - Paper/PBO
 date: 2024-12-12
-lastmod: 2024-12-29
+lastmod: 2024-12-31
 draft: false
+cover: 
 zotero-key: FS3KXWKE
 zt-attachments:
   - "919"
@@ -23,9 +24,7 @@ citekey: yueLocalGlobalDistributed2023
 > 1.  将 PBO 问题编码为 QAOA 的形式
 > 2.  将 QAOA 分割为子问题进行分布式求解
 
-# 论文标题与摘要
-
-**Local to Global: A Distributed Quantum Approximate Optimization Algorithm for Pseudo-Boolean Optimization Problems**
+# Local to Global: A Distributed Quantum Approximate Optimization Algorithm for Pseudo-Boolean Optimization Problems
 
 > [!abstract]-
 >

@@ -4,7 +4,7 @@ description:
 tags:
   - 论文阅读笔记/操作系统
 date: 2024-04-15
-lastmod: 2024-12-30
+lastmod: 2024-12-31
 draft: false
 cover: 
 zotero-key: KWNTHU8W
@@ -19,7 +19,7 @@ citekey: masmanoTLSFNewDynamic2004
 
 # TLSF: a new dynamic memory allocator for real-time systems
 
-> [!summary]
+> [!abstract]-
 >
 > Dynamic storage allocation (DSA) algorithms play an important role in the modern software engineering paradigms and techniques (such as object oriented programming). Using DSA increases the ﬂexibility and functionalities of applications. There exists a large number of references to this particular issue in the literature. However, the use of DSA has been considered a source of indeterminism in the real-time domain, due to the unconstrained response time of DSA algorithms and the fragmentation problem.
 
