@@ -1,11 +1,11 @@
 ---
 title: PBO 的并行局部搜索求解
-description:
+description: 
 tags:
   - 论文阅读笔记/组合优化
   - Paper/PBO
 date: 2024-12-30
-lastmod: 2024-12-30
+lastmod: 2024-12-31
 draft: false
 cover:
 zotero-key: CEGP8VJB
@@ -41,13 +41,13 @@ $$
 
 _LS-PBO_ 作为 PBO 局部搜索求解器中的代表（也是其他局部搜索求解器的核心部件），其核心的思想为以下两点：
 
-1. **约束加权方案**
-2. **打分函数**
+1. [[leiEfficientLocalSearch2021#Constraint Weighting Scheme|约束加权方案]]
+2. [[leiEfficientLocalSearch2021#Score Function|打分函数]]
 
 例如一个 PBO 问题，_LS-PBO_ 期望找到这样一个解（假定目标为最小化）：$\sum^n_{i=1}c_i \cdot l_i \lt obj^*$，其中 $obj^*$ 表示目标函数在本次搜索时找到的最优值
 
 > [!hint]
-> 注意，这里的目标函数为所有软约束带来的收益，硬约束必须满足，因此不考虑在目标函数的优化范畴内
+> 注意，这里将目标函数视为一种约束，我们称为目标约束，在最开始时，$obj^* = \infty$
 
 _LS-PBO_ 使用加权技术来增加未满足的约束的权重，使搜索过程偏向于满足它们，具体而言，其动态调整这些权重，这里我们用 $w(\cdot)$ 来表示。
 
@@ -105,7 +105,7 @@ _ParLS-PBO_ 的总体框架如下所示
 
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20241230195338341.png)
 
-具体而言，并行框架由一个 `master` 线程和多个 `worker` 线程组成，其中 `master` 线程负责读取实例并通过 `literal assume` 为 `worker` 初始化不同的赋值（部分赋值），当时间耗尽后，`master` 线程会给出搜索到的最优解。
+具体而言，并行框架由一个 `master`[^1] 线程和多个 `worker` 线程组成，其中 `master` 线程负责读取实例并通过 `literal assume` 为 `worker` 初始化不同的赋值（部分赋值），当时间耗尽后，`master` 线程会给出搜索到的最优解。
 
 > [!note]
 >
@@ -175,9 +175,9 @@ $$
 
 对比了以下算法：
 
-1. LS-PBO
+1. [[leiEfficientLocalSearch2021|LS-PBO]]
 2. [[jiangDeciLSPBOEffectiveLocal2023|DeciLS-PBO]]
-3. NuPBO
+3. [[chuMoreEfficientLocal2023|NuPBO]]
 4. HYBRID
 5. PBO-IHS
 6. Gurobi
@@ -197,3 +197,5 @@ $$
 `ParLS-PBO` 的表现如下表
 
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20241230212851193.png)
+
+[^1]: 一个小趣事，`master` 这个词在分布式中经常使用，但近年来由于某种政治正确，似乎会改口为 `coordinator`（在 `github` 中以前的主分支默认 `master`，后来变为 `main`）
