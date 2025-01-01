@@ -3,6 +3,9 @@ import smartypants from "remark-smartypants"
 import { QuartzTransformerPlugin } from "../types"
 import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
+import { visit } from "unist-util-visit"
+import { headingRank } from "hast-util-heading-rank"
+import { h, s } from "hastscript"
 
 export interface Options {
   enableSmartyPants: boolean
@@ -25,48 +28,40 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>> =
       if (opts.linkHeadings) {
         return [
           rehypeSlug,
+          () => {
+            return (tree, _file) => {
+              visit(tree, "element", function (node) {
+                if (headingRank(node)) {
+                  if (node.properties.id === "footnote-label") {
+                    node.children = [{ type: "text", value: "Remarque" }]
+                  }
+                  node.children = [h("span.highlight-span", node.children)]
+                }
+              })
+            }
+          },
           [
             rehypeAutolinkHeadings,
             {
               behavior: "append",
               properties: {
                 role: "anchor",
-                ariaHidden: true,
-                tabIndex: -1,
                 "data-no-popover": true,
               },
-              content: {
-                type: "element",
-                tagName: "svg",
-                properties: {
-                  width: 18,
-                  height: 18,
-                  viewBox: "0 0 24 24",
+              content: s(
+                "svg",
+                {
+                  width: 16,
+                  height: 16,
+                  viewbox: "0 0 24 24",
                   fill: "none",
                   stroke: "currentColor",
-                  "stroke-width": "2",
-                  "stroke-linecap": "round",
-                  "stroke-linejoin": "round",
+                  strokewidth: "2",
+                  strokelinecap: "round",
+                  strokelinejoin: "round",
                 },
-                children: [
-                  {
-                    type: "element",
-                    tagName: "path",
-                    properties: {
-                      d: "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71",
-                    },
-                    children: [],
-                  },
-                  {
-                    type: "element",
-                    tagName: "path",
-                    properties: {
-                      d: "M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71",
-                    },
-                    children: [],
-                  },
-                ],
-              },
+                [s("use", { href: "#github-anchor" })],
+              ),
             },
           ],
         ]

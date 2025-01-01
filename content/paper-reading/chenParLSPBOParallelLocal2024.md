@@ -23,7 +23,7 @@ citekey: chenParLSPBOParallelLocal2024
 
 # ParLS-PBO: A Parallel Local Search Solver for Pseudo Boolean Optimization
 
-> [!summary]
+> [!abstract]-
 >
 > As a broadly applied technique in numerous optimization problems, recently, local search has been employed to solve Pseudo-Boolean Optimization (PBO) problem. A representative local search solver for PBO is LSPBO. In this paper, firstly, we improve LSPBO by a dynamic scoring mechanism, which dynamically strikes a balance between score on hard constraints and score on the objective function. Moreover, on top of this improved LSPBO , we develop the first parallel local search PBO solver. The main idea is to share good solutions among different threads to guide the search, by maintaining a pool of feasible solutions. For evaluating solutions when updating the pool, we propose a function that considers both the solution quality and the diversity of the pool. Furthermore, we calculate the polarity density in the pool to enhance the scoring function of local search. Our empirical experiments show clear benefits of the proposed parallel approach, making it competitive with the parallel version of the famous commercial solver Gurobi.
 
@@ -37,6 +37,22 @@ $$
 s.t. \quad &\bigwedge^m_{j=1}\sum^n_{i=1}a_{ji}\cdot l_i \geq b_j, \quad a_{ji}, b_{j} \in \mathbb{N^+_0}
 \end{aligned}
 $$
+
+# Related Work
+
+解决 PBO 的算法主要分为以下几类：
+
+1. PB 求解器，代表为 Sat4J，[[elffersDivideConquerFaster2018|RoundingSAT]]，HYBRID
+2. 分支限界法（BnB），例如最大碰集，线性规划（松弛约束）
+3. 编码为 SAT 求解，例如 MINISAT+， OpenWBO
+4. 混合整数规划期，例如 SCIP，Gurobi
+5. 不完备的局部搜索算法
+
+对于局部搜索算法，最优代表性的莫过于 [[leiEfficientLocalSearch2021|LS-PBO]] 算法；
+随后，在此基础上，[[jiangDeciLSPBOEffectiveLocal2023|DeciLS-PBO FCS'23]] 提出了通过使用基于单位传播的方法产生更好的初始解的方式，改进了 _LS-PBO_ ；
+最近，[[chuMoreEfficientLocal2023|NuPBO CP'23]] 提出了一种新的打分函数与加权策略，进一步提高了 _LS-PBO_，成为 SOTA 的求解器
+
+对此，本文首先提出一种 _LS-PBO_ 的改进 _DLS-PBO_，并在此基础上提出它的并行版本 _ParLS-PBO_
 
 # Review of LS-PBO
 
