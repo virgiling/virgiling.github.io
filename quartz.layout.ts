@@ -33,7 +33,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
-    Component.DesktopOnly(Component.RecentNotes({ limit: 1, showTags: false })),
+    Component.DesktopOnly(Component.RecentNotes({ limit: 5, showTags: false })),
     Component.DesktopOnly(Component.Explorer({})),
     Component.DesktopOnly(Component.FloatingButtons({
       position: 'right'
@@ -59,7 +59,7 @@ export const defaultListPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
-    Component.DesktopOnly(Component.RecentNotes({ limit: 1, showTags: false })),
+    Component.DesktopOnly(Component.RecentNotes({ limit: 5, showTags: false })),
     Component.DesktopOnly(Component.Explorer({})),
     Component.DesktopOnly(Component.FloatingButtons({
       position: 'right'
