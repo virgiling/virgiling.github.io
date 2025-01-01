@@ -21,7 +21,7 @@ citekey: leiEfficientLocalSearch2021
 >
 > 提出了一种局部搜索求解 PBO 的框架，主要的思路就是把优化转为判定，由此可以使用 SAT 局部搜索求解器的思路，通过对约束加权（惩罚值），并由此进行打分函数的设计，从而指导启发式算法工作
 >
-> 本文[^1]后续的改进版有：[[chuMoreEfficientLocal2023|NuPBO CP'23]]，[[chenParLSPBOParallelLocal2024|ParLS-PBO CP'24]]
+> 本文[^1]后续的改进版有：[[jiangDeciLSPBOEffectiveLocal2023|DeciLS-PBO FCS'23]]， [[chuMoreEfficientLocal2023|NuPBO CP'23]]，[[chenParLSPBOParallelLocal2024|ParLS-PBO CP'24]]
 
 # Efficient Local Search for Pseudo Boolean Optimization
 
@@ -41,6 +41,8 @@ s.t. \quad &\bigwedge^m_{j=1}\sum^n_{i=1} a_{ij} \cdot l_i \geq k_i
 $$
 
 其中，$l_i \in \{x_i, \neg x_i\}, c_i, a_{ij}, k_i \in \mathbb{R}$
+
+# Related Work
 
 解决 PBO 的算法主要分为三类：
 
