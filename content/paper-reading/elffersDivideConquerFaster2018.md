@@ -1,14 +1,14 @@
 ---
 title: RoundingSAT-1 阅读笔记
-description: 
+description:
 tags:
   - 论文阅读笔记/约束求解
   - 算法讲义/精确算法
   - CCF/A/IJCAI
-date: 2024-12-31
+date: 2024-12-30
 lastmod: 2025-01-01
-draft: false
-cover: 
+draft: true
+cover:
 zotero-key: TNN4CGDN
 zt-attachments:
   - "900"
@@ -19,7 +19,7 @@ citekey: elffersDivideConquerFaster2018
 >
 > [文章链接](https://www.ijcai.org/proceedings/2018/180)
 
-	# Divide and Conquer: Towards Faster Pseudo-Boolean Solving
+# Divide and Conquer: Towards Faster Pseudo-Boolean Solving
 
 > [!abstract]
 >
