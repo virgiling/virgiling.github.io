@@ -1,13 +1,14 @@
 ---
-title: PBO 的并行局部搜索求解
+title: ParLS-PBO 阅读笔记
 description: 
 tags:
   - 论文阅读笔记/组合优化
-  - Paper/PBO
-date: 2024-12-30
-lastmod: 2024-12-31
+  - 算法讲义/局部搜索算法
+  - CCF/B/CP
+date: 2024-12-31
+lastmod: 2025-01-01
 draft: false
-cover:
+cover: 
 zotero-key: CEGP8VJB
 zt-attachments:
   - "944"
@@ -101,7 +102,7 @@ $$
 
 ## 框架
 
-_ParLS-PBO_ 的总体框架如下所示
+_ParLS-PBO_[^2] 的总体框架如下所示
 
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20241230195338341.png)
 
@@ -133,7 +134,7 @@ $$
 
 ## 如何使用 Solution Pool
 
-我们在 [[#^245ac4|前文]] 中提到了，解池能够指导搜索，具体而言，解池通过以下两个策略来指导搜索过程
+我们在 [[#Solution Pool|前文]] 中提到了，解池能够指导搜索，具体而言，解池通过以下两个策略来指导搜索过程
 
 ### Solution Sharing
 
@@ -173,16 +174,22 @@ $$
 
 # 实验
 
+使用 Benchmark 为：
+
+1. 真实世界的例子，Minimum-Width Confidence Band Problem， Seating Arrangements Problem， Wireless Sensor Network Optimization Problem
+2. [MIPLIB](https://zenodo.org/record/3870965) 中的例子
+3. [PB16](http://www.cril.univ-artois.fr/PB16/bench/PB16-used.tar) 中的例子
+
 对比了以下算法：
 
-1. [[leiEfficientLocalSearch2021|LS-PBO]]
-2. [[jiangDeciLSPBOEffectiveLocal2023|DeciLS-PBO]]
-3. [[chuMoreEfficientLocal2023|NuPBO]]
-4. HYBRID
-5. PBO-IHS
-6. Gurobi
-7. SCIP
-8. FiberSCIP
+1. [[leiEfficientLocalSearch2021|LS-PBO]][^3]
+2. [[jiangDeciLSPBOEffectiveLocal2023|DeciLS-PBO]][^4]
+3. [[chuMoreEfficientLocal2023|NuPBO]][^5]
+4. HYBRID[^6]
+5. PBO-IHS[^7]
+6. Gurobi[^8]
+7. SCIP[^9]
+8. FiberSCIP[^10]
 
 选择的参数如下表：
 
@@ -199,3 +206,12 @@ $$
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20241230212851193.png)
 
 [^1]: 一个小趣事，`master` 这个词在分布式中经常使用，但近年来由于某种政治正确，似乎会改口为 `coordinator`（在 `github` 中以前的主分支默认 `master`，后来变为 `main`）
+[^2]: 源代码可见 [ParLS-PBO](https://github.com/shaowei-cai-group/ParLS-PBO.git)
+[^3]: 源代码可见 [LS-PBO](https://lcs.ios.ac.cn/~caisw/Resource/LS-PBO/)
+[^4]: 源代码可见 [DeciLS-PBO](https://github.com/jiangluyu1998/DeciLS-PBO)(commit: 3dce881)
+[^5]: 源代码可见 [NuPBO](https://github.com/filyouzicha/NuPBO)(commit: 821d901)
+[^6]: https://zenodo.org/record/4043124 (version 2)
+[^7]: https://bitbucket.org/coreo-group/pbo-ihs-solver (version 1.1)
+[^8]: https://www.gurobi.com/solutions/gurobi-optimizer (version 10.0.0)
+[^9]: https://www.scipopt.org/index.php#download (version 8.0.1)
+[^10]: https://ug.zib.de/index.php#download (version 1.0.0)

@@ -4,10 +4,10 @@ description:
 tags:
   - 论文阅读笔记/组合优化
   - 算法讲义/局部搜索算法
-  - Paper/PBO
+  - CCF/B/SAT
 date: 2024-12-31
-lastmod: 2024-12-31
-draft: true
+lastmod: 2025-01-01
+draft: false
 cover: 
 zotero-key: Q963YLKH
 zt-attachments:
@@ -20,8 +20,8 @@ citekey: leiEfficientLocalSearch2021
 > [文章链接](https://link.springer.com/10.1007/978-3-030-80223-3_23)
 >
 > 提出了一种局部搜索求解 PBO 的框架，主要的思路就是把优化转为判定，由此可以使用 SAT 局部搜索求解器的思路，通过对约束加权（惩罚值），并由此进行打分函数的设计，从而指导启发式算法工作
-
-本文[^1]后续的改进版有：[[chuMoreEfficientLocal2023|NuPBO CP'23]]，[[chenParLSPBOParallelLocal2024|ParLS-PBO CP'24]]
+>
+> 本文[^1]后续的改进版有：[[chuMoreEfficientLocal2023|NuPBO CP'23]]，[[chenParLSPBOParallelLocal2024|ParLS-PBO CP'24]]
 
 # Efficient Local Search for Pseudo Boolean Optimization
 
@@ -29,11 +29,13 @@ citekey: leiEfficientLocalSearch2021
 >
 > Pseudo-Boolean Optimization (PBO) can be used to model many combinatorial optimization problems. PBO instances encoded from real-world applications are often large and diﬃcult to solve; in many cases, close-to-optimal solutions are useful and can be found reasonably eﬃciently, using incomplete algorithms. Interestingly, local search algorithms, which are known to be eﬀective for solving many other combinatorial optimization problems, have been rarely considered in the context of PBO. In this paper, we are introducing a new and surprisingly eﬀective local search algorithm, LS-PBO, for PBO. LS-PBO adopts a well designed weighting scheme and a new scoring function. We compare LSPBO with previous PBO solvers and with solvers for related problems, including MaxSAT, Extended CNF and Integer Linear Programming (ILP). We report results on three real-world application benchmarks, from the Minimum-Width Conﬁdence Band, Wireless Sensor Network Optimization and Seating Arrangement Problems, as well as on benchmarks from the most recent PB Competition. These results demonstrate that our LS-PBO algorithm achieves much better performance than previous state-of-the-art solvers on real-world benchmarks.
 
+## PBO 问题简介
+
 首先，我们介绍什么是 PBO 问题：给定一个变量集合 $X = \{x_1, \dots, x_n\}$，其中 $x_i \in \{0, 1\}$，问题定义为：
 
 $$
 \begin{aligned}
-\min_X &c_i \cdot l_i \\
+\min_X \quad &c_i \cdot l_i \\
 s.t. \quad &\bigwedge^m_{j=1}\sum^n_{i=1} a_{ij} \cdot l_i \geq k_i
 \end{aligned}
 $$

@@ -2,10 +2,10 @@
 title: 论文阅读笔记
 description: 
 tags:
-  - Paper
   - 论文阅读笔记
+  - CCF
 date: 2023-04-19
-lastmod: 2024-12-30
+lastmod: 2025-01-01
 draft: false
 cover:
 ---

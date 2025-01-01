@@ -19,7 +19,7 @@ const config: QuartzConfig = {
     locale: "zh-CN",
     baseUrl: "topdeoo.github.io",
     ignorePatterns: ["private", "templates", ".obsidian"],
-    defaultDateType: "modified",
+    defaultDateType: "created",
     generateSocialImages: false,
     theme: {
       fontOrigin: "local",

@@ -4,9 +4,11 @@ description:
 tags:
   - 论文阅读笔记/组合优化
   - 算法讲义/量子算法
+  - CCF/None/Arxiv
 date: 2024-12-12
-lastmod: 2024-12-29
+lastmod: 2025-01-01
 draft: false
+cover: 
 zotero-key: E58SF83N
 zt-attachments:
   - "722"

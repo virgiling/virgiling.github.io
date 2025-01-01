@@ -3,10 +3,12 @@ title: Conflict Directed Lazy Decomposition
 description: 
 tags:
   - 论文阅读笔记/约束求解
-  - Paper/SAT
+  - CCF/B/CP
+  - 算法讲义/精确算法
 date: 2024-12-17
-lastmod: 2024-12-29
+lastmod: 2025-01-01
 draft: false
+cover: 
 zotero-key: W57CN6LV
 zt-attachments:
   - "888"

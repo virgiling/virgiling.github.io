@@ -4,9 +4,9 @@ description:
 tags:
   - 论文阅读笔记/组合优化
   - 算法讲义/量子算法
-  - Paper/PBO
+  - CCF/None/Arxiv
 date: 2024-12-12
-lastmod: 2024-12-31
+lastmod: 2025-01-01
 draft: false
 cover: 
 zotero-key: FS3KXWKE
@@ -18,7 +18,7 @@ citekey: yueLocalGlobalDistributed2023
 > [!tldr]
 >
 > [文章链接](http://arxiv.org/abs/2310.05062)
-> 
+>
 > 主要的贡献为：
 >
 > 1.  将 PBO 问题编码为 QAOA 的形式
