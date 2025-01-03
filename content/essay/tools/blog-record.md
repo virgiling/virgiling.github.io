@@ -1,12 +1,13 @@
 ---
-title: 博客迁移记录
-description: 记录博客从 Hugo 迁移到 Quartz 的过程
+title: 使用 Quartz 搭建博客
+description: 
 tags:
   - 博客相关
   - 一些随笔/2024
 date: 2024-12-20
-lastmod: 2024-12-29
+lastmod: 2025-01-03
 draft: false
+cover: 
 ---
 
 # Quartz 的构建
@@ -35,7 +36,7 @@ pnpm i
 npx quartz build --serve --concurrency 4
 ```
 
-随后，就能够在 localhost:8080 打开构建完成的网页了，生成的所有 `html` 文件都在 `public` 文件夹中。
+随后，就能够在 localhost:8080 打开构建完成的网页了，生成的所有 `html` 文件都在 `public` 文件夹中
 
 # `Quartz` 基础配置
 
@@ -70,7 +71,7 @@ analytics: {
 
 ## 其他设置
 
-其余的设置暂时都与默认一致，但 `Plugin.Latex({ renderEngine: "katex" }),` 中，我发现其实数学还支持使用 `typst`
+其余的设置暂时都与默认一致，但 `Plugin.Latex({ renderEngine: "katex" }),` 中，我发现其实数学还支持使用 `typst`，但由于之前的笔记都是用的 `Latex` 写的，不想再做兼容了，就不切换了吧
 
 > [!note]-
 >
@@ -121,7 +122,7 @@ export const sharedPageComponents: SharedLayout = {
 
 对于字体而言，我使用的和 [[my-tools-1#主题与插件|Obsidian 字体]] 中所述的一致，我们需要在 `quartz/style/custom.scss` 中进行配置：
 
-```scss showLineNumbers warp {"Bookerly in LXGW": 24-32}
+```scss showLineNumbers warp {"Add Bookerly into LXGW": 24-32}
 @font-face {
     font-family: "LXGWWenKaiScreen";
     font-style: normal;
@@ -296,6 +297,6 @@ function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndex): string {
 }
 ```
 
-> [!question]- 
-> 
-> 目前不知道为什么，我新生成的网站地图是正确的，但是提交给 `bing` 解析之后，发现解析和索引的 URL 依然是我老博客的 URL（ :sad:
+> [!question]-
+>
+> 目前不知道为什么，我新生成的网站地图是正确的，但是提交给 `bing` 解析之后，发现解析和索引的 URL 依然是我老博客的 URL（ 😭

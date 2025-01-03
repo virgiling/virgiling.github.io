@@ -268,9 +268,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                     return {
                       type: "html",
                       data: { hProperties: { transclude: true } },
-                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${
-                        url + anchor
-                      }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
+                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${url + anchor
+                        }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
                     }
                   }
 
@@ -331,10 +330,10 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                 }
 
                 tag = slugTag(tag)
-                if (file.data.frontmatter) {
-                  const noteTags = file.data.frontmatter.tags ?? []
-                  file.data.frontmatter.tags = [...new Set([...noteTags, tag])]
-                }
+                // if (file.data.frontmatter) {
+                //   const noteTags = file.data.frontmatter.tags ?? []
+                //   file.data.frontmatter.tags = [...new Set([...noteTags, tag])]
+                // }
 
                 return {
                   type: "link",
