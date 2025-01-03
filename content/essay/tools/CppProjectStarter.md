@@ -1,14 +1,15 @@
 ---
 title: C++ 项目初始化指北
-description: 一份简单的 C++ Project init 指北
+description: 
 tags:
   - 一些随笔/2024
   - 环境配置
   - 文具袋/文具推荐
   - OS/Linux
 date: 2024-12-21
-lastmod: 2024-12-29
+lastmod: 2025-01-03
 draft: false
+cover: 
 ---
 
 > [!tldr]

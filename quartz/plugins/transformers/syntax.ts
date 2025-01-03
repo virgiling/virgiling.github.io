@@ -42,7 +42,7 @@ const defaultOptions: Options = {
     },
     // codePaddingInline: "1rem"
   },
-  tabWidth: 4,
+  tabWidth: 2,
   textMarkers: true,
   minSyntaxHighlightingColorContrast: 5.5,
   useThemedScrollbars: true,
