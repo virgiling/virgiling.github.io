@@ -6,7 +6,7 @@ tags:
   - 算法讲义/局部搜索算法
   - CCF/B/FCS
 date: 2024-12-31
-lastmod: 2025-01-01
+lastmod: 2025-01-03
 draft: false
 cover: 
 zotero-key: 4PNQ9SEH
@@ -32,6 +32,8 @@ citekey: jiangDeciLSPBOEffectiveLocal2023
 > 由于这篇文章的效果不如先前看过的，所以我就大概写一下几个核心思想，不再过多举例
 
 # 核心思想
+
+## 初始化更好的赋值
 
 首先，我们通过 `IGUP-Decimation` 来初始化赋值，此算法如下图所示：
 

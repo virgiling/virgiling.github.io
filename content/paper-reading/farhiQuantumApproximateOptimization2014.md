@@ -55,7 +55,7 @@ $$
 
 对于一个量子计算机，其运行在一个 $2^n$ 维的希尔伯特空间内，我们需要求得的比特串为 $\ket{z}$，使得 $C(z)$ 最大
 
-我们通过 [[Quantum Algorithm Preparation#量子计算原理|量子计算原理]] 中的内容，将目标改写为通过构造一个参数 $\theta$，使我们能够求得哈密顿量的基态 $\ket{z}$，也就是使得损失函数最小的量子态
+我们通过 [[Quantum-Algorithm-Preparation#量子计算原理|量子计算原理]] 中的内容，将目标改写为通过构造一个参数 $\theta$，使我们能够求得哈密顿量的基态 $\ket{z}$，也就是使得损失函数最小的量子态
 
 在介绍如何构造哈密顿量之前，我们引入一个理论基础
 
@@ -67,7 +67,7 @@ $$
 >
 > 对于一个含时但演化足够慢($T \to \infty$)的物理系统，若系统的初始时刻处于一能量本征态 $\ket{\psi(0)}$，那么在 $t$ 时刻将处于 $H(t)$ 相应的瞬时本征态 $\ket{\psi(t)}$ 上
 
-那么，我们构建一个 [[Quantum Algorithm Preparation#状态的演化|含时的哈密顿量演化过程]] $H_B \rightarrow H_P$ 如下，其中 $H_B = - \sum_i \sigma^x_i$，其对应的本征态为 $\ket{\psi_0} = \prod_i \ket{+}$，注意这里的 $\prod_i \ket{+}$ 表示张量积 $\ket{+} \otimes \ket{+} \dots$
+那么，我们构建一个 [[Quantum-Algorithm-Preparation#状态的演化|含时的哈密顿量演化过程]] $H_B \rightarrow H_P$ 如下，其中 $H_B = - \sum_i \sigma^x_i$，其对应的本征态为 $\ket{\psi_0} = \prod_i \ket{+}$，注意这里的 $\prod_i \ket{+}$ 表示张量积 $\ket{+} \otimes \ket{+} \dots$
 
 $$
 \hat{H}(t) = (1 - s(t))H_B + s(t)H_P
@@ -140,7 +140,7 @@ $$
 
 其中，$\theta = (\gamma_1, \beta_1, \dots, \gamma_p, \beta_p)$
 
-根据 [[Quantum Algorithm Preparation#测量|量子计算理论基础]] 可以知道，我们现在就得到了一个可以使用经典优化器优化的模型：
+根据 [[Quantum-Algorithm-Preparation#测量|量子计算理论基础]] 可以知道，我们现在就得到了一个可以使用经典优化器优化的模型：
 
 $$
 C(\theta) = \bra{\psi(\theta)}H\ket{\psi(\theta)}
