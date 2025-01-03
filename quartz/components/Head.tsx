@@ -165,6 +165,7 @@ export default (() => {
             <link rel="stylesheet" href={googleFontHref(cfg.theme)} />
           </>
         )}
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin={"anonymous"} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {/* Google website verify */}
         <meta name="google-site-verification" content="A9RpROkHVgBC0iCqJXFDHxn9QLKpupoNO3uFd5Kh5ek" />

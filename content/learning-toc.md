@@ -1,5 +1,5 @@
 ---
-title: ✏个人学习
+title: ✏️个人学习
 description: 
 tags:
   - ToC
