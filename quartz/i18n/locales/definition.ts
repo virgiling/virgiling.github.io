@@ -58,6 +58,10 @@ export interface Translation {
     contentMeta: {
       readingTime: (variables: { minutes: number }) => string
     }
+    pageNavigation: {
+      prevPage: string
+      nextPage: string
+    }
   }
   pages: {
     rss: {
