@@ -6,7 +6,7 @@ tags:
   - 算法讲义/局部搜索算法
   - CCF/B/CP
 date: 2024-12-31
-lastmod: 2025-01-01
+lastmod: 2025-01-03
 draft: false
 cover:
 zotero-key: K965SDW3
@@ -117,7 +117,7 @@ $$
 于是，在 LS-PBO 中，为软约束（也就是目标函数）设置了 [[leiEfficientLocalSearch2021#Constraint Weighting Scheme|上界]]，用于控制何时更新目标函数的权重，我们的加权方案如下所示：
 
 - 在搜索开始的最开始，每个硬约束的权重被初始化为 $w(c) = 1$，目标函数的权重被初始化为 $w(o) = 0$
-- 随着搜索的进行，当进入到局部最优时，对每个不满足的硬子句 $c$，我们更新为 $w(c) = w(c) + 1$，而如果不存在不满足的硬子句（也就是现在是一个可行解），我们更新 $w(o) = w(o) + 1$
+- 随着搜索的进行，当进入到局部最优时，对每个不满足的硬约束 $c$，我们更新为 $w(c) = w(c) + 1$，而如果不存在不满足的硬约束（也就是现在是一个可行解），我们更新 $w(o) = w(o) + 1$
 
 在开始时，目标函数的权重被初始化为 0，这样算法将首先专注于寻找可行解。如果搜索陷入局部最优，则只在当前赋值 $\alpha$ 为可行解解时增加目标函数的权重
 
@@ -152,15 +152,8 @@ Benchmark 选择为：
 - Gurobi[^8]
 - SCIP[^9]
 
-[^1]: 源代码可见 [NuPBO](https://github.com/filyouzicha/NuPBO)
-[^2]: http://www.cril.univ-artois.fr/PB16/bench/PB16-used.tar
-[^3]: https://zenodo.org/record/3870965
-[^4]: https://zenodo.org/record/4036016
-[^5]: https://lcs.ios.ac.cn/%7ecaisw/Resource/LS-PBO/
-[^6]: https://bitbucket.org/coreo-group/pbo-ihs-solver/
-[^7]: https://doi.org/10.5281/zenodo.4043124
-[^8]: https://www.gurobi.com/products/gurobi-opti
-[^9]: https://www.scipopt.org/index.php#download
+`#win` 表示通过求解器 $S$ 在实例集合 $B_i$ 上可以得到对应的最优解的实例数(即,获胜实例的数量)
+`#feas` 求解器 $S$ 在实例集合 $B_i$ 上获得解的实例数
 
 实验结果如下所示：
 
@@ -172,6 +165,16 @@ Benchmark 选择为：
 
 给定一个求解器集合 $\Theta$，对于每一个实例，在 $\Theta$ 上中选择表现最好的求解器进行求解，我们构造的求解器集合为：
 
-$VBS_{all} = \{LS\_PBO, NuPBO, PBO\_IHS, RoundingSat, Gurobi, SCIP\}$，$VBS_{exclude\_lspbo} = \{NuPBO, PBO\_IHS, RoundingSat, Gurobi, SCIP\}$，$VBS_{exclude_{nupbo}} = \{LS\_PBO, PBO\_IHS, RoundingSat, Gurobi, SCIP\}$
+$VBS_{all} = \{LS\_PBO, NuPBO, PBO\_IHS, RoundingSat, Gurobi, SCIP\}$，$VBS_{exclude\_lspbo} = \{NuPBO, PBO\_IHS, RoundingSat, Gurobi, SCIP\}$，$VBS_{exclude\_nupbo} = \{LS\_PBO, PBO\_IHS, RoundingSat, Gurobi, SCIP\}$
 
 可以发现，缺少了 `NuPBO` 后，求解能力下降了很多
+
+[^1]: 源代码可见 [NuPBO](https://github.com/filyouzicha/NuPBO)
+[^2]: http://www.cril.univ-artois.fr/PB16/bench/PB16-used.tar
+[^3]: https://zenodo.org/record/3870965
+[^4]: https://zenodo.org/record/4036016
+[^5]: https://lcs.ios.ac.cn/%7ecaisw/Resource/LS-PBO/
+[^6]: https://bitbucket.org/coreo-group/pbo-ihs-solver/
+[^7]: https://doi.org/10.5281/zenodo.4043124
+[^8]: https://www.gurobi.com/products/gurobi-opti
+[^9]: https://www.scipopt.org/index.php#download

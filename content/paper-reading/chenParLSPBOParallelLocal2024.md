@@ -6,7 +6,7 @@ tags:
   - 算法讲义/局部搜索算法
   - CCF/B/CP
 date: 2024-12-31
-lastmod: 2025-01-01
+lastmod: 2025-01-03
 draft: false
 cover: 
 zotero-key: CEGP8VJB
@@ -48,7 +48,7 @@ $$
 4. 混合整数规划期，例如 SCIP，Gurobi
 5. 不完备的局部搜索算法
 
-对于局部搜索算法，最优代表性的莫过于 [[leiEfficientLocalSearch2021|LS-PBO]] 算法；
+对于局部搜索算法，最有代表性的莫过于 [[leiEfficientLocalSearch2021|LS-PBO SAT'21]] 算法；
 随后，在此基础上，[[jiangDeciLSPBOEffectiveLocal2023|DeciLS-PBO FCS'23]] 提出了通过使用基于单位传播的方法产生更好的初始解的方式，改进了 _LS-PBO_ ；
 最近，[[chuMoreEfficientLocal2023|NuPBO CP'23]] 提出了一种新的打分函数与加权策略，进一步提高了 _LS-PBO_，成为 SOTA 的求解器
 
@@ -88,10 +88,10 @@ $$
 score^*(x) = hscore(x) + p \cdot oscore(x)
 $$
 
-其中，$p$ 时一个动态值，初始化为 $1$，我们做如下更新：
+其中，$p$ 是一个动态值，初始化为 $1$，我们做如下更新：
 
 1. 如果我们在最近的 $K$ 次迭代中，都没有找到可行解，我们将 $p$ 调整为 $\frac{p}{inc}$，其中 $inc > 1$
-2. 否则，我们将其调 整为 $p \cdot inc$
+2. 否则，我们将其调整为 $p \cdot inc$
 
 > [!example]-
 >
@@ -207,11 +207,15 @@ $$
 7. SCIP[^9]
 8. FiberSCIP[^10]
 
+其中，HYBRID 与 PBO-IHS 都是基于 [[elffersDivideConquerFaster2018|RoundingSAT]] 更改的 PBO 版本
+
 选择的参数如下表：
 
 | Parameter | $K$    | $R$   | $inc$ | $poolsize$ | $p^*$ | $\beta$ | $\epsilon$ |
 | --------- | ------ | ----- | ----- | ---------- | ----- | ------- | ---------- |
 | Value     | 566024 | 56295 | 1.15  | 18         | 0.58  | 0.03    | 0.144      |
+
+`#win` 表示求解器在被测试的求解器输出的所有解中找到最优解的实例数（获胜实例的数量）
 
 `DLS-PBO` 的实验的结果如下表：
 

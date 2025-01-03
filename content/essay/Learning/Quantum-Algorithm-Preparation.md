@@ -5,8 +5,9 @@ tags:
   - 一些随笔/2024
   - 算法讲义/量子算法
 date: 2024-12-15
-lastmod: 2024-12-29
+lastmod: 2025-01-02
 draft: false
+cover: 
 ---
 
 > [!important]
