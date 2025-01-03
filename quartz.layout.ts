@@ -5,7 +5,9 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [
+    Component.PageNavigation(),
+  ],
   footer: Component.Comments({
     provider: "giscus",
     options: {

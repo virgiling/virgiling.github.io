@@ -56,6 +56,10 @@ export default {
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes}分钟阅读`,
     },
+    pageNavigation: {
+      prevPage: "上一页",
+      nextPage: "下一页",
+    },
   },
   pages: {
     rss: {

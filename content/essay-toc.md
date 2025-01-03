@@ -4,12 +4,18 @@ description:
 tags:
   - ToC
 date: 2024-12-29
-lastmod: 2024-12-30
+lastmod: 2025-01-03
 draft: false
 cover:
 ---
 
 这里记录了一些随笔，归档可以参考 [[essay/index|📖随笔目录]]
+
+# #一些随笔/2025
+
+2025 年的一些随笔（总结在年末再更新吧）
+
+- 调研了一下局部搜索 PBO 求解器的文章，写了一些 [[PBO-LS-Framework|总结和笔记]]
 
 # #一些随笔/2024
 
