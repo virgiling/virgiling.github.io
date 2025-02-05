@@ -72,7 +72,6 @@ export const TRANSLATIONS = {
   "tr-TR": tr,
   "th-TH": th,
   "lt-LT": lt,
-  "th-TH": th,
 } as const
 
 export const defaultTranslation = "en-US"

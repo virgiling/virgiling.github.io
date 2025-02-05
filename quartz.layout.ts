@@ -35,14 +35,14 @@ export const defaultContentPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
-    Component.DesktopOnly(Component.RecentNotes({ limit: 5, showTags: false })),
+    Component.DesktopOnly(Component.RecentNotes({ limit: 3, showTags: false })),
     Component.Explorer({}),
     Component.DesktopOnly(Component.FloatingButtons({
       position: 'right'
     })),
   ],
   right: [
-    Component.Graph(),
+    Component.Graph({globalGraph: {fontSize: 0.4}}),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
@@ -68,7 +68,7 @@ export const defaultListPageLayout: PageLayout = {
     })),
   ],
   right: [
-    Component.Graph(),
+    Component.Graph({globalGraph: {fontSize: 0.4}}),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
