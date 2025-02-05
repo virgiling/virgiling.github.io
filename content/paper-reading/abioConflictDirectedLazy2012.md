@@ -6,7 +6,7 @@ tags:
   - CCF/B/CP
   - 算法讲义/精确算法
 date: 2024-12-17
-lastmod: 2025-01-01
+lastmod: 2025-01-20
 draft: false
 cover: 
 zotero-key: W57CN6LV
@@ -27,7 +27,7 @@ citekey: abioConflictDirectedLazy2012
 
 # Conflict Directed Lazy Decomposition
 
-> [!summary]-
+> [!abstract]- 
 >
 > Two competing approaches to handling complex constraints in satisfaction and optimization problems using SAT and LCG/SMT technology are: decompose the complex constraint into a set of clauses; or (theory) propagate the complex constraint using a standalone algorithm and explain the propagation. Each approach has its beneﬁts. The decomposition approach is prone to an explosion in size to represent the problem, while the propagation approach may require exponentially more search since it does not have access to intermediate literals for explanation. In this paper we show how we can obtain the best of both worlds by lazily decomposing a complex constraint propagator using conﬂicts to direct it. If intermediate literals are not helpful for conﬂicts then it will act like the propagation approach, but if they are helpful it will act like the decomposition approach. Experimental results show that it is never much worse than the better of the decomposition and propagation approaches, and sometimes better than both.
 
