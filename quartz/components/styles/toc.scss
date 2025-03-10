@@ -1,8 +1,15 @@
 @use "../../styles/variables.scss" as *;
 
-#toc {
-  position: relative;
-  padding-left: 20px; // 为手指图标预留空间
+.toc {
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: hidden;
+  flex: 0 1 auto;
+
+  &:has(button.toc-header.collapsed) {
+    flex: 0 1 1.2rem;
+  }
 
   &>h3 {
     margin: 0;
@@ -13,7 +20,13 @@
   }
 }
 
-button#toc {
+@media all and not ($mobile) {
+  .toc {
+    display: flex;
+  }
+}
+
+button.toc-header {
   background-color: transparent;
   border: none;
   text-align: left;
@@ -40,7 +53,7 @@ button#toc {
   }
 }
 
-#toc-content {
+.toc-content {
   list-style: none;
   overflow-y: auto;
   overflow-x: hidden;
@@ -105,11 +118,6 @@ button#toc {
         border-radius: 15px;
       }
 
-      // &:hover {
-      //   color: var(--secondary);
-      //   background: var(--highlight);
-      //   transform: translateX(2px);
-      // }
     }
   }
 
