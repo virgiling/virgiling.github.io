@@ -5,9 +5,7 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [
-    Component.PageNavigation(),
-  ],
+  afterBody: [Component.PageNavigation()],
   footer: Component.Comments({
     provider: "giscus",
     options: {
@@ -16,16 +14,16 @@ export const sharedPageComponents: SharedLayout = {
       category: "Announcements",
       categoryId: "DIC_kwDONbWvns4ClFkN",
       themeUrl: "https://giscus.app/themes/",
-      lightTheme: "noborder_light"
-    }
-  })
+      lightTheme: "noborder_light",
+    },
+  }),
 }
 
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.Breadcrumbs({
-      rootName: "主页"
+      rootName: "主页",
     }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
@@ -37,12 +35,14 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Search(),
     Component.DesktopOnly(Component.RecentNotes({ limit: 3, showTags: false })),
     Component.Explorer({}),
-    Component.DesktopOnly(Component.FloatingButtons({
-      position: 'right'
-    })),
+    Component.DesktopOnly(
+      Component.FloatingButtons({
+        position: "right",
+      }),
+    ),
   ],
   right: [
-    Component.Graph({globalGraph: {fontSize: 0.4}}),
+    Component.Graph({ globalGraph: { fontSize: 0.4 } }),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
@@ -52,10 +52,10 @@ export const defaultContentPageLayout: PageLayout = {
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.Breadcrumbs({
-      rootName: "主页"
+      rootName: "主页",
     }),
     Component.ArticleTitle(),
-    Component.ContentMeta()
+    Component.ContentMeta(),
   ],
   left: [
     Component.PageTitle(),
@@ -63,12 +63,14 @@ export const defaultListPageLayout: PageLayout = {
     Component.Search(),
     Component.DesktopOnly(Component.RecentNotes({ limit: 5, showTags: false })),
     Component.Explorer({}),
-    Component.DesktopOnly(Component.FloatingButtons({
-      position: 'right'
-    })),
+    Component.DesktopOnly(
+      Component.FloatingButtons({
+        position: "right",
+      }),
+    ),
   ],
   right: [
-    Component.Graph({globalGraph: {fontSize: 0.4}}),
+    Component.Graph({ globalGraph: { fontSize: 0.4 } }),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],

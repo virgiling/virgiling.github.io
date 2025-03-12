@@ -43,6 +43,10 @@ export type Analytics =
       provider: "clarity"
       projectId?: string
     }
+  | {
+      provider: "mapmyvisitors"
+      apiKey: string
+    }
 
 export interface GlobalConfiguration {
   pageTitle: string

@@ -1,4 +1,4 @@
-import { Poetry } from './poetry';
+import { Poetry } from "./poetry"
 export { FrontMatter } from "./frontmatter"
 export { GitHubFlavoredMarkdown } from "./gfm"
 export { Citations } from "./citations"

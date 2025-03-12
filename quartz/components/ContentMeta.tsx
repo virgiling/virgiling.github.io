@@ -31,17 +31,21 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
       if (fileData.dates) {
         segments.push(
-          <span>✏️ <Date date={fileData.dates.created} locale='en-US' /></span>
+          <span>
+            ✏️ <Date date={fileData.dates.created} locale="en-US" />
+          </span>,
         )
         segments.push(
-          <span>🔧 <Date date={fileData.dates.modified} locale='en-US' /></span>
+          <span>
+            🔧 <Date date={fileData.dates.modified} locale="en-US" />
+          </span>,
         )
       }
 
       // Display reading time if enabled
       if (options.showReadingTime) {
         const { minutes, words: _words } = readingTime(text)
-        const displayedTime = i18n('en-US').components.contentMeta.readingTime({
+        const displayedTime = i18n("en-US").components.contentMeta.readingTime({
           minutes: Math.ceil(minutes),
         })
         segments.push(<span>{displayedTime}</span>)

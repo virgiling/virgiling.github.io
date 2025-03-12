@@ -44,7 +44,7 @@ function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndexMap): string
   const base = cfg.baseUrl ?? ""
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<url>
     <loc>https://${joinSegments(base, encodeURI(slug))}</loc>
-    ${(content.lastmod && `<lastmod>${content.lastmod.toISOString()}</lastmod>`) || (content.date &&  `<lastmod>${content.date.toISOString()}</lastmod>`)}
+    ${(content.lastmod && `<lastmod>${content.lastmod.toISOString()}</lastmod>`) || (content.date && `<lastmod>${content.date.toISOString()}</lastmod>`)}
   </url>`
   const urls = Array.from(idx)
     .map(([slug, content]) => createURLEntry(simplifySlug(slug), content))
