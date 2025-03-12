@@ -27,48 +27,48 @@ export const LightBox: QuartzTransformerPlugin<Partial<Options>> = (userOpts) =>
   return {
     name: "LightBox",
     htmlPlugins() {
-  return [
-    () => {
-      return (tree: Root) => {
-        const visited: Set<string> = new Set();
-        visit(tree, "element", (node, index, parent) => {
-          if (
-            node.tagName === "img" &&
-            node.properties &&
-            typeof node.properties.src === "string"
-          ) {
-            if (visited.has(node.properties.src)) {
-              return;
-            }
-            visited.add(node.properties.src);
-            const linkNode: Element = {
-              type: "element",
-              tagName: "a",
-              properties: {
-                href: node.properties.src,
-                class: "glightbox"
-              },
-              children: [
-                {
+      return [
+        () => {
+          return (tree: Root) => {
+            const visited: Set<string> = new Set()
+            visit(tree, "element", (node, index, parent) => {
+              if (
+                node.tagName === "img" &&
+                node.properties &&
+                typeof node.properties.src === "string"
+              ) {
+                if (visited.has(node.properties.src)) {
+                  return
+                }
+                visited.add(node.properties.src)
+                const linkNode: Element = {
                   type: "element",
-                  tagName: "img",
+                  tagName: "a",
                   properties: {
-                    src: node.properties.src,
+                    href: node.properties.src,
+                    class: "glightbox",
                   },
-                  children: [],
-                },
-              ],
-            };
-            parent!.children[index!] = linkNode;
+                  children: [
+                    {
+                      type: "element",
+                      tagName: "img",
+                      properties: {
+                        src: node.properties.src,
+                      },
+                      children: [],
+                    },
+                  ],
+                }
+                parent!.children[index!] = linkNode
+              }
+            })
           }
-        });
-      };
+        },
+      ]
     },
-  ];
-},
     externalResources() {
       return {
-        css: [{content: "https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css"}],
+        css: [{ content: "https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" }],
         js: [
           {
             src: "https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js",

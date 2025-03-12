@@ -99,8 +99,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
               <PageList {...listProps} />
             </div>
           </div>
-        )
-        }
+        )}
       </div>
     )
   }

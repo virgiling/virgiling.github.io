@@ -275,8 +275,9 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                     return {
                       type: "html",
                       data: { hProperties: { transclude: true } },
-                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${url + anchor
-                        }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
+                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${
+                        url + anchor
+                      }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
                     }
                   }
 

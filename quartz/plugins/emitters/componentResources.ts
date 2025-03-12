@@ -182,6 +182,14 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
       })(window, document, "clarity", "script", "${cfg.analytics.projectId}");\`
       document.head.appendChild(clarityScript)
     `)
+  } else if (cfg.analytics?.provider == "mapmyvisitors") {
+    componentResources.afterDOMLoaded.push(`
+      const mapmyvisitors = document.createElement("script")
+      mapmyvisitors.type = "text/javascript"
+      mapmyvisitors.id = "mapmyvisitors"
+      mapmyvisitors.src = "//mapmyvisitors.com/map.js?${cfg.analytics.apiKey}"
+      document.body.appendChild(mapmyvisitors)
+      `)
   }
 
   if (cfg.enableSPA) {
