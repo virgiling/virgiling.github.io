@@ -1,11 +1,11 @@
 ---
-title: 6.S081 简介
+title: MIT 6.S081操作系统
 description: 
 tags:
   - MIT/6-S081
   - 公开课/课程简介
 date: 2024-12-28
-lastmod: 2024-12-30
+lastmod: 2025-03-14
 draft: false
 cover: 20230628183743.png
 ---

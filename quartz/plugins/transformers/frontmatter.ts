@@ -115,6 +115,7 @@ declare module "vfile" {
         tags: string[]
         aliases: string[]
         description: string
+        socialDescription: string
         publish: boolean | string
         draft: boolean | string
         lang: string

@@ -1,13 +1,14 @@
 @use "../../styles/variables.scss" as *;
 
 @media all and ($mobile) {
-  .page > #quartz-body {
+  .page>#quartz-body {
+
     // Shift page position when toggling Explorer on mobile.
-    & > :not(.sidebar.left:has(.explorer)) {
+    &> :not(.sidebar.left:has(.explorer)) {
       transition: transform 300ms ease-in-out;
     }
 
-    &.lock-scroll > :not(.sidebar.left:has(.explorer)) {
+    &.lock-scroll> :not(.sidebar.left:has(.explorer)) {
       transform: translateX(100dvw);
       transition: transform 300ms ease-in-out;
     }
@@ -21,9 +22,7 @@
       margin: 0;
     }
 
-    // Hide Explorer on mobile until done loading.
-    // Prevents ugly animation on page load.
-    .hide-until-loaded ~ #explorer-content {
+    .hide-until-loaded~.explorer-content {
       display: none;
     }
   }
@@ -33,6 +32,8 @@
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
+
+  min-height: 1.2rem;
   flex: 0 1 auto;
 
   &.collapsed {
@@ -57,20 +58,20 @@
     align-self: flex-start;
   }
 
-  button#mobile-explorer {
+  button.mobile-explorer {
     display: none;
   }
 
-  button#desktop-explorer {
+  button.desktop-explorer {
     display: flex;
   }
 
   @media all and ($mobile) {
-    button#mobile-explorer {
+    button.mobile-explorer {
       display: flex;
     }
 
-    button#desktop-explorer {
+    button.desktop-explorer {
       display: none;
     }
   }
@@ -85,14 +86,14 @@
     pointer-events: all;
     transition: transform 0.35s ease;
 
-    & > polyline {
+    &>polyline {
       pointer-events: none;
     }
   }
 }
 
-button#mobile-explorer,
-button#desktop-explorer {
+button.mobile-explorer,
+button.desktop-explorer {
   background-color: transparent;
   border: none;
   text-align: left;
@@ -109,7 +110,7 @@ button#desktop-explorer {
   }
 }
 
-#explorer-content {
+.explorer-content {
   list-style: none;
   overflow: hidden;
   overflow-y: auto;
@@ -120,7 +121,7 @@ button#desktop-explorer {
     margin: 0;
     padding: 0;
 
-    & li > a {
+    & li>a {
       color: var(--dark);
       opacity: 0.75;
       pointer-events: all;
@@ -138,219 +139,146 @@ button#desktop-explorer {
     transition: grid-template-rows 0.3s ease-in-out;
   }
 
-  .folder-outer {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s ease-in-out;
-  }
-
   .folder-outer.open {
     grid-template-rows: 1fr;
   }
 
-  .folder-outer.open {
-    grid-template-rows: 1fr;
-  }
-
-  .folder-outer > ul {
+  .folder-outer>ul {
     overflow: hidden;
     margin-left: 6px;
     padding-left: 0.8rem;
     border-left: 1px solid var(--lightgray);
   }
+}
 
-  #explorer-content {
-    list-style: none;
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: 0px;
-    transition:
-      max-height 0.35s ease,
-      visibility 0s linear 0.35s;
-    margin-top: 0.5rem;
-    visibility: hidden;
+.folder-container {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  user-select: none;
 
-    &.collapsed {
-      max-height: 100%;
-      transition:
-        max-height 0.35s ease,
-        visibility 0s linear 0s;
-      visibility: visible;
-    }
-
-    & ul {
-      list-style: none;
-      margin: 0.08rem 0;
-      padding: 0;
-      transition:
-        max-height 0.35s ease,
-        transform 0.35s ease,
-        opacity 0.2s ease;
-
-      & li > a {
-        color: var(--dark);
-        opacity: 0.75;
-        pointer-events: all;
-      }
-    }
-
-    > #explorer-ul {
-      max-height: none;
-    }
-  }
-
-  svg {
-    pointer-events: all;
-
-    & > polyline {
-      pointer-events: none;
-    }
-  }
-
-  .folder-container {
-    flex-direction: row;
-    display: flex;
-    align-items: center;
-    user-select: none;
-
-    & div > a {
-      color: var(--secondary);
-      font-family: var(--headerFont);
-      font-size: 0.95rem;
-      font-weight: $semiBoldWeight;
-      line-height: 1.5rem;
-      display: inline-block;
-    }
-
-    & div > a:hover {
-      color: var(--tertiary);
-    }
-
-    & div > button {
-      color: var(--dark);
-      background-color: transparent;
-      border: none;
-      text-align: left;
-      cursor: pointer;
-      padding-left: 0;
-      padding-right: 0;
-      display: flex;
-      align-items: center;
-      font-family: var(--headerFont);
-
-      & span {
-        font-size: 0.95rem;
-        display: inline-block;
-        color: var(--secondary);
-        font-weight: $semiBoldWeight;
-        margin: 0;
-        line-height: 1.5rem;
-        pointer-events: none;
-      }
-    }
-  }
-
-  .folder-icon {
-    margin-right: 5px;
+  & div>a {
     color: var(--secondary);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    backface-visibility: visible;
+    font-family: var(--headerFont);
+    font-size: 0.95rem;
+    font-weight: $semiBoldWeight;
+    line-height: 1.5rem;
+    display: inline-block;
   }
 
-  li:has(> .folder-outer:not(.open)) > .folder-container > svg {
-    transform: rotate(-90deg);
-  }
-
-  .folder-icon:hover {
+  & div>a:hover {
     color: var(--tertiary);
   }
 
-  .no-background::after {
-    background: none !important;
-  }
+  & div>button {
+    color: var(--dark);
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    font-family: var(--headerFont);
 
-  #explorer-end {
-    // needs height so IntersectionObserver gets triggered
-    height: 4px;
-    // remove default margin from li
-    margin: 0;
+    & span {
+      font-size: 0.95rem;
+      display: inline-block;
+      color: var(--secondary);
+      font-weight: $semiBoldWeight;
+      margin: 0;
+      line-height: 1.5rem;
+      pointer-events: none;
+    }
   }
+}
 
-  .explorer {
-    @media all and ($mobile) {
-      #explorer-content {
-        box-sizing: border-box;
-        overscroll-behavior: none;
-        z-index: 100;
-        position: absolute;
-        top: 0;
-        background-color: var(--light);
-        max-width: 100dvw;
-        left: -100dvw;
-        width: 100%;
-        transition: transform 300ms ease-in-out;
-        overflow: hidden;
-        padding: $topSpacing 2rem 2rem;
-        height: 100dvh;
-        max-height: 100dvh;
-        margin-top: 0;
+.folder-icon {
+  margin-right: 5px;
+  color: var(--secondary);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  backface-visibility: visible;
+}
+
+li:has(> .folder-outer:not(.open))>.folder-container>svg {
+  transform: rotate(-90deg);
+}
+
+.folder-icon:hover {
+  color: var(--tertiary);
+}
+
+.explorer {
+  @media all and ($mobile) {
+    &.collapsed {
+      flex: 0 0 34px;
+
+      &>.explorer-content {
+        transform: translateX(-100vw);
         visibility: hidden;
-
-        &:not(.collapsed) {
-          transform: translateX(100dvw);
-          visibility: visible;
-        }
-
-        ul.overflow {
-          max-height: 100%;
-          width: 100%;
-        }
-
-        &.collapsed {
-          transform: translateX(0);
-          visibility: visible;
-        }
       }
+    }
 
-      #mobile-explorer {
-        margin: 5px;
-        z-index: 101;
+    &:not(.collapsed) {
+      flex: 0 0 34px;
 
-        &:not(.collapsed) .lucide-menu {
-          transform: rotate(-90deg);
-          transition: transform 200ms ease-in-out;
-        }
+      &>.explorer-content {
+        transform: translateX(0);
+        visibility: visible;
+      }
+    }
 
-        .lucide-menu {
-          stroke: var(--darkgray);
-          transition: transform 200ms ease;
+    .explorer-content {
+      box-sizing: border-box;
+      z-index: 100;
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin-top: 0;
+      background-color: var(--light);
+      max-width: 100vw;
+      width: 100%;
+      transform: translateX(-100vw);
+      transition:
+        transform 200ms ease,
+        visibility 200ms ease;
+      overflow: hidden;
+      padding: 4rem 0 2rem 0;
+      height: 100dvh;
+      max-height: 100dvh;
+      visibility: hidden;
+    }
 
-          &:hover {
-            stroke: var(--dark);
-          }
-        }
+    .mobile-explorer {
+      margin: 0;
+      padding: 5px;
+      z-index: 101;
+
+      .lucide-menu {
+        stroke: var(--darkgray);
       }
     }
   }
+}
 
+.no-scroll {
+  opacity: 0;
+  overflow: hidden;
+}
+
+html:has(.no-scroll) {
+  overflow: hidden;
+}
+
+@media all and not ($mobile) {
   .no-scroll {
-    opacity: 0;
-    overflow: hidden;
+    opacity: 1 !important;
+    overflow: auto !important;
   }
 
   html:has(.no-scroll) {
-    overflow: hidden;
-  }
-
-  @media all and not ($mobile) {
-    .no-scroll {
-      opacity: 1 !important;
-      overflow: auto !important;
-    }
-
-    html:has(.no-scroll) {
-      overflow: auto !important;
-    }
+    overflow: auto !important;
   }
 }
