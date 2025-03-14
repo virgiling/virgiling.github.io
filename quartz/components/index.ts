@@ -22,6 +22,7 @@ import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
 import FloatingButtons from "./FloatingButtons"
 import PageNavigation from "./PageNavigation"
+import Flex from "./Flex"
 
 export {
   ArticleTitle,
@@ -48,4 +49,5 @@ export {
   Comments,
   FloatingButtons,
   PageNavigation,
+  Flex,
 }
