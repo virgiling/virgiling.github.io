@@ -2,10 +2,11 @@
 title: Certified SAT solving with GPU accelerated inprocessing
 description: 
 tags:
-  - 论文阅读笔记/
-  - Paper/
+  - 论文阅读笔记/约束求解
+  - 算法讲义/精确算法
+  - CCF/None/FMSD
 date: 2025-03-15
-lastmod: 2025-03-15
+lastmod: 2025-03-16
 draft: true
 zotero-key: M38J8S9V
 zt-attachments:

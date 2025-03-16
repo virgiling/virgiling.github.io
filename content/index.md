@@ -4,7 +4,7 @@ description:
 tags:
   - ToC
 date: 2022-03-29
-lastmod: 2025-03-15
+lastmod: 2025-03-16
 draft: false
 cover: 
 ---
@@ -22,6 +22,7 @@ cover:
 > 选择 `Quartz` 是因为只有它能够和 `Obsidian` 的双链进行联动，让博客更有 `wiki` 的感觉，文章之间的联系更紧密
 >
 > > [!todo]
+> > 
 > > 其实还是很想自己用框架实现一下博客系统，然后加入联动 obsidian 的内容，感觉 [KazariEX Blog](https://bikari.top/) 这样有 Motion 的更有意思
 
 # 关于博客
@@ -41,7 +42,7 @@ cover:
 博客的架构采用 tag 目录法，因此在左侧的 “探索” 栏找不到什么文章，你可以通过点击 #一些随笔 这样的标签，来获取目录和归档。
 
 - 如果你对可能（大概率）鸽子的公开课教程感兴趣，可以参考 [[courses-toc|公开课实验教程]] 中提及的所有课程（如果我没有上过的话），在 [csdiy](https://csdiy.wiki)上想必会有更好的博客教程。
-- 如果你对一些**组合优化/约束求解**的论文（当然可能也不止这一个主题）感兴趣，我偶尔会在 [[paper-reading-toc|论文阅读笔记]] 中写一些内容~~（这个不是因为懒得写，只是因为在做 slides 时，我都是用的`typst`，但目前 `quartz` 的数学模式还不支持 `typst`，详见 [issue1605](https://github.com/jackyzha0/quartz/issues/1605)）~~
+- 如果你对一些**组合优化/约束求解**的论文（当然可能也不止这一个主题）感兴趣，我偶尔会在 [[paper-reading-toc|论文阅读笔记]] 中写一些内容<del>（这个不是因为懒得写，只是因为在做 slides 时，我都是用的`typst`，但目前 `quartz` 的数学模式还不支持 `typst`，详见 [issue1605](https://github.com/jackyzha0/quartz/issues/1605))</del>
 
 # 关于我
 

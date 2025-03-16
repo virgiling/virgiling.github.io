@@ -4,10 +4,11 @@ description:
 tags:
   - 论文阅读笔记/约束求解
   - CCF/A/CAV
+  - 算法讲义/精确算法
 date: 2025-03-10
-lastmod: 2025-03-12
+lastmod: 2025-03-16
 draft: false
-cover:
+cover: 
 zotero-key: H7XNRYL7
 zt-attachments:
   - "1003"

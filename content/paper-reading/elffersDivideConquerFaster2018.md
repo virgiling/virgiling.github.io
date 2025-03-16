@@ -1,14 +1,14 @@
 ---
-title: RoundingSAT 阅读笔记
-description:
+title: RoundingSAT 阅读笔记其一
+description: 
 tags:
   - 论文阅读笔记/约束求解
   - 算法讲义/精确算法
   - CCF/A/IJCAI
 date: 2025-01-01
-lastmod: 2025-01-04
+lastmod: 2025-03-16
 draft: false
-cover:
+cover: 
 zotero-key: TNN4CGDN
 zt-attachments:
   - "900"

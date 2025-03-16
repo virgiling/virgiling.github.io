@@ -1,12 +1,12 @@
 ---
-title: Lazy Clause Generation
+title: 子句懒生成
 description: 
 tags:
   - 论文阅读笔记/约束求解
   - 算法讲义/精确算法
   - CCF/None/CPAIOR
 date: 2024-12-17
-lastmod: 2025-01-01
+lastmod: 2025-03-16
 draft: true
 cover: 
 zotero-key: RADMDA7D
