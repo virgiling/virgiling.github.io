@@ -1,7 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { FullSlug, SimpleSlug, resolveRelative } from "../util/path"
 import { QuartzPluginData } from "../plugins/vfile"
-import { byDateAndAlphabetical } from "./PageList"
 import style from "./styles/recentNotes.scss"
 import { Date, getDate } from "./Date"
 import { GlobalConfiguration } from "../cfg"
@@ -22,7 +21,23 @@ const defaultOptions = (cfg: GlobalConfiguration): Options => ({
   linkToMore: false,
   showTags: true,
   filter: () => true,
-  sort: byDateAndAlphabetical(cfg),
+  sort: (f1, f2) => {
+    // If both are folders or both are files, sort by date/alphabetical
+    if (f1.dates && f2.dates) {
+      // sort descending
+      return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
+    } else if (f1.dates && !f2.dates) {
+      // prioritize files with dates
+      return -1
+    } else if (!f1.dates && f2.dates) {
+      return 1
+    }
+
+    // otherwise, sort lexographically by title
+    const f1Title = f1.frontmatter?.title.toLowerCase() ?? ""
+    const f2Title = f2.frontmatter?.title.toLowerCase() ?? ""
+    return f1Title.localeCompare(f2Title)
+  },
 })
 
 export default ((userOpts?: Partial<Options>) => {
