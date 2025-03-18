@@ -6,7 +6,7 @@ tags:
   - CCF/B/CP
   - 算法讲义/精确算法
 date: 2024-12-17
-lastmod: 2025-01-20
+lastmod: 2025-03-17
 draft: false
 cover: 
 zotero-key: W57CN6LV
@@ -42,14 +42,14 @@ citekey: abioConflictDirectedLazy2012
    x_1 + x_2 +\dots+x_n \# K
    $$
 
-   其中，$K \in \mathbb{R}, x_i \in \{0, 1\}, \#  \in \{\leq, \geq =\}$
+   其中，$K \in \mathbb{N}, x_i \in \{0, 1\}, \#  \in \{\leq, \geq =\}$
 
 2. 伪布尔约束
    考虑变量集合 $X = \{ x_1, x_2 \dots, x_n\}$，我们有如下约束：
    $$
    a_1x_1 + \dots + a_nx_n \# K
    $$
-   其中，$a_i, K \in \mathbb{R}, x_i \in \{0, 1\}, \#  \in \{\leq, \geq =\}$
+   其中，$a_i, K \in \mathbb{N}, x_i \in \{0, 1\}, \#  \in \{\leq, \geq =\}$
 
 这两种约束，其约束的集合均为变量集合，因此被称为全局约束
 

@@ -31,7 +31,7 @@ $$
 x_1 + x_2 +\dots+x_n \# K
 $$
 
-其中，$K \in \mathbb{R}, x_i \in \{0, 1\}, \#  \in \{\leq, \geq =\}$
+其中，$K \in \mathbb{N}, x_i \in \{0, 1\}, \#  \in \{\leq, \geq =\}$
 
 我们将此类约束称之为基数约束，值得注意的是，基数约束中的 $\geq, \leq$ 可以通过 $x_i + \neg x_i = 1$ 相互转化，而 $=$ 可以通过 $\geq, \leq$ 来进行夹逼。
 
