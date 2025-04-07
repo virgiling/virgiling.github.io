@@ -3,11 +3,11 @@ title: 使用 Quartz 搭建博客
 description: 
 tags:
   - 博客相关
-  - 一些随笔/2024
+  - 文具袋/文具推荐
 date: 2024-12-20
-lastmod: 2025-01-03
+lastmod: 2025-04-07
 draft: false
-cover: 
+cover:
 ---
 
 # Quartz 的构建
@@ -36,7 +36,7 @@ pnpm i
 npx quartz build --serve --concurrency 4
 ```
 
-随后，就能够在 localhost:8080 打开构建完成的网页了，生成的所有 `html` 文件都在 `public` 文件夹中
+随后，就能够在 [localhost:8080](localhost:8080) 打开构建完成的网页了，生成的所有 `html` 文件都在 `public` 文件夹中
 
 # `Quartz` 基础配置
 
@@ -52,7 +52,7 @@ npx quartz build --serve --concurrency 4
 
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20241223153952947.png)
 
-配置只需要填写 `{provider: 'clarity', projectId: '<your-clarity-id-code' }` 即可，如下所示：
+配置只需要填写 `{provider: 'clarity', projectId: '<your-clarity-id-code>' }` 即可，如下所示：
 
 ```ts showLineNumbers
 analytics: {

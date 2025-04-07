@@ -4,7 +4,7 @@ description:
 tags:
   - ToC
 date: 2024-12-29
-lastmod: 2025-01-03
+lastmod: 2025-04-07
 draft: false
 cover:
 ---
@@ -25,7 +25,7 @@ cover:
 - 简单学了一些 [[Quantum-Algorithm-Preparation|量子算法]]，不过主要是为了组会做准备
 - 记录了一下 [[blog-record|博客的迁移过程]]
 - 做一个外包网站的时候，遇到了一个 `Docker` 带来的网络问题，就此 [[eduhk-web-server|记录]]
-- 仿照群友的知乎，也写了一篇 [[my-tools-1|工具推荐-1]]，[[my-tools-2|工具推荐-2]]
+- 仿照群友的知乎，也写了一些工具推荐 [[tools/index|差生文具店]]
 - 尝鲜了一段时间 [[Hyprland-Yes|Hyprland]]，也试过一段时间 `NixOS` ，但没弄明白，最后还是换回了 `Archlinux` 系列
 
 # #一些随笔/2023

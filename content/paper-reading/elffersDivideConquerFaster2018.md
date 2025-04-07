@@ -6,7 +6,7 @@ tags:
   - 算法讲义/精确算法
   - CCF/A/IJCAI
 date: 2025-01-01
-lastmod: 2025-03-16
+lastmod: 2025-03-26
 draft: false
 cover: 
 zotero-key: TNN4CGDN
@@ -58,7 +58,7 @@ $$
 
 我们将部分真值赋值 $\rho$ 看作由 $\rho$ 设定为真的文字集合，也就是说如果 $l \in \rho$，那么 $\rho(l) = 1$
 
-一个传统的 [[CDCL-Framework|CDCL]] 框架如下图所示：
+一个传统的 CDCL 框架如下图所示：
 
 ![image.png|700](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20250101233325485.png)
 

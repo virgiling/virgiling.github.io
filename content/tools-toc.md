@@ -4,7 +4,7 @@ description:
 tags:
   - ToC
 date: 2024-12-29
-lastmod: 2024-12-30
+lastmod: 2025-04-07
 draft: false
 cover:
 ---
@@ -15,7 +15,7 @@ cover:
 
 使用的操作系统（开发环境）的演变如下：
 
-1. [[my-tools-2#日常开发与实验|Windows + WSL2]]
+1. [[windows-with-wsl2|Windows + WSL2]]
 2. [[Manjaro-Linux|Manjaro 配置指北]]
 3. [[Hyprland-Yes|ArcoLinux 与 Hyprland 配置指北]]
 4. 回到了 1
@@ -24,7 +24,7 @@ cover:
 
 ## 我的开发工具链
 
-可以参考 [[my-tools-1|文具推荐第一集]]，[[my-tools-2|文具推荐第二集]]
+可以参考 [[my-tools-1|文具推荐第一集]]
 
 ## 其他好用的工具
 
