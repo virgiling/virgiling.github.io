@@ -5,7 +5,7 @@ tags:
   - 文具袋/文具推荐
   - 一些随笔/2024
 date: 2024-10-27
-lastmod: 2025-01-03
+lastmod: 2025-04-07
 draft: false
 cover: 
 ---
@@ -15,7 +15,7 @@ cover:
 差生文具多系列，这里分享（备忘）一下我的科研+开发工作流以及工具链，主要涉及到：
 
 1. [[search-and-read-paper|文献搜索 & 阅读]]
-2. [[build-my-blog|博客记录]]
+2. [[build-my-obsidian|搭建自己的 Obsidian]] 与 [[blog-record|使用 Quartz 搭建博客]]
 3. 组会 Slides 制作
 4. 科研代码
 5. 日常开发与实验
@@ -378,7 +378,3 @@ https://www.continue.dev/
 ### Latex
 
 没什么好说的，Latex 直接上 `overleaf`，虽然现在不付费的话编译速度极慢，不过本地配环境，字体等等一系列问题总会有一款问题比等编译更折磨人
-
-# 小结
-
-后续的内容请看 [[my-tools-2|差生文具店（第二集）]]

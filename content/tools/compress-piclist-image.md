@@ -3,9 +3,9 @@ title: PicList 上传前如何压缩图像
 description: 
 tags:
   - 文具袋/文具推荐
-  - 一些随笔/2024
+  - 文具袋/Obsidian
 date: 2024-10-27
-lastmod: 2025-01-03
+lastmod: 2025-04-07
 draft: false
 cover:
 ---
