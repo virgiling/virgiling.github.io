@@ -3,20 +3,19 @@
 .toc {
   display: flex;
   flex-direction: column;
-
   overflow-y: hidden;
-  min-height: 4rem;
-  flex: 0 1 auto;
+  min-height: 1.4rem;
+  flex: 0 0.5 auto;
 
   &:has(button.toc-header.collapsed) {
-    flex: 0 1 1.2rem;
+    flex: 0 1 1.4rem;
   }
 
-  & > h3 {
+  &>h3 {
     margin: 0;
   }
 
-  & > p {
+  &>p {
     margin: 0;
   }
 }
@@ -54,7 +53,7 @@ button.toc-header {
   }
 }
 
-.toc-content {
+ul.toc-content.overflow {
   list-style: none;
   overflow-y: auto;
   overflow-x: hidden;
@@ -73,8 +72,10 @@ button.toc-header {
     list-style: none;
     margin: 0.5rem 0;
     padding: 0;
+    max-height: calc(100% - 2rem);
+    overscroll-behavior: contain;
 
-    & > li > a {
+    &>li>a {
       color: var(--dark);
       display: block;
       position: relative;
