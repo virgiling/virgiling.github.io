@@ -48,45 +48,36 @@ ul.toc-content.overflow {
   overscroll-behavior: contain;
   list-style: none;
 
+
+
   &>li>a {
     color: var(--dark);
-    opacity: 0.9;
     transition:
       0.5s ease opacity,
       0.3s ease color;
     overflow-wrap: break-word;
     word-break: break-word;
+    box-sizing: border-box;
     border-radius: 4px;
 
     &.in-view {
       color: var(--secondary);
-      background: var(--highlight);
       font-weight: $semiBoldWeight;
       transform: translateX(2px);
     }
 
     &.read {
       color: var(--dark);
-      opacity: 0.5;
+      opacity: 0.75;
       transition: all 0.3s ease;
     }
+
   }
 
   @for $i from 0 through 6 {
     & .depth-#{$i} {
       padding-left: calc(1rem * #{$i});
     }
-  }
-}
-
-// 修改标题高亮动画样式
-@keyframes target-fade {
-  0% {
-    background-color: var(--highlight);
-  }
-
-  100% {
-    background-color: transparent;
   }
 }
 
