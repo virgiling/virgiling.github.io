@@ -23,6 +23,7 @@ import Comments from "./Comments"
 import FloatingButtons from "./FloatingButtons"
 import PageNavigation from "./PageNavigation"
 import Flex from "./Flex"
+import ConditionalRender from "./ConditionalRender"
 
 export {
   ArticleTitle,
@@ -50,4 +51,5 @@ export {
   FloatingButtons,
   PageNavigation,
   Flex,
+  ConditionalRender,
 }
