@@ -35,7 +35,7 @@
     "quartz": "./quartz/bootstrap-cli.mjs"
   },
   "dependencies": {
-    "@clack/prompts": "^0.10.0",
+    "@clack/prompts": "^0.10.1",
     "@expressive-code/plugin-collapsible-sections": "^0.40.2",
     "@expressive-code/plugin-frames": "^0.40.2",
     "@expressive-code/plugin-line-numbers": "^0.40.2",
@@ -90,7 +90,7 @@
     "rimraf": "^6.0.1",
     "satori": "^0.12.2",
     "serve-handler": "^6.1.6",
-    "sharp": "^0.34.0",
+    "sharp": "^0.34.1",
     "shiki": "^3.2.1",
     "source-map-support": "^0.5.21",
     "to-vfile": "^8.0.0",
