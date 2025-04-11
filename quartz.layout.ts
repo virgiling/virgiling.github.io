@@ -9,7 +9,7 @@ export const sharedPageComponents: SharedLayout = {
   footer: Component.Comments({
     provider: "giscus",
     options: {
-      repo: "topdeoo/topdeoo.github.io",
+      repo: "virgiling/virgiling.github.io",
       repoId: "R_kgDONbWvng",
       category: "Announcements",
       categoryId: "DIC_kwDONbWvns4ClFkN",

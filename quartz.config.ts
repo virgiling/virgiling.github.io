@@ -17,7 +17,7 @@ const config: QuartzConfig = {
       projectId: "pfddmzzkif"
     },
     locale: "zh-CN",
-    baseUrl: "topdeoo.github.io",
+    baseUrl: "virgiling.github.io",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
     theme: {
