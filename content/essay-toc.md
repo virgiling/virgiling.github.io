@@ -19,7 +19,7 @@ cover:
 
 # #一些随笔/2024
 
-2024 年在读研一（下半年研二），课程也比较多，写的内容比较少，大多都是在读论文，甚至[论文的 Slides](https://github.com/topdeoo/Course-Slides/tree/master/Seminar) 和博客是分开的
+2024 年在读研一（下半年研二），课程也比较多，写的内容比较少，大多都是在读论文，甚至[论文的 Slides](https://github.com/virgiling/Course-Slides/tree/master/Seminar) 和博客是分开的
 
 - 重新写代码的时候，感觉 `xmake` 不是很通用，于是尝试了一下 `cmake-init`，就此 [[CppProjectStarter|记录]]
 - 简单学了一些 [[Quantum-Algorithm-Preparation|量子算法]]，不过主要是为了组会做准备

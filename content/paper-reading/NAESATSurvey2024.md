@@ -12,7 +12,7 @@ zotero-key: 综述/调研
 
 > [!important]
 >
-> 这份调研阅读了很多份论文，这里会使用一个 `biblatex` 来给出引用，调研有一份 `Typst` 版，[可以参考](https://github.com/topdeoo/Course-Slides/tree/master/Survey/NAE-SAT)
+> 这份调研阅读了很多份论文，这里会使用一个 `biblatex` 来给出引用，调研有一份 `Typst` 版，[可以参考](https://github.com/virgiling/Course-Slides/tree/master/Survey/NAE-SAT)
 
 # NAE-SAT
 

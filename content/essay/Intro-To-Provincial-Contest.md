@@ -394,7 +394,7 @@ network:
 
 > 好像说这个代码没法控制行间距，所以导致行间距太大，一份长一点的代码就是好几页，也不好看，准备这段时间改改……（跑路了）
 
-代码的地址：[GitHub - topdeoo/CodePrint: A simple and ungly(?) code print service for XCPC](https://github.com/topdeoo/CodePrint)
+代码的地址：[GitHub - virgiling/CodePrint: A simple and ungly(?) code print service for XCPC](https://github.com/virgiling/CodePrint)
 
 使用的过程在项目的 `README` 中都有描述，此处略过。
 

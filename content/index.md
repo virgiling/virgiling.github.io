@@ -50,7 +50,7 @@ cover:
 
 ## 联系方式
 
-- [GitHub](https://github.com/topdeoo)
+- [GitHub](https://github.com/virgiling)
 
 - [Mail](mailto:virgiling7@gmail.com)
 
