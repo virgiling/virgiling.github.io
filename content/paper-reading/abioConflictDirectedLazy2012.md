@@ -23,7 +23,7 @@ citekey: abioConflictDirectedLazy2012
 >
 > 因此本文提出了一种求解器框架，在约束传播的过程中，我们有选择的分解（编码）那些 nogood 类型的变量，使得能够更快的求解问题。
 >
-> [查看 Slides](https://github.com/topdeoo/Course-Slides/tree/master/Seminar/2024-12-19)
+> [查看 Slides](https://github.com/virgiling/Course-Slides/tree/master/Seminar/2024-12-19)
 
 # Conflict Directed Lazy Decomposition
 

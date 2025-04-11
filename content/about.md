@@ -42,13 +42,13 @@ None 😭
 
 # Project
 
-- [NENU 学位论文模板-Typst 版](https://github.com/topdeoo/NENU-Thesis-Typst)：目前只实现了本科的格式，持续维护中
+- [NENU 学位论文模板-Typst 版](https://github.com/virgiling/NENU-Thesis-Typst)：目前只实现了本科的格式，持续维护中
 
-- [XCPC 现场打印服务](https://github.com/topdeoo/CodePrint)：提供给 XCPC 线下比赛中，不会使用 domjudge 的打印服务的主办方，目前缺少 docker 构建方式，考虑后续补为一键构建的方式
+- [XCPC 现场打印服务](https://github.com/virgiling/CodePrint)：提供给 XCPC 线下比赛中，不会使用 domjudge 的打印服务的主办方，目前缺少 docker 构建方式，考虑后续补为一键构建的方式
 
-- [Hyprland 配置文件](https://github.com/topdeoo/hyprland-dotfiles)：先前使用的 `Hyprland` + `Archlinux` 的一些桌面配置文件，仅供参考，可能已过时
+- [Hyprland 配置文件](https://github.com/virgiling/hyprland-dotfiles)：先前使用的 `Hyprland` + `Archlinux` 的一些桌面配置文件，仅供参考，可能已过时
 
-还有一些不太有意思的项目，可以在我的 [Github](https://github.com/topdeoo/) 中找到
+还有一些不太有意思的项目，可以在我的 [Github](https://github.com/virgiling/) 中找到
 
 # Experience
 

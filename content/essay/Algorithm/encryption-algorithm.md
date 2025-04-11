@@ -359,7 +359,7 @@ $$
 
 经过程序流程，生成四个 32 位数据（也就是最终的 `a`, `b`, `c`, `d`），最后联合起来成为一个 `128-bits` 散列数据，这样 `MD5`的工作就做完了。
 
-代码可详见 [topdeoo/encryption-algorithm (github.com)](https://github.com/topdeoo/encryption-algorithm)
+代码可详见 [virgiling/encryption-algorithm (github.com)](https://github.com/virgiling/encryption-algorithm)
 
 # 对称加密
 
@@ -551,4 +551,4 @@ $$
 
 在实际应用中，我们需要加密的信息不可能那么短，所以一般的选择都是通过 RSA 来传送 AES 的密钥，而真正的信息是通过 AES 来传输。
 
-RSA 的代码详见 [topdeoo/encryption-algorithm (github.com)](https://github.com/topdeoo/encryption-algorithm)
+RSA 的代码详见 [virgiling/encryption-algorithm (github.com)](https://github.com/virgiling/encryption-algorithm)

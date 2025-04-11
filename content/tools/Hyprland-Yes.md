@@ -79,7 +79,7 @@ ssh -o ProxyCommand='ncat --proxy-type socks5 --proxy 127.0.0.1:7080 virgil@<hos
 
 在 Hyprland 的 [Wiki](https://wiki.hyprland.org/) 中，官方给出了很多新手提示，并且也给出了一些软件的建议。
 
-你可以在 [hypr-dotfiles](https://github.com/topdeoo/hyprland-dotfiles) 找到我的配置，我使用的配置为：
+你可以在 [hypr-dotfiles](https://github.com/virgiling/hyprland-dotfiles) 找到我的配置，我使用的配置为：
 
 - 应用程序启动器：`rofi` ，主题是网上搜刮找到的
 - 顶部导航栏：`waybar`，主题搜刮来的，但也自己写了一些配置，但注意的是 `waybar` 其实和其他功能联动不强，你也可以使用 `ewww` 这个软件（似乎是 `Rust` 写的，速度应该有保障）
