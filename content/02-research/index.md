@@ -1,9 +1,9 @@
 ---
-title: 本科归档
+title: 研究&学习笔记
 description: 
 tags:
-  - 归档
-date: 2024-12-29
+  - Research
+date: 2025-04-14
 lastmod: 2025-04-14
 draft: false
 cover:
