@@ -71,7 +71,7 @@ const config: QuartzConfig = {
       Plugin.Description({ descriptionLength: 60 }),
       Plugin.LightBox(),
     ],
-    filters: [Plugin.RemoveDrafts()],
+    filters: [Plugin.RemoveDrafts(), Plugin.RemoveDiary()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
