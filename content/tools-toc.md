@@ -2,38 +2,82 @@
 title: 🧰 文具袋
 description: 
 tags:
-  - ToC
+  - MOC
 date: 2024-12-29
-lastmod: 2025-04-07
+lastmod: 2025-04-14
 draft: false
 cover:
 ---
 
 这里记录了我的文具袋系列，会写一些遇到的各种环境问题，推荐一些工具，以及分享我使用的开发工具与工作流等
 
-# 操作系统
+## 📝 开发环境配置
 
-使用的操作系统（开发环境）的演变如下：
+### 系统环境
 
-1. [[windows-with-wsl2|Windows + WSL2]]
-2. [[Manjaro-Linux|Manjaro 配置指北]]
-3. [[Hyprland-Yes|ArcoLinux 与 Hyprland 配置指北]]
-4. 回到了 1
+```dataview
+TABLE WITHOUT ID
+    link(file.link, title) as "📑 文档",
+    date as "📅 更新日期"
+FROM "03-tools"
+WHERE contains(file.name, "wsl") or contains(file.name, "Hyprland") or contains(file.name, "docker")
+SORT date DESC
+```
 
-# 工具
+### 编程语言环境
 
-## 我的开发工具链
+```dataview
+TABLE WITHOUT ID
+    link(file.link, title) as "📑 文档",
+    date as "📅 更新日期"
+FROM "03-tools"
+WHERE contains(file.name, "CppProject") or contains(file.name, "my-tools")
+SORT date DESC
+```
 
-可以参考 [[my-tools-1|文具推荐第一集]]
+## 🔧 工具推荐
 
-## 其他好用的工具
+### 笔记与知识管理
 
-- `cmake-init` 与 `conan2` ，一个好用的 [[CppProjectStarter|C++ 项目初始化工具]]
+```dataview
+TABLE WITHOUT ID
+    link(file.link, title) as "📑 文档",
+    date as "📅 更新日期"
+FROM "03-tools"
+WHERE contains(file.name, "obsidian")
+SORT date DESC
+```
 
-# 环境问题与解决方法
+### 研究工具
 
-遇到比较有意思的问题可能会记录下来，但是大多数应该都会在 #环境配置 中注明了解决方法
+```dataview
+TABLE WITHOUT ID
+    link(file.link, title) as "📑 文档",
+    date as "📅 更新日期"
+FROM "03-tools"
+WHERE contains(file.name, "paper") or contains(file.name, "gporf")
+SORT date DESC
+```
 
-- [[gporf-note|gprof 测量的时间与实际运行时间存在很大偏差]]
+### 博客工具
 
-- [[eduhk-web-server|docker compose 导致宿主机网络崩溃，无法 ssh 上]]
+```dataview
+TABLE WITHOUT ID
+    link(file.link, title) as "📑 文档",
+    date as "📅 更新日期"
+FROM "03-tools"
+WHERE contains(file.name, "blog") or contains(file.name, "compress")
+SORT date DESC
+```
+
+## 💡 所有工具列表
+
+```dataview
+TABLE WITHOUT ID
+    link(file.link, title) as "📑 文档",
+    date as "📅 更新日期",
+    join(tags, ", ") as "🏷️ 标签"
+FROM "03-tools"
+WHERE file.name != "index" AND file.name != "tools-toc"
+SORT date DESC
+```

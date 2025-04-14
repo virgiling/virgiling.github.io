@@ -1,12 +1,12 @@
 ---
 title: 🛌 关于
 description: 关于 Virgil 的详细内容，这里记录了一些个人喜好，发表论文以及修习的课程
-tags:
-  - About
+tags: []
 date: 2022-03-29
-lastmod: 2024-12-29
+lastmod: 2025-04-14
 draft: false
-comments: false
+cover: 
+comments: true
 ---
 
 ```poetry
@@ -54,7 +54,7 @@ None 😭
 
 - 协助举办了 2023 CCPC 吉林省赛，2024 CCPC 吉林省赛与东北四省赛 （技术支持），可以参考随笔中的 [[Intro-To-Provincial-Contest|2023 吉林省赛环境配置]]
 
-- 在 ICT 简单实习了一个多月，学习了一些 #MLSys/AI编译器  的内容，可以参考随笔中的 [[essay/ICT/index|ICT 实习经历]]
+- 在 ICT 简单实习了一个多月，学习了一些 #Research/笔记/ML-Sys  的内容，可以参考随笔中的 [[02-research/22-notes/ML-Sys/index|ICT 实习经历]]
 
 # Courses
 

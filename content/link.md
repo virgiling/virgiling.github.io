@@ -1,10 +1,9 @@
 ---
 title: 🔗友链
 description: 
-tags:
-  - About
+tags: []
 date: 2022-03-29
-lastmod: 2024-12-29
+lastmod: 2025-04-12-29
 draft: false
 ---
 
