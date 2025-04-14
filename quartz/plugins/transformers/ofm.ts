@@ -331,6 +331,13 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
             replacements.push([
               tagRegex,
               (_value: string, tag: string) => {
+
+                // Exclude tags that are use for the `Tars` plugin
+                const excludedTags = ['AI', 'Sys', 'virgil', 'task', 'NewChat']
+                if (excludedTags.includes(tag)) {
+                  return false
+                }
+
                 // Check if the tag only includes numbers and slashes
                 if (/^[\/\d]+$/.test(tag)) {
                   return false
