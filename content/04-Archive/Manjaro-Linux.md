@@ -2,7 +2,7 @@
 title: Manjaro 的安装与配置
 description: 由于在 Windows 下开WSL和IDE导致电脑内存已经吃不消了，所以我直接把电脑系统刷成了 Linux （彻底疯狂了），这里记录一下我的配置过程
 tags:
-  - 文具袋/系统配置
+  - 文具袋/环境配置
   - Research/笔记/ML-Sys
 date: 2023-05-12
 lastmod: 2024-12-29

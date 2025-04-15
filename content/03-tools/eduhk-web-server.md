@@ -1,11 +1,12 @@
 ---
-title: 外包项目问题记录与解决
+title: 服务器中的容器无法 ssh 连接
 description: 
 tags:
-  - 文具袋/各类Issues
+  - 文具袋/环境配置
 date: 2024-11-13
-lastmod: 2024-12-29
+lastmod: 2025-04-15
 draft: false
+cover:
 ---
 
 # 安装系统问题

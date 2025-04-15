@@ -2,7 +2,7 @@
 title: 环境配置
 description: Stanford CS143 实验环境安装与配置
 tags:
-  - 环境配置
+  - 文具袋/环境配置
   - 公开课/Stanford/CS143
 date: 2022-07-16
 lastmod: 2025-04-14

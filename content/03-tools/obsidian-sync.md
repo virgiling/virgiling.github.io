@@ -4,7 +4,7 @@ description:
 tags:
   - 文具袋/Obsidian
 date: 2025-04-07
-lastmod: 2025-04-07
+lastmod: 2025-04-15
 draft: false
 cover:
 ---
@@ -16,6 +16,10 @@ cover:
 ![image.png|218](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20250407211324383.png)
 
 其中，`Obsidian Sync` 为官方的付费同步模式
+
+> [!attention] 更新注意
+>
+> 建议使用 S3 或其他 WebDav，本人已经给 Obsidian 上供了 😭
 
 这里介绍两种我使用的同步方式
 
@@ -37,11 +41,11 @@ content/drawing/*.png
 
 另一个不好的点是，`Git` 对于大文件的支持不是很好，如果历史版本中有一个大文件，那么会导致后面的每次版本都记录，导致 `.git` 文件夹非常大，显然这也不是我们希望的（哎，要求真多），所以我们有下面这种方式。
 
-## WebDav
+## OneDrive & WebDav
 
 通过插件 [Remotely Save](https://github.com/remotely-save/remotely-save) 进行同步，你可以选择自己的 `WebDAV` 进行同步，这里我推荐使用 `Onedrive` 或者坚果云
 
-> [!attention] 坚果云 BUG
+> [!bug] 坚果云 BUG
 >
 > 值得注意的是，如果使用坚果云时常出现 503 的错误，一个简单的解决方式是在网页端把这个文件夹删了，然后重新同步
 

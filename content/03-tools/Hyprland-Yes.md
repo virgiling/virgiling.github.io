@@ -2,7 +2,7 @@
 title: Hyprland Yes!
 description: 如何从 X11 转向 Wayland 下的配置
 tags:
-  - 文具袋/系统配置
+  - 文具袋/环境配置
 date: 2024-01-27
 lastmod: 2024-12-29
 draft: false

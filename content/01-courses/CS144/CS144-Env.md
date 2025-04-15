@@ -2,7 +2,7 @@
 title: 环境配置
 description: CS144 的一些准备工作
 tags:
-  - 环境配置
+  - 文具袋/环境配置
   - 公开课/Stanford/CS144
 date: 2023-02-20
 lastmod: 2025-04-14

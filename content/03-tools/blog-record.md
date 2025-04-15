@@ -119,7 +119,7 @@ export const sharedPageComponents: SharedLayout = {
 
 ## 字体
 
-对于字体而言，我使用的和 [[my-tools-1#主题与插件|Obsidian 字体]] 中所述的一致，我们需要在 `quartz/style/custom.scss` 中进行配置：
+对于字体而言，我使用的和 [[my-tools#主题与插件|Obsidian 字体]] 中所述的一致，我们需要在 `quartz/style/custom.scss` 中进行配置：
 
 ```scss showLineNumbers warp {"Add Bookerly into LXGW": 24-32}
 @font-face {

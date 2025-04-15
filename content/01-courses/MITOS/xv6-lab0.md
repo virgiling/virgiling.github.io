@@ -2,7 +2,7 @@
 title: Lab0 Tools
 description: 
 tags:
-  - 环境配置
+  - 文具袋/环境配置
   - 公开课/MIT/6-S081
 date: 2022-04-01
 lastmod: 2025-04-14

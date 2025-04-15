@@ -2,10 +2,9 @@
 title: C++ 项目初始化指北
 description: 
 tags:
-  - 环境配置
   - 文具袋/文具推荐
 date: 2024-12-21
-lastmod: 2025-04-14
+lastmod: 2025-04-15
 draft: false
 cover:
 ---
