@@ -2,7 +2,7 @@
 title: 实验环境与 Lab0 (sp23)
 description: Stanford CS144 Spring 2023 实验环境与 Lab0
 tags:
-  - 环境配置
+  - 文具袋/环境配置
   - 公开课/Stanford/CS144
 date: 2023-10-05
 lastmod: 2025-04-14

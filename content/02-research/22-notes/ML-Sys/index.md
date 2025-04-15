@@ -1,10 +1,10 @@
 ---
-title: ICT 实习记录
+title: 在 ICT 学习的 MLSys
 description: 
 tags:
   - Research/笔记/ML-Sys
 date: 2023-06-06
-lastmod: 2025-04-14
+lastmod: 2025-04-15
 draft: false
 cover: 
 comments: false

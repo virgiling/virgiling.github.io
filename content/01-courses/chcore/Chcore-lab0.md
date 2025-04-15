@@ -2,7 +2,7 @@
 title: Machine Boot
 description: Set the envrionment and boot the machine
 tags:
-  - 环境配置
+  - 文具袋/环境配置
 date: 2023-09-11
 lastmod: 2025-04-14
 draft: false

@@ -2,7 +2,7 @@
 title: TVM 运行环境搭建
 description: 介绍如何在一台只有 docker 的环境的服务器下配置 tvm 运行环境
 tags:
-  - 环境配置
+  - 文具袋/环境配置
   - Research/笔记/ML-Sys
 date: 2023-06-06
 lastmod: 2025-04-14

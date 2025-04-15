@@ -2,7 +2,7 @@
 title: 环境搭建
 description: Project Setup & Simple Test
 tags:
-  - 环境配置
+  - 文具袋/环境配置
   - 公开课/PKU/OS
 date: 2023-08-10
 lastmod: 2025-04-14

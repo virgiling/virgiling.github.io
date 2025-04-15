@@ -4,7 +4,7 @@ description:
 tags:
   - MOC
 date: 2024-12-28
-lastmod: 2025-04-14
+lastmod: 2025-04-15
 draft: false
 cover:
 ---
@@ -13,7 +13,7 @@ cover:
 
 # 基础工具
 
-这部分课程会教会你，CS 系的学生如何使用电脑
+这部分课程会教会你，CS 系的学生如何使用电脑，当然，鉴于大家的电脑大多都还是 `Windows`，我推荐首先阅读 [[how-to-use-wsl2|如何在 Windows 上使用 Linux]] 来试试看 WSL。
 
 ## MIT Missing Semester
 

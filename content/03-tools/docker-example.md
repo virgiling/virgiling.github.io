@@ -2,7 +2,7 @@
 title: docker 配置各类实验环境
 description: 
 tags:
-  - 环境配置
+  - 文具袋/环境配置
 date: 2024-06-03
 lastmod: 2025-04-14
 draft: false

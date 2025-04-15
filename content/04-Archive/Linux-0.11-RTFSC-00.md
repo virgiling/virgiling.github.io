@@ -2,7 +2,7 @@
 title: Linux-0.11 RTFSC 环境配置
 description: 
 tags:
-  - 环境配置
+  - 文具袋/环境配置
 date: 2023-11-17
 lastmod: 2025-04-14
 draft: false

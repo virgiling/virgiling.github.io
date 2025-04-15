@@ -2,9 +2,9 @@
 title: 2023 吉林省赛环境配置
 description: "省赛配置流程，当做遗产留下来   "
 tags:
-  - 环境配置
+  - 归档/教程
 date: 2023-04-19
-lastmod: 2025-04-14
+lastmod: 2025-04-15
 draft: false
 cover:
 ---
