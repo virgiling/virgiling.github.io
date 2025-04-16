@@ -1,10 +1,10 @@
 ---
-title: gprof 的一些使用指北
+title: gprof 测不准原理
 description: 
 tags:
-  - 归档/教程
+  - 文具袋/Issues
 date: 2024-07-09
-lastmod: 2025-04-15
+lastmod: 2025-04-16
 draft: false
 cover:
 ---

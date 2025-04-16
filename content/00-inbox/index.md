@@ -1,13 +1,16 @@
 ---
-title: 差生文具店
+title: 想法集合卡片
 description: 
-tags: 
-date: 2025-01-03
+tags:
+  - Status/Typing
+  - MOC
+date: 2025-04-16
 lastmod: 2025-04-16
-draft: false
+draft: true
 cover:
 ---
 
+ 
 ```ccard
 type: folder_brief_live
 ```

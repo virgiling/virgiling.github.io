@@ -4,7 +4,7 @@ description:
 tags:
   - 文具袋/环境配置
 date: 2023-11-17
-lastmod: 2025-04-14
+lastmod: 2025-04-16
 draft: false
 cover:
 ---
@@ -43,7 +43,7 @@ run wget https://github.com/yuan-xy/Linux-0.11/archive/refs/heads/master.zip && 
     unzip linux-0.11.zip
 ```
 
-这里考虑到从 [原版](kernel.org) 开始构建会比较麻烦，毕竟 `Linux 0.11` 是很早期的版本了，所以直接用了别人修改过的项目（当然关于源码的部分是肯定没改的）
+这里考虑到从 [原版](https://kernel.org/) 开始构建会比较麻烦，毕竟 `Linux 0.11` 是很早期的版本了，所以直接用了别人修改过的项目（当然关于源码的部分是肯定没改的）
 
 输入命令：
 
