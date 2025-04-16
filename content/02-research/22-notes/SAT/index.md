@@ -1,10 +1,10 @@
 ---
-title: TAOCP 4B & SAT Handbook 阅读
+title: SAT 求解器
 description: 
 tags:
   - Research/笔记/SAT
 date: 2025-03-19
-lastmod: 2025-04-14
+lastmod: 2025-04-15
 draft: false
 cover:
 ---
