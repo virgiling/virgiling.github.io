@@ -6,7 +6,7 @@ tags:
   - 文具袋/Obsidian
 date: 2025-04-16
 lastmod: 2025-04-16
-draft: false
+draft: true
 cover:
 ---
 这篇文章主要被下面这张图驱动，通过这样的提问 + 记录来捕捉 & 整理自己的想法，我认为是极其重要的
