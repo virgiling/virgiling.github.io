@@ -35,14 +35,22 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
     Component.DesktopOnly(Component.RecentNotes({ limit: 3, showTags: false })),
-    Component.Explorer({}),
+    Component.Flex({
+      components: [
+        {
+          Component: Component.Search(),
+          grow: true,
+        },
+        { Component: Component.ReaderMode() },
+      ],
+    }),
     Component.DesktopOnly(
       Component.FloatingButtons({
         position: "right",
       }),
     ),
+    Component.Explorer(),
   ],
   right: [
     Component.Graph({ globalGraph: { fontSize: 0.4 } }),
