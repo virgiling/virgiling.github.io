@@ -2,9 +2,9 @@
 title: 使用 Quartz 搭建博客
 description: 
 tags:
-  - 文具袋/文具推荐
+  - 文具袋/博客相关
 date: 2024-12-20
-lastmod: 2025-04-07
+lastmod: 2025-04-18
 draft: false
 cover:
 ---
@@ -37,7 +37,20 @@ npx quartz build --serve --concurrency 4
 
 随后，就能够在 [localhost:8080](localhost:8080) 打开构建完成的网页了，生成的所有 `html` 文件都在 `public` 文件夹中
 
-# `Quartz` 基础配置
+# Quartz 的持续更新
+
+在上一步中，我们将 `git` 仓库的 `remote` 设置为了你自己的博客仓库，别名为 `origin`，这里，如果你想追随 Quartz 的更新的话，可以按照以下方式进行：
+
+1. 设置另一个 `remote` 如下：
+
+   ```bash
+   git remote add public git@github.com:jackyzha0/quartz.git
+   ```
+
+2. 每天运行 `git fetch public` 获取上游的更新（牢记之前更新的 `commit`，可以通过标签记录，或者 Ob 直接记录）
+3. 将未更新的 `commit`，使用 [[VSCode-and-Cursor-Usage#版本管理|VSCode中的版本管理]] 插件进行 `cherry pick` 操作即可，`commit` 信息也可一同保留提交
+
+# Quartz 基础配置
 
 基础配置需要在 `quartz.config.ts` 中进行配置，需要注意的只有三个部分：
 
@@ -74,7 +87,7 @@ analytics: {
 
 > [!note]-
 >
-> 在 2024-12-23 时，`typst` 暂时还无法使用，原因是[上游的包](https://www.npmjs.com/package/@myriaddreamin/rehype-typst) 还没有更新，会导致构建失败（问题在于 `locate` 这个函数在 `typst` 中已经被弃用了）
+> ~~在 2024-12-23 时，`typst` 暂时还无法使用，原因是[上游的包](https://www.npmjs.com/package/@myriaddreamin/rehype-typst) 还没有更新，会导致构建失败（问题在于 `locate` 这个函数在 `typst` 中已经被弃用了）~~
 
 # 布局配置
 

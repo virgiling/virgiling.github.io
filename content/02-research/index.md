@@ -1,9 +1,10 @@
 ---
 title: 研究&学习笔记
 description: 
-tags: 
+tags:
+  - Research
 date: 2025-04-14
-lastmod: 2025-04-17
+lastmod: 2025-04-18
 draft: false
 cover:
 ---

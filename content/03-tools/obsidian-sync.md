@@ -4,7 +4,7 @@ description:
 tags:
   - 文具袋/Obsidian
 date: 2025-04-07
-lastmod: 2025-04-15
+lastmod: 2025-04-19
 draft: false
 cover:
 ---
@@ -19,11 +19,11 @@ cover:
 
 > [!attention] 更新注意
 >
-> 建议使用 S3 或其他 WebDav，本人已经给 Obsidian 上供了 😭
+> 建议使用 S3 或其他 WebDav，本人现在使用的是 iCloud + Git 的同步方法
+>
+> 也就是把 Obsidian 的文件夹设置为一个 Git 仓库，然后放在 iCloud 里面，[[blog-record|博客]] 需要的 content 目录就使用 git submodule 来指定
 
-这里介绍两种我使用的同步方式
-
-## Git
+# Git 同步
 
 首先，显然我使用 `Git` + `Github` 来进行同步，但这主要是因为我的知识库和我的博客是一体的，博客放置在 `Github` 上，所以自然而然的，我的知识库也可以通过 `Git` 来进行同步了。
 
@@ -41,7 +41,7 @@ content/drawing/*.png
 
 另一个不好的点是，`Git` 对于大文件的支持不是很好，如果历史版本中有一个大文件，那么会导致后面的每次版本都记录，导致 `.git` 文件夹非常大，显然这也不是我们希望的（哎，要求真多），所以我们有下面这种方式。
 
-## OneDrive & WebDav
+# OneDrive & WebDav 同步
 
 通过插件 [Remotely Save](https://github.com/remotely-save/remotely-save) 进行同步，你可以选择自己的 `WebDAV` 进行同步，这里我推荐使用 `Onedrive` 或者坚果云
 
@@ -52,3 +52,5 @@ content/drawing/*.png
 # 同步配置
 
 值得注意的是，这两种方法都不太适合同步 `.obsidian` 文件夹，所以我建议在云端保存一份 `.obsidian` 的备份，这样只需要每次从云端下载即可
+
+这个云端可以是百度云/夸克云盘/阿里云盘
