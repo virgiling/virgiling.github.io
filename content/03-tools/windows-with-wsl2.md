@@ -4,7 +4,7 @@ description:
 tags:
   - 文具袋/文具推荐
 date: 2025-04-07
-lastmod: 2025-04-14
+lastmod: 2025-04-18
 draft: false
 cover:
 ---
@@ -33,6 +33,8 @@ cover:
 
 这样就能保证主分支确实是一个功能一次 commit，保证 commit 清爽
 
+> [!tip] 
+> 
 > 关于如何写 commit，可以参考文章 [Git Commit message 编写指南](https://help.gitee.com/enterprise/code-manage/Git%20%E7%9F%A5%E8%AF%86%E5%A4%A7%E5%85%A8/Git%20Commit%20message%20%E7%BC%96%E5%86%99%E6%8C%87%E5%8D%97)
 
 # 实验

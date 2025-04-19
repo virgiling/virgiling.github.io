@@ -4,7 +4,7 @@ description:
 tags:
   - MOC
 date: 2024-12-29
-lastmod: 2025-04-14
+lastmod: 2025-04-18
 draft: false
 cover:
 ---
@@ -18,56 +18,44 @@ cover:
 ```dataview
 TABLE WITHOUT ID
     link(file.link, title) as "📑 文档",
-    date as "📅 更新日期"
+    lastmod as "📅 更新日期"
 FROM "03-tools"
-WHERE contains(file.name, "wsl") or contains(file.name, "Hyprland") or contains(file.name, "docker")
-SORT date DESC
-```
-
-### 编程语言环境
-
-```dataview
-TABLE WITHOUT ID
-    link(file.link, title) as "📑 文档",
-    date as "📅 更新日期"
-FROM "03-tools"
-WHERE contains(file.name, "CppProject") or contains(file.name, "my-tools")
-SORT date DESC
+WHERE contains(file.tags, "#文具袋/环境配置") or contains(file.tags, "#文具袋/Issues")
+SORT lastmod DESC
 ```
 
 ## 🔧 工具推荐
 
-### 笔记与知识管理
+### 开发/科研工具推荐
 
 ```dataview
 TABLE WITHOUT ID
     link(file.link, title) as "📑 文档",
-    date as "📅 更新日期"
+    lastmod as "📅 更新日期"
 FROM "03-tools"
-WHERE contains(file.name, "obsidian")
-SORT date DESC
+WHERE contains(file.tags, "#文具袋/文具推荐")
+SORT lastmod DESC
+```
+### Obsidian 相关
+
+```dataview
+TABLE WITHOUT ID
+    link(file.link, title) as "📑 文档",
+    lastmod as "📅 更新日期"
+FROM "03-tools"
+WHERE contains(file.tags, "#文具袋/Obsidian")
+SORT lastmod DESC
 ```
 
-### 研究工具
+### 博客相关
 
 ```dataview
 TABLE WITHOUT ID
     link(file.link, title) as "📑 文档",
-    date as "📅 更新日期"
+    lastmod as "📅 更新日期"
 FROM "03-tools"
-WHERE contains(file.name, "paper") or contains(file.name, "gporf")
-SORT date DESC
-```
-
-### 博客工具
-
-```dataview
-TABLE WITHOUT ID
-    link(file.link, title) as "📑 文档",
-    date as "📅 更新日期"
-FROM "03-tools"
-WHERE contains(file.name, "blog") or contains(file.name, "compress")
-SORT date DESC
+WHERE contains(file.tags, "#文具袋/博客相关")
+SORT lastmod DESC
 ```
 
 ## 💡 所有工具列表
@@ -75,9 +63,9 @@ SORT date DESC
 ```dataview
 TABLE WITHOUT ID
     link(file.link, title) as "📑 文档",
-    date as "📅 更新日期",
+    lastmod as "📅 更新日期",
     join(tags, ", ") as "🏷️ 标签"
 FROM "03-tools"
 WHERE file.name != "index" AND file.name != "tools-toc"
-SORT date DESC
+SORT lastmod DESC
 ```

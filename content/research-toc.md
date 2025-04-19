@@ -4,7 +4,7 @@ description: 研究论文阅读与笔记整理
 tags:
   - MOC
 date: 2024-03-26
-lastmod: 2025-04-14
+lastmod: 2025-04-18
 draft: false
 cover: 
 ---
@@ -22,7 +22,7 @@ SORT date DESC
 LIMIT 5
 ```
 
-# 📝 正在阅读
+# 📝 正在跟进
 
 ```dataview
 TABLE WITHOUT ID
