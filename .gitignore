@@ -13,5 +13,4 @@ ZtTemplates
 外包项目文档
 covers
 Excalidraw
-content/drawing/*.png
-content/10-daily
+*.png
