@@ -17,7 +17,7 @@ const config: QuartzConfig = {
       projectId: "pfddmzzkif"
     },
     locale: "zh-CN",
-    baseUrl: "virgiling.github.io",
+    baseUrl: "virgiling.wiki",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
     theme: {
@@ -84,6 +84,7 @@ const config: QuartzConfig = {
       }),
       Plugin.Assets(),
       Plugin.Static(),
+      Plugin.Favicon(),
       Plugin.NotFoundPage(),
       Plugin.CNAME(),
       // Comment out CustomOgImages to speed up build time
