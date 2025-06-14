@@ -4,7 +4,7 @@ description: 2023 NENU夏令营机试 Tutorial
 tags:
   - 归档/XCPC
 date: 2023-09-20
-lastmod: 2025-04-15
+lastmod: 2025-06-09
 draft: false
 cover: 
 ---
@@ -197,7 +197,7 @@ int main(void) {
 
 ### Tutorial
 
-这题可以参考 [[codeforces-practice]] 文章中的(链接为 [[codeforces-practice|Practice]] )) H. Beppa and SwerChat
+这题可以参考 H. Beppa and SwerChat
 
 ### Solution
 

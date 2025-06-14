@@ -5,7 +5,7 @@ tags:
   - Research/阅读/SAT
   - CCF/B/CP
 date: 2024-12-17
-lastmod: 2025-04-14
+lastmod: 2025-06-09
 draft: false
 cover: 
 zotero-key: W57CN6LV
@@ -111,7 +111,7 @@ $$
 
 # Lazy Clause Generation
 
-我们首先介绍什么是 [[stuckeyLazyClauseGeneration2010|Lazy Clause Generation]]
+我们首先介绍什么是 Lazy Clause Generation
 
 > [!tldr]
 >
