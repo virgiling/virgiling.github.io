@@ -4,7 +4,7 @@ description:
 tags:
   - Research/笔记/SAT
 date: 2025-03-19
-lastmod: 2025-04-15
+lastmod: 2025-06-09
 draft: false
 cover:
 ---
@@ -14,4 +14,4 @@ cover:
 - [Handbook of Satisfiability](https://www.iospress.com/catalog/books/handbook-of-satisfiability-2)
 - [Handbook of Parallel Constraint Reasoning](https://link.springer.com/book/10.1007/978-3-319-63516-3)
 
-以及各种论文
+以及各种论文还有最经典的 [CDCL 求解器](https://github.com/arminbiere/cadical#)
