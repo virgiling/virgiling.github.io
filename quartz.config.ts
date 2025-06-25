@@ -12,10 +12,7 @@ const config: QuartzConfig = {
     pageTitleSuffix: " | 思想犯",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "clarity",
-      projectId: "pfddmzzkif"
-    },
+    analytics: null, 
     locale: "zh-CN",
     baseUrl: "virgiling.wiki",
     ignorePatterns: ["private", "templates", ".obsidian"],
