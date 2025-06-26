@@ -7,6 +7,7 @@ date: 2024-12-20
 lastmod: 2025-04-18
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 
 # Quartz 的构建

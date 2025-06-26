@@ -7,6 +7,7 @@ date: 2025-04-15
 lastmod: 2025-04-15
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 
 关于 `Slides` 的制作，有三种方式：

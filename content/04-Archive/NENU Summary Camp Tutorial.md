@@ -7,6 +7,7 @@ date: 2023-09-20
 lastmod: 2025-06-09
 draft: false
 cover: 
+location: 29.861522, 118.412128
 ---
 
 > 本人出了其中三题，来谢罪了

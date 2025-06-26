@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/SAT
   - CCF/B/CP
+  - conference
 date: 2025-03-16
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: true
 cover: 
 zotero-key: L4UF76PH
@@ -13,6 +14,7 @@ zt-attachments:
   - "868"
 citekey: devriendtWatchedPropagation$0$1$2020
 link: https://link.springer.com/10.1007/978-3-030-58475-7_10
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

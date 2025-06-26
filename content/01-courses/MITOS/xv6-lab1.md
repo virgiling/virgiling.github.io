@@ -4,9 +4,10 @@ description:
 tags:
   - 公开课/MIT/6-S081
 date: 2022-04-01
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 20230628183743.png
+location: 43.82579017431815, 125.42148526445521
 ---
 
 Lab1 的内容是简单的熟悉 xv6 操作系统和怎么做实验，官网上对实验难度的描述是`easy` , `easy`, `moderate/hard`, `moderate`, `moderate`。

@@ -8,6 +8,7 @@ date: 2025-04-07
 lastmod: 2025-06-01
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 > [!attention]  免责声明
 > 

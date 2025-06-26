@@ -7,6 +7,7 @@ date: 2023-07-27
 lastmod: 2025-04-14
 draft: false
 cover: 20230727232116.png
+location: 43.82579017431815, 125.42148526445521
 ---
 > [!important] 实验须知
 > 

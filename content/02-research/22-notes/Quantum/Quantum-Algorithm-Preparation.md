@@ -7,6 +7,7 @@ date: 2024-12-15
 lastmod: 2025-04-14
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 
 > [!important]

@@ -7,6 +7,7 @@ date: 2025-06-09
 lastmod: 2025-06-16
 draft: true
 cover:
+location: 43.8259282,125.4254779
 ---
 # 前言
 

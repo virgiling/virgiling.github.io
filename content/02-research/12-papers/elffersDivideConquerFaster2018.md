@@ -4,14 +4,16 @@ description:
 tags:
   - Research/阅读/SAT
   - CCF/A/IJCAI
+  - conference
 date: 2025-01-01
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: TNN4CGDN
 zt-attachments:
   - "900"
 citekey: elffersDivideConquerFaster2018
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

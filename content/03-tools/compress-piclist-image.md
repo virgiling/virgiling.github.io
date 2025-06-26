@@ -8,6 +8,7 @@ date: 2024-10-27
 lastmod: 2025-04-16
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 
 > [!danger] 注意

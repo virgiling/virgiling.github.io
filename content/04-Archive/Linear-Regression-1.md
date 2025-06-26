@@ -7,6 +7,7 @@ date: 2022-07-31
 lastmod: 2025-04-15
 draft: false
 cover:
+location: 29.861522, 118.412128
 ---
 
 > [!note] 阅读更多

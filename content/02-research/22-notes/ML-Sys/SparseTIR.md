@@ -7,6 +7,7 @@ date: 2023-06-16
 lastmod: 2025-04-14
 draft: false
 cover: 
+location: 39.981869, 116.3262223
 ---
 
 `SparseTIR` 解读（[论文](https://dl.acm.org/doi/pdf/10.1145/3582016.3582047)、[源码](https://github.com/uwsampl/SparseTIR) ）

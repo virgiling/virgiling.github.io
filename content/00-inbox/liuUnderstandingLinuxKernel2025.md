@@ -5,8 +5,9 @@ tags:
   - Research/阅读/OS
   - CCF/A/EuroSys
   - Status/Typing
+  - conference
 date: 2025-04-22
-lastmod: 2025-04-23
+lastmod: 2025-06-26
 draft: true
 cover: 
 zotero-key: AKMC8NYI
@@ -14,6 +15,7 @@ zt-attachments:
   - "1063"
 citekey: liuUnderstandingLinuxKernel2025
 link: https://dl.acm.org/doi/10.1145/3689031.3696095
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

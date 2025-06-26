@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/SAT
   - CCF/A/AAAI
+  - conference
 date: 2025-03-16
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: true
 cover: 
 zotero-key: XRTZXIW4
@@ -13,6 +14,7 @@ zt-attachments:
   - "250"
 citekey: devriendtCuttingCorePseudoBoolean2021
 link: https://ojs.aaai.org/index.php/AAAI/article/view/16492
+location: 43.8259282,125.4254779
 ---
 > [!tldr]
 > 

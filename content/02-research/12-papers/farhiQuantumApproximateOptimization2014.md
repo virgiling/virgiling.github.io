@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/量子算法
   - CCF/None/Arxiv
+  - journal
 date: 2024-12-12
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: E58SF83N
@@ -13,6 +14,7 @@ zt-attachments:
   - "722"
 citekey: farhiQuantumApproximateOptimization2014
 link: http://arxiv.org/abs/1411.4028
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

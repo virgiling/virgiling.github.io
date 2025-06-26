@@ -5,8 +5,9 @@ tags:
   - Research/阅读/SAT
   - CCF/A/CAV
   - Status/Following
+  - conference
 date: 2025-03-10
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: H7XNRYL7
@@ -14,6 +15,7 @@ zt-attachments:
   - "1003"
 citekey: reevesClausesKlauses2024
 link: https://link.springer.com/10.1007/978-3-031-65627-9_6
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

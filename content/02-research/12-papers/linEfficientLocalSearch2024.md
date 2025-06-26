@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/PBO
   - CCF/B/CP
+  - conference
 date: 2025-01-01
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: true
 cover: 
 zotero-key: RQFLISRX
@@ -13,6 +14,7 @@ zt-attachments:
   - "959"
 citekey: linEfficientLocalSearch2024
 link: https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.CP.2024.19
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

@@ -7,6 +7,7 @@ date: 2023-11-17
 lastmod: 2025-04-16
 draft: false
 cover:
+location: 39.981869, 116.3262223
 ---
 
 # 环境搭建

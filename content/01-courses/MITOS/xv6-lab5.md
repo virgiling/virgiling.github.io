@@ -4,9 +4,10 @@ description:
 tags:
   - 公开课/MIT/6-S081
 date: 2022-09-04
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 20230628183743.png
+location: 43.82579017431815, 125.42148526445521
 ---
 
 实验早就做好了但是…… 思路借鉴了课程中 `Prof. Robert Morris` 的思路，实验只有一题但是是 `hard`

@@ -7,6 +7,7 @@ date: 2025-05-27
 lastmod: 2025-05-29
 draft: true
 cover:
+location: 43.8259282,125.4254779
 ---
 # 前期提要
 

@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/PBO
   - CCF/A/IJCAI
+  - conference
 date: 2024-12-31
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: AJDPEHKJ
@@ -13,6 +14,7 @@ zt-attachments:
   - "875"
 citekey: leiExtendedConjunctiveNormal2020
 link: https://www.ijcai.org/proceedings/2020/159
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

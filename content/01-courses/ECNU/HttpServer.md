@@ -7,6 +7,7 @@ date: 2022-06-23
 lastmod: 2025-04-14
 draft: false
 cover: covers/Dase-cover.png
+location: 29.861522, 118.412128
 ---
 
 > 本项目源代码已上传至 Github: [virgiling/Computer-Net-Project (github.com)](https://github.com/virgiling/Computer-Net-Project)

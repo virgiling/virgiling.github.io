@@ -4,15 +4,16 @@ description:
 tags:
   - Research/阅读/PBO
   - CCF/B/CP
+  - conference
 date: 2024-12-31
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: CEGP8VJB
 zt-attachments:
   - "944"
 citekey: chenParLSPBOParallelLocal2024
-link: http://arxiv.org/abs/2407.21729
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

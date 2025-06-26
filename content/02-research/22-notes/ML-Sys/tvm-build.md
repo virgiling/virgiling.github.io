@@ -8,6 +8,7 @@ date: 2023-06-06
 lastmod: 2025-04-14
 draft: false
 cover: 
+location: 39.981869, 116.3262223
 ---
 
 

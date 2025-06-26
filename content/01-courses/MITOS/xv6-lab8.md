@@ -7,6 +7,7 @@ date: 2022-09-12
 lastmod: 2025-04-14
 draft: false
 cover: 20230628183743.png
+location: 43.82579017431815, 125.42148526445521
 ---
 
 两个实验，难度为 `moderate` 与 `hard`。

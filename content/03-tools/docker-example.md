@@ -7,6 +7,7 @@ date: 2024-06-03
 lastmod: 2025-04-14
 draft: false
 cover: 
+location: 43.8259282,125.4254779
 ---
 
 # Docker 的一些好处
