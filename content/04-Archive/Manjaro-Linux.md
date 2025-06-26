@@ -7,6 +7,7 @@ tags:
 date: 2023-05-12
 lastmod: 2024-12-29
 draft: false
+location: 39.981869, 116.3262223
 ---
 
 > [!info]

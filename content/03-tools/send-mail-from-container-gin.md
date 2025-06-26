@@ -8,6 +8,7 @@ date: 2025-05-29
 lastmod: 2025-05-29
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 # 问题记录
 

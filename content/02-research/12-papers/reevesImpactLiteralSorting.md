@@ -4,9 +4,10 @@ description:
 tags:
   - Research/阅读/SAT
   - CCF/A/AAAI
-  - "Status/Following"
+  - Status/Following
+  - conference
 date: 2025-03-15
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: PX9Y2DP9
@@ -14,6 +15,7 @@ zt-attachments:
   - "848"
 citekey: reevesImpactLiteralSorting
 link: https://doi.org/undefined
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

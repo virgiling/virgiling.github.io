@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/PBO
   - CCF/B/SAT
+  - journal
 date: 2024-12-31
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: Q963YLKH
@@ -13,6 +14,7 @@ zt-attachments:
   - "957"
 citekey: leiEfficientLocalSearch2021
 link: https://link.springer.com/10.1007/978-3-030-80223-3_23
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

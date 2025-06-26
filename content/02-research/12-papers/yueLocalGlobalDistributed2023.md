@@ -5,8 +5,9 @@ tags:
   - Research/阅读/量子算法
   - CCF/None/Arxiv
   - Research/阅读/PBO
+  - journal
 date: 2024-12-12
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: FS3KXWKE
@@ -14,6 +15,7 @@ zt-attachments:
   - "919"
 citekey: yueLocalGlobalDistributed2023
 link: https://arxiv.org/abs/2310.05062
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

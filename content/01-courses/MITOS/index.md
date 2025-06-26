@@ -5,7 +5,7 @@ tags:
   - 公开课/MIT/6-S081
   - 公开课/课程简介
 date: 2024-12-28
-lastmod: 2025-03-14
+lastmod: 2025-06-25
 draft: false
 cover: 20230628183743.png
 ---

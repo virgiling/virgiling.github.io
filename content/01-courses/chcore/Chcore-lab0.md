@@ -7,6 +7,7 @@ date: 2023-09-11
 lastmod: 2025-04-14
 draft: false
 cover: Chcore-cover.svg
+location: 43.82579017431815, 125.42148526445521
 ---
 
 # Envrionment Setting

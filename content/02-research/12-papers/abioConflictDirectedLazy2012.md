@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/SAT
   - CCF/B/CP
+  - conference
 date: 2024-12-17
-lastmod: 2025-06-09
+lastmod: 2025-06-26
 draft: false
 cover: 
 zotero-key: W57CN6LV
@@ -13,6 +14,7 @@ zt-attachments:
   - "888"
 citekey: abioConflictDirectedLazy2012
 link: http://link.springer.com/10.1007/978-3-642-33558-7_8
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

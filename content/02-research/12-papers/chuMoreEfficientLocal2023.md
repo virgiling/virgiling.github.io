@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/PBO
   - CCF/B/CP
+  - conference
 date: 2024-12-31
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: K965SDW3
@@ -13,6 +14,7 @@ zt-attachments:
   - "950"
 citekey: chuMoreEfficientLocal2023
 link: https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.CP.2023.12
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

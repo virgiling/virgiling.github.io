@@ -7,6 +7,7 @@ date: 2025-03-19
 lastmod: 2025-06-09
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 
 # 复习一些数学知识

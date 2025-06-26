@@ -6,6 +6,7 @@ tags:
 date: 2022-07-10
 lastmod: 2024-12-29
 draft: false
+location: 29.861522, 118.412128
 ---
 
 ## 导引

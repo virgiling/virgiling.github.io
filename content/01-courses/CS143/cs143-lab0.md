@@ -8,6 +8,7 @@ date: 2022-07-16
 lastmod: 2025-04-14
 draft: false
 cover: covers/cs143-cover.png
+location: 43.82579017431815, 125.42148526445521
 ---
 
 > [!important]

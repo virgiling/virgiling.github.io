@@ -7,6 +7,7 @@ date: 2022-03-29
 lastmod: 2025-04-14
 draft: false
 cover: covers/Dase-cover.png
+location: 43.82579017431815, 125.42148526445521
 ---
 
 # 实验目的

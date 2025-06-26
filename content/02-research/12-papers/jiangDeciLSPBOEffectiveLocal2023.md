@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/PBO
   - CCF/B/FCS
+  - "journal"
 date: 2024-12-31
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: false
 cover: 
 zotero-key: 4PNQ9SEH
@@ -13,6 +14,7 @@ zt-attachments:
   - "940"
 citekey: jiangDeciLSPBOEffectiveLocal2023
 link: http://arxiv.org/abs/2301.12251
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

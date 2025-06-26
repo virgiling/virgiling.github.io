@@ -8,6 +8,7 @@ date: 2023-08-10
 lastmod: 2025-04-14
 draft: false
 cover: pkuos.png
+location: 43.82579017431815, 125.42148526445521
 ---
 
 # Setup

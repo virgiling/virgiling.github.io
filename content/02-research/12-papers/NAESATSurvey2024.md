@@ -9,6 +9,7 @@ draft: false
 cover: 
 zotero-key: 综述/调研
 link: https://github.com/virgiling/Course-Slides/tree/master/Survey/NAE-SAT
+location: 43.8259282,125.4254779
 ---
 
 > [!important]

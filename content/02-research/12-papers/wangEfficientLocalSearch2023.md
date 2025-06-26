@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/SMT
   - CCF/B/VMCAI
+  - conference
 date: 2025-04-06
-lastmod: 2025-04-14
+lastmod: 2025-06-25
 draft: true
 cover: 
 zotero-key: 7JAYDV78
@@ -13,6 +14,7 @@ zt-attachments:
   - "1053"
 citekey: wangEfficientLocalSearch2023
 link: https://arxiv.org/abs/2311.14249
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

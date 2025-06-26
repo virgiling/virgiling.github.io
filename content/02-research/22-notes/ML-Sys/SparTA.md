@@ -6,6 +6,7 @@ tags:
 date: 2023-06-16
 lastmod: 2024-12-29
 draft: false
+location: 39.981869, 116.3262223
 ---
 
 > `SparTA` 解读（[论文](https://www.usenix.org/system/files/osdi22-zheng-ningxin.pdf)、[源码](https://github.com/microsoft/SparTA) 与 [复现](https://github.com/microsoft/nni/tree/sparta_artifact/sparta) ）

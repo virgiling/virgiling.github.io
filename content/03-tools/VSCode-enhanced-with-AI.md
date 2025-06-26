@@ -7,6 +7,7 @@ date: 2025-04-15
 lastmod: 2025-04-15
 draft: false
 cover:
+location: 43.8259282,125.4254779
 ---
 
 在这里推荐一些 AI 插件，用于增强 VSCode 的代码体验
