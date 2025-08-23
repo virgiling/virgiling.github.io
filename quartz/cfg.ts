@@ -43,8 +43,9 @@ export type Analytics =
       projectId?: string
     }
   | {
-      provider: "mapmyvisitors"
-      apiKey: string
+      provider: "matomo"
+      host: string
+      siteId: string
     }
 
 export interface GlobalConfiguration {
