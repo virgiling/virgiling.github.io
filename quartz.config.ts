@@ -12,7 +12,7 @@ const config: QuartzConfig = {
     pageTitleSuffix: " | 思想犯",
     enableSPA: true,
     enablePopovers: true,
-    analytics: null, 
+    analytics: null,
     locale: "zh-CN",
     baseUrl: "virgiling.wiki",
     ignorePatterns: ["private", "templates", ".obsidian"],
@@ -68,7 +68,7 @@ const config: QuartzConfig = {
       Plugin.Description({ descriptionLength: 60 }),
       Plugin.LightBox(),
     ],
-    filters: [Plugin.RemoveDrafts(), Plugin.RemoveDiary()],
+    filters: [Plugin.RemoveDrafts(), Plugin.RemoveDiary(), Plugin.RemoveLocal()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
