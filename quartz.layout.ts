@@ -34,7 +34,7 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.DesktopOnly(Component.RecentNotes({ limit: 3, showTags: false })),
+    Component.DesktopOnly(Component.RecentNotes({ limit: 2, showTags: false })),
     Component.Flex({
       components: [
         {
@@ -71,7 +71,6 @@ export const defaultListPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
-    Component.DesktopOnly(Component.RecentNotes({ limit: 5, showTags: false })),
     Component.Explorer({}),
     Component.DesktopOnly(
       Component.FloatingButtons({
