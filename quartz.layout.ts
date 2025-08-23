@@ -44,15 +44,10 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.DesktopOnly(
-      Component.FloatingButtons({
-        position: "right",
-      }),
-    ),
     Component.Explorer(),
   ],
   right: [
-    Component.Graph({ globalGraph: { fontSize: 0.4 } }),
+    Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
@@ -72,14 +67,9 @@ export const defaultListPageLayout: PageLayout = {
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
     Component.Explorer({}),
-    Component.DesktopOnly(
-      Component.FloatingButtons({
-        position: "right",
-      }),
-    ),
   ],
   right: [
-    Component.Graph({ globalGraph: { fontSize: 0.4 } }),
+    Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
