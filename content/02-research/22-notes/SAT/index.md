@@ -15,3 +15,7 @@ cover:
 - [Handbook of Parallel Constraint Reasoning](https://link.springer.com/book/10.1007/978-3-319-63516-3)
 
 以及各种论文还有最经典的 [CDCL 求解器](https://github.com/arminbiere/cadical#)
+
+1. [[SAT0x1|可满足问题描述]]
+2. 精确算法
+	1. [[VSIDS_Tutorials|VSIDS 启发式]]

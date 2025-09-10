@@ -12,5 +12,5 @@ draft: false
 
 - [Windlinxy's blog](https://windlinxy.top/)
  ^05ac4c
-- [Do ごみ箱](https://dodolalorc.cn/)
-
+- [dodola](https://dodolalorc.cn/)
+- [Xiongxin Yang](https://yangxx0405.github.io/)

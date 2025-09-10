@@ -4,17 +4,11 @@ description: 2023 NENU夏令营机试 Tutorial
 tags:
   - 归档/XCPC
 date: 2023-09-20
-lastmod: 2025-06-09
+lastmod: 2025-09-10
 draft: false
 cover: 
 location: 29.861522, 118.412128
 ---
-
-> 本人出了其中三题，来谢罪了
-
-因为说不能出难题，所以就挑了几个简单的题目，数据基本上是随机生成的，也没有故意卡人，应该做题体验不算很差吧（
-
-按照难度来讲解吧
 
 # CF 1000
 
@@ -198,7 +192,7 @@ int main(void) {
 
 ### Tutorial
 
-这题可以参考 H. Beppa and SwerChat
+这题可以参考 CF 上的 Beppa and SwerChat
 
 ### Solution
 

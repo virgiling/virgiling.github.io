@@ -1,12 +1,11 @@
 ---
 title: VSIDS 启发式
-description: 
+description:
 tags:
   - Research/笔记/SAT
-  - Status/Typing
 date: 2025-04-16
 lastmod: 2025-08-19
-draft: true
+draft: false
 cover:
 ---
 
@@ -44,7 +43,7 @@ while True:
 
 VSIDS [^1]，全称为 Variable State Independent Decaying Sum，其策略如下：
 
-1. 每个变量的每个[[极性]]都有一个计数器，初始化为 $0$
+1. 每个变量的每个 [[极性]] 都有一个计数器，初始化为 $0$
 2. 每当有一个子句被加入到子句库中，子句中的每个文字的计数器都会增加 $1$
 3. 拥有最高计数器值的未赋值的变量与极性被选择，若存在相等的，随机选择一个（可以使用其他启发式配置，最简单的为随机）
 4. 所有计数器在一段时间后会除以一个常数 $\alpha$
@@ -52,7 +51,7 @@ VSIDS [^1]，全称为 Variable State Independent Decaying Sum，其策略如下
 
 # 另一个优化
 
-由于 SAT 求解器会花费将近 90% 的时间在 BCP 这个过程中，因此在提出 VSIDS 的同时，文章中也有另一个关于 BCP 的优化，也就是我们熟知的 [[watch_literal]]
+由于 SAT 求解器会花费将近 90% 的时间在 BCP 这个过程中，因此在提出 VSIDS 的同时，文章中也有另一个关于 BCP 的优化，也就是我们熟知的 [[watch_literal|观察字]]
 
 [^1]: Moskewicz, Matthew W. et al. “Chaff: engineering an efficient SAT solver.” *Proceedings of the 38th Design Automation Conference (IEEE Cat. No.01CH37232)* (2001): 530-535.
 [^2]: Haralick, Robert M. and Gordon L. Elliott. “Increasing Tree Search Efficiency for Constraint Satisfaction Problems.” *Artificial Intelligence* (1979).

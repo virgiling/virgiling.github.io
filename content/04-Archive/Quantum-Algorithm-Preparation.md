@@ -1,10 +1,10 @@
 ---
 title: 量子算法的预备知识
-description: 
+description:
 tags:
-  - Research/笔记/量子算法
+  - 归档/教程
 date: 2024-12-15
-lastmod: 2025-04-14
+lastmod: 2025-08-23
 draft: false
 cover:
 location: 43.8259282,125.4254779
