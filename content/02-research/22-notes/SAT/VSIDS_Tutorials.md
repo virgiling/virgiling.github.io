@@ -4,7 +4,7 @@ description:
 tags:
   - Research/笔记/SAT
 date: 2025-04-16
-lastmod: 2025-08-19
+lastmod: 2025-09-17
 draft: false
 cover:
 ---
@@ -51,7 +51,7 @@ VSIDS [^1]，全称为 Variable State Independent Decaying Sum，其策略如下
 
 # 另一个优化
 
-由于 SAT 求解器会花费将近 90% 的时间在 BCP 这个过程中，因此在提出 VSIDS 的同时，文章中也有另一个关于 BCP 的优化，也就是我们熟知的 [[watch_literal|观察字]]
+由于 SAT 求解器会花费将近 90% 的时间在 BCP 这个过程中，因此在提出 VSIDS 的同时，文章中也有另一个关于 BCP 的优化，也就是我们熟知的[[watch_literal#More Optimization|双观察字]]
 
 [^1]: Moskewicz, Matthew W. et al. “Chaff: engineering an efficient SAT solver.” *Proceedings of the 38th Design Automation Conference (IEEE Cat. No.01CH37232)* (2001): 530-535.
 [^2]: Haralick, Robert M. and Gordon L. Elliott. “Increasing Tree Search Efficiency for Constraint Satisfaction Problems.” *Artificial Intelligence* (1979).

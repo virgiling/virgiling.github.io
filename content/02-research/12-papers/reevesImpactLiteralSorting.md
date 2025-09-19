@@ -1,15 +1,15 @@
 ---
 title: 基数约束编码中文字顺序的重要性
-description: 
+description:
 tags:
   - Research/阅读/SAT
   - CCF/A/AAAI
-  - Status/Following
   - conference
+  - Following
 date: 2025-03-15
-lastmod: 2025-06-25
+lastmod: 2025-09-17
 draft: false
-cover: 
+cover:
 zotero-key: PX9Y2DP9
 zt-attachments:
   - "848"

@@ -3,7 +3,7 @@ title: 🛌 关于
 description: 关于 Virgil 的详细内容，这里记录了一些个人喜好，发表论文以及修习的课程
 tags: []
 date: 2022-03-29
-lastmod: 2025-04-14
+lastmod: 2025-09-19
 draft: false
 cover: 
 comments: true
@@ -42,7 +42,7 @@ None 😭
 
 # Project
 
-- [NENU 学位论文模板-Typst 版](https://github.com/virgiling/NENU-Thesis-Typst)：目前只实现了本科的格式，持续维护中
+- [NENU 学位论文模板-Typst 版](https://github.com/virgiling/NENU-Thesis-Typst)：持续维护中，点击查看 [使用文档](https://virgiling.wiki/NENU-Thesis-Typst/introduction.html)
 
 - [XCPC 现场打印服务](https://github.com/virgiling/CodePrint)：提供给 XCPC 线下比赛中，不会使用 domjudge 的打印服务的主办方，目前缺少 docker 构建方式，考虑后续补为一键构建的方式
 
