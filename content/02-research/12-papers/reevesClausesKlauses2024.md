@@ -1,15 +1,15 @@
 ---
 title: 基数约束SAT的精确求解器
-description: 
+description:
 tags:
   - Research/阅读/SAT
   - CCF/A/CAV
-  - Status/Following
   - conference
+  - Following
 date: 2025-03-10
-lastmod: 2025-06-25
+lastmod: 2025-09-17
 draft: false
-cover: 
+cover:
 zotero-key: H7XNRYL7
 zt-attachments:
   - "1003"

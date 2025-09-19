@@ -1,11 +1,11 @@
 ---
 title: 我的 Obsidian 工作流
-description: 
+description:
 tags:
-  - Status/Typing
+  - Status/Doing
   - 文具袋/Obsidian
 date: 2025-04-16
-lastmod: 2025-08-19
+lastmod: 2025-09-17
 draft: true
 cover:
 ---
