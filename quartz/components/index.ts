@@ -25,6 +25,7 @@ import FloatingButtons from "./FloatingButtons"
 import PageNavigation from "./PageNavigation"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
+import OutOfDate from "./OutOfDate"
 
 export {
   ArticleTitle,
@@ -54,4 +55,5 @@ export {
   PageNavigation,
   Flex,
   ConditionalRender,
+  OutOfDate,
 }
