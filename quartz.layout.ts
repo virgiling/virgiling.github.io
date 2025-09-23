@@ -30,6 +30,9 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
+    Component.OutOfDate(
+      { checkPaths: ["/01-courses/", "/03-tools/"], staleThreshold: 45 }
+    ),
   ],
   left: [
     Component.PageTitle(),
