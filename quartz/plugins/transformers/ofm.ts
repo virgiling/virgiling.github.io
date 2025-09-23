@@ -274,9 +274,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                     return {
                       type: "html",
                       data: { hProperties: { transclude: true } },
-                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${
-                        url + anchor
-                      }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
+                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${url + anchor
+                        }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
                     }
                   }
 
@@ -477,6 +476,21 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                       },
                     ],
                   })
+                }
+
+                // For the rest of the MD callout elements other than the title, wrap them with
+                // two nested HTML <div>s (use some hacked mdhast component to achieve this) of
+                // class `callout-content` and `callout-content-inner` respectively for
+                // grid-based collapsible animation.
+                if (calloutContent.length > 0) {
+                  node.children = [
+                    node.children[0],
+                    {
+                      data: { hProperties: { className: ["callout-content"] }, hName: "div" },
+                      type: "blockquote",
+                      children: [...calloutContent],
+                    },
+                  ]
                 }
 
                 // replace first line of blockquote with title and rest of the paragraph text

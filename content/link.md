@@ -3,14 +3,24 @@ title: 🔗友链
 description:
 tags: []
 date: 2022-03-29
-lastmod: 2025-04-12
+lastmod: 2025-09-24
 draft: false
+cover:
+comments: true
 ---
 
 > [!NOTE]
 > 由于 obsidian 没有类似卡片的友链样式，我也比较懒，不想自己写，所以暂时以列表的形式给出
+> 
+> 排序仅按照简介中的人名/网名首字母排序
 
-- [Windlinxy's blog](https://windlinxy.top/)
- ^05ac4c
-- [dodola](https://dodolalorc.cn/)
-- [Xiongxin Yang](https://yangxx0405.github.io/)
+
+| 简介                                                                    | 链接                                                  |
+| --------------------------------------------------------------------- | --------------------------------------------------- |
+| dodola (前端实习生)                                                        | [dodola](https://dodolalorc.cn/)                    |
+| Jiangnan Li (pre-Master Student in ISCAS: SMT Solving)                | [Jiangnan Li](https://gsteve-paul.github.io/)       |
+| Lingshu Zeng (Master student in NENU: AI+Bio)                         | [Lingshu Zeng](https://zerodtree.github.io/)        |
+| Rossqaq (全栈牛马ing)                                                     | [Rossqaq](https://rossqaq.github.io/)               |
+| Windlinxy (测试岗牛马ing)                                                  | [Windlinxy's blog](https://windlinxy.top/)  ^05ac4c |
+| Xiongxin Yang (PhD Student in UCSB: Counting and Sampling Algorithms) | [Xiongxin Yang](https://yangxx0405.github.io/)      |
+

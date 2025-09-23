@@ -20,7 +20,6 @@ export default ((userOpts?: Partial<SearchOptions>) => {
     return (
       <div class={classNames(displayClass, "search")}>
         <button class="search-button">
-          <p>{i18n(cfg.locale).components.search.title}</p>
           <div className="kbd-container">
             <kbd className="retro-key">⌘</kbd>
             <kbd className="retro-key">K</kbd>
@@ -32,6 +31,7 @@ export default ((userOpts?: Partial<SearchOptions>) => {
               <circle cx="8" cy="8" r="7" />
             </g>
           </svg>
+          <p>{i18n(cfg.locale).components.search.title}</p>
         </button>
         <div class="search-container">
           <div class="search-space">
