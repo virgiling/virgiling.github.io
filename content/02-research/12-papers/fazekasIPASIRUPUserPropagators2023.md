@@ -4,6 +4,7 @@ description:
 tags:
   - Research/阅读/SAT
   - CCF/B/SAT
+  - journal
 date: 2025-09-23
 lastmod: 2025-09-25
 draft: false
@@ -91,4 +92,23 @@ void Internal::phase (int lit) {
 
 # Conclusion
 
-本质上就是暴露了一个更加 User-Friendly 的接口，让那些将 SAT Solver 作为 core 的其他求解器更加容易编写，文章也举了一个例子：[cvc5: A Versatile and Industrial-Strength SMT Solver](https://link.springer.com/chapter/10.1007/978-3-030-99524-9_24) 
+本质上就是暴露了一个更加 User-Friendly 的接口，让那些将 SAT Solver 作为 core 的其他求解器更加容易编写
+
+# Appendix
+
+文章也举了一个例子 SAT modulo Symmetries(SMS)
+
+SMS 是近期提出的一种基于 SAT 的框架，用于穷举生成具有特定属性的组合对象（如图或超图），同时**排除相同对象的同构副本**（无同构生成）。与首先生成候选对象再检测的"生成-测试"方法相比，SMS 能直接生成满足要求的无同构对象。
+
+> [!example] 生成图对象
+>
+> 通过为每个顶点对 $(u, v)$ 定义边存在性变量 $e_{u, v}$ 来表达图属性。
+> 为避免生成同构副本，SMS 引导求解器生成规范对象，例如要求邻接矩阵满足字典序最小化。[^1]
+
+> [!tip] 如何使用
+>
+> 可以参考 [示例](https://github.com/markirch/sat-modulo-symmetries/blob/main/src/sms.hpp)
+>
+> 本质上就是用一个类去实现 IPASR-UP 的接口即可
+
+[^1]: 最小化方法，可以将邻接矩阵按照行展开，列成一个二进制字符序列，比较这个序列的字典序即可

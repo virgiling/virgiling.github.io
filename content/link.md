@@ -1,7 +1,8 @@
 ---
 title: 🔗友链
 description:
-tags: []
+tags:
+  - MOC
 date: 2022-03-29
 lastmod: 2025-09-24
 draft: false

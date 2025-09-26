@@ -75,7 +75,7 @@ $$
 slack(C, \rho) = \sum_{i\colon \rho(l_i) \not= 0}c_i - w
 $$
 
-可以发现 $slack(C, \rho)$ 本质上表示，在给定赋值 $\rho$ 的条件下，当前约束的最大值与度的差距
+可以发现 $slack(C, \rho)$ 本质上表示，在给定赋值 $\rho$ 的条件下，还差多少就能够满足约束 $C$（本质上度量了一种满足的 progress)
 
 显然当 $slack(C, \rho) \lt 0$ 时，约束是不满足的，我们定义传播如下：
 

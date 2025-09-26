@@ -1,11 +1,12 @@
 ---
 title: 🛌 关于
 description: 关于 Virgil 的详细内容，这里记录了一些个人喜好，发表论文以及修习的课程
-tags: []
+tags:
+  - MOC
 date: 2022-03-29
-lastmod: 2025-09-24
+lastmod: 2025-09-26
 draft: false
-cover: 
+cover:
 comments: true
 ---
 
