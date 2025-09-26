@@ -4,8 +4,9 @@ description:
 tags:
   - Research/阅读/SAT
   - CCF/A/AI
+  - journal
 date: 2025-09-24
-lastmod: 2025-09-24
+lastmod: 2025-09-25
 draft: false
 cover:
 zotero-key: A88BZLZS
