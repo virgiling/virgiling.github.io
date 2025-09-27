@@ -4,32 +4,70 @@ description: 研究论文阅读与笔记整理
 tags:
   - MOC
 date: 2024-03-26
-lastmod: 2025-04-18
+lastmod: 2025-09-27
 draft: false
+location: 
 cover: 
 ---
-# 📑 论文阅读
 
-```dataview
-TABLE WITHOUT ID
-    link(file.link, title) as "📄 论文",
-    choice(link, "[查看论文](" + link + ")", "暂无链接") as "🔗 链接",
-    choice(draft, "✏️ 草稿", "✅ 完成") as "状态",
-    date as "📅 阅读日期"
-FROM "02-research/12-papers"
-WHERE contains(tags, "SAT") or contains(tags, "PB") or contains(tags, "PBO") or contains(tags, "SMT")
-SORT date DESC
-LIMIT 5
-```
+论文看的比较杂，但是好像也不算特别多，这里按照大主题进行分类：
 
-# 📝 正在跟进
+# 组合优化
 
-```dataview
-TABLE WITHOUT ID
-    link(file.link, title) as "📝 标题",
-    date as "📅 更新日期"
-FROM "02-research/12-papers"
-WHERE (contains(tags, "SAT") or contains(tags, "PB") or contains(tags, "PBO") or contains(tags, "SMT"))
-AND contains(tags, "Status/Following")
-SORT date DESC
-```
+组合优化是运筹学的一个核心分支，其目标是：从一个有限的候选对象集合中，找出一个满足给定条件且使某个目标函数达到最优（最大或最小）的解。
+
+> [!example] 背包问题
+> 给定一组物品，每个物品有重量和价值，在不超过背包总承重的前提下，选择物品使得总价值最大。
+
+我主要阅读的基本都是图论上的组合优化问题，例如最大团，最大割，最小支配集等等，但在这个分类中我没有把阅读笔记放上来，可以参考 [我在讨论班的 Slides](https://github.com/virgiling/Course-Slides/)
+
+# 约束求解
+
+约束求解问题就是在一组给定的约束条件下，为一个或多个变量寻找一个赋值，使得所有约束条件同时被满足。
+
+> [!example] Sudoku (数独)
+> 变量：棋盘上的每一个空格。
+> 变量的取值范围：每个空格可以填 1 到 9 的数字
+> 约束条件：
+>
+> 1. 每一行的数字不能重复。
+> 2. 每一列的数字不能重复。
+> 3. 每一个 $3 \times 3$ 宫格内的数字不能重复。
+
+> [!tip]
+>
+> 可以发现约束求解问题是组合优化问题的判定版本（没有目标函数需要优化）
+
+约束求解的主题很多，我主要阅读的文章领域为：
+
+## SAT
+
+Satisfiability（布尔可满足性问题），简称 SAT，是计算机科学中的一个基本问题，属于 [[basic-cs-theory#NP-Complete|NP 完全问题]]。其核心是判断一个给定的布尔逻辑公式是否存在一组变量赋值，使得整个公式的值为真。
+
+简单来说，就是给定一系列由“与”、“或”、“非”连接的条件（子句），判断是否存在一种方式给所有变量赋值（真或假），让所有条件同时成立。如果存在，则该公式是可满足的；否则，是不可满足的。
+
+由于其 NP 完全性，SAT 问题在理论上是计算困难的，但现代高效的 [[02-research/22-notes/SAT/index|SAT 求解器]] 已经能够处理包含数百万变量的实际问题。
+
+关于论文，你可以通过 #Research/阅读/SAT 来找到那些相关的论文笔记
+
+关于笔记（教程），你可以通过 #Research/笔记/SAT 来找到我写的一些内容，可能还在缓慢更新中
+
+## PB 与 ILP
+
+ILP（整数线性规划）问题是线性规划（LP）的一个特例。在 LP 中，目标函数和约束条件都是线性的，但决策变量可以取连续值。而在 ILP 中，要求所有决策变量必须取整数值（如 0, 1, 2...）。
+
+而 Pseudo Boolean（伪布尔）问题是一个特殊的 ILP 问题，其所有的决策变量只能为 0/1，因此也被称为 0-1 整数规划问题
+
+我对于 PB 问题（及其优化版本 PBO 问题）阅读的文章可能更多一点，可以参考 #Research/笔记/PB 与 #Research/阅读/PBO
+
+## SMT
+
+SMT 问题，即可满足性模理论，SMT 不仅判断一个由逻辑符号（如 AND, OR, NOT）组成的逻辑公式是否可满足，还允许公式包含来自特定背景理论的谓词。这些理论包括实数/整数算术、数组、位向量、未解释函数等。例如，一个 SMT 求解器可以判断公式 `(x + y > 5) AND (x < 3)` 是否存在实数解。
+
+我对 SMT 的求解技术并不了解，只阅读过几篇文章，可以在 #Research/阅读/SMT 中找到
+
+# LLM
+
+这两年的 LLM 开始火起来之后也读过一些文章，但由于发展的太快，我目前的知识结构感觉以及有一些跟不上了（
+
+具体可以参考 #Research/笔记/LLM
