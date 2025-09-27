@@ -6,13 +6,14 @@ tags:
   - CCF/A/AI
   - journal
 date: 2025-09-24
-lastmod: 2025-09-25
+lastmod: 2025-09-26
 draft: false
 cover:
 zotero-key: A88BZLZS
 zt-attachments:
   - "1017"
 citekey: balyoSATRace20152016
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

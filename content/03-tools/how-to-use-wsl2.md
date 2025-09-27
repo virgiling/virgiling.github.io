@@ -5,7 +5,7 @@ tags:
   - 文具袋/环境配置
   - 文具袋/文具推荐
 date: 2025-04-15
-lastmod: 2025-04-15
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -73,7 +73,7 @@ wsl --set-version 2
 
 按下 `win + S`，打开搜索，输入 `ubuntu` 后，选择 `ubuntu 22.04`，如下所示：
 
-![](https://w6cpew3bz0.feishu.cn/space/api/box/stream/download/asynccode/?code=OWQxOWUyZDAxOWM0M2QwYWE4MGZkYmFiM2Q5N2ZlZWZfMmNSam55UDBxNHpZbVEzYmFob0Vob3ZnRUozUUlSVXJfVG9rZW46TWs3WGJYWXRNb1hlOXB4OEtrZ2NPNzhQbkdYXzE3NDQ3MDc1MzM6MTc0NDcxMTEzM19WNA)
+![IMG_0608.JPG](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/IMG_0608.JPG)
 
 打开此应用即可
 
@@ -112,6 +112,7 @@ wsl --set-version 2
 > 在 2025 年之后，微软直接推出了图形版设置 WSL 的方式，不需要再去自己写配置文件了，打开以下应用程序即可：
 >
 > ![image.png|300](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20250415170434334.png)
+> 然后设置下面这些选项即可，都在 `Network` 的选项下会找到这些设置的名称
 
 在使用 `WSL` 时也会遇到连不上 github 或软件源的情况，我们假设在 `Windows` 下已经有了代理，那么我们可以在 `C:\Users\<YOUR-USER-NAME>` 文件夹下新建一个文件`.wslconfig`，然后填入如下内容：
 

@@ -6,13 +6,14 @@ tags:
   - CCF/B/SAT
   - journal
 date: 2025-09-23
-lastmod: 2025-09-25
+lastmod: 2025-09-26
 draft: false
 cover:
 zotero-key: NH453QBP
 zt-attachments:
   - "1013"
 citekey: fazekasIPASIRUPUserPropagators2023
+location: 43.8259282,125.4254779
 ---
 
 > [!tldr]

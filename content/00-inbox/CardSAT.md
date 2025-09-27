@@ -4,8 +4,9 @@ description:
 tags:
   - Status/Doing
 date: 2025-09-26
-lastmod: 2025-09-26
-draft: false
+lastmod: 2025-09-27
+draft: true
+location: 
 cover:
 ---
 

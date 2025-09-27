@@ -1,14 +1,15 @@
 ---
 title: MIP 的局部搜索算法
-description: 
+description:
 tags:
   - Research/阅读/PBO
   - CCF/B/CP
   - conference
+  - Status/Pending
 date: 2025-01-01
-lastmod: 2025-06-25
+lastmod: 2025-09-27
 draft: true
-cover: 
+cover:
 zotero-key: RQFLISRX
 zt-attachments:
   - "959"
