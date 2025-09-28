@@ -1,10 +1,12 @@
 ---
 title: C++ 项目初始化指北
-description: 
+description:
 tags:
   - 文具袋/文具推荐
+  - OS/Mac
+  - OS/Linux
 date: 2024-12-21
-lastmod: 2025-04-15
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -13,6 +15,10 @@ location: 43.8259282,125.4254779
 > [!tldr]
 >
 > 在 `Linux` 下通过 `cmake` 与 `Conan` 进行 `C++` 项目初始化与开发的一份简单指北
+
+> [!important] 重要更新
+>
+> 其实目前也可以通过一个模板项目，例如 [ModernCppStarter](https://github.com/TheLartians/ModernCppStarter) 来生成一个新项目，然后用 AI 帮助更改 `CMakeLists.txt` 即可，这种方法可能更适合新手（如果你对 AI 发出了正确清晰的命令）
 
 # 环境准备
 

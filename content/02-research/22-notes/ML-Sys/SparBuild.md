@@ -5,7 +5,7 @@ tags:
   - 文具袋/环境配置
   - Research/笔记/ML-Sys
 date: 2023-06-12
-lastmod: 2025-04-14
+lastmod: 2025-09-28
 draft: false
 cover:
 location: 39.981869, 116.3262223
@@ -29,7 +29,7 @@ location: 39.981869, 116.3262223
 
 `Dockerfile.sparsetir` 如下：
 
-```dockerfile
+```docker
 FROM nvidia/cuda:11.7.0-cudnn8-devel-ubuntu20.04
 # Install tools and dependencies.
 RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
@@ -119,7 +119,7 @@ docker run  -p 8088:22 --restart=on-failure --runtime=nvidia  -it tir /bin/bash
 
 而 `Dockerfile.sparta` 如下：
 
-```dockerfile
+```docker
 # FROM nvidia/cuda:11.0-cudnn8-devel-ubuntu18.04
 FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu18.04
 # Install tools and dependencies.

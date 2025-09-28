@@ -21,8 +21,8 @@ const config: QuartzConfig = {
       fontOrigin: "local",
       cdnCaching: false,
       typography: {
-        header: "LXGWWenKaiScreen",
-        body: "LXGWWenKaiScreen",
+        header: "LXGW WenKai Screen R",
+        body: "LXGW WenKai Screen R",
         code: "Monaco",
       },
       colors: {

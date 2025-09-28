@@ -4,7 +4,7 @@ description:
 tags:
   - 文具袋/文具推荐
 date: 2025-04-15
-lastmod: 2025-04-15
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -42,6 +42,8 @@ location: 43.8259282,125.4254779
 
 如果你想使用 `Typst` 来制作 Slides 的话，可以使用[Polylux](https://polylux.dev/book/polylux.html) 或更加中文化（以及更加现代的）[Touying](https://touying-typ.github.io/)
 
+> [!tip] 
+> 
 > 更加建议使用 `Touying` 社区更加活跃
 
 随着 `Typst` 社区的发展，以及有很多包和模板可以使用了，例如：

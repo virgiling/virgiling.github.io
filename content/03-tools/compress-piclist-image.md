@@ -5,7 +5,7 @@ tags:
   - 文具袋/文具推荐
   - 文具袋/Obsidian
 date: 2024-10-27
-lastmod: 2025-04-16
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -22,6 +22,10 @@ location: 43.8259282,125.4254779
 我们在微软商店中下载 [Snipaste](https://apps.belacad.cn/app/20/snipaste?bd_vid=8096387247757416815)，如下图所示：
 
 ![image.png|350](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20250103200208754.png)
+
+> [!tip]
+>
+> 如果你使用 Mac，也可以使用 `HomeBrew` 下载这个软件，然后将截图键设置为 `Option + Q`（我的设置）
 
 这个应用能够使得截图时不已分辨率为单位，而是选中的区域多大，像素长宽就是多大，此后，我们只需要按 `F1` 进行截图即可
 

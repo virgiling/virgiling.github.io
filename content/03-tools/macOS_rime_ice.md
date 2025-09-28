@@ -3,9 +3,11 @@ title: MacOS 配置 RIME + 雾凇
 description:
 tags:
   - 文具袋/文具推荐
+  - OS/Mac
 date: 2025-09-17
-lastmod: 2025-09-18
+lastmod: 2025-09-27
 draft: false
+location: 43.8259282,125.4254779
 cover:
 ---
 > [!tip] 前言

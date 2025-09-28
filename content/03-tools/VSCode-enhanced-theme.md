@@ -4,7 +4,7 @@ description:
 tags:
   - 文具袋/文具推荐
 date: 2025-04-15
-lastmod: 2025-04-15
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -40,7 +40,7 @@ location: 43.8259282,125.4254779
 2. `Error Lens`：更好的显示错误与警告（不需要再把鼠标移上去，现在在行尾就能看见错误是什么了）
 3. `Highlight Line`：更好的显示光标的位置
 4. `Log File Highlighter`：为控制台的 `LOG` 显示高亮，主要是为了看 `ERROR` 和 `PASS` 的颜色
-5. `Todo Tree`：更好的查看 TODO，FIXME，NOTE 等标签，但是需要配置颜色
+5. `Comment Anchors`：更好的查看 TODO，FIXME，NOTE 等标签
 
 最后，附一张我的配置完成的图片：
 

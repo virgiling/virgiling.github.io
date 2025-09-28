@@ -1,10 +1,11 @@
 ---
 title: 搭建自己的 Obsidian
-description: 
+description:
 tags:
   - 文具袋/Obsidian
+  - 文具袋/文具推荐
 date: 2024-10-27
-lastmod: 2025-09-26
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 43.8259282,125.4254779
