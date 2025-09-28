@@ -4,8 +4,9 @@ description:
 tags:
   - MOC
 date: 2024-12-29
-lastmod: 2025-04-18
+lastmod: 2025-09-27
 draft: false
+location: 
 cover:
 ---
 
@@ -19,7 +20,11 @@ cover:
 
 # 🔧 工具推荐
 
-这里主要推荐一些我使用的工具，例如一些 VSCode 的插件/代码编辑器/AI 等等，可以参考 #文具袋/文具推荐
+这里主要推荐一些我使用的工具，例如一些 VSCode 的插件/代码编辑器/AI 等等，全部的文章可以在 #文具袋/文具推荐 中找到
+
+## OS 的分类
+
+由于本人在三种操作系统上都开发过（Windows，Linux，MacOS），因此你也可以通过标签 #OS/Windows , #OS/Linux , #OS/Mac 来查看这些操作系统下我推荐的软件/我自己的配置
 
 ## Obsidian 相关
 

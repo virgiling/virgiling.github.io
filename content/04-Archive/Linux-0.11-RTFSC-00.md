@@ -1,6 +1,6 @@
 ---
 title: Linux-0.11 RTFSC 环境配置
-description: 
+description:
 tags:
   - 文具袋/环境配置
 date: 2023-11-17
@@ -18,7 +18,7 @@ location: 39.981869, 116.3262223
 >
 > 如果你的位置在南方（例如香港，深圳，广州等），也就是局域网的 IP 地址为 `172` 或者 `175` 开头的，可以参考 [[eduhk-web-server#docker-compose 构建后导致无法 ssh|Docker 构建后无法 ssh 登录服务器或容器]] 进行解决。
 
-```dockerfile
+```docker
 from ubuntu:20.04
 
 run sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list && \

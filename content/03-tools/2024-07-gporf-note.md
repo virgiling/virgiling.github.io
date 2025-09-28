@@ -1,10 +1,11 @@
 ---
 title: gprof 测不准原理
-description: 
+description:
 tags:
   - 文具袋/Issues
+  - OS/Linux
 date: 2024-07-09
-lastmod: 2025-04-16
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 40.070688, 116.125029

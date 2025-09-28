@@ -1,10 +1,11 @@
 ---
 title: 日常开发与实验
-description: 
+description:
 tags:
   - 文具袋/文具推荐
+  - OS/Windows
 date: 2025-04-07
-lastmod: 2025-04-18
+lastmod: 2025-09-27
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -12,7 +13,7 @@ location: 43.8259282,125.4254779
 
 > [!hint]
 >
-> 这里的日常开发就不包括如何写各类公开课的实验了，最简单的方法就是使用 WSL，在 WSL 里随便玩，反正环境坏了也可以重装
+> 这里的日常开发就不包括如何写各类公开课的实验了，最简单的方法就是使用 [[how-to-use-wsl2|WSL]]，在 WSL 里随便玩，反正环境坏了也可以重装
 
 # 日常开发
 

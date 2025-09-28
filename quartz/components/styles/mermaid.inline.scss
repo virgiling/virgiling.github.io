@@ -13,7 +13,7 @@
   opacity: 0;
   transition: 0.2s;
 
-  & > svg {
+  &>svg {
     fill: var(--light);
     filter: contrast(0.3);
   }
@@ -29,7 +29,7 @@
 }
 
 pre {
-  &:hover > .expand-button {
+  &:hover>.expand-button {
     opacity: 1;
     transition: 0.2s;
   }
@@ -52,7 +52,7 @@ pre {
     display: inline-block;
   }
 
-  & > #mermaid-space {
+  &>#mermaid-space {
     border: 1px solid var(--lightgray);
     background-color: var(--light);
     border-radius: 5px;
@@ -64,7 +64,7 @@ pre {
     width: 80vw;
     overflow: hidden;
 
-    & > .mermaid-content {
+    &>.mermaid-content {
       padding: 2rem;
       position: relative;
       transform-origin: 0 0;
@@ -84,7 +84,7 @@ pre {
       }
     }
 
-    & > .mermaid-controls {
+    &>.mermaid-controls {
       position: absolute;
       bottom: 20px;
       right: 20px;

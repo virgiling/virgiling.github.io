@@ -6,44 +6,11 @@
 
 // put your custom CSS here!
 @font-face {
-  font-family: "LXGWWenKaiScreen";
-  font-style: normal;
-  font-weight: normal;
-  font-display: swap;
-  src: url("/static/fonts/LXGWWenKaiScreen.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Monaco";
-  font-style: normal;
-  font-weight: normal;
-  font-display: swap;
-  src: url("/static/fonts/Monaco.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Biro";
-  font-style: normal;
-  font-weight: normal;
-  font-display: swap;
-  src: url("/static/fonts/Biro_Script.woff2") format("woff2");
-}
-
-@font-face {
   font-family: "Shokaki Sarari";
   font-style: normal;
   font-weight: normal;
   font-display: swap;
   src: url("/static/fonts/Shokaki_Sarari.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "LXGWWenKaiScreen";
-  font-style: normal;
-  font-weight: normal;
-  font-display: swap;
-  src: url("/static/fonts/Bookerly.woff2") format("woff2");
-  unicode-range: U+00-7F;
 }
 
 :root {
@@ -57,7 +24,7 @@ button#explorer {
 }
 
 //本文目录
-#toc-content > ul.overflow {
+#toc-content>ul.overflow {
   max-height: 30vh;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -119,7 +86,7 @@ a.external {
 }
 
 // 优化行内代码样式
-:not(pre) > code {
+:not(pre)>code {
   background-color: var(--lightgray);
   border-radius: var(--border-radius);
   padding: 0 0.3rem;
@@ -148,7 +115,7 @@ pre.poetry {
   font-family: "Biro", var(--bodyFont);
 }
 
-#toc-content > ul.overflow {
+#toc-content>ul.overflow {
   max-height: 30vh;
   overflow-y: auto;
   scrollbar-width: thin;

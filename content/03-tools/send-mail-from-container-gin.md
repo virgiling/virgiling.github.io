@@ -1,11 +1,11 @@
 ---
 title: 间接解决 Docker 中发送邮件后无法收到
-description: 
+description:
 tags:
   - 文具袋/Issues
   - 文具袋/环境配置
 date: 2025-05-29
-lastmod: 2025-05-29
+lastmod: 2025-09-28
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -348,7 +348,7 @@ if __name__ == "__main__":
 
 然后，通过 `Dockerfile` 来准备一个虚拟环境：
 
-```Dockerfile
+```docker
 RUN python3 -m venv /app/venv && . /app/venv/bin/activate && pip install --no-cache-dir jinja2 premailer && deactivate
 ```
 

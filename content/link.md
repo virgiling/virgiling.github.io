@@ -1,5 +1,5 @@
 ---
-title: 🔗友链
+title: 🔗 友链
 description:
 tags:
   - MOC

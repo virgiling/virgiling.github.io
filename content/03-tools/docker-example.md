@@ -1,12 +1,12 @@
 ---
 title: docker 配置各类实验环境
-description: 
+description:
 tags:
   - 文具袋/环境配置
 date: 2024-06-03
 lastmod: 2025-04-14
 draft: false
-cover: 
+cover:
 location: 43.8259282,125.4254779
 ---
 
@@ -98,7 +98,7 @@ docker build . -f Dockerfile.tir  -t tir
 
 我们来写一个简单的 `Dockerfile` 来构建 `tinyriscv`，如下所示：
 
-```dockerfile
+```docker
 FROM ubuntu:latest
 # Install tools and dependencies.
 RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list

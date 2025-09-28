@@ -1,11 +1,12 @@
 ---
 title: 如何在 Windows 上使用 Linux
-description: 
+description:
 tags:
   - 文具袋/环境配置
   - 文具袋/文具推荐
+  - OS/Windows
 date: 2025-04-15
-lastmod: 2025-09-27
+lastmod: 2025-04-15
 draft: false
 cover:
 location: 43.8259282,125.4254779
