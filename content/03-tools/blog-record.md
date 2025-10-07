@@ -4,7 +4,7 @@ description:
 tags:
   - 文具袋/博客相关
 date: 2024-12-20
-lastmod: 2025-04-18
+lastmod: 2025-10-07
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -37,6 +37,10 @@ npx quartz build --serve --concurrency 4
 ```
 
 随后，就能够在 [localhost:8080](localhost:8080) 打开构建完成的网页了，生成的所有 `html` 文件都在 `public` 文件夹中
+
+> [!tip] 注意
+> 
+> 你可以发现这里我的包管理器选择了 `pnpm` 而不是官方默认的 `npm`，你也可以选择 [[quartz-with-bun|Bun 替换 Nodejs]] 来作为包管理器（以及运行时）
 
 # Quartz 的持续更新
 
@@ -288,6 +292,10 @@ pnpm add rehype-expressive-code @expressive-code/plugin-collapsible-sections @ex
 > 主要是需要保证语法高亮需要在解析数学公式的后面，否则，对于行间公式，就会被解析为 `math` 块，无法被 `Latex` 解析器正确处理
 
 ## 灯箱
+
+> [!important] 更新
+>
+> 在 [pr#2074](https://github.com/jackyzha0/quartz/pull/2074) 中有另外一个更好的实现（主要是样式不错，但是我感觉代码写的比较一般，不过鉴于这个我也不太需要配置什么，所以就直接复制粘贴过来了
 
 原版的 `quartz` 对于图片较为匮乏，没办法放大查看，感觉其实不算很友好，但我在 [pr#1480](https://github.com/jackyzha0/quartz/pull/1480) 中发现了一个灯箱，然后修改了一下就拿来用了，主要代码可以参考 `quartz/plugins/transformers/lightbox.ts`，我们只需要在 `quartz.config.ts` 中的 `transform` 中最后引入这个插件即可
 

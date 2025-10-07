@@ -18,10 +18,10 @@ comments: true
 
 | 简介                                                                    | 链接                                                  |
 | --------------------------------------------------------------------- | --------------------------------------------------- |
-| dodola (前端实习生)                                                        | [dodola](https://dodolalorc.cn/)                    |
-| Jiangnan Li (pre-Master Student in ISCAS: SMT Solving)                | [Jiangnan Li](https://gsteve-paul.github.io/)       |
-| Lingshu Zeng (Master student in NENU: AI+Bio)                         | [Lingshu Zeng](https://zerodtree.github.io/)        |
-| Rossqaq (全栈牛马ing)                                                     | [Rossqaq](https://rossqaq.github.io/)               |
-| Windlinxy (测试岗牛马ing)                                                  | [Windlinxy's blog](https://windlinxy.top/)  ^05ac4c |
-| Xiongxin Yang (PhD Student in UCSB: Counting and Sampling Algorithms) | [Xiongxin Yang](https://yangxx0405.github.io/)      |
+| dodola (Frontend Software Engineer Intern at ByteDance)               | [dodola](https://dodolalorc.cn/)                    |
+| Jiangnan Li (pre-Master Student at ISCAS: SMT Solving)                | [Jiangnan Li](https://gsteve-paul.github.io/)       |
+| Lingshu Zeng (Master student at NENU: AI+Bio)                         | [Lingshu Zeng](https://zerodtree.github.io/)        |
+| Rossqaq (Full Stack Software Engineer at Non-Convex Tech)             | [Rossqaq](https://rossqaq.github.io/)               |
+| Windlinxy (Software Test Engineer at BOSS Zhipin)                     | [Windlinxy's blog](https://windlinxy.top/)  ^05ac4c |
+| Xiongxin Yang (PhD Student at UCSB: Counting and Sampling Algorithms) | [Xiongxin Yang](https://yangxx0405.github.io/)      |
 
