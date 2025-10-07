@@ -66,7 +66,7 @@ const config: QuartzConfig = {
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest", lazyLoad: true }),
       Plugin.Citations({ bibliographyFile: "./content/ref.bib", csl: "chicago" }),
       Plugin.Description({ descriptionLength: 60 }),
-      Plugin.LightBox(),
+      Plugin.ViewImage(),
     ],
     filters: [Plugin.RemoveDrafts(), Plugin.RemoveDiary(), Plugin.RemoveLocal()],
     emitters: [

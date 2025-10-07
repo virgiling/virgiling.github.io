@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 import workerpool from "workerpool"
 const cacheFile = "./.quartz-cache/transpiled-worker.mjs"
 const { parseMarkdown, processHtml } = await import(cacheFile)
