@@ -5,7 +5,7 @@ tags:
   - 文具袋/文具推荐
   - OS/Mac
 date: 2025-09-17
-lastmod: 2025-09-27
+lastmod: 2025-10-18
 draft: false
 location: 43.8259282,125.4254779
 cover:
@@ -18,7 +18,7 @@ cover:
 > 
 > 在 MacOS 下已知的 bug 有两个：
 > 1. [在Mac上按cmd+tab切换应用后，输入法会自动打出‘a’](https://github.com/rime/squirrel/issues/1015)
-> 2. [github issue栏中打字会出现多余字符](https://github.com/rime/squirrel/issues/1037)
+> 2. ~~[github issue栏中打字会出现多余字符](https://github.com/rime/squirrel/issues/1037)~~
 
 # RIME
 
