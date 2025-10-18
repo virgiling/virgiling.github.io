@@ -1,10 +1,10 @@
 ---
-title: 可满足问题描述
-description: 
+title: SAT 问题简介
+description:
 tags:
   - Research/笔记/SAT
 date: 2025-03-19
-lastmod: 2025-06-09
+lastmod: 2025-10-19
 draft: false
 cover:
 location: 43.8259282,125.4254779
@@ -108,8 +108,8 @@ SAT 问题可以被认为是 “所有[ NP 完全（NP-Complete）](https://en.w
 
 ## [Keller’s conjecture](https://en.wikipedia.org/wiki/Keller%27s_conjecture)
 
-> [!info] 
-> 
+> [!info]
+>
 > 如果一个 $N$ 维空间被 $N$ 维相同的超立方体所覆盖，则至少两个超立方体必须共享一个面。
 
 ## 集合覆盖问题
@@ -167,6 +167,7 @@ $$
 $$
 \sum_{t \in  \{i| e_j \in S_i\} } x_t \geq 1
 $$
+
 现在，我们转变为：
 
 $$
