@@ -1,0 +1,3 @@
+[submodule "content/06-recipe"]
+	path = content/06-recipe
+	url = git@github.com:virgiling/my-recipe-book.git

@@ -5,7 +5,7 @@ tags:
   - 文具袋/文具推荐
   - OS/Mac
 date: 2025-09-17
-lastmod: 2025-10-18
+lastmod: 2025-10-19
 draft: false
 location: 43.8259282,125.4254779
 cover:
@@ -163,6 +163,10 @@ patch:
       Control_R: noop # commit_code | commit_text | inline_ascii | clear | noop
   key_binder/bindings/+:
     - { when: composing, accept: KP_Enter, send: Return }
+  switcher:
+    caption: 「方案选单」
+    hotkeys:
+      - F4
 ```
 
 这样就可以通过 `shift` 来切换中英文
@@ -183,15 +187,14 @@ cd plum/
 在 `plum` 目录下，执行：
 
 ```bash
-bash rime-install iDvel/rime-ice:others/recipes/all_dicts
 bash rime-install iDvel/rime-ice:others/recipes/full
 ```
 
-即可将雾凇词库下载到本地
+即可将雾凇词库下载到本地（更新的命令也一样）
 
 > [!bug] VS Code 快捷键冲突
 > 
 > VS Code打开终端的快捷键为 <C-\`>，而这个键也恰好是 RIME 更改输入法配置的快捷键（按 F4 也可以），所以我们直接去掉这个即可：
 > 
-> 打开 `~/Library/RIME/default.yaml`，找到 `switcher/hotkeys` 中的 `control + grave` 删除即可
+> 打开 `~/Library/RIME/default.custom.yaml`，找到 `switcher/hotkeys` 中的 `control + grave` 删除即可
 

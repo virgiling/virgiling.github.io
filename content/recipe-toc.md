@@ -4,8 +4,9 @@ description:
 tags:
   - MOC
 date: 2025-07-12
-lastmod: 2025-07-12
+lastmod: 2025-10-20
 draft: false
+location: 
 cover:
 ---
 
@@ -15,4 +16,4 @@ cover:
 >
 > 因为烧饭的机会不多，怕自己每次都得去看一遍教程，不如自己记录一下（顺带也会根据自己的口味做点改变）
 
-具体的菜谱可以查看 #Mine/Recipe
+具体的菜谱可以查看 

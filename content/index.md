@@ -4,7 +4,7 @@ description:
 tags:
   - MOC
 date: 2022-03-29
-lastmod: 2025-09-29
+lastmod: 2025-10-20
 draft: false
 location: 
 cover: 
@@ -28,7 +28,7 @@ cover:
 
 ## 一些历史
 
-最开始搭博客是受到了 [[link#^05ac4c|Windlinxy]] 的影响，一起学着搭博客写博客
+最开始搭博客是受到了 [[link#^05ac4c|@Windlinxy]] 的影响，一起学着搭博客写博客
 
 虽然觉得可能 `Typst` 更符合我对笔记一类的审美，但是 `Markdown` 确实方便（主要是有好看的编辑器，点名表扬 `Obsidian` ）。所以就用 `Markdown` 来记录一些零零碎碎了。
 
