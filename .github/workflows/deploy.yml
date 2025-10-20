@@ -27,7 +27,7 @@ jobs:
       - name: Install Dependencies
         run: bun install
       - name: Build Quartz
-        run: bun run quartz build
+        run: bun run quartz build --concurrency 4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
