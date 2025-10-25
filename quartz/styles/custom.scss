@@ -13,6 +13,14 @@
   src: url("/static/fonts/Shokaki_Sarari.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "Biro";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/static/fonts/biro-script-plus.woff2") format("woff2");
+}
+
 :root {
   //加粗字体、代码块高亮色
   --custom-highlight: #8b2e2e;
@@ -112,7 +120,7 @@ pre.poetry {
 
 .meta,
 .content-meta {
-  font-family: "Biro", var(--bodyFont);
+  font-family: "Biro",
 }
 
 #toc-content>ul.overflow {

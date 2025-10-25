@@ -6,7 +6,7 @@ tags:
   - CCF/B/SAT
   - journal
 date: 2025-09-23
-lastmod: 2025-10-19
+lastmod: 2025-10-23
 draft: false
 cover:
 zotero-key: NH453QBP
@@ -82,6 +82,18 @@ void Internal::phase (int lit) {
 
 - `force_backtrack` 当一个新的决策被做出之前，我们可以通过调用这个函数来让求解器强制回溯到一个特定的决策层
 
+> [!attention] 回溯时如何维护 UP 中拿到的 `trail`
+>
+> 1. 回溯到发生变更的最低决策层，并从此层级开始重新通知每个决策层。这样 SAT 求解器可维持其运行逻辑，而 UP 能重构自身的栈式 `trail`。
+>
+> 2. 另一种方案是在 SAT 求解器内部将 `trail` 作为栈处理。例如，只要回溯层高于实际赋值层，乱序赋值可在每次回溯后重新分配。增量惰性回溯（ILB）和 `trail-reuse` 等技术旨在通过识别可复用先前搜索的`trail` 片段来避免重复计算。若复用了先前 `trail`的前缀，只需回溯至最后保留的决策层即可向 UP 传递信息。
+
+> [!tip]
+>
+> 通常用户无需了解 SAT 求解器使用的增量技术即可正确使用。但有一些特殊情况：
+>
+> 例如用户可能在两次求解调用间清理传播器，而求解器因 ILB 技术未必重启搜索。
+
 # Collaborate with CDCL
 
 如果我们将 SAT 求解器的状态看作是一个二元组 $F || M$，其中 $F$ 为原问题公式，$M$ 为当前的部分赋值，显然对于 SAT 而言，$F$ 的改变至关重要，这是 SAT 在意的基础，而对于外部传播器而言（例如 $CDCL(\mathcal{T})$ ）显然 $M$ 更为重要，这影响这外部理论的传播，因此我们需要在外部捕获求解时 `trail` 的实时变化。
@@ -98,6 +110,12 @@ void Internal::phase (int lit) {
 
 - 每次决策前，我们会调用 `cb_decide` 函数，对选定的变量和相位执行我们特定的选择；需要注意的是，只有在所有假设都满足之后，我们才能开始调用这个函数。（==注意，我们也可以通过 `force_backtrack` 来强制求解器回溯状态，从而调用 `cb_decide`==）
 
+> [!attention]
+>
+> 此外，phase 和 unphase 函数允许用户与求解器共享关于变量的额外知识。
+>
+> 目前没有标准化方法供用户访问求解器中变量的分数或顺序（也就是 [[VSIDS_Tutorials|VSIDS]] 的堆以及 [[VMTF]] 队列），标准化低开销访问此类信息仍是一个 Open Problem
+
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20251019161224353.png)
 
 - 在 BCP 时，我们调用 `cb_propagation` 函数来提供额外的待传播文字。需要注意的是，这个函数只返回一个待传播的文字，且此时不需要传播子句
@@ -112,7 +130,90 @@ void Internal::phase (int lit) {
 
 - 通过  `cb_add_external_clause_lit`  逐文字地添加该子句
 
+> [!attention]
+>
+> 目前，用户无法强制删除子句或收到外部子句删除的通知。
+
 ![image.png](https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/20251019161207796.png)
+
+# Finding Fixed Assignments
+
+根据具体应用场景，用户若能知晓 SAT 求解器做出的某个赋值将永久保持不变（即该赋值已固定），通常能带来益处。这使得用户可基于这些固定赋值执行进一步优化，从而简化自身约束条件与问题表达。
+
+当前 IPASIR-UP 的通知功能仅反馈（取消）赋值状态。
+
+我们只需要接入 `FixedAssignmentListener`，当任何变量被固定时会主动发送通知。
+
+```cpp
+class FixedAssignmentListener {
+public:
+  virtual ~FixedAssignmentListener () {}
+
+  virtual void notify_fixed_assignment (int) = 0;
+};
+```
+
+求解器在 `mark_fixed` 中调用这个函数，通知外部传播器（注意，SAT 求解器只会在学习到单元子句/传播单元子句时调用 `mark_fixed`）
+
+# Export Learned Clause
+
+IPASIR-UP 支持通过 `Learner` 来导出学习子句，其接口如下：
+
+```cpp
+class Learner {
+public:
+  virtual ~Learner () {}
+  virtual bool learning (int size) = 0;
+  virtual void learn (int lit) = 0;
+};
+```
+
+我们通过 `learning` 函数来判断是否可以导出学习子句，其中 `size`为准备好的学习子句的长度，若返回 `true`，则我们会通过 `learn` 函数来逐文字的导出学习子句；否则不导出。
+
+注意，SAT 求解器会在生成学习子句时，通过以下调用来判断是否需要导出，例如：
+
+```cpp
+void Internal::analyze () {
+// ....
+    if (external->learner)
+      external->export_learned_large_clause (clause);
+// ....
+}
+```
+
+```cpp
+void External::export_learned_large_clause (const vector<int> &clause) {
+  assert (learner);
+  size_t size = clause.size ();
+  assert (size <= (unsigned) INT_MAX);
+  if (learner->learning ((int) size)) {
+    LOG ("exporting learned clause of size %zu", size);
+    for (auto ilit : clause) {
+      const int elit = internal->externalize (ilit);
+      assert (elit);
+      learner->learn (elit);
+    }
+    learner->learn (0);
+  } else
+    LOG ("not exporting learned clause of size %zu", size);
+}
+```
+
+> [!tip]
+>
+> 一般来说我们只需要在 `learning` 中写上自己的判断条件即可
+
+# Known Issue
+
+IPASIR-UP 支持更细粒度的增量 SAT 求解方式，新子句不仅可以在两次求解调用之间添加，还可以在求解过程中添加。然而添加新子句存在以下两个问题：
+
+1. 每次 UP 提供子句时遍历整个重构栈可能成本过高（因为 SAT 求解器自身存在 [[预处理]] 技术）
+
+2. SAT 求解器的技术需要在找到简化公式的满足解后执行额外的解重构步骤（例如为消除的变量赋值/翻转一些拓展变量的值）。被翻转的变量可能位于 `trail` 中的任何决策层。由于 UP 对 `trail` 具有类似栈的视图，用户无法在不回溯到相应级别的情况下取消分配和重新分配这些变量。
+
+目前，IPASIR-UP 假设 `observed` 的变量在 SAT 中被冻结，并且每当通过 `add_observed_var` 添加变量时，它对于重构栈是无影响的。这确保了在添加外部子句时不需要额外的恢复步骤，并且在找到的解中不会翻转变量赋值。
+
+如果用户将一个子句定义为可遗忘，并且求解器决定删除它，它将在证明中显示为冗余子句的正常删除步骤，在这些情况下，需要在产生的证明中区分外部可遗忘子句和真正冗余的子句。
 
 # Conclusion
 
