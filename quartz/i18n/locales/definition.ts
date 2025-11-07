@@ -32,6 +32,9 @@ export interface Translation {
       lightMode: string
       darkMode: string
     }
+    readerMode?: {
+      title: string
+    }
     explorer: {
       title: string
     }
@@ -59,7 +62,7 @@ export interface Translation {
     contentMeta: {
       readingTime: (variables: { minutes: number }) => string
     }
-    pageNavigation: {
+    pageNavigation?: {
       prevPage: string
       nextPage: string
     }
