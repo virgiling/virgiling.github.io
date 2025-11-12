@@ -31,7 +31,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ContentMeta(),
     Component.TagList(),
     Component.OutOfDate(
-      { checkPaths: ["/01-courses/", "/03-tools/"], staleThreshold: 45 }
+      { checkPaths: ["/01-courses/", "/02-courses/", "/03-tools/", "/04-archive/"], staleThreshold: 45 }
     ),
   ],
   left: [
