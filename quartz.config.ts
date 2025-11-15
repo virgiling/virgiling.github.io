@@ -19,7 +19,7 @@ const config: QuartzConfig = {
     defaultDateType: "created",
     theme: {
       fontOrigin: "local",
-      cdnCaching: false,
+      cdnCaching: true,
       typography: {
         header: "LXGW WenKai Screen R",
         body: "LXGW WenKai Screen R",
@@ -45,7 +45,7 @@ const config: QuartzConfig = {
           dark: "#ebebec",
           secondary: "#7b97aa",
           tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
+          highlight: "rgba(228, 231, 233, 0.15)",
           textHighlight: "#b3aa0288",
         },
       },
@@ -58,8 +58,8 @@ const config: QuartzConfig = {
         priority: ["frontmatter", "git", "filesystem"],
       }),
       Plugin.Poetry(),
+      Plugin.SyntaxHighlighting({ theme: { light: "catppuccin-latte", dark: "catppuccin-mocha" } }),
       Plugin.Latex({ renderEngine: "katex" }),
-      Plugin.SyntaxHighlighting(),
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
