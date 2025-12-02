@@ -68,7 +68,7 @@ const config: QuartzConfig = {
       Plugin.Description({ descriptionLength: 60 }),
       Plugin.ViewImage(),
     ],
-    filters: [Plugin.RemoveDrafts(), Plugin.RemoveDiary(), Plugin.RemoveLocal()],
+    filters: [Plugin.ExplicitPublish(), Plugin.RemoveDiary(), Plugin.RemoveLocal()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
