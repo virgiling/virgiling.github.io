@@ -12,7 +12,11 @@ const config: QuartzConfig = {
     pageTitleSuffix: " | 思想犯",
     enableSPA: true,
     enablePopovers: true,
-    analytics: null,
+    analytics: {
+      provider: "umami",
+      websiteId: "b25a1826-6c9f-4a59-8306-e2425efa4781",
+      host: "https://cloud.umami.is"
+    },
     locale: "zh-CN",
     baseUrl: "virgiling.wiki",
     ignorePatterns: ["private", "templates", ".obsidian"],
