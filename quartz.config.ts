@@ -14,8 +14,7 @@ const config: QuartzConfig = {
     enablePopovers: true,
     analytics: {
       provider: "umami",
-      websiteId: "b25a1826-6c9f-4a59-8306-e2425efa4781",
-      host: "https://cloud.umami.is"
+      websiteId: "b25a1826-6c9f-4a59-8306-e2425efa4781"
     },
     locale: "zh-CN",
     baseUrl: "virgiling.wiki",
