@@ -35,7 +35,7 @@
         "micromorph": "^0.4.5",
         "minimatch": "^10.1.1",
         "pixi.js": "^8.14.3",
-        "preact": "^10.28.0",
+        "preact": "^10.28.1",
         "preact-render-to-string": "^6.6.4",
         "pretty-bytes": "^7.1.0",
         "pretty-time": "^1.1.0",
@@ -976,7 +976,7 @@
 
     "postcss-value-parser": ["postcss-value-parser@4.2.0", "https://registry.npmmirror.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz", {}, "sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ=="],
 
-    "preact": ["preact@10.28.0", "", {}, "sha512-rytDAoiXr3+t6OIP3WGlDd0ouCUG1iCWzkcY3++Nreuoi17y6T5i/zRhe6uYfoVcxq6YU+sBtJouuRDsq8vvqA=="],
+    "preact": ["preact@10.28.1", "", {}, "sha512-u1/ixq/lVQI0CakKNvLDEcW5zfCjUQfZdK9qqWuIJtsezuyG6pk9TWj75GMuI/EzRSZB/VAE43sNWWZfiy8psw=="],
 
     "preact-render-to-string": ["preact-render-to-string@6.6.4", "", { "peerDependencies": { "preact": ">=10 || >= 11.0.0-0" } }, "sha512-Bn6eQZ5SQ5loVEcC/mZmKT7HzO5Z/+vYzxfE/W2N468oSoNMJVdFGApF0GyXq0lDthuyXKTmtZ8k20NpYjr6Rw=="],
 
