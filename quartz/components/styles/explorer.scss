@@ -122,7 +122,10 @@ button.desktop-explorer {
     list-style: none;
     margin: 0;
     padding: 0;
-    overscroll-behavior: contain;
+
+    &.explorer-ul {
+      overscroll-behavior: contain;
+    }
 
     & li>a {
       color: var(--dark);
@@ -273,6 +276,8 @@ li:has(> .folder-outer:not(.open))>.folder-container>svg {
 
 .mobile-no-scroll {
   @media all and ($mobile) {
-    overscroll-behavior: none;
+    .explorer-content>.explorer-ul {
+      overscroll-behavior: contain;
+    }
   }
 }
