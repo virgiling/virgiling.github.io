@@ -309,8 +309,8 @@ export async function handleBuild(argv) {
     }
 
     const result = await ctx.rebuild().catch((err) => {
-      console.error(`${chalk.red("Couldn't parse Quartz configuration:")} ${fp}`)
-      console.log(`Reason: ${chalk.grey(err)}`)
+      console.error(`${styleText("red", "Couldn't parse Quartz configuration:")} ${fp}`)
+      console.log(`Reason: ${styleText("gray", err)}`)
       process.exit(1)
     })
     release()
@@ -335,7 +335,7 @@ export async function handleBuild(argv) {
     clientRefresh()
   }
 
-  let clientRefresh = () => {}
+  let clientRefresh = () => { }
   if (argv.serve) {
     const connections = []
     clientRefresh = () => connections.forEach((conn) => conn.send("rebuild"))
@@ -383,8 +383,10 @@ export async function handleBuild(argv) {
         })
         const status = res.statusCode
         const statusString =
-          status >= 200 && status < 300 ? chalk.green(`[${status}]`) : chalk.red(`[${status}]`)
-        console.log(statusString + chalk.grey(` ${argv.baseDir}${req.url}`))
+          status >= 200 && status < 300
+            ? styleText("green", `[${status}]`)
+            : styleText("red", `[${status}]`)
+        console.log(statusString + styleText("gray", ` ${argv.baseDir}${req.url}`))
         release()
       }
 
@@ -393,7 +395,10 @@ export async function handleBuild(argv) {
         res.writeHead(302, {
           Location: newFp,
         })
-        console.log(chalk.yellow("[302]") + chalk.grey(` ${argv.baseDir}${req.url} -> ${newFp}`))
+        console.log(
+          styleText("yellow", "[302]") +
+          styleText("gray", ` ${argv.baseDir}${req.url} -> ${newFp}`),
+        )
         res.end()
       }
 
@@ -467,7 +472,7 @@ export async function handleBuild(argv) {
       .on("change", () => build(clientRefresh))
       .on("unlink", () => build(clientRefresh))
 
-    console.log(chalk.grey("hint: exit with ctrl+c"))
+    console.log(styleText("gray", "hint: exit with ctrl+c"))
   }
 }
 
