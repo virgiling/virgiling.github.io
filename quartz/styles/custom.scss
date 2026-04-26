@@ -132,3 +132,18 @@ pre.poetry {
 button#toc {
   color: var(--secondary);
 }
+
+figure {
+  margin: 0;
+}
+
+figcaption {
+  text-align: center;
+  margin-top: .35em;
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+figure>img {
+  margin: 0;
+}
