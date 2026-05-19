@@ -30,9 +30,9 @@ export const Citations: QuartzTransformerPlugin<Partial<Options>> = (userOpts) =
       // thus, we optimistically assume there is indeed an appropriate
       // locale available and simply create the lang url-string
       let lang: string = "en-US"
-      // if (ctx.cfg.configuration.locale !== "en-US") {
-      //   lang = `https://raw.githubusercontent.com/citation-stylelanguage/locales/refs/heads/master/locales-${ctx.cfg.configuration.locale}.xml`
-      // }
+      if (ctx.cfg.configuration.locale !== "en-US") {
+        lang = `https://raw.githubusercontent.com/citation-style-language/locales/refs/heads/master/locales-${ctx.cfg.configuration.locale}.xml`
+      }
       // Add rehype-citation to the list of plugins
       plugins.push([
         rehypeCitation,
