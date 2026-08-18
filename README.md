@@ -60,5 +60,3 @@ make publish-website
 这些命令使用 `git subtree push`，不会在根仓库留下长期发布分支。它们会修改远端状态，因此不应由 Agent 自动执行。
 
 根仓库目前没有配置 `origin`；在确认新的 monorepo 托管地址后再添加。`legacy-*` 只用于向原仓库发布，不能替代根仓库的备份。
-
-迁移设计、恢复方式与验证记录见 [ORCA_MIGRATION.md](ORCA_MIGRATION.md)。
