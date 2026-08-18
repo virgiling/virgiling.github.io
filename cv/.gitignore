@@ -1,0 +1,17 @@
+.DS_Store
+
+__MACOSX/
+
+*.pdf
+
+*.lock
+
+cover-letter.typ
+
+publications.bib
+
+*-fr*
+
+.claude
+
+CLAUDE.md

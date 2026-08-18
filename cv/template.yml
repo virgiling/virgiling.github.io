@@ -1,0 +1,205 @@
+# Document settings
+settings:
+  font-heading: "Libertinus Serif"
+  font-body: "Libertinus Serif"
+  fontsize: 12pt
+  spacing-section: 10pt
+  spacing-entry: 0.2em
+  spacing-element: 5pt
+  spacing-line: 5pt
+  color-hyperlink: rgb(0, 0, 0)
+  page:
+    paper: "a4"
+    numbering: "1 / 1"
+    number-align: "center"
+    margin: 2cm
+
+# Personal information
+personal:
+  name: Dian Ling
+  titles:
+    - M.S. in Computer Science
+    - SAT
+  location:
+    university: Northeast Normal University
+    street: "2555 Jingyue Ave"
+    zip: "130117"
+    city: Changchun
+    state: Jilin
+    country: China
+  contact:
+    email: virgiling7@gmail.com
+    phone: "(+86) 18075428239"
+    website: https://cv.virgiling.wiki
+  profiles:
+    - network: GitHub
+      username: virgiling
+      url: https://github.com/virgiling
+
+sections:
+  - key: personal
+    layout: header
+    show: true
+    include: ["contact"]
+
+  - key: education
+    layout: timeline
+    primary-element: ["title", "institution"]
+    secondary-element: ["advisors"]
+    tertiary-element: ["Average Score", "Thesis"]
+    title: Education
+    show: true
+    entries:
+      - institution: Northeast Normal University
+        location: Changchun, China
+        title: M.S. in Computer Science
+        advisors:
+          - "Professor Minghao Yin"
+          - "Associate Professor Shuli Hu"
+        Average Score: 85
+        Thesis: 8.2/10
+
+        start-date: Sept. 2024
+        # excepted-date: 2026
+        end-date: May 2026
+      - institution: Northeast Normal University
+        location: Changchun, China
+        title: B.S. in Computer Science
+        advisors:
+          - "Professor Minghao Yin"
+          - "Associate Professor Shuli Hu"
+        Average Score: 88
+        Thesis: 9.5/10
+        start-date: Sept. 2020
+        end-date: May 2024
+
+  - key: publications
+    layout: numbered-list
+    title: Publications
+    show: true
+    entries:
+      - title: "Towards Cardinality-Aware Local Search for SAT with Cardinality
+          Constraints"
+        authors: Shuli Hu, *Dian Ling*, Jiaqi Li, Minghao Yin$""^dagger$
+        submit-to: "35th International Joint Conference on Artificial Intelligence"
+        submit-type: conference
+        short-name: "IJCAI'26"
+      - title:
+          "A Large Neighborhood Search with Deep Optimization for the Weighted
+          Total Domination Problem in Massive Graphs"
+        authors:
+          Shuli Hu, Wen Wen, *Dian Ling*, Jiaqi Li, Ziqing Liao, Ruizhi Li,
+          Minghao Yin$""^dagger$
+        submit-to: "Knowledge-Based Systems"
+        submit-type: journal
+        submit-details: "Available online, 116140"
+        short-name: "KBS"
+      - title:
+          "A Multi-start Algorithm with Iterated Decremental Local Search for
+          Minimum Capacitated Dominating Set Problem in Large Graphs"
+        authors:
+          Shuli Hu, Shuang Zhou, *Dian Ling*, Jiaqi Li, Ruizhi Li, Yupeng Zhou,
+          Minghao Yin$""^dagger$
+        submit-to: "Memetic Computing"
+        submit-type: journal
+        submit-details: "Volume 17, Issue 3, Pages 36"
+        short-name: "Memet Comput"
+
+  - key: experience
+    layout: timeline
+    primary-element: ["institution"]
+    secondary-element: ["title"]
+    tertiary-element: ["description"]
+    title: Visits and Internships
+    show: true
+    entries:
+      # - institution: ZGC Lab
+      #   title: Research Intern
+      #   start-date: May 2024
+      #   end-date: Aug. 2024
+      #   description:
+
+      - institution: Institute of Computing Technology, Chinese Academy of Sciences
+        title: Visiting Student
+        start-date: Jun. 2023
+        end-date: Aug. 2023
+        description: |
+          - Investigated the application and importance of sparse matrices in AI compilers
+          - Assisted in mapping loop-level IR to Triton kernels.
+
+  - key: awards
+    layout: timeline
+    primary-element: ["title"]
+    secondary-element: ["institution"]
+    tertiary-element: ["description"]
+    title: Selected Awards & Honors
+    show: true
+    entries:
+      - institution: Northeast Normal University
+        title: Outstanding Graduate Student
+        start-date: 2024
+      - institution: Northeast Normal University
+        title: Presidential Scholarship
+        start-date: 2021/2022/2024
+        description: |
+          Awarded to top 5% of students university-wide
+      - institution: Consortium for Mathematics and its Applications
+        title: Meritorious Winner
+        start-date: 2022
+      - institution: China Collegiate Programming Contest
+        title: Bronze Medal
+        start-date: 2021
+        description: |
+          The 15th Northeast Collegiate Programming Contest
+
+  - key: ta
+    layout: timeline
+    primary-element: ["title"]
+    secondary-element: ["institution"]
+    tertiary-element: ["description"]
+    title: Teaching Assistantships
+    show: true
+    entries:
+      - institution: School of Information Science and Technology
+        description: Northeast Normal University
+        title: Introduction to Computer Science
+        start-date: "2025"
+
+      - institution: School of Information Science and Technology
+        description: Northeast Normal University
+        title: Algorithm & Computer Programming
+        start-date: "2022 - 2026"
+
+  - key: software
+    layout: bullet-list
+    title: Maintained Projects
+    show: true
+    entries:
+      - title: "CardSAT-LS"
+        link: "https://github.com/virgiling/CardSAT-LS"
+        status: Active
+        desc: "A Cardinality-Aware Local Search SAT Solver."
+      - title: "NENU Thesis Typst Template"
+        link: "https://github.com/virgiling/NENU-Thesis-Typst"
+        status: Active
+        desc: "A Typst template for theses at Northeast Normal University (NENU)."
+      - title: "Astro-Navfolio"
+        link: "https://github.com/dodolalorc/astro-navfolio"
+        status: Active
+        desc: "A soft and modern personal dashboard template for developers, featuring cards, widgets, navigation, and digital identity."
+      - title: "XCPC Code Printer"
+        link: "https://github.com/virgiling/CodePrint"
+        status: "Archived"
+        desc: "A simple full stack code print servive which support the cluster of printers for XCPC."
+      - title: "Harvard-CES Workshop Website"
+        link: "https://harvardces.eduhk.hk/"
+        status: "Transferred"
+        desc: "The website for the Harvard–EdUHK–Stanford Joint Symposium."
+      - title: "NENU Secondary Bachelor Application Website"
+        link: "https://tslxbm.nenu.edu.cn/login"
+        status: "Transferred"
+        desc: "The website for applying the secondary bachelor degree in Northeast Normal University."
+      - title: "NENU Admissions Official Website"
+        link: "https://gkcx.nenu.edu.cn/"
+        status: "Transferred"
+        desc: "The website for Admissions Office of Northeast Normal University, helping students get information and check admission status."
