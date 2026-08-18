@@ -1,0 +1,3 @@
+[submodule "website/content"]
+	path = website/content
+	url = git@github.com:virgiling/blog_content.git
