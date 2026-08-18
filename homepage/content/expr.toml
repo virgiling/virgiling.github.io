@@ -1,0 +1,15 @@
+type = "card"
+title = "Experience"
+description = "Personal Research Experience, Visits and Internships"
+
+# [[items]]
+# title = "Research Intern"
+# subtitle = "ZGC Lab"
+# date = "2024"
+# content = ""
+
+[[items]]
+title = "Visiting Student"
+subtitle = "Institute of Computing Technology, Chinese Academy of Sciences"
+date = "2023"
+content = "Investigated the application and importance of sparse matrices in AI compilers"

@@ -1,0 +1,9 @@
+type = "card"
+title = "经历"
+description = "个人研究经历、访问与实习"
+
+[[items]]
+title = "访问学生"
+subtitle = "中国科学院计算技术研究所"
+date = "2023"
+content = "研究了稀疏矩阵在AI编译器中的应用和重要性"

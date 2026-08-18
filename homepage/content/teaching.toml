@@ -1,0 +1,17 @@
+type = "card"
+title = "Teaching Assistantships"
+description = "Courses I have assisted with."
+
+[[items]]
+title = "Algorithm & Computer Programming"
+subtitle = "Teaching Assistant"
+date = "2022 ~ 2026"
+content = "School of Information Science and Technology, Northeast Normal University"
+tags = ["CS", "Undergraduate"]
+
+[[items]]
+title = "Introduction to Computer Science"
+subtitle = "Teaching Assistant"
+date = "2023"
+content = "School of Information Science and Technology, Northeast Normal University"
+tags = ["CS", "Undergraduate"]

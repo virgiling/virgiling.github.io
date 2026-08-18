@@ -1,0 +1,15 @@
+type = "card"
+title = "Awards"
+description = "Selected honors and awards I have received."
+
+[[items]]
+title = "Outstanding Graduate Student"
+subtitle = "Northeast Normal University"
+date = "2024"
+content = ""
+
+[[items]]
+title = "Presidential Scholarship"
+subtitle = "Northeast Normal University"
+date = "2021/2022/2024"
+content = "Awarded to top 5% of students university-wide"

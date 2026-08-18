@@ -1,0 +1,4 @@
+type = "publication"
+title = "论文"
+description = "我参与发表的论文列表。"
+source = "publications.bib"

@@ -1,0 +1,37 @@
+type = "about"
+title = "关于我"
+
+[profile]
+research_interests = [
+  [
+    "自动推理",
+    "https://en.wikipedia.org/wiki/Automated_reasoning",
+  ],
+  [
+    "可满足性问题",
+    "https://en.wikipedia.org/wiki/Boolean_satisfiability_problem",
+  ],
+  [
+    "组合优化问题",
+    "https://en.wikipedia.org/wiki/Combinatorial_optimization",
+  ],
+]
+
+[[sections]]
+id = "about"
+type = "markdown"
+source = "bio.md"
+title = "关于我"
+
+[[sections]]
+id = "featured_publications"
+type = "publications"
+title = "论文合集"
+filter = "selected"
+limit = 5
+
+[[sections]]
+id = "news"
+type = "list"
+title = "动态"
+source = "news.toml"

@@ -1,0 +1,45 @@
+type = "card"
+title = "Maintained Projects"
+description = "Selected software projects, templates, and websites I maintain or have delivered."
+
+[[items]]
+title = "CardSAT-LS"
+link = "https://github.com/virgiling/CardSAT-LS"
+status = "WIP"
+content = "A Cardinality-Aware Local Search SAT Solver."
+
+[[items]]
+title = "NENU Thesis Typst Template"
+link = "https://github.com/virgiling/NENU-Thesis-Typst"
+status = "Active"
+content = "A Typst template for theses at Northeast Normal University (NENU)."
+
+[[items]]
+title = "Astro-Navfolio"
+link = "https://github.com/dodolalorc/astro-navfolio"
+status = "Active"
+content = "A soft and modern personal dashboard template for developers, featuring cards, widgets, navigation, and digital identity."
+
+[[items]]
+title = "XCPC Code Printer"
+link = "https://github.com/virgiling/CodePrint"
+status = "Archived"
+content = "A simple full stack code print service which supports a cluster of printers for XCPC."
+
+[[items]]
+title = "Harvard-CES Workshop Website"
+link = "https://harvardces.eduhk.hk/"
+status = "Transferred"
+content = "The website for the Harvard-EdUHK-Stanford Joint Symposium."
+
+[[items]]
+title = "NENU Secondary Bachelor Application Website"
+link = "https://tslxbm.nenu.edu.cn/login"
+status = "Transferred"
+content = "The website for applying to the secondary bachelor degree program at Northeast Normal University."
+
+[[items]]
+title = "NENU Admissions Official Website"
+link = "https://gkcx.nenu.edu.cn/"
+status = "Transferred"
+content = "The website for the Admissions Office of Northeast Normal University, helping students get information and check admission status."

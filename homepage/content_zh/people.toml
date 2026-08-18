@@ -1,0 +1,4 @@
+type = "people"
+title = "合作者"
+description = "我的合作者列表"
+source = "publications.bib"

@@ -1,0 +1,37 @@
+type = "about"
+title = "About"
+
+[profile]
+research_interests = [
+  [
+    "Automated Reasoning",
+    "https://en.wikipedia.org/wiki/Automated_reasoning",
+  ],
+  [
+    "SAT",
+    "https://en.wikipedia.org/wiki/Boolean_satisfiability_problem",
+  ],
+  [
+    "Combination & Optimization Problem",
+    "https://en.wikipedia.org/wiki/Combinatorial_optimization",
+  ],
+]
+
+[[sections]]
+id = "about"
+type = "markdown"
+source = "bio.md"
+title = "About"
+
+[[sections]]
+id = "featured_publications"
+type = "publications"
+title = "Selected Publications"
+filter = "selected"
+limit = 5
+
+[[sections]]
+id = "news"
+type = "list"
+title = "News"
+source = "news.toml"

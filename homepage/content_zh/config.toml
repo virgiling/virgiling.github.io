@@ -1,0 +1,96 @@
+[site]
+title = "凌典的个人主页"
+description = "东北师范大学-硕士"
+favicon = "/favicon.png"
+last_updated = "2026年5月30日"
+
+[author]
+name = "凌典"
+title = "流浪者"
+institution = "暂无"
+avatar = "/bio.jpg"
+
+[social]
+# 联系方式（留空或删除以隐藏）
+email = "virgiling7@gmail.com"
+blog = "virgiling.wiki"
+# location = "长春，中国"
+# location_url = "https://maps.google.com"
+# location_details = [
+#   "东北师范大学，信息科学技术学院",
+#   "长春，中国",
+# ]
+google_scholar = "https://scholar.google.com/citations?user=2KON72wAAAAJ&hl=en"
+orcid = "https://orcid.org/0009-0008-0378-7546"
+github = "https://github.com/virgiling"
+# linkedin = "https://linkedin.com"
+
+[features]
+# 在关于页面显示点赞按钮
+enable_likes = false
+# 将所有子页面显示在单页上
+enable_one_page_mode = false
+
+[i18n]
+enabled = true
+locales = ["zh", "en"]
+default_locale = "en"
+# "auto" 表示根据浏览器语言设置自动选择，"fixed" 表示固定为默认语言（但用户仍可切换，如需禁用请设置 "enable=false"）
+mode = "auto"
+fixed_locale = "en"
+# 如果为 true，PRISM 将在浏览器 localStorage 中记住用户的语言偏好
+persist = false
+# 在右上角显示语言切换器
+switcher = true
+
+[i18n.labels]
+zh = "中文"
+en = "English"
+
+[[navigation]]
+title = "关于"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "论文"
+type = "page"
+target = "publications"
+href = "/publications"
+
+[[navigation]]
+title = "奖项"
+type = "page"
+target = "awards"
+href = "/awards"
+
+[[navigation]]
+title = "经历"
+type = "page"
+target = "expr"
+href = "/expr"
+
+[[navigation]]
+title = "教学"
+type = "page"
+target = "teaching"
+href = "/teaching"
+
+[[navigation]]
+title = "软件"
+type = "page"
+target = "software"
+href = "/software"
+
+# [[navigation]]
+# title = "合作者"
+# type = "page"
+# target = "people"
+# href = "/people"
+
+[[navigation]]
+title = "简历"
+type = "link"
+target = "cv"
+href = "https://virgiling.wiki/cv/cv.pdf"

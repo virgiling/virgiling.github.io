@@ -1,0 +1,45 @@
+type = "card"
+title = "维护项目"
+description = "我维护或交付的部分软件项目、模板和网站。"
+
+[[items]]
+title = "CardSAT-LS"
+link = "https://github.com/virgiling/CardSAT-LS"
+status = "WIP"
+content = "一个基数约束感知的局部搜索 SAT 求解器。"
+
+[[items]]
+title = "NENU Thesis Typst Template"
+link = "https://github.com/virgiling/NENU-Thesis-Typst"
+status = "Active"
+content = "东北师范大学（NENU）学位论文 Typst 模板。"
+
+[[items]]
+title = "Astro-Navfolio"
+link = "https://github.com/dodolalorc/astro-navfolio"
+status = "Active"
+content = "一个柔和现代的个人开发者面板模板，包含卡片、组件、导航和数字身份。"
+
+[[items]]
+title = "XCPC Code Printer"
+link = "https://github.com/virgiling/CodePrint"
+status = "Archived"
+content = "一个简单的全栈代码打印服务，为 XCPC 竞赛支持打印机集群。"
+
+[[items]]
+title = "Harvard-CES Workshop Website"
+link = "https://harvardces.eduhk.hk/"
+status = "Transferred"
+content = "哈佛-教大-斯坦福联合研讨会网站。"
+
+[[items]]
+title = "NENU Secondary Bachelor Application Website"
+link = "https://tslxbm.nenu.edu.cn/login"
+status = "Transferred"
+content = "东北师范大学第二学士学位报名系统网站。"
+
+[[items]]
+title = "NENU Admissions Official Website"
+link = "https://gkcx.nenu.edu.cn/"
+status = "Transferred"
+content = "东北师范大学招生办公室官方网站，帮助考生获取信息和查询录取状态。"

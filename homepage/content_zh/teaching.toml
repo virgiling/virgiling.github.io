@@ -1,0 +1,17 @@
+type = "card"
+title = "教学"
+description = "我曾参与助教的课程。"
+
+[[items]]
+title = "算法与程序设计"
+subtitle = "助教"
+date = "2022 ~ 2026"
+content = "信息科学与技术学院，东北师范大学"
+tags = ["计算机", "本科生"]
+
+[[items]]
+title = "计算机科学导论"
+subtitle = "助教"
+date = "2023"
+content = "信息科学与技术学院，东北师范大学"
+tags = ["计算机", "本科生"]

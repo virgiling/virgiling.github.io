@@ -1,0 +1,96 @@
+[site]
+title = "Virgil's Home Page"
+description = "A Master Student in Northeast Normal University"
+favicon = "/favicon.png"
+last_updated = "May 30, 2026"
+
+[author]
+name = "Dian Ling"
+title = "Vagabond"
+institution = "Not yet"
+avatar = "/bio.jpg"
+
+[social]
+# Contact information (leave blank or delete to hide)
+email = "virgiling7@gmail.com"
+blog = "virgiling.wiki"
+# location = "City, Country"
+# location_url = "https://maps.google.com"
+# location_details = [
+#   "Room 123, Science Building,",
+#   "University Avenue, City, Country",
+# ]
+google_scholar = "https://scholar.google.com/citations?user=2KON72wAAAAJ&hl=en"
+orcid = "https://orcid.org/0009-0008-0378-7546"
+github = "https://github.com/virgiling"
+# linkedin = "https://linkedin.com"
+
+[features]
+# Show a like button on the about page
+enable_likes = false
+# Display all subpages on a single page
+enable_one_page_mode = false
+
+[i18n]
+enabled = true
+locales = ["zh", "en"]
+default_locale = "en"
+# "auto" means the locale will be determined by the browser's language setting, "fixed" means the locale will be fixed to the default locale (but can be switched still, if you want to disable, set "enable=false")
+mode = "auto"
+fixed_locale = "en"
+# If true, PRISM will remember user's language preference in browser's localStorage
+persist = false
+# Show a language switcher on the top right corner
+switcher = true
+
+[i18n.labels]
+zh = "中文"
+en = "English"
+
+[[navigation]]
+title = "About"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "Publications"
+type = "page"
+target = "publications"
+href = "/publications"
+
+[[navigation]]
+title = "Awards"
+type = "page"
+target = "awards"
+href = "/awards"
+
+[[navigation]]
+title = "Experience"
+type = "page"
+target = "expr"
+href = "/expr"
+
+[[navigation]]
+title = "Teaching"
+type = "page"
+target = "teaching"
+href = "/teaching"
+
+[[navigation]]
+title = "Software"
+type = "page"
+target = "software"
+href = "/software"
+
+# [[navigation]]
+# title = "People"
+# type = "page"
+# target = "people"
+# href = "/people"
+
+[[navigation]]
+title = "CV"
+type = "link"
+target = "cv"
+href = "https://virgiling.wiki/cv/cv.pdf"
