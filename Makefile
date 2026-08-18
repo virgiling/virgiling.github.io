@@ -25,6 +25,7 @@ status:
 doctor:
 	@command -v git >/dev/null && git --version
 	@command -v bun >/dev/null && bun --version
+	@bun -e 'const [major, minor, patch] = Bun.version.split(".").map(Number); const ok = major > 1 || (major === 1 && (minor > 3 || (minor === 3 && patch >= 14))); if (!ok) { console.error("Bun 1.3.14 or newer is required by website/package.json"); process.exit(1) }'
 	@command -v node >/dev/null && node --version
 	@command -v typst >/dev/null && typst --version
 
@@ -45,7 +46,7 @@ check-cv:
 
 check-homepage:
 	@cd homepage && bunx tsc --noEmit
-	@cd homepage && bunx eslint .
+	@cd homepage && bunx eslint src next.config.ts
 
 check-website:
 	@cd website && bun run check
