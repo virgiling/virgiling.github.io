@@ -3,6 +3,12 @@ title = "经历"
 description = "个人研究经历、访问与实习"
 
 [[items]]
+title = "研究实习生"
+subtitle = "中国科学院软件研究所"
+date = "2025年9月 – 至今"
+content = ""
+
+[[items]]
 title = "访问学生"
 subtitle = "中国科学院计算技术研究所"
 date = "2023"

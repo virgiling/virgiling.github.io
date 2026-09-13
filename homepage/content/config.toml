@@ -1,13 +1,13 @@
 [site]
 title = "Virgil's Home Page"
-description = "A Master Student in Northeast Normal University"
+description = "An Incoming Ph.D Student in CRIL"
 favicon = "/favicon.png"
-last_updated = "May 30, 2026"
+last_updated = "Sept. 13, 2026"
 
 [author]
 name = "Dian Ling"
-title = "Vagabond"
-institution = "Not yet"
+title = "Incoming Ph.D Student"
+institution = "CRIL"
 avatar = "/bio.jpg"
 
 [social]

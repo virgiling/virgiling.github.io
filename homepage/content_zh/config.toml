@@ -1,13 +1,13 @@
 [site]
 title = "凌典的个人主页"
-description = "东北师范大学-硕士"
+description = "CRIL-准博士生"
 favicon = "/favicon.png"
-last_updated = "2026年5月30日"
+last_updated = "2026年9月13日"
 
 [author]
 name = "凌典"
-title = "流浪者"
-institution = "暂无"
+title = "准博士生"
+institution = "CRIL"
 avatar = "/bio.jpg"
 
 [social]

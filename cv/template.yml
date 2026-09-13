@@ -84,21 +84,17 @@ sections:
         submit-to: "35th International Joint Conference on Artificial Intelligence"
         submit-type: conference
         short-name: "IJCAI'26"
-      - title:
-          "A Large Neighborhood Search with Deep Optimization for the Weighted
+      - title: "A Large Neighborhood Search with Deep Optimization for the Weighted
           Total Domination Problem in Massive Graphs"
-        authors:
-          Shuli Hu, Wen Wen, *Dian Ling*, Jiaqi Li, Ziqing Liao, Ruizhi Li,
+        authors: Shuli Hu, Wen Wen, *Dian Ling*, Jiaqi Li, Ziqing Liao, Ruizhi Li,
           Minghao Yin$""^dagger$
         submit-to: "Knowledge-Based Systems"
         submit-type: journal
         submit-details: "Available online, 116140"
         short-name: "KBS"
-      - title:
-          "A Multi-start Algorithm with Iterated Decremental Local Search for
+      - title: "A Multi-start Algorithm with Iterated Decremental Local Search for
           Minimum Capacitated Dominating Set Problem in Large Graphs"
-        authors:
-          Shuli Hu, Shuang Zhou, *Dian Ling*, Jiaqi Li, Ruizhi Li, Yupeng Zhou,
+        authors: Shuli Hu, Shuang Zhou, *Dian Ling*, Jiaqi Li, Ruizhi Li, Yupeng Zhou,
           Minghao Yin$""^dagger$
         submit-to: "Memetic Computing"
         submit-type: journal
@@ -113,6 +109,11 @@ sections:
     title: Visits and Internships
     show: true
     entries:
+      - institution: Institute of Software, Chinese Academy of Sciences
+        title: Research Intern
+        start-date: Sept. 2025
+        end-date: Present
+        description:
       # - institution: ZGC Lab
       #   title: Research Intern
       #   start-date: May 2024

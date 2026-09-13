@@ -9,6 +9,12 @@ description = "Personal Research Experience, Visits and Internships"
 # content = ""
 
 [[items]]
+title = "Research Intern"
+subtitle = "Institute of Software, Chinese Academy of Sciences"
+date = "Sept. 2025 – Present"
+content = ""
+
+[[items]]
 title = "Visiting Student"
 subtitle = "Institute of Computing Technology, Chinese Academy of Sciences"
 date = "2023"
