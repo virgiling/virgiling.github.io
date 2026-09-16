@@ -249,17 +249,50 @@ Node/npm/npx。Dependabot 会单独跟踪 Docker 基础镜像更新。
 
 ## 后续更新 v5
 
-当前官方 Quartz remote 名为 `public`。更新前先在独立分支操作：
+### 2026-09-16 同步记录
+
+已将官方 `public/v5` 从 `507ad7f3` 同步至
+[`3dff48b`](https://github.com/jackyzha0/quartz/commit/3dff48b5df6d84c9544a5ae19c8f2cbb01dc44e5)，在根仓库 `main`
+上以 `website/` 为目标目录 cherry-pick，保留各提交的上游来源。
+
+- 接入 8 个代码、依赖和维护提交，包括 `ContentDetails` 类型导入修复、
+  `analytics: null` schema 支持、上游测试格式修复与 Dependabot 分组。
+- `@quartz-community/*` 升级到 1.0 生态，`@quartz-themes/core` 升级到 2.0；
+  三个本地插件的 `@quartz-community/types` 依赖同步升级。
+- 3 个仅修改 `package-lock.json` 的提交（`233a975`、`9be7f42`、`3dff48b`）
+  不引入 npm 锁文件；对应依赖通过重新生成 `bun.lock` 同步，包含
+  `created-modified-date@1.0.1`。
+- 保留站点配置、布局、自定义样式、字体、英文元信息、本地 core 修复和内容
+  submodule 指针。保留 Bun 工作流；官方仓库专用的 Dependabot 自动合并工作流
+  不适用于本站，因此未启用。
+- 上游已修复两个测试文件的格式，移除它们在 `.prettierignore` 中的临时豁免。
+
+验收使用 Bun 1.3.14：固定锁文件安装、Git 插件冷恢复、`make check-website`
+与 `make build-website` 均通过。`make test` 在升级前后均为 158/163 通过，
+剩余 5 项仍为前述 `mock.method` 兼容问题；另在 `website/` 运行
+`node --test quartz/cli/helpers.test.js`，该文件的 10 项测试全部通过。
+生产构建解析 191 个 Markdown、过滤 42 个，输出 149 篇公开内容、224 个 HTML
+和 278 个总文件。
+
+### monorepo 更新流程
+
+官方 Quartz remote 名为 `public`，发布镜像为 `legacy-website`。以下命令均从
+monorepo 根目录执行，按根 `AGENTS.md` 直接在 `main` 上维护：
 
 ```bash
 git fetch public v5
-git merge --no-ff public/v5
-bun ci
-bun run plugins:install
-bun run check
-bun run test
-bun run build
+git log --reverse --oneline 3dff48b..public/v5
+# 审查后按时间顺序选择适用提交；将上游根目录映射到 website/。
+git cherry-pick -x -Xsubtree=website <commit>...
+make install-website
+make check-website
+make test
+make build-website
 ```
+
+发生依赖冲突时保留 Bun、workspace 插件和站点专属依赖；依赖清单变更后先在
+`website/` 运行 `bun install` 更新 `bun.lock`。不要恢复 `package-lock.json`。
+样式冲突优先保留本站修改，功能修复逐项整合。同步完成后更新本节的上游基线。
 
 重点检查上游是否改动了：
 
