@@ -274,6 +274,19 @@ Node/npm/npx。Dependabot 会单独跟踪 Docker 基础镜像更新。
 生产构建解析 191 个 Markdown、过滤 42 个，输出 149 篇公开内容、224 个 HTML
 和 278 个总文件。
 
+### 2026-09-18 发布入口与依赖维护
+
+网站通过根仓库的 `git push-website` 或 `make publish-website` 发布：先导出
+`website/`，再推送到 `legacy-website:v5`。本地开发仍使用 `main`，不能将整个
+monorepo 的 `main` 直接推到网站镜像。`--dry-run` 可预演网站推送；网站之外的
+未提交修改不会阻止发布。
+
+整合 Dependabot PR #124（Pages Actions）、#125（Bun 1.4.2 Docker 运行时）和
+#126（JavaScript 依赖），保留 Quartz 1.0 插件生态、Bun 构建与站点样式。
+TypeScript 升级到 7 后使用 `bundler` 模块解析，Markdown AST 类型改从 `mdast`
+导入；`micromorph.d.ts` 复用 micromorph 0.4.5 已发布、但未暴露在 package exports
+中的声明，不改变 SPA 运行时代码。
+
 ### monorepo 更新流程
 
 官方 Quartz remote 名为 `public`，发布镜像为 `legacy-website`。以下命令均从
