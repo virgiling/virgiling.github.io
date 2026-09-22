@@ -89,7 +89,7 @@
     "@quartz-community/search": "^1.0.0",
     "@quartz-community/spacer": "^1.0.0",
     "@quartz-community/stacked-pages": "^1.0.0",
-    "@quartz-community/syntax-highlighting": "^1.0.0",
+    "@quartz-community/syntax-highlighting": "^1.0.1",
     "@quartz-community/table-of-contents": "^1.0.0",
     "@quartz-community/tag-list": "^1.0.0",
     "@quartz-community/tag-page": "^1.0.0",
@@ -130,16 +130,16 @@
   },
   "devDependencies": {
     "@quartz-community/types": "^1.0.0",
-    "@quartz-community/utils": "^1.0.0",
+    "@quartz-community/utils": "^1.0.1",
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^26.5.1",
+    "@types/node": "^26.6.2",
     "@types/pretty-time": "^1.1.5",
     "@types/source-map-support": "^0.5.10",
     "@types/ws": "^8.18.1",
     "@types/yargs": "^17.0.35",
     "esbuild": "^0.28.2",
-    "prettier": "^3.8.1",
+    "prettier": "^3.9.8",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   }

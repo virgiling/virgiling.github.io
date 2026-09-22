@@ -287,6 +287,25 @@ TypeScript 升级到 7 后使用 `bundler` 模块解析，Markdown AST 类型改
 导入；`micromorph.d.ts` 复用 micromorph 0.4.5 已发布、但未暴露在 package exports
 中的声明，不改变 SPA 运行时代码。
 
+### 2026-09-23 上游与 PR 合并同步
+
+已将官方 `public/v5` 从 `3dff48b` 同步至
+[`97a2d05`](https://github.com/jackyzha0/quartz/commit/97a2d05f80c4c50534959b1d0d41cc4b3895625e)，
+并将本站 Dependabot PR [#127](https://github.com/virgiling/virgiling.github.io/pull/127)
+和 [#128](https://github.com/virgiling/virgiling.github.io/pull/128) 的更新合并为一个提交。
+
+- PR #127 与上游新增提交更新相同依赖：`@quartz-community/syntax-highlighting`
+  和 `@quartz-community/utils` 均升至 1.0.1，去重整合。
+- PR #128 将 `@types/node` 升至 26.6.2、Prettier 升至 3.9.8。
+- 保留 `bun.lock`，不引入上游的 `package-lock.json`；保留站点配置、本地插件、
+  发布入口和内容 submodule 指针。
+
+使用 Bun 1.3.14 验收：`make install-website`、`make check-website` 和
+`make build-website` 通过。`make test` 为 158/163 通过，5 项失败仍是上述
+`mock.method` 兼容问题；在 `website/` 用 Node 运行 helpers 测试，10 项全部通过。
+当前内容基线输出 150 篇公开内容、212 个 HTML 和 266 个总文件，`SMT-Basic.md`
+仍在公开索引中。
+
 ### monorepo 更新流程
 
 官方 Quartz remote 名为 `public`，发布镜像为 `legacy-website`。以下命令均从
@@ -294,7 +313,7 @@ monorepo 根目录执行，按根 `AGENTS.md` 直接在 `main` 上维护：
 
 ```bash
 git fetch public v5
-git log --reverse --oneline 3dff48b..public/v5
+git log --reverse --oneline 97a2d05..public/v5
 # 审查后按时间顺序选择适用提交；将上游根目录映射到 website/。
 git cherry-pick -x -Xsubtree=website <commit>...
 make install-website
@@ -312,7 +331,7 @@ make build-website
 - `quartz/plugins/emitters/componentResources.ts` 中远程 CSS `@import` 提升逻辑；
 - `quartz/util/sourcemap.ts` 中 Bun URL 兼容逻辑；
 - `quartz.config.yaml` schema 与插件配置格式；
-- 内容记录仍为 149，以及 `SMT-Basic.md` 仍然发布。
+- 公开内容数量与当前 submodule 基线一致，以及 `SMT-Basic.md` 仍然发布。
 
 官方迁移背景可参考
 [Quartz v5 migration guide](https://github.com/jackyzha0/quartz/blob/507ad7f3d4601d83482f61930fccf1c77f42a072/docs/getting-started/migrating.md)。
