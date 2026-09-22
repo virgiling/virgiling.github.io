@@ -47,7 +47,7 @@
         "@quartz-community/search": "^1.0.0",
         "@quartz-community/spacer": "^1.0.0",
         "@quartz-community/stacked-pages": "^1.0.0",
-        "@quartz-community/syntax-highlighting": "^1.0.0",
+        "@quartz-community/syntax-highlighting": "^1.0.1",
         "@quartz-community/table-of-contents": "^1.0.0",
         "@quartz-community/tag-list": "^1.0.0",
         "@quartz-community/tag-page": "^1.0.0",
@@ -89,7 +89,7 @@
       },
       "devDependencies": {
         "@quartz-community/types": "^1.0.0",
-        "@quartz-community/utils": "^1.0.0",
+        "@quartz-community/utils": "^1.0.1",
         "@types/hast": "^3.0.4",
         "@types/mdast": "^4.0.4",
         "@types/node": "^26.5.1",
@@ -429,7 +429,7 @@
 
     "@quartz-community/stacked-pages": ["@quartz-community/stacked-pages@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0", "@quartz-community/utils": "^1.0.0" }, "peerDependencies": { "preact": "^10.0.0", "vfile": "^6.0.3" }, "optionalPeers": ["vfile"] }, "sha512-fNyu7LGsnJYorZIsXF86sMjOpc0YTTvlwg4KNoYqbDON2l+cFCt4t3z4pfCES9bV/wQ7561nV4fSjmY8NB142w=="],
 
-    "@quartz-community/syntax-highlighting": ["@quartz-community/syntax-highlighting@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "preact": "^10.0.0", "shiki": "^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0" } }, "sha512-mIjBgbju7T0sCXvxiNsaUS0zXze5uKe8tZ0Hbu/MQvcmW2f3ItCFiS5uenOxifHkyOtB3INOFxrMe66ljFFY2g=="],
+    "@quartz-community/syntax-highlighting": ["@quartz-community/syntax-highlighting@1.0.1", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "preact": "^10.0.0", "shiki": "^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0" } }, "sha512-nybu9Y6kZPD221HZCBMwx0RKCSVGJybVBDtCNsbcQUgHAeLxT8A3g9ktPPZBsN4wpwBQqD+fWZqaU6oXyyCOzg=="],
 
     "@quartz-community/table-of-contents": ["@quartz-community/table-of-contents@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0", "@quartz-community/utils": "^1.0.0" }, "peerDependencies": { "preact": "^10.0.0" } }, "sha512-P9/Jxy7EoQKcCwjU1kXrwxRz08updKarTkvTiD9CrvBB8myWzJp4PLCITuwpEkU9284xYCwwbJ3Hkho2SM+g4g=="],
 
@@ -441,7 +441,7 @@
 
     "@quartz-community/unlisted-pages": ["@quartz-community/unlisted-pages@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0", "@quartz-community/utils": "^1.0.0" }, "peerDependencies": { "vfile": "^6.0.3" }, "optionalPeers": ["vfile"] }, "sha512-IItIpJA8/cLKuIs/J3pcU1x7j4NZY3hJPYBEUQb0+tMQjZIAT2e9cKfU7Uj1UcmnZIDfU9+7mjLTWVXgxUPcMg=="],
 
-    "@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+    "@quartz-community/utils": ["@quartz-community/utils@1.0.1", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-oN19Y1KTZOMRuovPnD55wvVup++sZzao0MXihuLNaEEtH1QAg5z4hRrP2ySXF4Ra68T+3ehIICHWa8dHB0LM3A=="],
 
     "@quartz-themes/core": ["@quartz-themes/core@2.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "preact": "^10.0.0" } }, "sha512-OwcIgO9s83CR0rDjXAjGUwQR/b+GIv4FlydETA19cEZzBZJe4c+WON/vOMEJaw5CLvhxwuVVaBVm8Ms8uIWemw=="],
 
@@ -1096,6 +1096,66 @@
     "zwitch": ["zwitch@2.0.4", "", {}, "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="],
 
     "@parcel/watcher/picomatch": ["picomatch@4.0.5", "", {}, "sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A=="],
+
+    "@quartz-community/alias-redirects/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/article-title/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/backlinks/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/bases-page/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/breadcrumbs/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/canvas-page/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/comments/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/content-index/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/content-page/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/crawl-links/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/darkmode/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/description/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/encrypted-pages/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/explorer/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/folder-page/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/footer/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/graph/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/note-properties/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/obsidian-flavored-markdown/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/og-image/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/page-title/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/quartz-fonts/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/reader-mode/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/recent-notes/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/search/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/stacked-pages/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/table-of-contents/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/tag-list/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/tag-page/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
+
+    "@quartz-community/unlisted-pages/@quartz-community/utils": ["@quartz-community/utils@1.0.0", "", { "dependencies": { "@quartz-community/types": "^1.0.0" }, "peerDependencies": { "github-slugger": "^2.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "preact": "^10.0.0" }, "optionalPeers": ["github-slugger", "hast-util-to-jsx-runtime"] }, "sha512-EaeakR/wxd4sTw4L6FJ04fYMzhha1UfI8tMi3H6KvUz4QWOHcTRmfo7ykiBDq6S9s7qJMacob/1wnNcFfVA20Q=="],
 
     "@types/ws/@types/node": ["@types/node@25.9.5", "", { "dependencies": { "undici-types": ">=7.24.0 <7.24.7" } }, "sha512-OScDchr2fwuUmWdf4kZ9h7PcJiYDVInhJizG/biAq3cAvqwYktuy/TYGGdZNMtNTFUP7rnb0NU4TUdm82kt4Rg=="],
 
