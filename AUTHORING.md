@@ -28,8 +28,11 @@ cover: null
 
 ## Obsidian Linter
 
-内容仓库只跟踪实际规则文件
-`.obsidian/plugins/obsidian-linter/data.json`，不跟踪插件代码。Linter 目前只有
+`.obsidian/` 与 `.claudian/` 仅保存在本地，整个目录均不纳入内容仓库，
+也不推送到 GitHub；这包括插件配置、Claudian 设置、会话记录与设备元数据。
+内容仓库的 `.gitignore` 和 `AGENTS.md` 共同维护此边界，不为个别配置添加例外。
+
+Linter 的本地规则位于 `.obsidian/plugins/obsidian-linter/data.json`。目前只有
 一套全局规则，不能针对普通博客和 `10-daily` 设置两套 profile，因此职责拆分为：
 
 - `private/Templater/Blogs.md` 与 `private/Templater/Daily.md` 分别提供语义默认值；
@@ -39,8 +42,10 @@ cover: null
 - `05-project`、`private`、`Excalidraw` 与附件目录保持忽略，不参与自动格式化；
 - `lastmod` 在实质修改或发布前由作者更新，Linter 不根据文件系统时间覆盖它。
 
-Daily Notes 的目录与模板路径记录在 `.obsidian/daily-notes.json`，两份配置都随
-内容仓库版本化。
+Daily Notes 的目录与模板路径记录在本地 `.obsidian/daily-notes.json`，两份配置
+都不随内容仓库版本化。已跟踪的配置或会话文件应使用 `git rm --cached` 取消跟踪，
+保留本地文件；提交并推送后，GitHub 当前版本不再包含它们。旧提交中的副本不会
+因此消失，清除历史需要另行授权重写历史。
 
 ## 三层可见性
 
@@ -55,7 +60,7 @@ Daily Notes 的目录与模板路径记录在 `.obsidian/daily-notes.json`，两
 URL。敏感正文和附件都应放在 `private` 等硬忽略目录。`publish` 只过滤 Markdown
 页面，不能保护位于公开目录中的图片、PDF 或其他附件。
 
-当前硬忽略范围包括 `private`、`templates`、`.obsidian`、`10-daily`、
+当前硬忽略范围包括 `private`、`templates`、`.obsidian`、`.claudian`、`10-daily`、
 `05-project`、`30-tasks`、`00-copilot`、`Excalidraw`，以及暂不支持的
 `.base` / `.canvas` 文件。路径规则会在解析和 Assets 复制之前生效。
 

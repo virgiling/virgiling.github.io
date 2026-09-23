@@ -22,6 +22,8 @@ configuration:
     - "**/templates/**"
     - ".obsidian/**"
     - "**/.obsidian/**"
+    - ".claudian/**"
+    - "**/.claudian/**"
     - "10-daily/**"
     - "05-project/**"
     - "30-tasks/**"
