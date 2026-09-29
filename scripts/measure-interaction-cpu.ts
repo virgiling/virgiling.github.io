@@ -1,8 +1,8 @@
 import {readFile,readdir,writeFile,mkdir} from 'node:fs/promises';
 import {cpus} from 'node:os';
 import {importSearch} from '../src/search';
-import {validateGraph} from '../src/runtime/graph-view.js';
-import {localGraphLayout} from '../src/ui/local-graph-layout.mjs';
+import {validateGraph} from '../src/runtime/graph-view';
+import {localGraphLayout} from '../src/ui/local-graph-layout';
 
 // CPU costs of the actual pure functions, not browser event-to-paint latency.
 // Read only published build data. No browser, DOM emulation or network service.

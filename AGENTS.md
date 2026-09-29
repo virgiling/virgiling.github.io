@@ -3,6 +3,8 @@
 ## 项目结构
 
 - Astro 负责路由与静态输出；内容编译位于 `src/content/`、`src/markdown/`，交互位于 `src/runtime/`。
+- 页面与静态 UI 使用带类型化 Props 的 `.astro` 组件，纯计算与展示模型留在 TypeScript 模块中；不为复用或测试另建 HTML 字符串模板层。Markdown 编译与必要的序列化边界不受此限制。
+- 手写逻辑、浏览器运行时、测试与支持 TypeScript 的配置统一使用 `.ts`；第三方补丁和生成的 JavaScript 不迁移。不要用 `@ts-nocheck` 或宽泛的 `any` 绕过模块边界的类型建模。
 - 使用 Bun 和现有锁文件。依赖变更同步 `package.json`、`bun.lock`，检查 `patches/` 中的补丁兼容性。
 - 修改源码而非 `dist/`、`.astro/` 或 `src/fonts/generated/` 等生成文件。
 
@@ -21,6 +23,6 @@
 - 修复缺陷时补充回归测试，沿用现有测试工具。
 - `bun run validate` 执行类型检查、测试、构建与静态产物检查；路径、字体或开发模块变更另检查 `verify:http` / `verify:dev`。
 - 区分单元测试、HTTP、资源体积与浏览器性能证据，不从一种检查推断另一种结果。
-- 设计与行为变更同步到 `docs/design-review.md` 的相关技术章节。
-- README、设计文稿和源码说明面向公开项目；不包含私人工作区、agent 操作限制、服务进程、授权记录或内部会话信息。
+- 本站是个人博客，不维护站点根目录的 README；设计与行为变更同步到 `docs/design-review.md` 的相关技术章节。
+- 设计文稿和源码说明面向公开项目；不包含私人工作区、agent 操作限制、服务进程、授权记录或内部会话信息。
 - 若本机存在未跟踪的 `.pi/maintenance.md`，先读取其补充约定；不将其中内容写回公开代码、文档或 Git 记录。

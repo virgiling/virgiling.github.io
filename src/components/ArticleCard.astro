@@ -1,0 +1,74 @@
+---
+import { tagURL } from "../ui/shared";
+import type { ArticleSummary } from "../ui/types";
+interface Props {
+  note: ArticleSummary;
+  depth?: 2 | 3 | 4 | 5 | 6;
+  prefix?: string;
+  stackIndex?: number | null;
+  updated?: boolean;
+}
+const {
+  note,
+  depth = 3,
+  prefix = "",
+  stackIndex = null,
+  updated = false,
+} = Astro.props;
+const Heading = `h${depth}` as `h${typeof depth}`;
+const tags = [...new Set(note.tags || [])];
+const value = updated ? note.updated || note.date : note.date;
+const headerDate = tags.length > 3;
+const stack = stackIndex !== null;
+---
+
+<article
+  class:list={["note-card", { "stack-card": stack }]}
+  data-note={note.slug}
+  style={
+    stack
+      ? `--i:${Math.min(stackIndex, 2)};z-index:${Math.max(1, 100 - stackIndex)}`
+      : undefined
+  }
+>
+  <a
+    class:list={["card-content", { "tag-result-title": !stack }]}
+    href={prefix + note.url}
+    aria-label={note.title}
+  >
+    <div class="card-title-row">
+      <Heading>{note.title}</Heading>
+      {headerDate && value && (
+        <span class="card-created">
+          {updated ? "最近更新" : "创作时间"}{" "}
+          <time datetime={value}>{value.slice(0, 10)}</time>
+        </span>
+      )}
+    </div>
+    <p class="card-description">{note.summary}</p>
+  </a>
+  {((!headerDate && value) || tags.length > 0) && (
+    <footer class="card-footer">
+      {!headerDate && value && (
+        <span class="card-created">
+          {updated ? "最近更新" : "创作时间"}{" "}
+          <time datetime={value}>{value.slice(0, 10)}</time>
+        </span>
+      )}
+      {tags.length > 0 && (
+        <div class="card-tags" aria-label="文章标签">
+          {tags.map((tag) => (
+            <a class="tag" href={tagURL(tag)}>
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </footer>
+  )}
+  {stack && stackIndex > 0 && (
+    <span class="ghost-title" aria-hidden="true">
+      ↳ {note.title}
+    </span>
+  )}
+</article>

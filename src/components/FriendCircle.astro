@@ -1,0 +1,68 @@
+---
+import type { FriendPost, FeedResult } from "../friends/feeds";
+interface Props {
+  posts: FriendPost[];
+  results: FeedResult[];
+}
+const { posts, results } = Astro.props;
+const successful = results.filter(
+  (result) => result.status === "ok" || result.status === "stale",
+);
+const dates = successful
+  .map((result) => result.updatedAt)
+  .filter((date): date is string => Boolean(date))
+  .sort();
+const latest = dates.at(-1);
+const stale = results.some((result) => result.status === "stale");
+---
+
+<section
+  class="friends-section"
+  id="friend-circle"
+  aria-labelledby="page-title"
+>
+  <h1 id="page-title">近况</h1>
+  <p class="friend-sync">
+    {successful.length} 个订阅源
+    {latest && (
+      <>
+        {" "}
+        · 最近同步 <time datetime={latest}>{latest.slice(0, 10)}</time>
+      </>
+    )}
+    {stale && " · 部分订阅暂不可用，保留上次结果"}
+  </p>
+  {posts.length ? (
+    <ol class="friend-posts">
+      {posts.map((post) => (
+        <li>
+          <span class="friend-post-summary">
+            <a
+              class="friend-post-author"
+              href={post.authorUrl}
+              title={post.author}
+            >
+              {post.author}
+            </a>
+            <span class="friend-post-separator" aria-hidden="true">
+              －
+            </span>
+            <a
+              class="friend-post-title"
+              href={post.url}
+              rel="noopener noreferrer"
+              title={post.title}
+            >
+              {post.title}
+            </a>
+          </span>
+          <time class="friend-post-date" datetime={post.date}>
+            {post.date.slice(0, 10)}
+          </time>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p class="side-empty">暂时没有可读取的更新，可以先去朋友们的网站逛逛。</p>
+  )}
+</section>

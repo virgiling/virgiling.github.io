@@ -1,5 +1,5 @@
 import { relative, resolve } from "node:path";
-import { classifyContentPath } from "../content-policy.mjs";
+import { classifyContentPath } from "../content-policy";
 
 export function watchedContentPath(file: string, root = resolve("content")) {
   const path = relative(root, resolve(file)).replaceAll("\\", "/");

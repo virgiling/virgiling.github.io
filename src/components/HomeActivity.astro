@@ -1,0 +1,70 @@
+---
+import { articleActivity, type ActivityConfig } from "../ui/home-activity.ts";
+import type { CatalogNote } from "../ui/types";
+import { url } from "../site.config";
+interface Props {
+  pages: CatalogNote[];
+  config?: ActivityConfig;
+}
+const { pages, config = {} } = Astro.props;
+const activity = articleActivity(pages, config);
+---
+
+<section class="side-section home-activity" aria-labelledby="updates-heading">
+  <h2 class="side-title" id="updates-heading">
+    <a href={url("updates")} aria-label="查看全部最近更新">
+      最近更新 <span aria-hidden="true">↗</span>
+    </a>
+  </h2>
+  {activity.recent.length ? (
+    <ol class="recent-updates">
+      {activity.recent.map((note) => (
+        <li>
+          <a href={note.url}>{note.title}</a>
+          <time datetime={note.activityDate}>{note.activityDate}</time>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p class="side-empty">暂无文章更新。</p>
+  )}
+  {activity.days.length > 0 && (
+    <div class="update-heatmap">
+      <p class="heatmap-range">
+        <time datetime={activity.start}>{activity.start}</time> —{" "}
+        <time datetime={activity.end}>{activity.end}</time>
+      </p>
+      <svg
+        viewBox={`0 0 ${activity.weeks * 10} 70`}
+        role="img"
+        aria-labelledby="heatmap-title heatmap-description"
+      >
+        <title id="heatmap-title">文章最近更新日分布，{activity.weeks} 周</title>
+        <desc id="heatmap-description">
+          {activity.counts
+            .map((day) => `${day.date}：${day.count} 篇`)
+            .join("；")}
+          。每篇文章只按最近更新日计一次，不代表完整编辑历史。
+        </desc>
+        {activity.days.map((day, index) => (
+          <rect
+            class:list={[
+              "heatmap-day",
+              `level-${day.level}`,
+              { "is-future": day.future },
+            ]}
+            x={Math.floor(index / 7) * 10}
+            y={(index % 7) * 10}
+            width="8"
+            height="8"
+            rx="2"
+            data-date={day.date}
+            data-count={day.count}
+          >
+            <title>{day.future ? "" : `${day.date}：${day.count} 篇`}</title>
+          </rect>
+        ))}
+      </svg>
+    </div>
+  )}
+</section>

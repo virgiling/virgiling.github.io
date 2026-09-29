@@ -1,0 +1,27 @@
+---
+import ArticleCard from "./ArticleCard.astro";
+import { articleActivity } from "../ui/home-activity.ts";
+import type { CatalogNote } from "../ui/types";
+interface Props {
+  pages: CatalogNote[];
+}
+const { pages } = Astro.props;
+const { recent } = articleActivity(pages, { recentCount: pages.length });
+---
+
+<main class="shell archive-page" id="main">
+  <header class="page-intro">
+    <div class="eyebrow">RECENTLY UPDATED</div>
+    <h1>最近更新</h1>
+    <p class="archive-count">{recent.length} 则笔记，按最近编辑时间排列。</p>
+  </header>
+  {recent.length ? (
+    <div class="card-list">
+      {recent.map((note) => (
+        <ArticleCard note={note} depth={2} updated />
+      ))}
+    </div>
+  ) : (
+    <p class="empty-state">暂时没有文章更新。</p>
+  )}
+</main>

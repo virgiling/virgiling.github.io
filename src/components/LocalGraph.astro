@@ -1,0 +1,39 @@
+---
+import GraphSVG from "./GraphSVG.astro";
+import { localGraphModel, type GraphPage } from "../ui/graph.ts";
+interface Props {
+  note: GraphPage;
+  neighbors: GraphPage[];
+}
+const { note, neighbors } = Astro.props;
+const model = localGraphModel(note, neighbors);
+const empty = model.nodes.filter((node) => node.type === "page").length < 2;
+---
+
+<section class="side-section graph-section">
+  <h2 class="side-title" id="graph-heading">
+    关系图谱
+  </h2>
+  <div class="graph graph-local">
+    <GraphSVG model={model} />
+    <button
+      class="graph-expand"
+      id="open-graph"
+      aria-label="打开全局关系图谱"
+      aria-haspopup="dialog"
+      aria-controls="graph-dialog"
+      hidden
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        aria-hidden="true"
+      >
+        <path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5M3 3l6 6M21 3l-6 6M3 21l6-6M21 21l-6-6" />
+      </svg>
+    </button>
+    {empty && <p class="graph-empty">这篇笔记暂无关联笔记</p>}
+  </div>
+</section>

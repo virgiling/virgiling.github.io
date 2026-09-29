@@ -5,7 +5,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {setTimeout as delay} from 'node:timers/promises';
 import assert from 'node:assert/strict';
 import {siteConfig} from '../src/site.config';
-import {validateGraph} from '../src/runtime/graph-view.js';
+import {validateGraph} from '../src/runtime/graph-view';
 import {hasBiro,biroPath,biroURL,biroStyles} from '../src/fonts';
 import {verifyDevGraph} from './dev-graph-contract';
 

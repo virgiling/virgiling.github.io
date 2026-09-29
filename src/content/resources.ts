@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { globalGraphData } from "../ui/graph.mjs";
+import { globalGraphData } from "../ui/graph";
 import { exportSearch } from "../search";
 import { getSnapshot } from "./snapshot";
 import { url } from "../site.config";

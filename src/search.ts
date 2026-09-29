@@ -3,7 +3,7 @@ import {
   parseQuery,
   prepareRecord,
   searchRecords,
-} from "./runtime/search-query.js";
+} from "./runtime/search-query";
 export interface SearchRecord {
   id: string;
   url: string;

@@ -11,6 +11,7 @@ const action=(name:string)=>steps.find((step:any)=>step.uses?.startsWith(name+'@
 test('Pages builds main and deploys only after successful validation with scoped permissions',()=>{
   assert.deepEqual(workflow.on.push.branches,['main']);
   assert.ok(Object.hasOwn(workflow.on,'workflow_dispatch'));
+  assert.deepEqual(workflow.on.schedule,[{cron:'23 */6 * * *'}]);
   assert.deepEqual(workflow.permissions,{});
   assert.deepEqual(workflow.jobs.build.permissions,{contents:'read'});
   const deploy=workflow.jobs.deploy;
@@ -55,8 +56,9 @@ test('Pages pins third-party actions and does not cache private build inputs',()
     assert.ok(job['timeout-minutes']>0);
     for(const step of job.steps){
       if(step.uses)assert.match(step.uses,/^[\w-]+\/[\w-]+@[a-f0-9]{40}$/);
-      assert.ok(!step.uses?.startsWith('actions/cache@'));
+      if(step.uses?.startsWith('actions/cache@'))assert.equal(step.with.path,'.astro/friends','Only normalized public feed snapshots may be cached');
     }
   }
   assert.equal(action('astral-sh/setup-uv').with['enable-cache'],false);
+  assert.equal(workflow.jobs.build.env.FRIENDS_REFRESH,'1');
 });

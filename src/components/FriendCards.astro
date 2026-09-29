@@ -1,0 +1,35 @@
+---
+import type { Friend } from "../friends/markdown";
+interface Props {
+  friends: Friend[];
+}
+const { friends } = Astro.props;
+---
+
+<section class="friends-section" id="friend-links" aria-label="友链">
+  <div class="friend-grid">
+    {friends.map((friend) => (
+      <a class="friend-card" href={friend.url} rel="noopener noreferrer">
+        <span class="friend-avatar" aria-hidden="true">
+          {friend.avatar ? (
+            <img
+              src={friend.avatar}
+              alt=""
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            [...friend.name][0] || "友"
+          )}
+        </span>
+        <span>
+          <strong>{friend.name}</strong>
+          <span class="friend-bio">{friend.bio}</span>
+          <span class="friend-domain">{new URL(friend.url).hostname}</span>
+        </span>
+      </a>
+    ))}
+  </div>
+</section>

@@ -1,13 +1,14 @@
 import { getSnapshot } from "../content/snapshot";
 import { canonical } from "../site.config";
-import { buildTags } from "../ui/tags.mjs";
-import { esc } from "../ui/shared.mjs";
+import { buildTags } from "../ui/tags";
+import { esc } from "../ui/shared";
 export async function GET() {
   const { listed } = await getSnapshot();
   const routes = [
     ...listed.map((n) => ({ path: n.route, date: n.updated || n.date })),
     ...[
       "articles",
+      "updates",
       "journey",
       ...buildTags(listed).map(
         (g) => "tags/" + Buffer.from(g.tag).toString("hex"),

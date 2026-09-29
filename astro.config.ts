@@ -2,11 +2,11 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import {mkdir,rename} from 'node:fs/promises';
 import {readContent} from './src/content/read';
-import {contentPolicy} from './src/content-policy.mjs';
+import {contentPolicy} from './src/content-policy';
 import { siteConfig } from './src/site.config';
 import {registerContentWatcher} from './src/dev/content-watch';
 import {viteCacheDirectory} from './src/dev/vite-cache';
-import {ensureFonts} from './scripts/fonts/subset-ui-font';
+import {fontPreparation} from './src/integrations/font-preparation';
 
 export default defineConfig({
   site:siteConfig.site, base:siteConfig.base, output:'static', trailingSlash:'ignore',
@@ -14,10 +14,9 @@ export default defineConfig({
   vite:{build:{assetsInlineLimit:file=>file.endsWith('.woff2')?false:undefined},plugins:[tailwindcss()],worker:{format:'es'},optimizeDeps:{include:['motion/mini','motion','@floating-ui/dom','d3-selection','d3-zoom','d3-drag','d3-force']},server:{watch:{ignored:[
     new RegExp('/content/(?:.*/)?(?:'+contentPolicy.ignoredDirectories.map(d=>d.replaceAll('.','\\.')).join('|')+')(?:/|$)'),
   ]}}},
-  integrations:[{
+  integrations:[fontPreparation(),{
     name:'notes-content-watch',
-    hooks:{'astro:config:setup':async({command,config,updateConfig})=>{
-      if(command!=='preview')await ensureFonts();
+    hooks:{'astro:config:setup':({command,config,updateConfig})=>{
       updateConfig({vite:{cacheDir:viteCacheDirectory(config.root,command,config.server.port,config.base)}});
     },'astro:server:setup':({server})=>{
       registerContentWatcher(server);

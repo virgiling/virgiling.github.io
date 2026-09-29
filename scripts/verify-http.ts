@@ -20,7 +20,7 @@ try{
   }
   assert.ok(ready,'HTTP server did not start');
   const home=await (await fetch(origin+base)).text();
-  const paths=[base,base+'articles',base+'about',base+'journey',base+'03-tools/obsidian-plugin',base+'01-courses/MITOS/',base+'01-courses/MITOS/xv6-lab0',base+'rss.xml',base+'sitemap.xml'];
+  const paths=[base,base+'articles',base+'updates',base+'link',base+'about',base+'journey',base+'03-tools/obsidian-plugin',base+'01-courses/MITOS/',base+'01-courses/MITOS/xv6-lab0',base+'rss.xml',base+'sitemap.xml'];
   for(const match of home.matchAll(/(?:src|data-search-index|data-graph-index)="([^"<>]+)"/g))if(match[1].startsWith(base))paths.push(match[1]);
   if(hasBiro())paths.push(biroURL(base));
   for(const path of paths){const response=await fetch(origin+path);assert.equal(response.status,200,`${path} returned ${response.status}`);assert.ok((await response.arrayBuffer()).byteLength>0);}

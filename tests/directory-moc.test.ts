@@ -6,10 +6,10 @@ import {join} from 'node:path';
 import {parse} from 'parse5';
 import {mapDirectoryMocs} from '../src/content/directory-moc';
 import {buildSnapshot} from '../src/content/snapshot';
-import {Archive,buildFolderTree} from '../src/ui/archive.mjs';
-import {Breadcrumbs} from '../src/ui/breadcrumbs.mjs';
+import {buildFolderTree} from '../src/ui/archive';
+import {renderComponent} from './helpers/render-astro';
 import type {Diagnostic,DirectoryMeta} from '../src/content/types';
-const note=(source:string)=>({id:source,slug:source,source,url:'/preview/'+source.replace(/\.md$/i,''),title:source,publish:true as const,unlisted:false,kind:'article',isDirectoryIndex:false,tags:[],date:'',updated:'',summary:'Summary'});
+const note=(source:string)=>({id:source,slug:source,source,url:'/preview/'+source.replace(/\.md$/i,''),title:source,publish:true as const,unlisted:false,kind:'article' as const,isDirectoryIndex:false,tags:[],date:'',updated:'',summary:'Summary'});
 const attrs=(n:any)=>Object.fromEntries((n.attrs||[]).map((a:{name:string;value:string})=>[a.name,a.value]));
 function find(n:any,p:(n:any)=>boolean):any[]{return [...(p(n)?[n]:[]),...(n.childNodes||[]).flatMap((n:any)=>find(n,p))];}
 const text=(n:any):string=>n.value??(n.childNodes||[]).map(text).join('');
@@ -39,20 +39,20 @@ test('ambiguous MoCs or equally named root folders fail closed with public-only 
   assert.ok(collisions.every(d=>!d.moc));assert.equal(warnings.length,2);
 });
 
-test('unmatched and nested outlines stay cards; a public MoC-only directory retains its heading',()=>{
+test('unmatched and nested outlines stay cards; a public MoC-only directory retains its heading',async()=>{
   const notes=[note('orphan-toc.md'),note('01-courses/sub/sub-toc.md'),note('tools-toc.md')];
   const dirs=mapDirectoryMocs(notes,[{path:'03-tools',title:'Tools'}]);
   const roots=buildFolderTree(notes,dirs);
-  assert.equal(roots.find(n=>n.path==='03-tools').moc.source,'tools-toc.md');
-  const html=Archive(notes,{directories:dirs});
+  assert.equal(roots.find(n=>n.path==='03-tools')!.moc!.source,'tools-toc.md');
+  const html=await renderComponent('Archive',{notes,config:{directories:dirs}});
   assert.ok(html.includes('data-note="orphan-toc.md"'));assert.ok(html.includes('data-note="01-courses/sub/sub-toc.md"'));
   assert.ok(html.includes('data-directory-moc="tools-toc.md"'));assert.ok(!html.includes('data-note="tools-toc.md"'));
 });
 
-test('archive represents each MoC once as a native heading link, preserving labels, indexes and counts',()=>{
+test('archive represents each MoC once as a native heading link, preserving labels, indexes and counts',async()=>{
   const notes=[note('01-courses/a.md'),{...note('01-courses/index.md'),isDirectoryIndex:true},note('courses-toc.md')];
   const dirs=mapDirectoryMocs(notes,[{path:'01-courses',title:'Courses & notes'}]);
-  const html=Archive(notes,{directories:dirs}),tree=parse(html);
+  const html=await renderComponent('Archive',{notes,config:{directories:dirs}}),tree=parse(html);
   const links=find(tree,n=>'data-directory-moc' in attrs(n));assert.equal(links.length,1);
   assert.equal(links[0].tagName,'a');assert.equal(links[0].parentNode.tagName,'h2');
   assert.equal(attrs(links[0]).href,'/preview/courses-toc');assert.equal(text(find(links[0],n=>attrs(n).class==='folder-heading-name')[0]),'Courses & notes');
@@ -62,9 +62,9 @@ test('archive represents each MoC once as a native heading link, preserving labe
   assert.ok(html.indexOf('data-note="01-courses/index.md"')<html.indexOf('data-note="01-courses/a.md"'));
 });
 
-test('garden summary counts unique notes and explicit themes, not synthesized tag ancestors',()=>{
+test('garden summary counts unique notes and explicit themes, not synthesized tag ancestors',async()=>{
   const a={...note('a.md'),tags:['topic/sub']},b={...note('b.md'),tags:['topic/sub','tools']};
-  const tree=parse(Archive([a,b,a]));
+  const tree=parse(await renderComponent('Archive',{notes:[a,b,a]}));
   assert.equal(text(find(tree,n=>attrs(n).class==='archive-count')[0]),'2 则笔记，2 个主题，慢慢生长。');
 });
 
@@ -79,11 +79,11 @@ test('snapshot plugin integrates only discoverable MoCs; breadcrumbs share links
     await writeFile(join(root,'01-courses/courses-toc.md'),'---\npublish: true\nunlisted: true\n---\nUNLISTED_MOC_CANARY');
     const snapshot=await buildSnapshot(root),moc=snapshot.listed.find(n=>n.source==='courses-toc.md')!;
     assert.equal(moc.route,'courses-toc');assert.equal(moc.kind,'article');assert.ok(moc.links.includes('01-courses/sub/lesson.md'));
-    const html=Archive(snapshot.listed,{directories:snapshot.directories});assert.ok(!html.includes('UNLISTED_MOC_CANARY'));
+    const html=await renderComponent('Archive',{notes:snapshot.listed,config:{directories:snapshot.directories}});assert.ok(!html.includes('UNLISTED_MOC_CANARY'));
     const lesson=snapshot.listed.find(n=>n.source.endsWith('lesson.md'))!;
-    const crumbs=Breadcrumbs(lesson,snapshot.listed,snapshot.directories);
+    const crumbs=await renderComponent('Breadcrumbs',{note:lesson,pages:snapshot.listed,directories:snapshot.directories});
     assert.ok(crumbs.includes('href="/courses-toc"'));assert.ok(crumbs.includes('href="/01-courses/sub/"'));
     const fallback:DirectoryMeta[]=[{path:'01-courses',title:'公开课实验'}];
-    assert.ok(Breadcrumbs(lesson,snapshot.listed,fallback).includes('/articles#frame-folder-'));
+    assert.ok((await renderComponent('Breadcrumbs',{note:lesson,pages:snapshot.listed,directories:fallback})).includes('/articles#frame-folder-'));
   }finally{await rm(root,{recursive:true,force:true});}
 });

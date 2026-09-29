@@ -25,7 +25,7 @@ test('all owned timed effects stay behind Motion; no native smooth scroll or tim
     assert.doesNotMatch(source,/\.animate\s*\(/,`${file}: raw WAAPI must not bypass Motion`);
     assert.doesNotMatch(source,/behavior\s*:\s*['"]smooth['"]/,`${file}: native smooth scrolling bypasses Motion`);
     assert.doesNotMatch(source,/\bsetInterval\s*\(/,`${file}: review persistent animation loops`);
-    if(file!=='motion.js')assert.doesNotMatch(source,/from\s*['"]motion(?:\/[^'"]*)?['"]/,`${file}: use the shared cancellation/reduced-motion boundary`);
+    if(file!=='motion.ts')assert.doesNotMatch(source,/from\s*['"]motion(?:\/[^'"]*)?['"]/,`${file}: use the shared cancellation/reduced-motion boundary`);
   }
   const css=postcss.parse(await readFile('src/styles/site.css','utf8'));
   css.walkAtRules('apply',r=>assert.doesNotMatch(r.params,/\b(?:animate-|transition-|duration-)/));

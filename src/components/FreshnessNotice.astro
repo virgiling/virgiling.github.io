@@ -1,0 +1,45 @@
+---
+import { freshnessStatus, type FreshnessNote } from "../ui/freshness.ts";
+import { warningIconPath } from "../markdown/callouts";
+import { siteConfig } from "../site.config";
+interface Props {
+  note: FreshnessNote;
+  config?: typeof siteConfig.freshness;
+  asOf: string;
+}
+const { note, config = siteConfig.freshness, asOf } = Astro.props;
+const status = freshnessStatus(note, config, asOf);
+---
+
+{status && (
+  <aside
+    class="callout freshness-notice"
+    data-callout="warning"
+    data-callout-kind="warning"
+    aria-label="时效性提示"
+  >
+    <div class="callout-title">
+      <span class="callout-icon" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          focusable="false"
+        >
+          <path d={warningIconPath} />
+        </svg>
+      </span>
+      <span class="callout-title-inner">时效性提示</span>
+    </div>
+    <div class="callout-content">
+      <p>
+        {status.kind === "review"
+          ? `本文的计划复核日期为 ${status.date}，现已逾期 ${status.days} 天，请确认内容仍然有效。`
+          : `本文最后复核或更新于 ${status.date}，距今已超过 ${status.threshold} 天，内容可能已经过时。`}
+      </p>
+    </div>
+  </aside>
+)}

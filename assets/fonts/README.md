@@ -10,4 +10,4 @@ OFL 来源、字重与校验值固定在 `scripts/fonts/sources.json`；许可�
 
 `bun run fonts:build` 生成 `src/fonts/generated/`（dev/build 也自动校验）；`fonts:verify` 检查字表、字重与哈希；`fonts:clean` 显式删除旧代产物，不与生成任务并行。Biro 直接通过 `src/fonts.ts` 和字体路由提供，不参与 OFL 子集流程。
 
-工具与部署说明见根目录 [README](../../README.md)，设计取舍见 [迁移文稿](../../docs/design-review.md#6-图片与字体布局正确不代表资源正确)。
+工具命令见 [package.json](../../package.json)，部署配置见[工作流](../../.github/workflows/deploy.yml)，设计取舍见 [迁移文稿](../../docs/design-review.md#6-图片与字体布局正确不代表资源正确)。

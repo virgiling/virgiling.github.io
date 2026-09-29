@@ -1,7 +1,7 @@
 import { readdir, readFile, realpath, open } from "node:fs/promises";
 import { resolve, relative, posix } from "node:path";
 import { parseDocument } from "yaml";
-import { classifyContentPath } from "../content-policy.mjs";
+import { classifyContentPath } from "../content-policy";
 import { url } from "../site.config";
 import type { Note } from "./types";
 

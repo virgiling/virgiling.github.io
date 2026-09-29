@@ -1,6 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "src/**/*", "astro.config.ts", "scripts/**/*", "tests/**/*"],
+  "include": [".astro/types.d.ts", "src/**/*", "astro.config.ts", ".prettierrc.ts", "scripts/**/*", "tests/**/*"],
   "exclude": ["dist", "content", "prototype", "tools", ".pi"],
-  "compilerOptions": { "allowJs": true, "checkJs": false, "types": ["node"], "noImplicitAny": false }
+  "compilerOptions": { "allowJs": false, "types": ["node"], "noImplicitAny": false }
 }

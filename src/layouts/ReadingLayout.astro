@@ -1,26 +1,51 @@
 ---
 import SiteLayout from "./SiteLayout.astro";
 import Comments from "../components/Comments.astro";
-import { siteConfig, url } from "../site.config";
-import { ReadingMeta, ReadingSidebar, OnThisPage } from "../ui/reading.mjs";
-import { GraphDialog } from "../ui/graph.mjs";
-import { Breadcrumbs } from "../ui/breadcrumbs.mjs";
-import { FreshnessNotice } from "../ui/freshness.mjs";
-import { tagURL } from "../ui/shared.mjs";
+import { url } from "../site.config";
+import ReadingMeta from "../components/ReadingMeta.astro";
+import ReadingSidebar from "../components/ReadingSidebar.astro";
+import OnThisPage from "../components/OnThisPage.astro";
+import GraphDialog from "../components/GraphDialog.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import FreshnessNotice from "../components/FreshnessNotice.astro";
+import { tagURL } from "../ui/shared";
 import type { Note, Snapshot } from "../content/types";
 import { articleImages } from "../images/article";
+import { parseFriendLinks } from "../friends/markdown";
+import { friendSnapshot } from "../friends/snapshot";
+import { circlePosts } from "../friends/feeds";
+import FriendCards from "../components/FriendCards.astro";
+import FriendCircle from "../components/FriendCircle.astro";
 interface Props {
   note: Note;
   snapshot: Snapshot;
 }
 const { note, snapshot } = Astro.props;
-const articleHTML = articleImages(note.html);
+const friends =
+  note.source === "link.md" && !note.unlisted
+    ? parseFriendLinks(note.html)
+    : undefined;
+const feedResults = friends?.friends.length
+  ? await friendSnapshot(friends.friends)
+  : [];
+const readingNote = friends?.friends.length
+  ? {
+      ...note,
+      headings: [
+        ...note.headings,
+        { id: "page-title", text: "近况", depth: 1, trail: ["近况"] },
+      ],
+    }
+  : note;
+const articleHTML = articleImages(friends?.html ?? note.html);
 const active =
-  note.source === "index.md"
-    ? "home"
-    : note.source === "about.md"
-      ? "about"
-      : "articles";
+  note.source === "link.md"
+    ? "friends"
+    : note.source === "index.md"
+      ? "home"
+      : note.source === "about.md"
+        ? "about"
+        : "articles";
 const related = snapshot.listed.filter(
   (n) => note.links.includes(n.id) || n.links.includes(note.id),
 );
@@ -43,35 +68,45 @@ const previews = related.map((n) => ({
 >
   <main class="shell article-layout" id="main">
     <article class="article" data-note-id={note.id}>
-      <Fragment
-        set:html={Breadcrumbs(note, snapshot.listed, snapshot.directories)}
+      <Breadcrumbs
+        note={note}
+        pages={snapshot.listed}
+        directories={snapshot.directories}
       />
-      <header class="article-header">
-        <div class="eyebrow">FROM THE NOTEBOOK</div>
-        <h1 id="page-title">{note.title}</h1>
-        <Fragment set:html={ReadingMeta(note, siteConfig)} />
-        {note.tags.length > 0 && (
-          <div class="article-tags">
-            {note.tags.map((t) =>
-              note.unlisted ? (
-                <span class="tag">{t}</span>
-              ) : (
-                <a class="tag" href={tagURL(t)}>
-                  {t}
-                </a>
-              ),
-            )}
-          </div>
-        )}
-      </header>
-      <Fragment
-        set:html={FreshnessNotice(
-          note,
-          siteConfig.freshness,
-          process.env.BUILD_DATE || new Date().toISOString().slice(0, 10),
-        )}
+      {!friends?.friends.length && (
+        <header class="article-header">
+          <div class="eyebrow">FROM THE NOTEBOOK</div>
+          <h1 id="page-title">{note.title}</h1>
+          <ReadingMeta note={note} />
+          {note.tags.length > 0 && (
+            <div class="article-tags">
+              {note.tags.map((t) =>
+                note.unlisted ? (
+                  <span class="tag">{t}</span>
+                ) : (
+                  <a class="tag" href={tagURL(t)}>
+                    {t}
+                  </a>
+                ),
+              )}
+            </div>
+          )}
+        </header>
+      )}
+      <FreshnessNotice
+        note={note}
+        asOf={process.env.BUILD_DATE || new Date().toISOString().slice(0, 10)}
       />
       <div class="prose" set:html={articleHTML} />
+      {friends?.friends.length ? (
+        <>
+          <FriendCards friends={friends.friends} />
+          <FriendCircle
+            posts={circlePosts(feedResults)}
+            results={feedResults}
+          />
+        </>
+      ) : null}
       <Comments note={note} />
       {note.kind !== "landing" && (
         <div class="article-bottom">
@@ -79,9 +114,7 @@ const previews = related.map((n) => ({
         </div>
       )}
     </article>
-    <Fragment
-      set:html={ReadingSidebar(note, snapshot.listed, "", siteConfig)}
-    />
+    <ReadingSidebar note={readingNote} pages={snapshot.listed} />
   </main>
   <button
     class="mobile-outline"
@@ -95,12 +128,12 @@ const previews = related.map((n) => ({
     <button class="dialog-close" id="close-outline">
       关闭
     </button>
-    <Fragment set:html={OnThisPage(note.headings, { mobile: true })} />
+    <OnThisPage headings={readingNote.headings} mobile />
     <a class="outline-relations" href="#graph-heading">
       关系图谱 ↓
     </a>
   </dialog>
-  <Fragment set:html={GraphDialog(note)} />
+  <GraphDialog note={note} />
   <script
     is:inline
     type="application/json"

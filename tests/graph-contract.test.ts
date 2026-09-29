@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {globalGraphData} from '../src/ui/graph.mjs';
-import {validateGraph,safeGraphURL} from '../src/runtime/graph-view.js';
+import {globalGraphData} from '../src/ui/graph';
+import {validateGraph,safeGraphURL} from '../src/runtime/graph-view';
 
 test('graph producer and browser validator agree on real Astro route shapes',()=>{
   const data=globalGraphData([

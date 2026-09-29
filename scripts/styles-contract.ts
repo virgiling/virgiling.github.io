@@ -23,6 +23,18 @@ export function verifyStyles(css:string){
   has('[hidden]',{display:'none!important'});
   has('.sr-only',{position:'absolute',width:'1px',height:'1px',overflow:'hidden','clip-path':'inset(50%)'});
   has('.header-inner',{display:'flex','min-height':'92px'});
+  has('.page-intro h1',{'font-size':'42px'});
+  has('.article-header>h1',{'font-size':'32px'});
+  has('.article-header>h1',{'font-size':'28px'},'560');
+  has('.prose h1',{'font-size':'30px'});
+  has('.prose h1',{'font-size':'26px'},'560');
+  assert.ok(!entries.some(e=>/^\.article h1(?::|$)/.test(e.selector)),'Page-title styles must not match every prose h1');
+  has('.friends-section h1',{'font-size':'24px'});
+  has('.friend-posts li',{display:'grid','grid-template-columns':'minmax(0,1fr) auto','padding-block':'8px'});
+  has('.friend-post-summary',{display:'flex','min-width':'0'});
+  has('.friend-post-author',{'max-width':'28%','text-overflow':'ellipsis','white-space':'nowrap'});
+  has('.friend-post-title',{'font-size':'15px','text-overflow':'ellipsis','white-space':'nowrap'});
+  has('.friend-post-date',{'white-space':'nowrap'});
   has('.article-layout',{display:'grid'});
   has('.article-layout',{display:'block'},'800');
   has('.reading-meta',{'font-family':'var(--hand)','font-size':'18px'});

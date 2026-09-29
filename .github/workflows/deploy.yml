@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Rebuild static friend-feed snapshots without browser-side RSS/CORS requests.
+  schedule:
+    - cron: '23 */6 * * *'
 
 permissions: {}
 
@@ -19,6 +22,7 @@ jobs:
     timeout-minutes: 20
     env:
       SITE_BASE: /
+      FRIENDS_REFRESH: '1'
     steps:
       - name: Check out framework and pinned content
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -47,6 +51,13 @@ jobs:
 
       - name: Install locked dependencies
         run: bun install --frozen-lockfile
+
+      - name: Restore public friend-feed snapshots
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .astro/friends
+          key: friend-feeds-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: friend-feeds-${{ runner.os }}-
 
       - name: Check, test, build, and verify static output
         run: bun run validate

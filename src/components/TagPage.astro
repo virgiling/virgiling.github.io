@@ -1,0 +1,41 @@
+---
+import ArticleCard from "./ArticleCard.astro";
+import { tagURL } from "../ui/shared";
+import type { TagGroup } from "../ui/tags";
+interface Props {
+  group: TagGroup;
+  articleURL: string;
+}
+const { group, articleURL } = Astro.props;
+const parts = group.tag.split("/");
+---
+
+<main class="shell tag-page" id="main">
+  <header class="page-intro">
+    <div class="eyebrow">TAGGED NOTES</div>
+    <h1>#{group.tag}</h1>
+    <p class="archive-count">{group.notes.length} 篇内容</p>
+    {parts.length > 1 && (
+      <div class="article-tags">
+        {parts.slice(0, -1).map((_, index) => {
+          const parent = parts.slice(0, index + 1).join("/");
+          return (
+            <a class="tag" href={tagURL(parent)}>
+              {parent}
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </header>
+  <ul class="tag-results">
+    {group.notes.map((note) => (
+      <li>
+        <ArticleCard note={note} depth={2} />
+      </li>
+    ))}
+  </ul>
+  <a class="tag-back" href={articleURL}>
+    ← 按目录浏览文章
+  </a>
+</main>

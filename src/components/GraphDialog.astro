@@ -1,0 +1,45 @@
+---
+import type { Note } from "../content/types";
+interface Props {
+  note: Pick<Note, "slug">;
+  root?: string;
+}
+const { note, root = "" } = Astro.props;
+---
+
+<dialog
+  id="graph-dialog"
+  class="graph-dialog"
+  data-current={note.slug}
+  data-root={root}
+  aria-labelledby="graph-dialog-title"
+>
+  <header class="graph-dialog-header">
+    <h2 id="graph-dialog-title">全局关系图谱</h2>
+    <button
+      class="dialog-close"
+      id="close-graph"
+      aria-label="关闭全局关系图谱"
+      autofocus
+    >
+      关闭
+    </button>
+  </header>
+  <p id="graph-status" role="status" hidden></p>
+  <button id="retry-graph" hidden>
+    重试
+  </button>
+  <div
+    id="graph-viewport"
+    class="graph graph-expanded"
+    aria-label="全局关系图谱"
+  ></div>
+  <div class="graph-legend">
+    <span>
+      <i class="legend-page" aria-hidden="true"></i>页面
+    </span>
+    <span>
+      <i class="legend-tag" aria-hidden="true"></i>标签
+    </span>
+  </div>
+</dialog>

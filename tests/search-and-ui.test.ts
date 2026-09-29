@@ -2,11 +2,11 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {exportSearch,importSearch} from '../src/search';
 import {commentAllowed,giscusAttributes} from '../src/runtime/comments';
-import {buildFolderTree,Archive} from '../src/ui/archive.mjs';
-import {buildTags} from '../src/ui/tags.mjs';
-import {ReadingSidebar} from '../src/ui/reading.mjs';
+import {buildFolderTree} from '../src/ui/archive';
+import {buildTags} from '../src/ui/tags';
+import {renderComponent} from './helpers/render-astro';
 import {siteConfig,discussionURL} from '../src/site.config';
-const note=(id:string,tags:string[]=[])=>({id,slug:id,source:id,title:id,url:'/'+id.replace('.md',''),tags,kind:'article',links:[],headings:[],summary:'Summary',date:'2026-01-01',updated:'2026-02-01'});
+const note=(id:string,tags:string[]=[])=>({id,slug:id,source:id,title:id,url:'/'+id.replace('.md',''),tags,kind:'article' as const,links:[],headings:[],summary:'Summary',date:'2026-01-01',updated:'2026-02-01'});
 test('FlexSearch serialized roundtrip: CJK, mixed text, alias, AND tags and title priority',async()=>{
   const records=[
     {id:'a',title:'内存管理',url:'/a',aliases:['COW alias'],text:'操作系统 xv6 实验',summary:'A',tags:['主题/操作系统','平台/Linux']},
@@ -30,15 +30,15 @@ test('discussion identities preserve the public URL and are independent of local
   assert.equal(discussionURL('03-tools/dotfiles'),'https://virgiling.wiki/03-tools/dotfiles');assert.equal(new URL(discussionURL('//evil.test')).origin,'https://virgiling.wiki');
   assert.equal(new URL(discussionURL('中文')).pathname,'/%E4%B8%AD%E6%96%87');
 });
-test('recursive archive keeps each source once, directory lead first and tags separate',()=>{
+test('recursive archive keeps each source once, directory lead first and tags separate',async()=>{
   const notes=[note('folder/a.md',['topic/a','topic/b']),note('folder/sub/b.md'),{...note('folder/index.md'),isDirectoryIndex:true}];
   const roots=buildFolderTree(notes,[{path:'folder',title:'Public folder'}]);
-  assert.equal(roots[0].label,'Public folder');assert.equal(roots[0].notes.length,2);assert.equal(roots[0].children.get('sub').notes.length,1);
-  const html=Archive(notes);assert.equal((html.match(/data-note="folder\/a.md"/g)||[]).length,1);assert.ok(html.indexOf('data-note="folder/index.md"')<html.indexOf('data-note="folder/a.md"'));
+  assert.equal(roots[0].label,'Public folder');assert.equal(roots[0].notes.length,2);assert.equal(roots[0].children.get('sub')!.notes.length,1);
+  const html=await renderComponent('Archive',{notes});assert.equal((html.match(/data-note="folder\/a.md"/g)||[]).length,1);assert.ok(html.indexOf('data-note="folder/index.md"')<html.indexOf('data-note="folder/a.md"'));
   const groups=buildTags(notes);assert.equal(groups.find(g=>g.tag==='topic')!.notes.length,1);
 });
-test('homepage sidebar order differs from reading pages without fabricating backlinks',()=>{
+test('homepage sidebar order differs from reading pages without fabricating backlinks',async()=>{
   const home={...note('index.md'),kind:'landing'},about={...note('about.md'),kind:'landing',links:['index.md']};
-  const html=ReadingSidebar(home,[home,about],'',siteConfig);assert.ok(html.indexOf('最近更新')<html.indexOf('关系图谱'));assert.ok(!html.includes('反向链接'));
-  const other=ReadingSidebar(about,[home,about],'',siteConfig);assert.match(other,/反向链接 <small>0/);
+  const html=await renderComponent('ReadingSidebar',{note:home,pages:[home,about],config:siteConfig});assert.ok(html.indexOf('最近更新')<html.indexOf('关系图谱'));assert.ok(!html.includes('反向链接'));
+  const other=await renderComponent('ReadingSidebar',{note:about,pages:[home,about],config:siteConfig});assert.match(other,/反向链接 <small>0/);
 });

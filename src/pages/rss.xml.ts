@@ -1,6 +1,6 @@
 import { getSnapshot } from "../content/snapshot";
 import { canonical, siteConfig } from "../site.config";
-import { esc } from "../ui/shared.mjs";
+import { esc } from "../ui/shared";
 export async function GET() {
   const { listed } = await getSnapshot();
   return new Response(

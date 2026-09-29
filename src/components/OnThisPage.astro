@@ -1,0 +1,31 @@
+---
+import type { Heading } from "../content/types";
+interface Props {
+  headings: Heading[];
+  mobile?: boolean;
+}
+const { headings, mobile = false } = Astro.props;
+---
+
+<nav class="on-this-page" aria-label={`${mobile ? "移动端 " : ""}ON THIS PAGE`}>
+  <h2 class="side-title">ON THIS PAGE</h2>
+  <div class="toc-scroll">
+    <div class="toc-track">
+      <span class="toc-marker" aria-hidden="true" hidden></span>
+      <ol class="toc">
+        {headings
+          .filter((heading) => heading.depth <= 3)
+          .map((heading) => (
+            <li data-depth={heading.depth}>
+              <a
+                href={`#${encodeURIComponent(heading.id)}`}
+                data-heading={heading.id}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+      </ol>
+    </div>
+  </div>
+</nav>

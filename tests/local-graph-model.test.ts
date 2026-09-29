@@ -1,8 +1,9 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {parse} from 'parse5';
-import {localGraphModel,LocalGraph,globalGraphData} from '../src/ui/graph.mjs';
-import {localGraphLayout} from '../src/ui/local-graph-layout.mjs';
+import {localGraphModel,globalGraphData} from '../src/ui/graph';
+import {localGraphLayout} from '../src/ui/local-graph-layout';
+import {renderComponent} from './helpers/render-astro';
 const note=(slug:string,links:string[]=[],tags:string[]=[])=>({slug,url:`/${slug}`,title:slug,publish:true,links,tags});
 const current=note('current',['outgoing','private','unlisted'],['topic/deep','own']);
 const candidates=[note('outgoing',['two-hop'],['foreign/far']),note('incoming',['current'],['backlink-tag']),note('two-hop'),note('same-tag-only',[],['own']),{...note('private',['current'],['secret']),publish:false},{...note('unlisted',['current'],['hidden']),unlisted:true}];
@@ -31,8 +32,8 @@ test('sparse one-hop layouts keep short spokes rather than scaling them back to 
   const layout=localGraphLayout(model),center=layout.positions.get('page:current')!;
   for(const node of model.nodes.filter(n=>!n.current)){const p=layout.positions.get(node.id)!;assert.ok(Math.hypot(p.x-center.x,p.y-center.y)<70);}
 });
-test('local markup has one global entry, no toolbar/instruction/legend, with centred current node and native links',()=>{
-  const html=LocalGraph(current,candidates);
+test('local markup has one global entry, no toolbar/instruction/legend, with centred current node and native links',async()=>{
+  const html=await renderComponent('LocalGraph',{note:current,neighbors:candidates});
   assert.equal((html.match(/<button\b/g)||[]).length,1);assert.match(html,/id="open-graph"/);
   assert.ok(!/data-local-action|graph-local-controls|local-graph-help|graph-legend|Home 复位/.test(html));
   assert.match(html,/class="page-node current-node" cx="150" cy="125"/);

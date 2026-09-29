@@ -1,0 +1,10 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { getSnapshot } from "../content/snapshot";
+import Updates from "../components/Updates.astro";
+const snapshot = await getSnapshot();
+---
+
+<SiteLayout title="最近更新" active="articles" path="updates">
+  <Updates pages={snapshot.listed} />
+</SiteLayout>

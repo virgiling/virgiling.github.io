@@ -7,7 +7,7 @@ import {
   canonical,
   discussionURL,
 } from "../site.config";
-import { searchIcon } from "../ui/shared.mjs";
+import SearchIcon from "../components/SearchIcon.astro";
 import { getResources } from "../content/resources";
 import { hasBiro, biroStyles } from "../fonts";
 const useBiro = hasBiro();
@@ -90,7 +90,7 @@ const { brand, footer } = siteConfig;
           aria-haspopup="dialog"
           aria-controls="search-dialog"
         >
-          <Fragment set:html={searchIcon} />
+          <SearchIcon />
           <span>搜索</span>
           <span class="key">⌘ K</span>
         </button>
@@ -138,7 +138,7 @@ const { brand, footer } = siteConfig;
     <dialog id="search-dialog" aria-label="搜索笔记">
       <div class="spotlight-panel">
         <div class="search-head">
-          <Fragment set:html={searchIcon} />
+          <SearchIcon />
           <label for="search-input" class="sr-only">
             搜索标题和正文，可用 #标签 筛选
           </label>
@@ -166,7 +166,7 @@ const { brand, footer } = siteConfig;
       </div>
     </dialog>
     <script>
-      import "../runtime/site.js";
+      import "../runtime/site";
     </script>
   </body>
 </html>

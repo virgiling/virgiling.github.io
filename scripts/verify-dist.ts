@@ -8,7 +8,7 @@ import {build} from 'esbuild';
 import {imageSize} from 'image-size';
 import {siteConfig} from '../src/site.config';
 import {verifyStyles} from './styles-contract';
-import {validateGraph} from '../src/runtime/graph-view.js';
+import {validateGraph} from '../src/runtime/graph-view';
 import {hasBiro,biroPath,biroURL,legacyBiroBytes} from '../src/fonts';
 const root=resolve('dist'),base=siteConfig.base,files:string[]=[];
 async function walk(dir:string){for(const entry of await readdir(dir,{withFileTypes:true})){const path=resolve(dir,entry.name);if(entry.isDirectory())await walk(path);else files.push(relative(root,path));}}
@@ -44,11 +44,19 @@ for(const file of files){
   if(!/\.(?:html|json|js|css|xml)$/.test(file))continue;
   const source=buffer.toString();assert.ok(!source.includes('/Users/'),'Absolute local path leaked');assert.ok(!source.includes('sourceMappingURL=data:'),'Inline sourcemap');
   if(!file.endsWith('.html'))continue;
-  const doc=parse(source),ids=new Set<string>(),links:{value:string;kind:string}[]=[],scripts:string[]=[];let inlineJs='',favicons=0;
+  const doc=parse(source),ids=new Set<string>(),links:{value:string;kind:string}[]=[],scripts:string[]=[];let inlineJs='',favicons=0,friendTitles=0;
+  const friendPage=file==='link.html'&&source.includes('id="friend-circle"');
   function visit(node:any,skipFontText=false){
     skipFontText ||= ['script','style','pre','code','kbd','samp'].includes(node.tagName);
     if(node.nodeName==='#text'&&!skipFontText)for(const char of node.value)if(/\p{Script=Han}/u.test(char))usedHan.add(char.codePointAt(0)!);
     const attrs=attributes(node),classes=(attrs.class||'').split(/\s+/);
+    if(friendPage){
+      if(classes.includes('article-header'))errors.push(`${file}: redundant article header on friend page`);
+      if(node.tagName==='h1'){
+        friendTitles++;
+        if(attrs.id!=='page-title'||node.childNodes.map((child:any)=>child.value||'').join('')!=='近况')errors.push(`${file}: expected only the recent-activity heading`);
+      }
+    }
     if(file==='articles.html'){
       const source=attrs['data-note']||attrs['data-directory-moc'];
       if(source){if(archiveEntries.has(source))errors.push(`${file}: duplicate archive representation ${source}`);archiveEntries.add(source);}
@@ -99,6 +107,7 @@ for(const file of files){
   }
   visit(doc);html.set(file,{ids,links});stats.pages++;
   if(favicons!==1)errors.push(`${file}: expected one favicon link`);
+  if(friendPage&&friendTitles!==1)errors.push(`${file}: expected exactly one recent-activity h1`);
   let scriptSize=inlineJs?gzipSync(inlineJs).length:0;
   const initial=new Set<string>();
   function include(path:string){if(initial.has(path))return;initial.add(path);for(const child of jsImports.get(path)||[])include(child);}

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {getFileInfo,resolveConfig,format} from 'prettier';
 
 test('formatter includes content compiler sources but excludes generated fonts and content submodule',async()=>{
-  for(const path of ['src/content/compile.ts','src/layouts/SiteLayout.astro','src/runtime/site.js','src/styles/site.css']){
+  for(const path of ['src/content/compile.ts','src/layouts/SiteLayout.astro','src/runtime/site.ts','src/styles/site.css']){
     assert.equal((await getFileInfo(path,{ignorePath:'.prettierignore'})).ignored,false,path);
   }
   for(const path of ['src/fonts/generated/fonts.css','content/index.md']){

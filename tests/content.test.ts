@@ -7,8 +7,8 @@ import {buildSnapshot} from '../src/content/snapshot';
 import {readContent,routeFor,splitFrontmatter} from '../src/content/read';
 import {withoutComments} from '../src/content/compile';
 import {exportSearch} from '../src/search';
-import {globalGraphData} from '../src/ui/graph.mjs';
-import {calloutAliases} from '../src/markdown/callouts.mjs';
+import {globalGraphData} from '../src/ui/graph';
+import {calloutAliases} from '../src/markdown/callouts';
 const md=(body:string,meta='')=>`---\npublish: true\ntitle: Public\ndate: "2026-01-02"\n${meta}---\n${body}`;
 async function fixture(files:Record<string,string>,run:(root:string)=>Promise<void>){
   const root=await mkdtemp(join(tmpdir(),'notes-test-'));
@@ -60,6 +60,22 @@ test('two-pass links support aliases, headings, blocks, ambiguity and Unicode',a
     const s=await buildSnapshot(root),a=s.notes.find(n=>n.source==='a.md')!;
     assert.match(a.html,/href="\/B#%E7%AB%A0%E8%8A%82"/);assert.match(a.html,/href="\/B#block-block"/);
     assert.deepEqual(a.links,['B.md']);assert.ok(s.diagnostics.some(d=>d.code==='ambiguous-link'));
+  });
+});
+test('heading wikilinks display resolved labels in the TOC while preserving old deep-link IDs',async()=>{
+  await fixture({
+    'a.md':md('[[courses#CMU 15-213 CS: APP]] [[courses#CMU 15-213 CS: APP#Exercises]]'),
+    'courses.md':md('## [[01-courses/csapp/index|CMU 15-213]] CS: APP\n\n### **Exercises**\n\n## `[[literal|code]]`\n\n## [[Target]]'),
+    '01-courses/csapp/index.md':md('Course'),'Target.md':md('Target'),
+  },async root=>{
+    const s=await buildSnapshot(root),course=s.notes.find(n=>n.source==='courses.md')!,a=s.notes.find(n=>n.source==='a.md')!;
+    const heading=course.headings[0];
+    assert.equal(heading.text,'CMU 15-213 CS: APP');
+    assert.equal(heading.id,'01-coursescsappindexcmu-15-213-cs-app');
+    assert.deepEqual(course.headings[1].trail,['CMU 15-213 CS: APP','Exercises']);
+    assert.equal(course.headings[2].text,'[[literal|code]]');assert.equal(course.headings[3].text,'Target');
+    assert.match(course.html,/id="01-coursescsappindexcmu-15-213-cs-app"/);
+    assert.match(a.html,/href="\/courses#01-coursescsappindexcmu-15-213-cs-app"/);assert.match(a.html,/href="\/courses#exercises"/);
   });
 });
 test('section/block transclusion, cycles, scoped footnotes and authored edges',async()=>{

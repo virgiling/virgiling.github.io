@@ -1,0 +1,30 @@
+---
+import type { Note } from "../content/types";
+import { siteConfig } from "../site.config";
+import { dateText, readingMinutes } from "../ui/reading.ts";
+interface Props {
+  note: Pick<Note, "date" | "updated" | "readingText" | "plainText">;
+  config?: typeof siteConfig.reading;
+}
+const { note, config = siteConfig.reading } = Astro.props;
+---
+
+<div class="reading-meta">
+  {note.date && (
+    <span>
+      <span class="meta-icon" aria-hidden="true">
+        ✏️
+      </span>
+      <time datetime={note.date}>{dateText(note.date)}</time>
+    </span>
+  )}
+  {note.updated && (
+    <span>
+      <span class="meta-icon" aria-hidden="true">
+        🔧
+      </span>
+      <time datetime={note.updated}>{dateText(note.updated)}</time>
+    </span>
+  )}
+  <span class="read-time">{readingMinutes(note, config)} min read</span>
+</div>

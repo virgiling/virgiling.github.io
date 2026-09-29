@@ -1,0 +1,71 @@
+---
+import { graphNodeLabel, type GraphModel } from "../ui/graph.ts";
+import { localGraphLayout } from "../ui/local-graph-layout.ts";
+interface Props {
+  model: GraphModel;
+}
+const { model } = Astro.props;
+const layout = localGraphLayout(model);
+---
+
+<svg
+  data-local-graph
+  data-force-scale={layout.scale}
+  viewBox={`0 0 ${layout.width} ${layout.height}`}
+  role="group"
+  tabindex="0"
+  aria-label="当前笔记及其一跳邻居；支持拖动节点和缩放"
+>
+  <g data-graph-transform>
+    {model.edges.map((edge) => {
+      const a = layout.positions.get(edge.from)!,
+        b = layout.positions.get(edge.to)!;
+      return (
+        <line
+          data-from={edge.from}
+          data-to={edge.to}
+          class={edge.type}
+          x1={a.x}
+          y1={a.y}
+          x2={b.x}
+          y2={b.y}
+        />
+      );
+    })}
+    {model.nodes.map((node) => {
+      const { x, y } = layout.positions.get(node.id)!;
+      const tag = node.type === "tag",
+        radius = 5.5;
+      return (
+        <a
+          class={`graph-${node.type}`}
+          data-node-id={node.id}
+          aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight"
+          href={node.url}
+          aria-label={tag ? "标签：" + node.path : node.label}
+          data-preview={!tag && !node.current ? node.id.slice(5) : undefined}
+          aria-current={node.current ? "page" : undefined}
+        >
+          <title>{tag ? node.path : node.label}</title>
+          <circle class="graph-hit" cx={x} cy={y} r="12" />
+          {tag ? (
+            <>
+              <circle class="tag-ring" cx={x} cy={y} r={radius} />
+              <circle class="tag-ring" cx={x} cy={y} r={radius * 0.5} />
+            </>
+          ) : (
+            <circle
+              class:list={["page-node", { "current-node": node.current }]}
+              cx={x}
+              cy={y}
+              r={node.current ? 7 : radius}
+            />
+          )}
+          <text class="graph-node-label" x={x} y={y + 19} text-anchor="middle">
+            {graphNodeLabel(node)}
+          </text>
+        </a>
+      );
+    })}
+  </g>
+</svg>

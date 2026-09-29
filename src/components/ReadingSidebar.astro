@@ -1,0 +1,47 @@
+---
+import HomeActivity from "./HomeActivity.astro";
+import OnThisPage from "./OnThisPage.astro";
+import LocalGraph from "./LocalGraph.astro";
+import { relations } from "../ui/reading.ts";
+import { siteConfig } from "../site.config";
+import type { Note } from "../content/types";
+interface Props {
+  note: Note;
+  pages: Note[];
+  config?: typeof siteConfig;
+}
+const { note, pages, config = siteConfig } = Astro.props;
+const { incoming, connected } = relations(note, pages);
+const home = note.source === "index.md";
+---
+
+<aside class:list={["sidebar", { "home-sidebar": home }]} aria-label="阅读辅助">
+  {home && <HomeActivity pages={pages} config={config.home} />}
+  <LocalGraph
+    note={note.unlisted ? { ...note, tags: [] } : note}
+    neighbors={connected}
+  />
+  <section class="side-section">
+    <OnThisPage headings={note.headings} />
+  </section>
+  {!home && (
+    <section class="side-section">
+      <h2 class="side-title">
+        反向链接 <small>{incoming.length}</small>
+      </h2>
+      {incoming.length ? (
+        <ul class="backlinks">
+          {incoming.map((page) => (
+            <li>
+              <a href={page.url} data-preview={page.slug}>
+                ↗ {page.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="side-empty">暂无反向链接。</p>
+      )}
+    </section>
+  )}
+</aside>

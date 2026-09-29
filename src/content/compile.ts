@@ -13,8 +13,8 @@ import GithubSlugger from "github-slugger";
 import { posix } from "node:path";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { remarkCallouts, rehypeCallouts } from "../markdown/callouts.mjs";
-import { rehypeFigures } from "../markdown/figures.mjs";
+import { remarkCallouts, rehypeCallouts } from "../markdown/callouts";
+import { rehypeFigures } from "../markdown/figures";
 import { contentFile } from "./read";
 import { url } from "../site.config";
 import { Resolver } from "./resolve";
@@ -53,6 +53,18 @@ export function withoutComments(source: string) {
   }
   return out + (start < 0 ? source.slice(cursor) : "");
 }
+const wikiLabel = (target: string, alias?: string) =>
+  alias || target.split("#")[0] || target;
+// Match rendered link labels, but keep code/math literal and old heading IDs stable.
+function headingText(node: any): string {
+  if (node.type === "text")
+    return node.value.replace(
+      /!?\[\[([^\]|]+)(?:\|([^\]]*))?\]\]/g,
+      (_: string, target: string, alias?: string) => wikiLabel(target, alias),
+    );
+  if (node.type === "html") return "";
+  return node.value ?? (node.children || []).map(headingText).join("");
+}
 export function parseNote(note: Note) {
   note.body = withoutComments(note.body);
   note.tree = parser.parse(note.body);
@@ -60,8 +72,8 @@ export function parseNote(note: Note) {
   const slugs = new GithubSlugger(),
     trail: string[] = [];
   visit(note.tree, "heading", (n: any) => {
-    const text = textOf(n),
-      id = slugs.slug(text);
+    const text = headingText(n),
+      id = slugs.slug(textOf(n));
     trail.length = n.depth - 1;
     trail[n.depth - 1] = text;
     n.data = { ...n.data, hProperties: { id } };
@@ -243,7 +255,7 @@ export class Compiler {
           }
           const embedded = !!match[1],
             target = match[2],
-            label = match[3] || target.split("#")[0] || target;
+            label = wikiLabel(target, match[3]);
           const asset = await this.asset(owner, target);
           if (asset) {
             if (embedded) {

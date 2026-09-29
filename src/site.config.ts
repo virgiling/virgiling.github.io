@@ -72,5 +72,6 @@ export const navigation = [
   { id: "home", label: "主页", url: url("") },
   { id: "articles", label: "文章", url: url("articles") },
   { id: "journey", label: "足迹", url: url("journey") },
+  { id: "friends", label: "友链", url: url("link") },
   { id: "about", label: "关于", url: url("about") },
 ];

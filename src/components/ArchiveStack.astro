@@ -1,0 +1,43 @@
+---
+import ArticleCard from "./ArticleCard.astro";
+import { stackNotes, type FolderNode } from "../ui/archive.ts";
+import { folderId } from "../ui/shared";
+interface Props {
+  node: FolderNode;
+  depth: number;
+}
+const { node, depth } = Astro.props;
+const notes = stackNotes(node);
+const id = folderId(node.path);
+const count = `${notes.length} 则笔记`;
+const headingDepth = Math.min(depth + 1, 6) as 2 | 3 | 4 | 5 | 6;
+---
+
+{notes.length > 0 && (
+  <div
+    class:list={["card-stack", { single: notes.length === 1 }]}
+    data-folder={node.label}
+    id={id}
+    style={`--stack-count:${Math.min(notes.length, 3)}`}
+  >
+    {notes.length > 1 ? (
+      <button
+        type="button"
+        class="stack-count"
+        aria-label={`${node.label}：${count}，收起`}
+        aria-expanded="true"
+        aria-controls={`deck-${id}`}
+        disabled
+      >
+        {count}
+      </button>
+    ) : (
+      <span class="stack-count">{count}</span>
+    )}
+    <div class="stack-deck" id={`deck-${id}`}>
+      {notes.map((note, index) => (
+        <ArticleCard note={note} depth={headingDepth} stackIndex={index} />
+      ))}
+    </div>
+  </div>
+)}

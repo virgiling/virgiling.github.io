@@ -205,12 +205,15 @@
     @apply mt-[57px] mr-0 mb-[38px] ml-0;
   }
   .page-intro h1,
-  .article h1 {
-    @apply text-[42px] relative pb-[23px] mt-[13px] mr-0 mb-[20px] ml-0;
+  .article-header > h1 {
+    @apply relative pb-[23px] mt-[13px] mr-0 mb-[20px] ml-0;
     letter-spacing: 0.015em;
   }
+  .page-intro h1 {
+    @apply text-[42px];
+  }
   .page-intro h1:after,
-  .article h1:after {
+  .article-header > h1:after {
     @apply absolute bottom-0 left-0 w-[64px] h-[3px] rounded-[3px];
     content: "";
     background: var(--accent);
@@ -233,6 +236,74 @@
   /* Borderless directory headings; only article cards have a floating surface. */
   .archive-page {
     @apply max-w-[900px];
+  }
+  .card-list {
+    @apply grid gap-[24px];
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .friends-section {
+    @apply mt-[36px];
+  }
+  .friends-section h1 {
+    @apply text-[24px] mb-[12px];
+  }
+  .friend-grid {
+    @apply grid gap-[16px];
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  }
+  .friend-card {
+    @apply flex items-start gap-[14px] p-[18px] rounded-[16px] text-ink min-w-0;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .friend-avatar {
+    @apply grid place-items-center w-[48px] h-[48px] shrink-0 rounded-[12px] overflow-hidden text-[24px] text-accent;
+    background: var(--soft);
+  }
+  .friend-avatar img {
+    @apply w-full h-full;
+    object-fit: cover;
+  }
+  .friend-card strong {
+    @apply block text-[18px];
+    overflow-wrap: anywhere;
+  }
+  .friend-bio,
+  .friend-domain,
+  .friend-sync {
+    @apply block text-[13px] text-muted;
+    overflow-wrap: anywhere;
+  }
+  .friend-domain {
+    @apply mt-[8px];
+  }
+  .friend-posts {
+    @apply list-none p-0 m-0;
+  }
+  .friend-posts li {
+    @apply grid items-baseline gap-x-[12px] py-[8px];
+    grid-template-columns: minmax(0, 1fr) auto;
+    border-bottom: 1px solid var(--line);
+  }
+  .friend-post-summary {
+    @apply flex items-baseline gap-[6px] min-w-0;
+  }
+  .friend-post-author {
+    @apply block min-w-0 max-w-[28%] truncate text-[14px];
+    text-decoration: none;
+  }
+  .friend-post-separator {
+    @apply shrink-0 text-[14px] text-muted;
+  }
+  .friend-post-title {
+    @apply block min-w-0 flex-1 truncate text-[15px] text-ink;
+    text-decoration: none;
+  }
+  .friend-post-date {
+    @apply text-[12px] text-muted whitespace-nowrap;
+    font-variant-numeric: tabular-nums;
   }
   .folder-tree {
     @apply flex flex-col gap-[44px];
@@ -458,9 +529,10 @@
   .breadcrumb a:hover {
     text-decoration: underline;
   }
-  .article h1 {
-    @apply mt-[12px];
+  .article-header > h1 {
+    @apply text-[32px] mt-[12px];
     line-height: 1.4;
+    overflow-wrap: anywhere;
   }
   .reading-meta {
     @apply flex items-center gap-y-[5px] gap-x-[21px] flex-wrap font-hand text-[18px] text-metadata font-normal;
@@ -492,6 +564,11 @@
   }
   .prose a {
     overflow-wrap: anywhere;
+  }
+  .prose h1 {
+    @apply text-[30px] mt-[40px] mr-0 mb-[20px] ml-0 pb-[10px];
+    border-bottom: 1px solid #cfd8c5;
+    scroll-margin-top: 36px;
   }
   .prose h2 {
     @apply flex items-baseline gap-[13px] text-[26px] mt-[44px] mr-0 mb-[21px] ml-0 pb-[10px];
@@ -1239,9 +1316,6 @@
       --sidebar-width: 270px;
       --reading-gap: 85px;
     }
-    .article h1 {
-      @apply text-[44px];
-    }
   }
   @media (max-width: 1050px) {
     :root {
@@ -1270,9 +1344,6 @@
     }
     .article-layout {
       @apply block pt-[30px];
-    }
-    .article h1 {
-      @apply text-[36px];
     }
     .sidebar {
       @apply static max-h-none overflow-visible mt-[52px] p-0 flex flex-col gap-[24px];
@@ -1339,7 +1410,7 @@
       @apply text-[9px];
     }
     .topnav {
-      @apply order-[3] w-full justify-between gap-[18px] pt-[8px] text-[15px];
+      @apply order-[3] w-full justify-between gap-[8px] pt-[8px] text-[15px];
     }
     .topnav a {
       @apply py-0 px-[7px];
@@ -1396,8 +1467,11 @@
     .article-layout {
       @apply pt-[29px];
     }
-    .article h1 {
-      @apply text-[32px];
+    .article-header > h1 {
+      @apply text-[28px];
+    }
+    .prose h1 {
+      @apply text-[26px];
     }
     .breadcrumb {
       @apply text-[12px] mb-[23px];

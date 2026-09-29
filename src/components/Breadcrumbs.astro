@@ -1,0 +1,28 @@
+---
+import { breadcrumbItems } from "../ui/breadcrumbs.ts";
+import type { Note, DirectoryMeta } from "../content/types";
+import type { CatalogNote } from "../ui/types";
+interface Props {
+  note: Pick<Note, "kind" | "source" | "url">;
+  pages: CatalogNote[];
+  directories?: DirectoryMeta[];
+}
+const { note, pages, directories = [] } = Astro.props;
+const items = breadcrumbItems(note, pages, directories);
+---
+
+{items.length > 0 && (
+  <nav class="breadcrumb" aria-label="面包屑">
+    <ol>
+      {items.map((item) => (
+        <li>
+          {item.url === note.url ? (
+            <span aria-current="page">{item.label}</span>
+          ) : (
+            <a href={item.url}>{item.label}</a>
+          )}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
