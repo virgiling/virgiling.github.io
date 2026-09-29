@@ -1,0 +1,5 @@
+[
+  {"file":"wenkai-lite-regular.ttf","id":"notes-cjk","family":"Notes CJK","style":"Regular","weight":400,"sha256":"140c99ba4e28e817cec49bf82a0c5fcdc4fe633fb9dfda16d0ee8d59a8545f15","source":"https://github.com/lxgw/LxgwWenKai-Lite","license":"public/fonts/OFL-LXGW.txt"},
+  {"file":"LinBiolinum_R.otf","id":"notes-latin","family":"Notes Latin","style":"Regular","weight":400,"sha256":"a3440f6d67878de395c8b34074bfb611e6e0721d60eeb0608acba43522ccbfd1","source":"https://mirrors.ctan.org/fonts/libertine.zip","license":"public/fonts/OFL-LinuxBiolinum.txt"},
+  {"file":"LinBiolinum_RB.otf","id":"notes-latin-bold","family":"Notes Latin","style":"Bold","weight":700,"sha256":"196fa146480ffee1c9abcb68862087599bfc6ccac68633f0fcf04bdd70527b00","source":"https://mirrors.ctan.org/fonts/libertine.zip","license":"public/fonts/OFL-LinuxBiolinum.txt"}
+]

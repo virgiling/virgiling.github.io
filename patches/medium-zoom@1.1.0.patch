@@ -1,0 +1,265 @@
+diff --git a/node_modules/medium-zoom/.bun-tag-f12522f84d9da8f6 b/.bun-tag-f12522f84d9da8f6
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/dist/pure/index.js b/dist/pure/index.js
+index d4ca61a3093c2717788fc9b28e053c6eea16f64f..e97c2352656994c7eb6b1a5291701a3e0315422f 100644
+--- a/dist/pure/index.js
++++ b/dist/pure/index.js
+@@ -139,7 +139,8 @@ var mediumZoom = function mediumZoom(selector) {
+     var currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+ 
+     if (Math.abs(scrollTop - currentScroll) > zoomOptions.scrollOffset) {
+-      setTimeout(close, 150);
++      clearTimeout(scrollTimer);
++      scrollTimer = setTimeout(close, 150);
+     }
+   };
+ 
+@@ -272,6 +273,8 @@ var mediumZoom = function mediumZoom(selector) {
+   var open = function open() {
+     var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+         target = _ref2.target;
++    if (destroyed || active.zoomed) return animationPromise;
++    var completeOpen;
+ 
+     var _animate = function _animate() {
+       var container = {
+@@ -316,8 +319,8 @@ var mediumZoom = function mediumZoom(selector) {
+       viewportHeight = viewportHeight || container.height - zoomOptions.margin * 2;
+ 
+       var zoomTarget = active.zoomedHd || active.original;
+-      var naturalWidth = isSvg(zoomTarget) ? viewportWidth : zoomTarget.naturalWidth || viewportWidth;
+-      var naturalHeight = isSvg(zoomTarget) ? viewportHeight : zoomTarget.naturalHeight || viewportHeight;
++      var naturalWidth = Number(active.original.getAttribute('data-zoom-width')) || (isSvg(zoomTarget) ? viewportWidth : zoomTarget.naturalWidth || viewportWidth);
++      var naturalHeight = Number(active.original.getAttribute('data-zoom-height')) || (isSvg(zoomTarget) ? viewportHeight : zoomTarget.naturalHeight || viewportHeight);
+ 
+       var _zoomTarget$getBoundi = zoomTarget.getBoundingClientRect(),
+           top = _zoomTarget$getBoundi.top,
+@@ -337,9 +340,10 @@ var mediumZoom = function mediumZoom(selector) {
+       if (active.zoomedHd) {
+         active.zoomedHd.style.transform = transform;
+       }
++      Promise.resolve(zoomOptions.motion([active.zoomed], overlay, transform, true)).then(completeOpen, completeOpen);
+     };
+ 
+-    return new Promise(function (resolve) {
++    animationPromise = new Promise(function (resolve) {
+       if (target && images.indexOf(target) === -1) {
+         resolve(zoom);
+         return;
+@@ -347,7 +351,6 @@ var mediumZoom = function mediumZoom(selector) {
+ 
+       var _handleOpenEnd = function _handleOpenEnd() {
+         isAnimating = false;
+-        active.zoomed.removeEventListener('transitionend', _handleOpenEnd);
+         active.original.dispatchEvent(createCustomEvent('medium-zoom:opened', {
+           detail: { zoom: zoom }
+         }));
+@@ -355,10 +358,7 @@ var mediumZoom = function mediumZoom(selector) {
+         resolve(zoom);
+       };
+ 
+-      if (active.zoomed) {
+-        resolve(zoom);
+-        return;
+-      }
++      completeOpen = _handleOpenEnd;
+ 
+       if (target) {
+         // The zoom was triggered manually via a click
+@@ -398,77 +398,47 @@ var _images = images;
+ 
+       document.body.appendChild(active.zoomed);
+ 
+-      window.requestAnimationFrame(function () {
+-        document.body.classList.add('medium-zoom--opened');
+-      });
++      document.body.classList.add('medium-zoom--opened');
+ 
+       active.original.classList.add('medium-zoom-image--hidden');
+       active.zoomed.classList.add('medium-zoom-image--opened');
+ 
+       active.zoomed.addEventListener('click', close);
+-      active.zoomed.addEventListener('transitionend', _handleOpenEnd);
+-
+-      if (active.original.getAttribute('data-zoom-src')) {
+-        active.zoomedHd = active.zoomed.cloneNode();
+-
+-        // Reset the `scrset` property or the HD image won't load.
+-        active.zoomedHd.removeAttribute('srcset');
+-        active.zoomedHd.removeAttribute('sizes');
+-        // Remove loading attribute so the browser can load the image normally
+-        active.zoomedHd.removeAttribute('loading');
+-
+-        active.zoomedHd.src = active.zoomed.getAttribute('data-zoom-src');
+-
+-        active.zoomedHd.onerror = function () {
+-          clearInterval(getZoomTargetSize);
+-          console.warn('Unable to reach the zoom image target ' + active.zoomedHd.src);
+-          active.zoomedHd = null;
+-          _animate();
++      // Paint the available thumbnail immediately; never lock opening on an HD request.
++      _animate();
++      var hdSource = active.original.getAttribute('data-zoom-src');
++      if (hdSource) {
++        var hd = active.zoomed.cloneNode();
++        hd.removeAttribute('id');
++        hd.setAttribute('aria-hidden', 'true');
++        active.zoomedHd = hd;
++        hd.removeAttribute('srcset');
++        hd.removeAttribute('sizes');
++        hd.removeAttribute('loading');
++        var hdTimer;
++        hdCleanup = function () { clearTimeout(hdTimer); hd.onload = hd.onerror = null; };
++        hd.onload = function () {
++          hdCleanup();
++          // Finish the Motion entrance before swapping the full-resolution pixels.
++          animationPromise.then(function () {
++            if (active.zoomedHd !== hd || !active.original || isAnimating) return;
++            hd.style.transform = active.zoomed.style.transform;
++            hd.addEventListener('click', close);
++            document.body.appendChild(hd);
++          });
+         };
+-
+-        // We need to access the natural size of the full HD
+-        // target as fast as possible to compute the animation.
+-        var getZoomTargetSize = setInterval(function () {
+-          if ( active.zoomedHd.complete) {
+-            clearInterval(getZoomTargetSize);
+-            active.zoomedHd.classList.add('medium-zoom-image--opened');
+-            active.zoomedHd.addEventListener('click', close);
+-            document.body.appendChild(active.zoomedHd);
+-            _animate();
+-          }
+-        }, 10);
+-      } else if (active.original.hasAttribute('srcset')) {
+-        // If an image has a `srcset` attribuet, we don't know the dimensions of the
+-        // zoomed (HD) image (like when `data-zoom-src` is specified).
+-        // Therefore the approach is quite similar.
+-        active.zoomedHd = active.zoomed.cloneNode();
+-
+-        // Resetting the sizes attribute tells the browser to load the
+-        // image best fitting the current viewport size, respecting the `srcset`.
+-        active.zoomedHd.removeAttribute('sizes');
+-
+-        // In Firefox, the `loading` attribute needs to be set to `eager` (default
+-        // value) for the load event to be fired.
+-        active.zoomedHd.removeAttribute('loading');
+-
+-        // Wait for the load event of the hd image. This will fire if the image
+-        // is already cached.
+-        var loadEventListener = active.zoomedHd.addEventListener('load', function () {
+-          active.zoomedHd.removeEventListener('load', loadEventListener);
+-          active.zoomedHd.classList.add('medium-zoom-image--opened');
+-          active.zoomedHd.addEventListener('click', close);
+-          document.body.appendChild(active.zoomedHd);
+-          _animate();
+-        });
+-      } else {
+-        _animate();
++        hd.onerror = hdCleanup;
++        hdTimer = setTimeout(hdCleanup, 10000);
++        hd.src = hdSource;
+       }
+     });
++    return animationPromise;
+   };
+ 
+   var close = function close() {
+-    return new Promise(function (resolve) {
+-      if (isAnimating || !active.original) {
++    if (isAnimating) return animationPromise.then(close);
++    animationPromise = new Promise(function (resolve) {
++      if (!active.original) {
+         resolve(zoom);
+         return;
+       }
+@@ -476,7 +446,7 @@ var _images = images;
+       var _handleCloseEnd = function _handleCloseEnd() {
+         active.original.classList.remove('medium-zoom-image--hidden');
+         document.body.removeChild(active.zoomed);
+-        if (active.zoomedHd) {
++        if (active.zoomedHd && active.zoomedHd.parentNode) {
+           document.body.removeChild(active.zoomedHd);
+         }
+         document.body.removeChild(overlay);
+@@ -486,21 +456,18 @@ var _images = images;
+         }
+ 
+         isAnimating = false;
+-        active.zoomed.removeEventListener('transitionend', _handleCloseEnd);
+-
+-        active.original.dispatchEvent(createCustomEvent('medium-zoom:closed', {
+-          detail: { zoom: zoom }
+-        }));
+-
++        var original = active.original;
+         active.original = null;
+         active.zoomed = null;
+         active.zoomedHd = null;
+         active.template = null;
+-
++        original.dispatchEvent(createCustomEvent('medium-zoom:closed', { detail: { zoom: zoom } }));
+         resolve(zoom);
+       };
+ 
+       isAnimating = true;
++      hdCleanup();
++      var previousTransform = active.zoomed.style.transform;
+       document.body.classList.remove('medium-zoom--opened');
+       active.zoomed.style.transform = '';
+ 
+@@ -510,7 +477,6 @@ var _images = images;
+ 
+       // Fade out the template so it's not too abrupt
+       if (active.template) {
+-        active.template.style.transition = 'opacity 150ms';
+         active.template.style.opacity = 0;
+       }
+ 
+@@ -518,8 +484,9 @@ var _images = images;
+         detail: { zoom: zoom }
+       }));
+ 
+-      active.zoomed.addEventListener('transitionend', _handleCloseEnd);
++      Promise.resolve(zoomOptions.motion([active.zoomed, active.zoomedHd].filter(function (n) { return n && n.parentNode; }), overlay, previousTransform, false)).then(_handleCloseEnd, _handleCloseEnd);
+     });
++    return animationPromise;
+   };
+ 
+   var toggle = function toggle() {
+@@ -548,6 +515,10 @@ var _images = images;
+   var images = [];
+   var eventListeners = [];
+   var isAnimating = false;
++  var animationPromise = Promise.resolve();
++  var hdCleanup = function () {};
++  var scrollTimer;
++  var destroyed = false;
+   var scrollTop = 0;
+   var zoomOptions = options;
+   var active = {
+@@ -575,12 +546,21 @@ var _images = images;
+ 
+   var overlay = createOverlay(zoomOptions.background);
+ 
+-  document.addEventListener('click', _handleClick);
++  if (!zoomOptions.manual) document.addEventListener('click', _handleClick);
+   document.addEventListener('keyup', _handleKeyUp);
+   document.addEventListener('scroll', _handleScroll);
+   window.addEventListener('resize', close);
+ 
+   var zoom = {
++    destroy: function () {
++      destroyed = true;
++      clearTimeout(scrollTimer);
++      document.removeEventListener('click', _handleClick);
++      document.removeEventListener('keyup', _handleKeyUp);
++      document.removeEventListener('scroll', _handleScroll);
++      window.removeEventListener('resize', close);
++      return close().then(function () { detach(); eventListeners = []; });
++    },
+     open: open,
+     close: close,
+     toggle: toggle,

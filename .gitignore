@@ -1,0 +1,14 @@
+.pi/
+.DS_Store
+node_modules/
+dist/
+.astro/
+src/fonts/generated/
+.venv/
+__pycache__/
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+# Keep Astro tag routes visible even when a global ignore hides ctags output.
+!tags/

@@ -1,0 +1,12 @@
+---
+import { siteConfig,discussionURL } from '../site.config';
+import type { Note } from '../content/types';
+interface Props {note:Note}
+const {note}=Astro.props;
+---
+{note.comments && siteConfig.comments.enabled && <section class="comments-entry" aria-labelledby="comments-heading" data-comments data-config={JSON.stringify({...siteConfig.comments,term:discussionURL(note.route)})}>
+  <div><span class="eyebrow">CONVERSATION</span><h2 id="comments-heading">讨论</h2><p>想法、补充，或只是打个招呼。</p></div>
+  <div class="giscus giscus-host"></div><p class="comments-status" role="status" hidden></p>
+  <button class="comments-retry" hidden>重试加载评论</button>
+</section>}
+<script>import {initComments} from '../runtime/comments';initComments();</script>

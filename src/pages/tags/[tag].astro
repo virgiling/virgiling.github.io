@@ -1,0 +1,9 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import {getSnapshot} from '../../content/snapshot';
+import {buildTags,TagPage} from '../../ui/tags.mjs';
+import {url} from '../../site.config';
+export async function getStaticPaths(){return buildTags((await getSnapshot()).listed).map(group=>({params:{tag:Buffer.from(group.tag).toString('hex')},props:{group}}));}
+const {group}=Astro.props;
+---
+<SiteLayout title={'#'+group.tag} active="articles" path={'tags/'+Buffer.from(group.tag).toString('hex')}><Fragment set:html={TagPage(group,url('articles'))}/></SiteLayout>

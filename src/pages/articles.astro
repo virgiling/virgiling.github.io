@@ -1,0 +1,8 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import {getSnapshot} from '../content/snapshot';
+import {Archive} from '../ui/archive.mjs';
+import {siteConfig} from '../site.config';
+const snapshot=await getSnapshot();
+---
+<SiteLayout title="文章" active="articles" path="articles"><Fragment set:html={Archive(snapshot.listed.filter(n=>n.kind!=='landing'),{...siteConfig.archive,directories:snapshot.directories})}/></SiteLayout>

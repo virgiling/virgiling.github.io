@@ -1,0 +1,5 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import {url} from '../site.config';
+---
+<SiteLayout title="页面未找到" path="404" unlisted><main class="shell archive-page" id="main"><h1>页面未找到</h1><p>这篇内容可能已移动，或尚未公开。</p><a href={url('articles')}>按目录浏览文章 →</a></main></SiteLayout>
