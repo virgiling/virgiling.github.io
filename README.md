@@ -59,6 +59,18 @@ bun run fonts:clean   # 显式删除非当前清单的产物；勿与字体生�
 
 若服务器构建，带上源码、锁文件、`assets/fonts/`、补丁和固定内容提交，安装上述 Node/Bun/Python 工具后执行 `bun run build`。若服务器只托管静态文件，本地构建后仅需部署 **`dist/` 的内容**；内容源库、原始 TTF/OTF 和构建缓存不属于静态发布目录。非根路径先设置 `SITE_BASE=/preview/` 等实际前缀。
 
+## GitHub Pages
+
+[部署工作流](.github/workflows/deploy.yml) 在网站仓库的 `main` 推送时运行，也可手动触发；只有 `main` 可部署。流程参考 [Astro 官方方案](https://docs.astro.build/en/guides/deploy/github/)与 [Navfolio](https://github.com/dodolalorc/astro-navfolio/blob/v1/.github/workflows/deploy-pages.yml)，显式安装固定版本 Node/Bun/uv，以 `bun install --frozen-lockfile` 安装依赖，再执行 `bun run validate` 和 `bun run verify:http`。字体由构建钩子按 `scripts/fonts/requirements.txt` 自动生成；只有检查通过的 `dist/` 会上传到 Pages。
+
+仓库配置要求：
+
+- **Settings → Pages → Source** 选择 **GitHub Actions**；自定义域名保持 `virgiling.wiki`，与 `src/site.config.ts` 的 `site` 一致，`SITE_BASE=/`。
+- **Settings → Environments → github-pages** 的部署分支规则允许 `main`。
+- Actions secret **`BLOGS`** 提供网站仓库和 `virgiling/blog_content` 的只读 Contents 权限，用于检出私有 submodule；普通 `GITHUB_TOKEN` 不能读取另一个私有仓库。检出后不保留凭据。
+
+工作流使用记录的内容 gitlink，不执行 `submodule update --remote`。源码、内容库和构建缓存不上传为产物，也不缓存私有内容派生的 Astro 输出。构建 job 只有代码读取权限，部署 job 才拥有 Pages/OIDC 写入权限。工作流成功仅代表构建与静态发布成功，不替代浏览器验收。
+
 ## 维护检查
 
 ```sh

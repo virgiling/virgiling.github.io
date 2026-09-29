@@ -203,6 +203,8 @@ Biro 直接使用原始 WOFF2，不参与 OFL 子集流程。它不属于 OFL，
 
 当前内容生成 202 个 HTML 页面：144 个公开阅读页、55 个标签页，以及归档、足迹和 404。静态输出让内容编译与页面交付分开：构建环境需要源码、锁文件、字体输入和固定内容版本，静态服务器只需要 `dist/`。内容源库、构建缓存和原始 TTF/OTF 不属于静态发布目录。
 
+GitHub Pages 采用独立的构建与部署 job，结构参考 [Astro 官方部署方案](https://docs.astro.build/en/guides/deploy/github/)和 [Navfolio 的工作流](https://github.com/dodolalorc/astro-navfolio/blob/v1/.github/workflows/deploy-pages.yml)。本站显式固定 Node、Bun、uv 和字体依赖，冻结安装锁文件；读取私有内容所需的凭据只用于检出，且不让内容分支自动前移。类型检查、测试、构建、静态产物与本地 HTTP 检查全部通过后，才上传 `dist/` 并交给具有 Pages/OIDC 权限的部署 job。只有 `main` 可部署，不缓存内容派生输出；自定义域名与评论身份仍由原站点配置决定。具体配置见 [README 的 GitHub Pages 章节](../README.md#github-pages)。
+
 这套实现仍有明确的能力范围：Bases/地图、Mermaid 渲染、全文预览、更完整的 OFM 与历史别名重定向，都还有继续完善的空间。新增能力应接入同一套文档身份、发布选择与资源管线，而不是再建立一套互相矛盾的解析规则。
 
 最后留下的不是一套更庞大的框架，而是一组更清楚的职责：内容仍由自己的笔记库决定，成熟库解决成熟问题，本站代码只承担真正需要自己决定的部分。
