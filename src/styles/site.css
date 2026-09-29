@@ -321,12 +321,15 @@
   }
   .stack-ready:not(.is-open) .stack-card {
     grid-area: 1/1;
-    transform: translate(calc(var(--i) * 6px), calc(var(--i) * 26px)) scale(calc(1 - var(--i) * 0.014));
+    transform: translate(calc(var(--i) * 6px), calc(var(--i) * 26px))
+      scale(calc(1 - var(--i) * 0.014));
   }
   .stack-ready:not(.is-open) .stack-card:nth-child(n + 2) {
     background: #f0f3e9;
   }
-  .stack-ready:not(.is-open) .stack-card:nth-child(n + 2) :is(.card-content, .card-footer) {
+  .stack-ready:not(.is-open)
+    .stack-card:nth-child(n + 2)
+    :is(.card-content, .card-footer) {
     @apply invisible;
   }
   .stack-ready:not(.is-open) .stack-card:nth-child(n + 4) {
@@ -701,6 +704,11 @@
     @apply block max-w-full h-auto mx-auto;
     object-fit: contain;
   }
+  .prose img[data-image-sized] {
+    width: auto;
+    max-width: min(100%, var(--image-width, 100%));
+    max-height: var(--image-height, none);
+  }
   .image-zoom-link {
     @apply block w-fit max-w-full mx-auto;
     cursor: zoom-in;
@@ -709,9 +717,15 @@
   .medium-zoom-overlay {
     @apply fixed inset-0 opacity-0 z-[60];
   }
-  .medium-zoom--opened .medium-zoom-overlay { opacity: 1; }
-  .medium-zoom-image { cursor: zoom-in; }
-  .medium-zoom-image--hidden { visibility: hidden; }
+  .medium-zoom--opened .medium-zoom-overlay {
+    opacity: 1;
+  }
+  .medium-zoom-image {
+    cursor: zoom-in;
+  }
+  .medium-zoom-image--hidden {
+    visibility: hidden;
+  }
   .medium-zoom-image--opened {
     @apply relative z-[61];
     cursor: zoom-out;
@@ -860,7 +874,8 @@
   .graph {
     @apply relative rounded-[10px] overflow-hidden;
     border: 1px solid #e3e7db;
-    background: radial-gradient(#acb79950 0.8px, transparent 0.8px) 0 0/13px 13px;
+    background: radial-gradient(#acb79950 0.8px, transparent 0.8px) 0 0/13px
+      13px;
   }
   .graph svg {
     @apply block w-full h-auto;

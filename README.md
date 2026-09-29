@@ -1,4 +1,4 @@
-# 栖 · Notes
+# 栞 · 忘れてください
 
 基于 Astro 的个人博客，支持 Obsidian 风格笔记、双链、图谱、搜索和评论。迁移过程与设计决定见[设计文稿](docs/design-review.md)。
 
@@ -20,7 +20,7 @@ bun run validate                      # 类型检查、Node 测试、构建、�
 - 双链、别名解析、标题/块链接和嵌入，Callout、脚注、图片说明、poetry、Shiki、MathJax、安全 HTML。
 - 浅色响应式阅读布局，目录归档与 MoC 入口、标签页、更新日历、自动跟随大纲、反链、时效提示、图钉摘要预览。
 - 严格一跳局部图：只拖节点、不平移画布，当前笔记松手回图心；全局图采用自然力布局、有界度数尺寸与缩放显字。力核心复用 D3，动效统一 Motion。
-- FlexSearch Worker 按需搜索、真实 giscus 评论、响应式图片及 Motion 适配的 medium-zoom。
+- FlexSearch Worker 按需搜索、真实 giscus 评论、原始 OSS 图片的响应式尺寸适配及 Motion 适配的 medium-zoom。
 - 原路径、根/非根 base、RSS、sitemap、404，以及开发快照缓存和内容失效通知。
 
 这不是完整的 Obsidian 运行时：Bases/地图、Mermaid 渲染、全文预览、旧别名重定向及更完整 OFM 尚待完善，详见设计文稿。
@@ -32,7 +32,7 @@ src/site.config.ts    品牌、域名、base、导航、评论等配置
 src/content/          发布过滤、编译、身份解析、MoC、快照与派生资源
 src/markdown/         Markdown 扩展
 src/graph/            构建与交互共用的力核心/显示规则
-src/images/           Astro/Sharp 图片处理
+src/images/           原图 URL、显示尺寸与原图放大链接
 src/runtime/          按需交互、Motion、图谱、搜索 Worker
 src/ui/、styles/      语义组件、Tailwind 与专用样式
 src/pages/、layouts/  Astro 路由与页面外壳
@@ -73,7 +73,11 @@ bun run fonts:clean   # 显式删除非当前清单的产物；勿与字体生�
 
 ## 维护检查
 
+使用 Prettier 与官方 `prettier-plugin-astro` 格式化 `src/`，不格式化生成字体或内容 submodule。`.astro` 文件采用与 Astro 7 一致的 JSX 空白语义；`validate` 和 Pages 构建包含格式检查。
+
 ```sh
+bun run format                      # 只格式化 src/ 中的源文件
+bun run format:check                # 不修改文件
 bun run check
 bun run test
 bun run build && bun run verify
@@ -89,4 +93,6 @@ bun run build                       # 非根检查后恢复根路径产物
 
 验证及可选 `measure:dev` / `measure:cpu` 的结果写入 `.astro/reports/`，不提交，也不是浏览器性能报告。更新包时检查 `patches/medium-zoom@1.1.0.patch` 是否仍能正确应用，再按影响验证；不要绕开补丁中的 Motion 与清理约定。
 
-正式域名和评论键由 `src/site.config.ts` 管理；localhost 和测试 base 不改变讨论身份。
+正式域名和评论键由 `src/site.config.ts` 管理；localhost 和测试 base 不改变讨论身份。站点 mark「栞」意为书签，名称为「忘れてください」，不显示 byline；`public/favicon.png` 保留旧站 `https://virgiling.wiki/static/icon.png` 的原始 PNG。
+
+正文图片由浏览器直接请求原始 OSS URL，本地附件仍通过允许的 `media/` 路由发布。构建不请求远程图片、不探测尺寸、不生成 WebP 或 srcset；尺寸适配仅通过 CSS 与作者提供的宽高完成，保持比例、不裁剪。放大、无脚本及修饰键点击仍指向原图。

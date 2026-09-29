@@ -1,40 +1,172 @@
 ---
-import '../styles/site.css';
-import {siteConfig,navigation,url,canonical,discussionURL} from '../site.config';
-import {searchIcon} from '../ui/shared.mjs';
-import {getResources} from '../content/resources';
-import {hasBiro,biroStyles} from '../fonts';
-const useBiro=hasBiro();
-const resources=await getResources();
-interface Props { title:string; description?:string; active?:string; path?:string; reading?:boolean; unlisted?:boolean }
-const {title,description=title,active='',path='',reading=false,unlisted=false}=Astro.props;
-const {brand,footer}=siteConfig;
+import "../styles/site.css";
+import {
+  siteConfig,
+  navigation,
+  url,
+  canonical,
+  discussionURL,
+} from "../site.config";
+import { searchIcon } from "../ui/shared.mjs";
+import { getResources } from "../content/resources";
+import { hasBiro, biroStyles } from "../fonts";
+const useBiro = hasBiro();
+const resources = await getResources();
+interface Props {
+  title: string;
+  description?: string;
+  active?: string;
+  path?: string;
+  reading?: boolean;
+  unlisted?: boolean;
+}
+const {
+  title,
+  description = title,
+  active = "",
+  path = "",
+  reading = false,
+  unlisted = false,
+} = Astro.props;
+const { brand, footer } = siteConfig;
 ---
+
 <!doctype html>
-<html lang="zh-CN" data-biro={useBiro?'':undefined}>
-<head>
-  {useBiro&&<style is:inline set:html={biroStyles(siteConfig.base)} />}
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="color-scheme" content="light" />
-  <title>{title} · {brand.name}</title><meta name="description" content={description} />
-  <meta name="robots" content={unlisted?'noindex,nofollow':'index,follow'} />
-  {reading&&<meta name="giscus:backlink" content={discussionURL(path)} />}
-  <link rel="canonical" href={canonical(path)} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical(path)} /><meta property="og:type" content={reading?'article':'website'} />
-  <link rel="icon" href="data:," /><link rel="alternate" type="application/rss+xml" title={brand.name} href={url('rss.xml')} />
-</head>
-<body data-page={reading?'reading':active} data-root={url('')} data-search-index={resources.search.url} data-graph-index={resources.graph.url}>
-<a class="skip" href="#main">跳转到主要内容</a>{reading&&<div class="reading-progress" aria-hidden="true"></div>}
-<header class="topbar"><div class="shell header-inner">
-<a class="brand" href={url('')} aria-label={`${brand.name} 主页`}>{brand.mark&&<span class="brand-mark">{brand.mark}</span>}<span class="brand-name">{brand.name}{brand.byline&&<small>{brand.byline}</small>}</span></a>
-<nav class="topnav" aria-label="主导航">{navigation.map(n=><a href={n.url} aria-current={n.id===active?'page':undefined}>{n.label}</a>)}</nav>
-<button class="search-trigger" id="open-search" aria-haspopup="dialog" aria-controls="search-dialog"><Fragment set:html={searchIcon}/><span>搜索</span><span class="key">⌘ K</span></button>
-</div></header>
-<noscript><style>.search-trigger,.preview-button,.mobile-outline{display:none!important}</style></noscript>
-<slot />
-<footer class="shell footer"><span>© {brand.author}</span><span>{brand.motto}</span><a href={footer.github}>GitHub</a></footer>
-<div class="popover" id="note-preview" role="dialog" aria-modal="false" aria-labelledby="preview-title" hidden>
-<div class="popover-top"><span>笔记预览</span><button class="pin-button" id="pin-preview" aria-pressed="false">固定</button><button class="close-icon" id="close-preview" aria-label="关闭预览">×</button></div>
-<div class="popover-body"><span class="popover-kind" id="preview-kind"></span><h2 id="preview-title"></h2><p id="preview-text"></p><a id="preview-link">阅读全文 ↗</a></div>
-</div>
-<dialog id="search-dialog" aria-label="搜索笔记"><div class="spotlight-panel"><div class="search-head"><Fragment set:html={searchIcon}/><label for="search-input" class="sr-only">搜索标题和正文，可用 #标签 筛选</label><input id="search-input" type="search" autocomplete="off" placeholder="关键词 #标签" aria-controls="search-results" /><button class="dialog-close" id="close-search" aria-label="关闭搜索">Esc</button></div><div class="search-info"><span>笔记</span><span id="search-count" aria-live="polite"></span></div><ul class="search-results" id="search-results"></ul><div class="search-foot"><span>↑ ↓ 选择</span><span>↵ 打开</span><span>Esc 关闭</span></div></div></dialog>
-<script>import '../runtime/site.js';</script>
-</body></html>
+<html lang="zh-CN" data-biro={useBiro ? "" : undefined}>
+  <head>
+    {useBiro && <style is:inline set:html={biroStyles(siteConfig.base)} />}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>{title} · {brand.name}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={unlisted ? "noindex,nofollow" : "index,follow"}
+    />
+    {reading && <meta name="giscus:backlink" content={discussionURL(path)} />}
+    <link rel="canonical" href={canonical(path)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical(path)} />
+    <meta property="og:type" content={reading ? "article" : "website"} />
+    <link rel="icon" type="image/png" href={url("favicon.png")} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={brand.name}
+      href={url("rss.xml")}
+    />
+  </head>
+  <body
+    data-page={reading ? "reading" : active}
+    data-root={url("")}
+    data-search-index={resources.search.url}
+    data-graph-index={resources.graph.url}
+  >
+    <a class="skip" href="#main">
+      跳转到主要内容
+    </a>
+    {reading && <div class="reading-progress" aria-hidden="true"></div>}
+    <header class="topbar">
+      <div class="shell header-inner">
+        <a class="brand" href={url("")} aria-label={`${brand.name} 主页`}>
+          {brand.mark && <span class="brand-mark">{brand.mark}</span>}
+          <span class="brand-name">
+            {brand.name}
+            {brand.byline && <small>{brand.byline}</small>}
+          </span>
+        </a>
+        <nav class="topnav" aria-label="主导航">
+          {navigation.map((n) => (
+            <a href={n.url} aria-current={n.id === active ? "page" : undefined}>
+              {n.label}
+            </a>
+          ))}
+        </nav>
+        <button
+          class="search-trigger"
+          id="open-search"
+          aria-haspopup="dialog"
+          aria-controls="search-dialog"
+        >
+          <Fragment set:html={searchIcon} />
+          <span>搜索</span>
+          <span class="key">⌘ K</span>
+        </button>
+      </div>
+    </header>
+    <noscript>
+      <style>
+        .search-trigger,
+        .preview-button,
+        .mobile-outline {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+    <slot />
+    <footer class="shell footer">
+      <span>© {brand.author}</span>
+      <span>{brand.motto}</span>
+      <a href={footer.github}>GitHub</a>
+    </footer>
+    <div
+      class="popover"
+      id="note-preview"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="preview-title"
+      hidden
+    >
+      <div class="popover-top">
+        <span>笔记预览</span>
+        <button class="pin-button" id="pin-preview" aria-pressed="false">
+          固定
+        </button>
+        <button class="close-icon" id="close-preview" aria-label="关闭预览">
+          ×
+        </button>
+      </div>
+      <div class="popover-body">
+        <span class="popover-kind" id="preview-kind"></span>
+        <h2 id="preview-title"></h2>
+        <p id="preview-text"></p>
+        <a id="preview-link">阅读全文 ↗</a>
+      </div>
+    </div>
+    <dialog id="search-dialog" aria-label="搜索笔记">
+      <div class="spotlight-panel">
+        <div class="search-head">
+          <Fragment set:html={searchIcon} />
+          <label for="search-input" class="sr-only">
+            搜索标题和正文，可用 #标签 筛选
+          </label>
+          <input
+            id="search-input"
+            type="search"
+            autocomplete="off"
+            placeholder="关键词 #标签"
+            aria-controls="search-results"
+          />
+          <button class="dialog-close" id="close-search" aria-label="关闭搜索">
+            Esc
+          </button>
+        </div>
+        <div class="search-info">
+          <span>笔记</span>
+          <span id="search-count" aria-live="polite"></span>
+        </div>
+        <ul class="search-results" id="search-results"></ul>
+        <div class="search-foot">
+          <span>↑ ↓ 选择</span>
+          <span>↵ 打开</span>
+          <span>Esc 关闭</span>
+        </div>
+      </div>
+    </dialog>
+    <script>
+      import "../runtime/site.js";
+    </script>
+  </body>
+</html>

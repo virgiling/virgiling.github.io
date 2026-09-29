@@ -6,13 +6,11 @@ import {contentPolicy} from './src/content-policy.mjs';
 import { siteConfig } from './src/site.config';
 import {registerContentWatcher} from './src/dev/content-watch';
 import {viteCacheDirectory} from './src/dev/vite-cache';
-import {remotePatterns} from './src/images/policy';
 import {ensureFonts} from './scripts/fonts/subset-ui-font';
 
 export default defineConfig({
   site:siteConfig.site, base:siteConfig.base, output:'static', trailingSlash:'ignore',
   build:{format:'file'},
-  image:{remotePatterns,service:{entrypoint:'./src/images/service.ts',config:{limitInputPixels:80_000_000}}},
   vite:{build:{assetsInlineLimit:file=>file.endsWith('.woff2')?false:undefined},plugins:[tailwindcss()],worker:{format:'es'},optimizeDeps:{include:['motion/mini','motion','@floating-ui/dom','d3-selection','d3-zoom','d3-drag','d3-force']},server:{watch:{ignored:[
     new RegExp('/content/(?:.*/)?(?:'+contentPolicy.ignoredDirectories.map(d=>d.replaceAll('.','\\.')).join('|')+')(?:/|$)'),
   ]}}},

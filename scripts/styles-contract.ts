@@ -29,6 +29,7 @@ export function verifyStyles(css:string){
   has('.reading-meta',{'font-size':'17px'},'560');
   has('.prose',{'font-size':'var(--reading-font-size)','line-height':'1.95'});
   has('.prose img',{'max-width':'100%','height':'auto','object-fit':'contain'});
+  has('.prose img[data-image-sized]',{'width':'auto','max-width':'min(100%, var(--image-width,100%))','max-height':'var(--image-height,none)'});
   has('.medium-zoom-image--hidden',{'visibility':'hidden'});
   has('.medium-zoom-image--opened',{'z-index':'61'});
   has('.image-zoom-close',{'width':'44px','height':'44px'});

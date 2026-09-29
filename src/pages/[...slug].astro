@@ -1,10 +1,14 @@
 ---
-import {getSnapshot} from '../content/snapshot';
-import ReadingLayout from '../layouts/ReadingLayout.astro';
-export async function getStaticPaths(){
-  const snapshot=await getSnapshot();
-  return snapshot.notes.map(note=>({params:{slug:note.route||undefined},props:{note,snapshot}}));
+import { getSnapshot } from "../content/snapshot";
+import ReadingLayout from "../layouts/ReadingLayout.astro";
+export async function getStaticPaths() {
+  const snapshot = await getSnapshot();
+  return snapshot.notes.map((note) => ({
+    params: { slug: note.route || undefined },
+    props: { note, snapshot },
+  }));
 }
-const {note,snapshot}=Astro.props;
+const { note, snapshot } = Astro.props;
 ---
-<ReadingLayout note={note} snapshot={snapshot}/>
+
+<ReadingLayout note={note} snapshot={snapshot} />

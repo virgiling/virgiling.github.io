@@ -1,36 +1,110 @@
 ---
-import SiteLayout from './SiteLayout.astro';
-import Comments from '../components/Comments.astro';
-import {siteConfig,url} from '../site.config';
-import {ReadingMeta,ReadingSidebar,OnThisPage} from '../ui/reading.mjs';
-import {GraphDialog} from '../ui/graph.mjs';
-import {Breadcrumbs} from '../ui/breadcrumbs.mjs';
-import {FreshnessNotice} from '../ui/freshness.mjs';
-import {tagURL} from '../ui/shared.mjs';
-import type {Note,Snapshot} from '../content/types';
-import {articleImages} from '../images/astro';
-interface Props {note:Note; snapshot:Snapshot}
-const {note,snapshot}=Astro.props;
-const articleHTML=await articleImages(note.html,snapshot.assets);
-const active=note.source==='index.md'?'home':note.source==='about.md'?'about':'articles';
-const related=snapshot.listed.filter(n=>note.links.includes(n.id)||n.links.includes(note.id));
-const previews=related.map(n=>({slug:n.id,url:n.url,title:n.title,tags:n.tags,summary:n.summary}));
+import SiteLayout from "./SiteLayout.astro";
+import Comments from "../components/Comments.astro";
+import { siteConfig, url } from "../site.config";
+import { ReadingMeta, ReadingSidebar, OnThisPage } from "../ui/reading.mjs";
+import { GraphDialog } from "../ui/graph.mjs";
+import { Breadcrumbs } from "../ui/breadcrumbs.mjs";
+import { FreshnessNotice } from "../ui/freshness.mjs";
+import { tagURL } from "../ui/shared.mjs";
+import type { Note, Snapshot } from "../content/types";
+import { articleImages } from "../images/article";
+interface Props {
+  note: Note;
+  snapshot: Snapshot;
+}
+const { note, snapshot } = Astro.props;
+const articleHTML = articleImages(note.html);
+const active =
+  note.source === "index.md"
+    ? "home"
+    : note.source === "about.md"
+      ? "about"
+      : "articles";
+const related = snapshot.listed.filter(
+  (n) => note.links.includes(n.id) || n.links.includes(note.id),
+);
+const previews = related.map((n) => ({
+  slug: n.id,
+  url: n.url,
+  title: n.title,
+  tags: n.tags,
+  summary: n.summary,
+}));
 ---
-<SiteLayout title={note.title} description={note.summary} path={note.route} active={active} reading unlisted={note.unlisted}>
-<main class="shell article-layout" id="main">
-<article class="article" data-note-id={note.id}>
-<Fragment set:html={Breadcrumbs(note,snapshot.listed,snapshot.directories)} />
-<header class="article-header"><div class="eyebrow">FROM THE NOTEBOOK</div><h1 id="page-title">{note.title}</h1><Fragment set:html={ReadingMeta(note,siteConfig)} />
-{note.tags.length>0&&<div class="article-tags">{note.tags.map(t=>note.unlisted?<span class="tag">{t}</span>:<a class="tag" href={tagURL(t)}>{t}</a>)}</div>}
-</header>
-<Fragment set:html={FreshnessNotice(note,siteConfig.freshness,process.env.BUILD_DATE||new Date().toISOString().slice(0,10))} />
-<div class="prose" set:html={articleHTML}/><Comments note={note}/>
-{note.kind!=='landing'&&<div class="article-bottom"><a href={url('articles')}>← 返回文章</a></div>}
-</article>
-<Fragment set:html={ReadingSidebar(note,snapshot.listed,'',siteConfig)} />
-</main>
-<button class="mobile-outline" id="open-outline" aria-haspopup="dialog" aria-controls="outline-dialog">☷ ON THIS PAGE</button>
-<dialog id="outline-dialog" class="outline-dialog" aria-label="ON THIS PAGE"><button class="dialog-close" id="close-outline">关闭</button><Fragment set:html={OnThisPage(note.headings,{mobile:true})}/><a class="outline-relations" href="#graph-heading">关系图谱 ↓</a></dialog>
-<Fragment set:html={GraphDialog(note)} />
-<script is:inline type="application/json" id="preview-data" set:html={JSON.stringify(previews).replace(/</g,'\\u003c')} />
+
+<SiteLayout
+  title={note.title}
+  description={note.summary}
+  path={note.route}
+  active={active}
+  reading
+  unlisted={note.unlisted}
+>
+  <main class="shell article-layout" id="main">
+    <article class="article" data-note-id={note.id}>
+      <Fragment
+        set:html={Breadcrumbs(note, snapshot.listed, snapshot.directories)}
+      />
+      <header class="article-header">
+        <div class="eyebrow">FROM THE NOTEBOOK</div>
+        <h1 id="page-title">{note.title}</h1>
+        <Fragment set:html={ReadingMeta(note, siteConfig)} />
+        {note.tags.length > 0 && (
+          <div class="article-tags">
+            {note.tags.map((t) =>
+              note.unlisted ? (
+                <span class="tag">{t}</span>
+              ) : (
+                <a class="tag" href={tagURL(t)}>
+                  {t}
+                </a>
+              ),
+            )}
+          </div>
+        )}
+      </header>
+      <Fragment
+        set:html={FreshnessNotice(
+          note,
+          siteConfig.freshness,
+          process.env.BUILD_DATE || new Date().toISOString().slice(0, 10),
+        )}
+      />
+      <div class="prose" set:html={articleHTML} />
+      <Comments note={note} />
+      {note.kind !== "landing" && (
+        <div class="article-bottom">
+          <a href={url("articles")}>← 返回文章</a>
+        </div>
+      )}
+    </article>
+    <Fragment
+      set:html={ReadingSidebar(note, snapshot.listed, "", siteConfig)}
+    />
+  </main>
+  <button
+    class="mobile-outline"
+    id="open-outline"
+    aria-haspopup="dialog"
+    aria-controls="outline-dialog"
+  >
+    ☷ ON THIS PAGE
+  </button>
+  <dialog id="outline-dialog" class="outline-dialog" aria-label="ON THIS PAGE">
+    <button class="dialog-close" id="close-outline">
+      关闭
+    </button>
+    <Fragment set:html={OnThisPage(note.headings, { mobile: true })} />
+    <a class="outline-relations" href="#graph-heading">
+      关系图谱 ↓
+    </a>
+  </dialog>
+  <Fragment set:html={GraphDialog(note)} />
+  <script
+    is:inline
+    type="application/json"
+    id="preview-data"
+    set:html={JSON.stringify(previews).replace(/</g, "\\u003c")}
+  />
 </SiteLayout>

@@ -18,7 +18,6 @@ const moduleGraph=await build({entryPoints:files.filter(f=>f.endsWith('.js')).ma
 const jsImports=new Map(Object.entries(moduleGraph.metafile!.inputs).map(([path,input])=>[resolve(path),input.imports.filter(i=>!i.external&&i.kind==='import-statement').map(i=>resolve(i.path))]));
 let publicGraph:any;
 const localGraphs:{file:string;ids:Set<string>;current:string}[]=[];
-const imageDimensions=new Map<string,number>(),imageCandidates:{file:string;src:string;width:number}[]=[];
 const usedHan=new Set<number>();
 const archiveEntries=new Set<string>(),archiveMocs:{source:string;href:string;root:string}[]=[];
 const attributes=(node:any)=>Object.fromEntries((node.attrs||[]).map((a:{name:string;value:string})=>[a.name,a.value]));
@@ -35,7 +34,7 @@ for(const file of files){
   const buffer=await readFile(resolve(root,file));
   if(file.endsWith('.css'))stats.cssGzip+=gzipSync(buffer).length;
   if(file.endsWith('.woff2'))stats.fontBytes+=buffer.length;
-  if(file.endsWith('.webp')){const metadata=imageSize(buffer);assert.equal(metadata.type,'webp');imageDimensions.set(file,metadata.width);}
+  assert.ok(!/^_astro\/.*\.(?:png|jpe?g|gif|webp|avif)$/i.test(file),`Unexpected generated image: ${file}`);
   if(file.startsWith('data/search-'))stats.searchGzip+=gzipSync(buffer).length;
   if(file.startsWith('data/graph-')){
     stats.graphGzip+=gzipSync(buffer).length;
@@ -45,7 +44,7 @@ for(const file of files){
   if(!/\.(?:html|json|js|css|xml)$/.test(file))continue;
   const source=buffer.toString();assert.ok(!source.includes('/Users/'),'Absolute local path leaked');assert.ok(!source.includes('sourceMappingURL=data:'),'Inline sourcemap');
   if(!file.endsWith('.html'))continue;
-  const doc=parse(source),ids=new Set<string>(),links:{value:string;kind:string}[]=[],scripts:string[]=[];let inlineJs='';
+  const doc=parse(source),ids=new Set<string>(),links:{value:string;kind:string}[]=[],scripts:string[]=[];let inlineJs='',favicons=0;
   function visit(node:any,skipFontText=false){
     skipFontText ||= ['script','style','pre','code','kbd','samp'].includes(node.tagName);
     if(node.nodeName==='#text'&&!skipFontText)for(const char of node.value)if(/\p{Script=Han}/u.test(char))usedHan.add(char.codePointAt(0)!);
@@ -63,14 +62,15 @@ for(const file of files){
     if(classes.includes('comments-link'))errors.push(`${file}: removed Discussions link returned`);
     if(classes.some((c:string)=>['graph-local-controls','local-graph-help','graph-node-list','graph-hint','graph-fallback'].includes(c)))errors.push(`${file}: removed graph lists/controls/help`);
     if(node.tagName==='img'){
-      if('data-image-optimized' in attrs&&(!attrs.srcset||!attrs.sizes||!(Number(attrs.width)>0)||!(Number(attrs.height)>0)))errors.push(`${file}: incomplete responsive image`);
-      if(attrs.srcset)for(const candidate of attrs.srcset.split(',')){
-        const [src,descriptor]=candidate.trim().split(/\s+/);links.push({value:src,kind:'srcset'});
-        imageCandidates.push({file,src,width:parseInt(descriptor)});
-      }
+      if('data-image-optimized' in attrs||attrs.srcset||attrs.sizes)errors.push(`${file}: image must use its original URL, not generated variants`);
+      if(attrs.src?.startsWith(base+'_astro/'))errors.push(`${file}: image was rewritten to an Astro asset`);
       if(/\|\d+(?:x\d+)?$/.test(attrs.alt||''))errors.push(`${file}: unresolved OFM image dimensions`);
     }
     if(node.tagName==='link'&&attrs.rel==='modulepreload'&&attrs.href)scripts.push(attrs.href);
+    if(node.tagName==='link'&&attrs.rel==='icon'){
+      favicons++;
+      if(attrs.href!==base+'favicon.png'||attrs.type!=='image/png')errors.push(`${file}: favicon must use the base-aware original PNG`);
+    }
     const discussion=new URL('/'+(file==='index.html'?'':file.replace(/index\.html$/,'').replace(/\.html$/,'')),siteConfig.site).href;
     if('data-comments' in attrs){const config=JSON.parse(attrs['data-config']);if(config.enabled!==true||config.term!==discussion)errors.push(`${file}: comments do not use the public discussion identity`);}
     if(attrs.name==='giscus:backlink'&&attrs.content!==discussion)errors.push(`${file}: comments backlink points to a preview URL`);
@@ -98,6 +98,7 @@ for(const file of files){
     node.childNodes?.forEach((child:any)=>visit(child,skipFontText));
   }
   visit(doc);html.set(file,{ids,links});stats.pages++;
+  if(favicons!==1)errors.push(`${file}: expected one favicon link`);
   let scriptSize=inlineJs?gzipSync(inlineJs).length:0;
   const initial=new Set<string>();
   function include(path:string){if(initial.has(path))return;initial.add(path);for(const child of jsImports.get(path)||[])include(child);}
@@ -105,7 +106,6 @@ for(const file of files){
   for(const path of initial)scriptSize+=gzipSync(await readFile(path)).length;
   stats.initialJsGzipMax=Math.max(stats.initialJsGzipMax,scriptSize);
 }
-for(const candidate of imageCandidates){const target=output(candidate.src);if(!target||imageDimensions.get(target)!==candidate.width)errors.push(`${candidate.file}: srcset descriptor does not match generated pixels: ${candidate.src}`);}
 const archiveExpected=new Set<string>(publicGraph.nodes.filter((n:any)=>n.type==='page'&&!['page:index.md','page:about.md'].includes(n.id)).map((n:any)=>n.id.slice(5)));
 if(archiveExpected.size!==archiveEntries.size||[...archiveExpected].some(source=>!archiveEntries.has(source)))errors.push('Archive must represent every discoverable non-landing page exactly once, as a card or MoC heading');
 for(const moc of archiveMocs){
@@ -135,6 +135,9 @@ for(const [file,page] of html){
     }
   }
 }
+const favicon=await readFile(resolve(root,'favicon.png'));
+assert.deepEqual(favicon,await readFile('public/favicon.png'),'Build must preserve the original favicon bytes');
+const icon=imageSize(favicon);assert.equal(icon.type,'png');assert.equal(icon.width,32);assert.equal(icon.height,32);
 if(hasBiro()){
   const font=output(biroURL(base));assert.ok(font,'Local build must include the supplied Biro font');
   assert.deepEqual(await readFile(resolve(root,font)),await readFile(biroPath()),'Build must preserve the supplied font bytes');

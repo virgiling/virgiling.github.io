@@ -78,7 +78,7 @@ content/ 的固定提交
 
 ### 页面先为阅读服务
 
-本站保持浅色，不跟随系统深色，也没有主题切换。顶层导航固定为“主页、文章、足迹、关于”，文章有自己的地址。
+本站保持浅色，不跟随系统深色，也没有主题切换。品牌名称是「忘れてください」，mark 使用意为书签的「栞」，不显示 byline；favicon 沿用旧站原始 PNG。顶层导航固定为“主页、文章、足迹、关于”，文章有自己的地址。
 
 桌面采用宽正文与右侧辅助栏，窄屏改为单栏。主页右栏依次是最近更新与热力图、关系图谱、大纲；其他阅读页依次是图谱、大纲、反向链接。最近更新只显示一篇，标题与日期同排。热力图保留日期信息，不增加装饰性的说明和图例。
 
@@ -144,13 +144,13 @@ D3 自身的模拟时钟停止，由 Motion 有界推进，重热后最多 180 t
 
 ## 6. 图片与字体：布局正确不代表资源正确
 
-### 自定义 Markdown 输出需要接上图片管线
+### 图片适配是显示尺寸，不是构建期转码
 
-自定义 unified 编译后用 `set:html` 输出正文，不会自动获得 Astro 图片组件的全部优化。仅设置 `loading="lazy"`，既不能防止大图溢出，也不会生成更合适的资源。
+正文图片保留原始 URL，由浏览器直接请求 OSS；本地附件沿用已有允许集合与 `media/` 路由。构建不下载远程图片、不探测其元数据，也不调用 `getImage()` / Sharp 生成 WebP、srcset 或图片代理。这样 OSS 的瞬时网络故障不会阻止站点构建，但访问页面时仍依赖图片源的可用性。
 
-因此，消毒后的正文另外经过 Astro 原生 `getImage()` / Sharp：保留作者尺寸、alt、图注和原有图片链接，按比例生成 WebP 候选，写入真实尺寸、srcset 与 sizes。默认不裁剪、不放大，GIF 保留动画；远程来源使用明确允许列表和有界元数据请求。准备失败保留原图，但不能承诺后续转换在任何离线环境下都成功。
+尺寸适配限定在 HTML/CSS：图片最大宽度不超过正文，自动高度保持自然比例；OFM 的 `|400`、`|400x300` 以及 HTML 宽高被视为显示边界，而不是裁剪或转码请求。未知原始尺寸时不编造固有宽高。保留 alt、图注、GIF 与作者已有链接，使用原生延迟加载和异步解码。
 
-这里还出现过“声明 400w，实际只有 399 像素”的舍入错误。修正为按宽度等比缩放后，验证器逐一读取实际图片尺寸，再检查 srcset 描述符，而不是只看 HTML 写得像不像。
+测试以拒绝网络请求的环境验证原始 URL 不变；静态检查拒绝重新出现的生成图片及 srcset，HTTP 检查读取页面中的 OSS URL 而不请求第三方图片。这些检查不宣称原始图片减小了下载量，也不代替浏览器端显示验证。
 
 原图放大采用 medium-zoom 的 pure 入口。保留成熟库的几何和克隆机制，通过锁定补丁把开合交给 Motion，补齐关闭中断、加载超时、焦点与清理。已有作者链接不劫持，修饰键和无脚本路径仍可打开原图。
 
@@ -172,7 +172,7 @@ CJK 与 Latin regular 如实声明 400，Latin bold 声明 700；没有额外提
 
 这保留了源字体支持的 25,598 个 CJK 字符、2,400/2,539 个 Latin 字符。CSS 的声明顺序与实际 cmap 一起验证，避免某个 unicode-range 声称接管字符却没有字形。源字体之外的 Unicode 仍需要系统回退；完整 cmap 也不等于已经验证所有跨片 shaping 或浏览器字体选择。
 
-字体分片不是免费优化。当前 OFL 产物为 167 个 WOFF2、7,619,272 B，其中三个 UI 片合计 124,504 B；最大一片 92,424 B。加上原始 Biro 为 7,904,044 B。分片重复表、压缩边界及 UI 优先覆盖都会增加存储，**UI 字节不等于一页的字体下载量**。
+字体分片不是免费优化。当前 OFL 产物为 167 个 WOFF2、7,620,340 B，其中三个 UI 片合计 125,572 B；最大一片 92,424 B。加上原始 Biro 为 7,905,112 B。分片重复表、压缩边界及 UI 优先覆盖都会增加存储，**UI 字节不等于一页的字体下载量**。
 
 生成目录只需要当前 CSS/manifest 引用的 167 个 WOFF2，加上 CSS 和清单共 169 个文件。分片分别承载不同字重与字符范围；UI 与完整字表的部分字符重叠是加载策略，不能简单按字符重复去删除，更不能为了减少文件数变成首屏加载完整大字库。
 
@@ -189,7 +189,7 @@ Biro 直接使用原始 WOFF2，不参与 OFL 子集流程。它不属于 OFL，
 测试覆盖分成几层：
 
 - Node fixtures 检查发布边界、OFM、链接、图谱、交互状态与清理。
-- 编译和静态产物检查验证路由、片段、资源、字体哈希、图片像素与预算。
+- 编译和静态产物检查验证路由、片段、资源、字体哈希、原图 URL、favicon 与预算。
 - 独立 HTTP 检查验证深链、资源 MIME、二进制与 404。
 - 开发检查读取真实 Vite ESM 和首页 SVG，通过默认懒加载入口在 Node DOM/Canvas 边界执行图谱逻辑，检查松手回中心、暂停恢复与 reduced motion，而非绕过实际模块请求。
 
@@ -198,6 +198,8 @@ Biro 直接使用原始 WOFF2，不参与 OFL 子集流程。它不属于 OFL，
 资源预算也只回答有限问题：首屏 JS gzip 不超过 20 KiB，共享 CSS gzip 不超过 12 KiB；UI 字体不超过 256 KiB、单片不超过 128 KiB、完整 OFL 存储不超过 8 MiB，Biro 单列。旧的“其他字体总量 256 KiB”已被完整字表方案替代，不能继续声称满足它。没有用包体较小证明“更快”，也不把静态样本的历史性能分数套到真实站点上。
 
 测试还需要贴合交互意图。例如，局部图的回归既要验证节点可以拖动，也要验证当前节点松手后回到固定图心；只验证前半段，无法保证完整行为。
+
+源代码使用 Prettier 与官方 Astro 插件统一格式，范围是 `src/`，排除生成字体，不触碰独立内容仓库。Astro 模板的格式化采用 JSX 空白语义，与 Astro 7 编译配置一致；格式检查加入 `validate`，但不代替类型和行为测试。
 
 ## 8. 一个可以继续生长的博客
 
@@ -214,7 +216,7 @@ GitHub Pages 采用独立的构建与部署 job，结构参考 [Astro 官方部�
 以下链接用于核对机制与格式，不代表对本站性能的证明。具体开发与构建命令见 [README](../README.md)。
 
 - [Obsidian Flavored Markdown](https://help.obsidian.md/obsidian-flavored-markdown)、[内部链接](https://help.obsidian.md/links)、[嵌入](https://help.obsidian.md/embeds)、[Callout](https://help.obsidian.md/callouts)、[Bases](https://help.obsidian.md/bases)。
-- [Astro 图片](https://docs.astro.build/en/guides/images/)、[静态输出与配置](https://docs.astro.build/en/reference/configuration-reference/)。本站图片入口：`src/images/`。
+- [Astro 静态输出与配置](https://docs.astro.build/en/reference/configuration-reference/)、[官方 Prettier 插件](https://github.com/withastro/prettier-plugin-astro)。本站原图显示适配入口：`src/images/article.ts`。
 - [unified](https://unifiedjs.com/)、[Shiki](https://shiki.style/)、[MathJax](https://www.mathjax.org/)。本站内容入口：`src/content/`、`src/markdown/`。
 - [Tailwind CSS](https://tailwindcss.com/docs)、[Motion](https://motion.dev/docs)、[Floating UI](https://floating-ui.com/docs/dom)。本站样式与交互入口：`src/styles/`、`src/runtime/`。
 - [starlight-site-graph 0.5.0](https://registry.npmjs.org/starlight-site-graph/0.5.0)、[D3 force](https://d3js.org/d3-force)。固定源码对照见图谱章节；本站核心：`src/graph/`。

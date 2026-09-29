@@ -1,40 +1,55 @@
-import {test} from 'node:test';
+import {test,mock} from 'node:test';
 import assert from 'node:assert/strict';
 import {fromHtml} from 'hast-util-from-html';
 import {visit} from 'unist-util-visit';
-import {optimizeArticleImages,imageDisplayWidth} from '../src/images/article';
-import {allowedImageURL,imageSizes} from '../src/images/policy';
-import {probeImage} from '../src/images/metadata';
-const source='https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/test.png';
+import {articleImages} from '../src/images/article';
+const source='https://virgil-civil-1311056353.cos.ap-shanghai.myqcloud.com/img/202412170045329.png';
 const elements=(html:string,tag:string)=>{const out:any[]=[];visit(fromHtml(html,{fragment:true}),'element',(n:any)=>{if(n.tagName===tag)out.push(n);});return out;};
 
-test('regular/figure/HTML images gain real transform requests, responsive dimensions and native zoom links without cropping',async()=>{
-  const requests:any[]=[];
-  const html=await optimizeArticleImages(`<p><img src="${source}" alt="截图"></p><figure><img src="${source}" alt="代码|400x300"><figcaption>说明</figcaption></figure><p><a href="https://example.org">原作者链接<img src="${source}" alt="链接图"></a> <a href="https://github.com/sponsors/test">♡</a></p>`,{
-    prepare:async src=>({src,width:2940,height:1846,format:'png'}),
-    optimize:async options=>{requests.push(options);return {src:'/preview/_astro/image.webp',srcSet:{attribute:options.widths.map((w:number)=>`/preview/_astro/${w}.webp ${w}w`).join(', ')}};},
-  });
-  assert.deepEqual(requests[0].widths,[360,905,1810]);assert.equal(requests[0].fit,'inside');assert.equal(requests[0].format,'webp');
-  assert.deepEqual(requests[1].widths,[360,400,800]);assert.equal(requests[1].height,251);
-  const imgs=elements(html,'img');assert.equal(imgs[1].properties.alt,'代码');assert.equal(imgs[0].properties.height,568);assert.equal(imgs[0].properties.decoding,'async');
-  assert.ok(imgs[0].properties.srcSet.includes('1810w'));assert.equal(imgs[0].properties.dataZoomSrc,source);assert.equal(imgs[0].properties.dataZoomWidth,'2940');
-  const links=elements(html,'a');assert.equal(links.filter(a=>'dataImageZoom' in a.properties).length,2);assert.ok(links.some(a=>a.properties.href==='https://example.org'));assert.ok(html.includes('♡'));assert.ok(html.includes('<figcaption>说明</figcaption>'));assert.equal(elements(html,'a').filter(a=>a.children.some((n:any)=>n.tagName==='a')).length,0);
+test('OSS images retain their original URLs and render without build-time network or WebP variants',()=>{
+  const fetcher=mock.method(globalThis,'fetch',()=>{throw new Error('Build must not fetch images');});
+  try{
+    const html=articleImages(`<p><img src="${source}" alt="截图"></p><figure><img src="${source}" alt="代码|400x300"><figcaption>说明</figcaption></figure>`);
+    const imgs=elements(html,'img');
+    assert.equal(fetcher.mock.callCount(),0);
+    for(const {properties:p} of imgs){
+      assert.equal(p.src,source);assert.equal(p.srcSet,undefined);assert.equal(p.sizes,undefined);
+      assert.equal(p.dataImageOptimized,undefined);assert.equal(p.dataZoomSrc,undefined);
+      assert.equal(p.loading,'lazy');assert.equal(p.decoding,'async');
+    }
+    assert.equal(imgs[0].properties.width,undefined,'do not guess intrinsic dimensions');
+    assert.equal(imgs[1].properties.alt,'代码');assert.equal(imgs[1].properties.width,400);assert.equal(imgs[1].properties.height,300);
+    assert.equal(imgs[1].properties.style,'--image-width:400px;--image-height:300px');
+    assert.equal(imgs[1].properties.dataImageSized,'');
+    assert.ok(html.includes('<figcaption>说明</figcaption>'));
+    const links=elements(html,'a');assert.equal(links.length,2);
+    assert.ok(links.every(link=>link.properties.href===source&&'dataImageZoom' in link.properties));
+  }finally{fetcher.mock.restore();}
 });
 
-test('small/authored images never upscale; missing metadata retains original and clean accessible alt',async()=>{
-  const p={alt:'a|400x100'};assert.equal(imageDisplayWidth(p,{width:100,height:50,format:'png'}),100);assert.equal(p.alt,'a');
-  const warnings:string[]=[];
-  const html=await optimizeArticleImages(`<p><img src="${source}" alt="代码|400"></p>`,{prepare:async()=>{throw new Error('offline');},optimize:async()=>{throw new Error('not reached');},warn:s=>warnings.push(s)});
-  const img=elements(html,'img')[0];assert.equal(img.properties.src,source);assert.equal(img.properties.alt,'代码');assert.equal(img.properties.width,400);assert.equal(img.properties.srcSet,undefined);assert.equal(warnings.length,1);assert.equal(elements(html,'a')[0].properties.href,source);
+test('local assets, GIFs, signed OSS URLs and authored links remain unchanged',()=>{
+  const sources=['/preview/media/allowed.png','https://s2.loli.net/animation.gif',source+'?sign=example&expires=123'];
+  for(const src of sources){
+    const html=articleImages(`<a href="https://example.org"><img src="${src.replaceAll('&','&amp;')}" alt="链接图" width="240"></a>`);
+    assert.equal(elements(html,'img')[0].properties.src,src);
+    const links=elements(html,'a');assert.equal(links.length,1);assert.equal(links[0].properties.href,'https://example.org');
+    assert.equal(links[0].properties.dataImageZoom,undefined);
+  }
 });
 
-test('remote probing is allowlisted, bounded, abortable and stops after sufficient metadata',async()=>{
-  for(const url of ['http://s2.loli.net/a.png','https://localhost/a.png','https://s2.loli.net.evil.org/a.png','https://user:pass@s2.loli.net/a.png','https://s2.loli.net/a.png?token=x','https://s2.loli.net:8443/a.png'])assert.equal(allowedImageURL(url),false,url);
-  let called=0,cancelled=false;
-  const bytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZ9kAAAAASUVORK5CYII=','base64');
-  const fetcher=(async(_url:any,options:any)=>{called++;assert.equal(options.redirect,'error');assert.ok(options.signal);return new Response(new ReadableStream({start(c){c.enqueue(bytes);},cancel(){cancelled=true;}}));}) as typeof fetch;
-  assert.deepEqual(await probeImage(source,fetcher),{width:1,height:1,format:'png'});assert.ok(cancelled);
-  await assert.rejects(probeImage('https://localhost/a.png',fetcher));assert.equal(called,1);
-  await assert.rejects(probeImage(source,(async()=>new Response('missing',{status:404})) as typeof fetch));
-  assert.ok(imageSizes(400).includes('min(400px, calc(100vw - 36px))'));
+test('OFM and HTML size requests become display bounds without guessing image aspect ratios',()=>{
+  const cases=[
+    ['alt="宽度|400"','宽度','--image-width:400px'],
+    ['alt="高度" height="200"','高度','--image-height:200px'],
+    ['alt="范围" width="1200" height="600"','范围','--image-width:1200px;--image-height:600px'],
+    ['alt="无效|0x0" width="-3"','无效',undefined],
+    ['alt="bad" width="Infinity" height="-1"','bad',undefined],
+  ];
+  for(const [attrs,alt,style] of cases){
+    const p=elements(articleImages(`<img src="${source}" ${attrs}>`),'img')[0].properties;
+    assert.equal(p.alt,alt);assert.equal(p.style,style);
+    if(!style){assert.equal(p.width,undefined);assert.equal(p.height,undefined);}
+  }
+  assert.equal(articleImages('<p>No images</p>'),'<p>No images</p>');
+  assert.equal(elements(articleImages('<img alt="missing source">'),'a').length,0);
 });

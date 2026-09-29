@@ -12,6 +12,8 @@
     "fonts:verify": "tsx scripts/fonts/verify.ts",
     "fonts:clean": "tsx scripts/fonts/clean.ts",
     "dev": "astro dev",
+    "format": "prettier --write src",
+    "format:check": "prettier --check src",
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
@@ -22,7 +24,7 @@
     "measure:dev": "tsx scripts/measure-dev.ts",
     "measure:cpu": "tsx scripts/measure-interaction-cpu.ts",
     "content:report": "tsx scripts/content-report.ts",
-    "validate": "bun run check && bun run test && bun run build && bun run verify"
+    "validate": "bun run format:check && bun run check && bun run test && bun run build && bun run verify"
   },
   "dependencies": {
     "@floating-ui/dom": "1.8.0",
@@ -39,7 +41,6 @@
     "image-size": "2.0.2",
     "medium-zoom": "1.1.0",
     "motion": "13.4.4",
-    "p-limit": "7.3.0",
     "rehype-mathjax": "7.1.0",
     "rehype-raw": "7.0.0",
     "rehype-sanitize": "6.0.0",
@@ -61,6 +62,8 @@
     "linkedom": "0.18.12",
     "parse5": "8.0.1",
     "postcss": "8.5.28",
+    "prettier": "3.9.9",
+    "prettier-plugin-astro": "1.1.0",
     "tailwindcss": "4.3.3",
     "tsx": "4.23.15",
     "typescript": "5.9.3"

@@ -5,8 +5,8 @@ import {build} from 'esbuild';
 import {parseHTML} from 'linkedom';
 import {initImageZoom} from '../src/runtime/image-zoom.js';
 const bundle=await build({entryPoints:['src/runtime/image-zoom-view.js'],bundle:true,write:false,format:'iife',globalName:'ZoomView',plugins:[{name:'motion-boundary',setup(b){b.onResolve({filter:/^\.\/motion\.js$/},()=>({path:'motion',namespace:'test'}));b.onLoad({filter:/.*/,namespace:'test'},()=>({contents:'export const transition=(...args)=>globalThis.motion(...args); export const stop=node=>globalThis.stopMotion(node);'}));}}]});
-function environment({hold=false}={}) {
-  const {document,window}=parseHTML('<html><body><header>navigation</header><main><a data-image-zoom href="https://s2.loli.net/full.png"><img src="/small.webp" alt="截图" data-zoom-src="https://s2.loli.net/full.png" data-zoom-width="2940" data-zoom-height="1846"></a></main></body></html>');
+function environment({hold=false,hd=false}={}) {
+  const {document,window}=parseHTML(`<html><body><header>navigation</header><main><a data-image-zoom href="https://s2.loli.net/full.png"><img src="https://s2.loli.net/full.png" alt="截图" ${hd?'data-zoom-src="https://s2.loli.net/full.png" data-zoom-width="2940" data-zoom-height="1846"':''}></a></main></body></html>`);
   Object.defineProperties(document.documentElement,{clientWidth:{value:1280},clientHeight:{value:800}});
   let focused=document.body;Object.defineProperty(document,'activeElement',{get:()=>focused});
   window.HTMLElement.prototype.focus=function(){focused=this;};
@@ -22,7 +22,7 @@ function environment({hold=false}={}) {
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 
 test('actual medium-zoom uses Motion for geometry/overlay, supplies modal keyboard exit, restores focus and survives HD failure',async()=>{
-  const e=environment();e.link.focus();await e.view.open(e.image);
+  const e=environment({hd:true});e.link.focus();await e.view.open(e.image);
   const overlay=e.document.querySelector('[role="dialog"]');assert.ok(overlay);assert.equal(overlay.getAttribute('aria-modal'),'true');assert.ok(e.document.querySelector('main').inert);
   assert.equal(e.calls.length,2);assert.match(e.calls[0].frames.transform[1],/^scale\(/);assert.equal(e.document.activeElement.getAttribute('aria-label'),'关闭图片预览');
   // HD is not required to open. Linkedom deliberately performs no network/image decode.
@@ -30,6 +30,15 @@ test('actual medium-zoom uses Motion for geometry/overlay, supplies modal keyboa
   const key=new e.window.Event('keydown',{bubbles:true,cancelable:true});key.key='Escape';e.document.dispatchEvent(key);await tick();
   assert.equal(e.document.querySelector('[role="dialog"]'),null);assert.equal(e.document.activeElement,e.link);assert.ok(!e.document.querySelector('main').inert);assert.ok(!e.image.classList.contains('medium-zoom-image--hidden'));
   await e.view.open(e.image);await e.view.close();await e.view.destroy();assert.equal(e.document.querySelectorAll('.image-zoom-close').length,0);
+});
+
+test('original OSS images zoom using browser natural dimensions without generated variants or HD metadata',async()=>{
+  const e=environment();await e.view.open(e.image);
+  assert.equal(e.image.getAttribute('data-zoom-src'),null);
+  const opened=e.document.querySelector('.medium-zoom-image--opened');assert.ok(opened);
+  assert.equal(opened.getAttribute('src'),'https://s2.loli.net/full.png');
+  assert.match(e.calls[0].frames.transform[1],/^scale\(/);
+  await e.view.close();await e.view.destroy();
 });
 
 test('close during Motion entrance is queued, destroy cancels active effects and does not leave an inert page',async()=>{
