@@ -62,7 +62,7 @@ export function initOnThisPage() {
   // H2/H3 skipped all headings in about.md and shifted indices on mixed pages.
   const ids = [
     ...new Set(
-      [...navs[0].querySelectorAll<HTMLAnchorElement>(".toc a")].map(
+      [...navs[0].querySelectorAll<HTMLElement>(".toc [data-heading]")].map(
         (a) => a.dataset.heading!,
       ),
     ),
@@ -98,8 +98,10 @@ export function initOnThisPage() {
     active = next;
     const target = headings[active]?.id;
     for (const nav of navs) {
-      const links = [...nav.querySelectorAll<HTMLAnchorElement>(".toc a")];
-      let selected: HTMLAnchorElement | undefined;
+      const links = [
+        ...nav.querySelectorAll<HTMLElement>(".toc [data-heading]"),
+      ];
+      let selected: HTMLElement | undefined;
       links.forEach((a) => {
         const i = indexes.get(a.dataset.heading!);
         a.classList.toggle(
@@ -120,7 +122,8 @@ export function initOnThisPage() {
       if (!nav.getBoundingClientRect().width) continue;
       if (
         !nav.contains(document.activeElement) ||
-        document.activeElement === selected
+        document.activeElement === selected ||
+        selected.contains(document.activeElement)
       ) {
         revealWithin(nav.querySelector(".toc-scroll"), selected);
         const dialog = nav.closest(".outline-dialog");

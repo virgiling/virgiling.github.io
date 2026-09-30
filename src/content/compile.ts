@@ -15,6 +15,20 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { remarkCallouts, rehypeCallouts } from "../markdown/callouts";
 import { rehypeFigures } from "../markdown/figures";
+import {
+  markdownTags,
+  headingTagParts,
+  inlineTagNodes,
+  sourceText,
+  rawHTMLTags,
+  htmlLiteralContexts,
+} from "../markdown/inline-tags";
+import {
+  inlineTagParts,
+  sliceTagParts,
+  tagAncestors,
+  tagPath,
+} from "../inline-tags";
 import { contentFile } from "./read";
 import { url } from "../site.config";
 import { Resolver } from "./resolve";
@@ -69,6 +83,18 @@ export function parseNote(note: Note) {
   note.body = withoutComments(note.body);
   note.tree = parser.parse(note.body);
   remarkCallouts({ source: note.body })(note.tree);
+  note.tags = [
+    ...new Set([
+      ...note.tags,
+      ...inlineTagParts(note.title).flatMap((part) =>
+        part.tag ? [part.tag] : [],
+      ),
+      ...inlineTagParts(note.description).flatMap((part) =>
+        part.tag ? [part.tag] : [],
+      ),
+      ...markdownTags(note.tree, note.body),
+    ]),
+  ];
   const slugs = new GithubSlugger(),
     trail: string[] = [];
   visit(note.tree, "heading", (n: any) => {
@@ -80,6 +106,7 @@ export function parseNote(note: Note) {
     note.headings.push({
       id,
       text,
+      parts: headingTagParts(n, note.body, headingText),
       depth: n.depth,
       trail: trail.filter(Boolean),
     });
@@ -145,6 +172,7 @@ const mediaTypes = new Set([
 export class Compiler {
   assets = new Map<string, Asset>();
   resolver: Resolver;
+  tagURLs: Set<string>;
   constructor(
     public root: string,
     public notes: Note[],
@@ -152,6 +180,13 @@ export class Compiler {
     public diagnostics: Diagnostic[],
   ) {
     this.resolver = new Resolver(notes, diagnostics);
+    this.tagURLs = new Set(
+      [
+        ...tagAncestors(
+          notes.filter((note) => !note.unlisted).flatMap((note) => note.tags),
+        ),
+      ].map((tag) => url(tagPath(tag))),
+    );
   }
   async asset(from: Note, target: string) {
     let decoded: string;
@@ -201,7 +236,11 @@ export class Compiler {
       owner: Note,
       chain: string[],
       record: boolean,
+      literalContext = false,
     ): Promise<any> => {
+      if (literalContext) return node;
+      if (node.type === "html")
+        return { ...node, value: rawHTMLTags(node.value, !note.unlisted).html };
       if (++budget > 40000)
         throw new Error(`Transclusion budget exceeded: ${note.source}`);
       if (node.type === "code") {
@@ -227,19 +266,26 @@ export class Compiler {
           };
         }
       }
+      if (node.type === "linkReference") return node;
       if (node.type === "text") {
+        const parts = inlineTagParts(node.value, sourceText(node, owner.body));
+        const tagged = (start: number, end: number) =>
+          inlineTagNodes(sliceTagParts(parts, start, end), !note.unlisted);
         const children: any[] = [];
         let cursor = 0;
         const pattern =
           /(!?)\[\[([^\]|]+)(?:\|([^\]]*))?\]\]|==([^=\n]+)==|\^\[([^\]\n]+)\]/g;
         for (const match of node.value.matchAll(pattern)) {
-          children.push(t(node.value.slice(cursor, match.index)));
+          children.push(...tagged(cursor, match.index));
           cursor = match.index + match[0].length;
           if (match[4]) {
             children.push({
               type: "emphasis",
               data: { hName: "mark" },
-              children: [t(match[4])],
+              children: tagged(
+                match.index + 2,
+                match.index + match[0].length - 2,
+              ),
             });
             continue;
           }
@@ -248,7 +294,15 @@ export class Compiler {
             footnotes.push({
               type: "footnoteDefinition",
               identifier: id,
-              children: [{ type: "paragraph", children: [t(match[5])] }],
+              children: [
+                {
+                  type: "paragraph",
+                  children: tagged(
+                    match.index + 2,
+                    match.index + match[0].length - 1,
+                  ),
+                },
+              ],
             });
             children.push({ type: "footnoteReference", identifier: id });
             continue;
@@ -407,8 +461,7 @@ export class Compiler {
             ],
           });
         }
-        if (!cursor) return node;
-        children.push(t(node.value.slice(cursor)));
+        children.push(...tagged(cursor, node.value.length));
         return { type: "fragment", children };
       }
       if (["link", "image", "definition"].includes(node.type)) {
@@ -448,10 +501,15 @@ export class Compiler {
             };
         }
       }
+      // Authored links already have a destination; never nest tag links in them.
+      if (node.type === "link") return node;
       if (node.children) {
+        const contexts = htmlLiteralContexts(node.children);
         node.children = (
           await Promise.all(
-            node.children.map((n: any) => walk(n, owner, chain, record)),
+            node.children.map((n: any, i: number) =>
+              walk(n, owner, chain, record, contexts[i]),
+            ),
           )
         ).flatMap((n) => (n.type === "fragment" ? n.children : [n]));
         // Transclusions are block nodes, never invalid blockquotes inside a paragraph.
@@ -515,7 +573,15 @@ export class Compiler {
           "id",
           "lang",
         ],
-        a: [...(defaultSchema.attributes?.a || []), "dataPreview"],
+        a: [
+          ...(defaultSchema.attributes?.a || []).filter(
+            (attribute) =>
+              typeof attribute === "string" || attribute[0] !== "className",
+          ),
+          ["className", "data-footnote-backref", "inline-tag"],
+          "dataPreview",
+          "dataTag",
+        ],
         blockquote: [["dataCalloutMarker", "1"], "className"],
         audio: ["src", "controls", "preload"],
         video: ["src", "controls", "preload"],
@@ -633,7 +699,8 @@ export class Compiler {
               ) &&
               ![...this.assets.values()].some(
                 (x) => value === x.url || value.startsWith(x.url + "#"),
-              )
+              ) &&
+              !this.tagURLs.has(value)
             )
               delete n.properties[attr];
           }

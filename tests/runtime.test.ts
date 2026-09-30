@@ -450,7 +450,7 @@ test("navigation uses transform geometry; press feedback releases correctly with
   assert.equal(button.style.transform, "");
 });
 test("MoC arrow uses Motion for hover/focus, cancels cleanly and respects reduced motion", async () => {
-  const link = new Element(),
+  const link = Object.assign(new Element(), { contains: () => false }),
     arrow = new Element(),
     classes = new Set<string>();
   link.querySelector = () => arrow;
@@ -473,11 +473,11 @@ test("MoC arrow uses Motion for hover/focus, cancels cleanly and respects reduce
   r.initInteractionMotion();
   link.dispatchEvent(new Event("pointerenter"));
   assert.equal(arrow.animations.length, 1);
-  link.dispatchEvent(new Event("focus"));
+  link.dispatchEvent(new Event("focusin"));
   link.dispatchEvent(new Event("pointerleave"));
   assert.ok(classes.has("is-emphasized"));
   assert.equal(arrow.animations.length, 1);
-  link.dispatchEvent(new Event("blur"));
+  link.dispatchEvent(new Event("focusout"));
   assert.ok(!classes.has("is-emphasized"));
   assert.equal(arrow.animations.length, 2);
   assert.equal(arrow.animations[0].playState, "idle");
@@ -485,7 +485,7 @@ test("MoC arrow uses Motion for hover/focus, cancels cleanly and respects reduce
   r.media.dispatchEvent(new Event("change"));
   assert.equal(arrow.animations[1].playState, "idle");
   assert.equal(arrow.style.transform, "");
-  link.dispatchEvent(new Event("focus"));
+  link.dispatchEvent(new Event("focusin"));
   assert.ok(classes.has("is-emphasized"));
   assert.equal(arrow.animations.length, 2);
 });
@@ -895,7 +895,7 @@ test("tag URL opens search with the filter applied, lazy-loads once and renders 
   assert.equal(input.value, "#主题/操作系统");
   assert.equal(results.children.length, 1);
   assert.equal(
-    results.children[0].children[0].children[1].children[0].textContent,
+    results.children[0].children[0].children[2].children[0].textContent,
     "<COW>",
   );
   nodes["#open-search"].click();

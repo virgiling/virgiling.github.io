@@ -1,6 +1,7 @@
 ---
 import ArchiveStack from "./ArchiveStack.astro";
 import ArchiveBranch from "./ArchiveBranch.astro";
+import TaggedText from "./TaggedText.astro";
 import {
   buildFolderTree,
   sortedFolders,
@@ -22,7 +23,8 @@ roots.sort(
     a.path.localeCompare(b.path, "en"),
 );
 const count = new Set(notes.map((n) => n.slug)).size;
-const themes = new Set(notes.flatMap((n) => n.tags || [])).size;
+const tags = [...new Set(notes.flatMap((n) => n.tags || []))];
+const themes = tags.length;
 ---
 
 <main class="shell archive-page" id="main">
@@ -45,13 +47,20 @@ const themes = new Set(notes.flatMap((n) => n.tags || [])).size;
           <span class="frame-number">{String(index + 1).padStart(2, "0")}</span>
           <h2 id={`root-${folderId(root.path)}`}>
             {root.moc ? (
-              <a
-                class="folder-heading-link"
-                href={root.moc.url}
-                data-directory-moc={root.moc.source}
-              >
-                <span class="folder-heading-name">{root.label}</span>{" "}
-                <span class="folder-link-hint">
+              <span class="folder-heading-link">
+                <span class="folder-heading-name">
+                  <TaggedText
+                    text={root.label}
+                    tags={tags}
+                    href={root.moc.url}
+                  />
+                </span>{" "}
+                <a
+                  class="folder-link-hint"
+                  href={root.moc.url}
+                  data-directory-moc={root.moc.source}
+                  aria-label={`打开 ${root.label}`}
+                >
                   <svg
                     class="folder-link-arrow"
                     width="16"
@@ -64,16 +73,16 @@ const themes = new Set(notes.flatMap((n) => n.tags || [])).size;
                   >
                     <path d="M3 8h10M8 3l5 5-5 5" />
                   </svg>
-                </span>
-              </a>
+                </a>
+              </span>
             ) : (
-              root.label
+              <TaggedText text={root.label} tags={tags} />
             )}
           </h2>
         </header>
         <ArchiveStack node={root} depth={2} />
         {sortedFolders(root.children.values()).map((child) => (
-          <ArchiveBranch node={child} depth={3} />
+          <ArchiveBranch node={child} depth={3} tags={tags} />
         ))}
       </section>
     ))}

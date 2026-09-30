@@ -21,6 +21,8 @@ const server=await dev({server:{host:'127.0.0.1',port,open:false},integrations:[
 async function page(path=base){const response=await fetch(origin+path);assert.equal(response.status,200,path);return response.text();}
 try{
   const home=await page();const first=compilations;assert.equal(first,1);
+  assert.ok(home.includes(`href="${base}tags/434346"`),'Homepage #CCF must honor the current base');
+  await page(base+'tags/434346');
   await Promise.all([page(),page(base+'about'),page(base+'articles')]);assert.equal(compilations,first,'warm/concurrent page requests must reuse content');
   const graph=/data-graph-index="([^"]+)"/.exec(home)![1];
   const graphResponse=await fetch(origin+graph);assert.equal(graphResponse.status,200);validateGraph(await graphResponse.json());assert.equal(compilations,first,'graph fetch must not recompile content');
@@ -55,5 +57,5 @@ try{
   server.watcher.emit('all','change',resolve('content/index.md'));await delay(150);
   const refreshed=await page();assert.ok(!refreshed.includes(canary),'Astro route props must also be invalidated');assert.equal(compilations,first+1);
   await page();assert.equal(compilations,first+1,'new revision should compile only once');
-  console.log(JSON.stringify({base,status:'passed',checks:['warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation'],contentCompilations:compilations}));
+  console.log(JSON.stringify({base,status:'passed',checks:['inline #CCF link and tag route','warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation'],contentCompilations:compilations}));
 }finally{console.log=log;await server.stop();}

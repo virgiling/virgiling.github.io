@@ -22,7 +22,10 @@ test('ordinary Markdown-rendered tables support old and extended friend fields w
   const parsed=parseFriendLinks(html);assert.equal(parsed.friends.length,2);assert.match(parsed.html,/Intro stays/);assert.match(parsed.html,/Unrelated/);assert.doesNotMatch(parsed.html,/Compiler researcher/);
   assert.equal(parsed.friends[0].avatar,'https://ada.example.com/avatar.png');assert.equal(parsed.friends[0].rss,friend.rss);assert.equal(parsed.friends[1].rss,null);assert.equal(parsed.friends[1].avatar,undefined);
   const old=parseFriendLinks('<table><tr><th>简介</th><th>链接</th></tr><tr><td>Bio</td><td><a href="https://ada.example.com/">Ada</a></td></tr><tr><td>Duplicate</td><td><a href="https://ada.example.com/">Ada</a></td></tr></table>');assert.equal(old.friends.length,1);assert.equal(old.friends[0].rss,undefined);assert.equal(old.friends[0].avatar,undefined);
-  assert.match(await FriendCards(parsed.friends),/friend-card/);assert.doesNotMatch(await FriendCards([{...friend,name:'<script>alert(1)</script>'}]),/<script>/);
+  assert.match(await FriendCards(parsed.friends),/friend-card/);
+  const name='<script>alert(1)</script>" onfocus="bad',escaped=parseHTML(`<html><body>${await FriendCards([{...friend,name}])}</body></html>`).document;
+  assert.equal(escaped.querySelector('script,[onfocus]'),null);assert.equal(escaped.querySelector('strong')!.textContent,name);
+  assert.equal(escaped.querySelector('.friend-main-link')!.getAttribute('aria-label'),name);
   const cards=parseHTML(`<html><body>${await FriendCards(parsed.friends)}</body></html>`).document;
   assert.equal(cards.querySelector('.friend-avatar img')!.getAttribute('src'),'https://ada.example.com/avatar.png');assert.equal(cards.querySelector('.friend-bio')!.textContent,'Compiler researcher');
 });

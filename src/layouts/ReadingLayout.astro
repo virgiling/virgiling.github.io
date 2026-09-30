@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "./SiteLayout.astro";
 import Comments from "../components/Comments.astro";
+import TaggedText from "../components/TaggedText.astro";
 import { url } from "../site.config";
 import ReadingMeta from "../components/ReadingMeta.astro";
 import ReadingSidebar from "../components/ReadingSidebar.astro";
@@ -76,7 +77,13 @@ const previews = related.map((n) => ({
       {!friends?.friends.length && (
         <header class="article-header">
           <div class="eyebrow">FROM THE NOTEBOOK</div>
-          <h1 id="page-title">{note.title}</h1>
+          <h1 id="page-title">
+            <TaggedText
+              text={note.title}
+              tags={note.tags}
+              enabled={!note.unlisted}
+            />
+          </h1>
           <ReadingMeta note={note} />
           {note.tags.length > 0 && (
             <div class="article-tags">
@@ -100,7 +107,7 @@ const previews = related.map((n) => ({
       <div class="prose" set:html={articleHTML} />
       {friends?.friends.length ? (
         <>
-          <FriendCards friends={friends.friends} />
+          <FriendCards friends={friends.friends} tags={note.tags} />
           <FriendCircle
             posts={circlePosts(feedResults)}
             results={feedResults}
@@ -128,7 +135,11 @@ const previews = related.map((n) => ({
     <button class="dialog-close" id="close-outline">
       关闭
     </button>
-    <OnThisPage headings={readingNote.headings} mobile />
+    <OnThisPage
+      headings={readingNote.headings}
+      mobile
+      linkTags={!note.unlisted}
+    />
     <a class="outline-relations" href="#graph-heading">
       关系图谱 ↓
     </a>

@@ -48,7 +48,7 @@ export function initInteractionMotion() {
     document.fonts?.ready.then(() => move(selected, true));
     move(active, true);
   }
-  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+  for (const link of document.querySelectorAll<HTMLElement>(
     ".folder-heading-link",
   )) {
     const arrowNode = link.querySelector<SVGElement>(".folder-link-arrow");
@@ -80,11 +80,12 @@ export function initInteractionMotion() {
       hovered = false;
       emphasize();
     });
-    link.addEventListener("focus", () => {
+    link.addEventListener("focusin", () => {
       focused = true;
       emphasize();
     });
-    link.addEventListener("blur", () => {
+    link.addEventListener("focusout", (event) => {
+      if (link.contains(event.relatedTarget as Node | null)) return;
       focused = false;
       emphasize();
     });

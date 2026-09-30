@@ -67,7 +67,7 @@ for(const file of files){
       if('data-directory-moc' in attrs){
         let parent=node.parentNode,folder='';
         while(parent){const a=attributes(parent);if('data-folder-root' in a){folder=a['data-folder-root'];break;}parent=parent.parentNode;}
-        if(node.tagName!=='a'||node.parentNode?.tagName!=='h2'||!folder)errors.push(`${file}: MoC must be a native top-level heading link`);
+        if(node.tagName!=='a'||node.parentNode?.parentNode?.tagName!=='h2'||!folder)errors.push(`${file}: MoC must be a native top-level heading link`);
         archiveMocs.push({source:attrs['data-directory-moc'],href:attrs.href,root:folder});
       }
     }

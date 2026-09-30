@@ -1,4 +1,5 @@
 import { transition, stop, durations } from "./motion";
+import { renderTaggedText } from "./tagged-text";
 
 import type { SearchRecord } from "../search";
 type SearchResponse = { id: number } & (
@@ -46,22 +47,26 @@ export function initSearch({
     count.textContent = `${found.length} 条结果`;
     for (const record of found) {
       const li = document.createElement("li"),
+        row = document.createElement("div"),
         a = document.createElement("a"),
         icon = document.createElement("span"),
         copy = document.createElement("span"),
         title = document.createElement("span"),
         small = document.createElement("small");
+      row.className = "search-result";
+      a.className = "search-main-link";
       a.href = record.url;
+      a.setAttribute("aria-label", record.title);
       icon.className = "result-icon";
       icon.textContent = "▤";
       icon.setAttribute("aria-hidden", "true");
       copy.className = "result-copy";
       title.className = "result-title";
-      title.textContent = record.title;
-      small.textContent = record.summary;
+      renderTaggedText(title, record.title, record.tags || []);
+      renderTaggedText(small, record.summary || "", record.tags || []);
       copy.append(title, small);
-      a.append(icon, copy);
-      li.append(a);
+      row.append(a, icon, copy);
+      li.append(row);
       results.append(li);
     }
     if (!found.length) {

@@ -1,10 +1,12 @@
 ---
 import type { Heading } from "../content/types";
+import TaggedText from "./TaggedText.astro";
 interface Props {
   headings: Heading[];
   mobile?: boolean;
+  linkTags?: boolean;
 }
-const { headings, mobile = false } = Astro.props;
+const { headings, mobile = false, linkTags = true } = Astro.props;
 ---
 
 <nav class="on-this-page" aria-label={`${mobile ? "移动端 " : ""}ON THIS PAGE`}>
@@ -17,12 +19,14 @@ const { headings, mobile = false } = Astro.props;
           .filter((heading) => heading.depth <= 3)
           .map((heading) => (
             <li data-depth={heading.depth}>
-              <a
-                href={`#${encodeURIComponent(heading.id)}`}
-                data-heading={heading.id}
-              >
-                {heading.text}
-              </a>
+              <span class="toc-entry" data-heading={heading.id}>
+                <TaggedText
+                  text={heading.text}
+                  parts={heading.parts}
+                  enabled={linkTags}
+                  href={`#${encodeURIComponent(heading.id)}`}
+                />
+              </span>
             </li>
           ))}
       </ol>

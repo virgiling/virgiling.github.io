@@ -252,7 +252,7 @@
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   }
   .friend-card {
-    @apply flex items-start gap-[14px] p-[18px] rounded-[16px] text-ink min-w-0;
+    @apply relative flex items-start gap-[14px] p-[18px] rounded-[16px] text-ink min-w-0;
     text-decoration: none;
     border: 1px solid var(--line);
     background: var(--surface);
@@ -414,11 +414,22 @@
     @apply block;
   }
   .card-content {
-    @apply flex-[1] p-[24px] block text-ink rounded-[var(--card-radius)];
+    @apply relative flex-[1] p-[24px] block text-ink rounded-[var(--card-radius)];
     text-decoration: none;
   }
   .card-content:hover {
     text-decoration: none;
+  }
+  .card-main-link,
+  .friend-main-link,
+  .search-main-link {
+    @apply absolute inset-0 z-[1] rounded-[inherit];
+  }
+  .inline-tag {
+    overflow-wrap: anywhere;
+  }
+  :is(.card-content, .friend-card, .search-result) .inline-tag {
+    @apply relative z-[2];
   }
   .card-title-row {
     @apply flex flex-wrap items-baseline gap-y-[6px] gap-x-[16px] mb-[10px];
@@ -453,7 +464,8 @@
     line-height: 1.65;
     border: 0;
   }
-  .tag {
+  .tag,
+  .inline-tag {
     @apply inline-block text-accent rounded-[9px] text-[16px] py-[4px] px-[10px];
     background: #e7eddf;
     border: 1px solid #cbd8c2;
@@ -464,7 +476,8 @@
     @apply pr-[3px] text-[#68765d];
     content: "#";
   }
-  .tag:hover {
+  .tag:hover,
+  .inline-tag:hover {
     background: #d8e4cd;
     border-color: #9db28d;
     text-decoration: none;
@@ -1069,18 +1082,22 @@
   .toc {
     @apply list-none p-0 m-0;
   }
-  .toc a {
+  .toc-entry {
     @apply block pt-[7px] pr-[12px] pb-[7px] pl-[15px] text-muted text-[14px];
     text-decoration: none;
     line-height: 1.7;
   }
-  .toc li[data-depth="3"] a {
+  .toc-entry a:not(.inline-tag) {
+    color: inherit;
+    text-decoration: none;
+  }
+  .toc li[data-depth="3"] .toc-entry {
     @apply pl-[26px] text-[13px];
   }
-  .toc a.is-read {
+  .toc-entry.is-read {
     @apply text-[#272d27];
   }
-  .toc a[aria-current] {
+  .toc-entry[aria-current] {
     @apply text-[#2c4525] font-semibold;
     background: linear-gradient(90deg, #edf1e5, transparent);
   }
@@ -1256,12 +1273,12 @@
     @apply list-none pt-[6px] pr-[13px] pb-[14px] pl-[13px] m-0 max-h-[43dvh] overflow-auto;
     scrollbar-width: thin;
   }
-  .search-results a {
-    @apply flex gap-[15px] py-[13px] px-[14px] rounded-[14px] text-ink text-[18px];
+  .search-result {
+    @apply relative flex gap-[15px] py-[13px] px-[14px] rounded-[14px] text-ink text-[18px];
     text-decoration: none;
   }
-  .search-results a:hover,
-  .search-results a:focus-visible {
+  .search-result:hover,
+  .search-result:focus-within {
     background: #edf1e5;
   }
   .result-icon {
@@ -1302,7 +1319,7 @@
   .outline-dialog .toc-scroll {
     @apply max-h-[55dvh];
   }
-  .outline-dialog .toc a {
+  .outline-dialog .toc-entry {
     @apply text-[16px];
   }
   .outline-relations {
@@ -1489,7 +1506,8 @@
     .article-tags {
       @apply mt-[12px];
     }
-    .tag {
+    .tag,
+    .inline-tag {
       @apply text-[15px] py-[4px] px-[9px];
     }
     .article-header {
@@ -1527,11 +1545,11 @@
     .side-title {
       @apply text-[16px];
     }
-    .toc a {
+    .toc-entry {
       @apply text-[15px];
       padding-block: 8px;
     }
-    .toc li[data-depth="3"] a {
+    .toc li[data-depth="3"] .toc-entry {
       @apply text-[14px];
     }
     .side-empty,
@@ -1559,7 +1577,7 @@
     .search-results {
       @apply max-h-[46dvh];
     }
-    .search-results a {
+    .search-result {
       @apply py-[11px] px-[8px] gap-[11px] text-[17px];
     }
     .search-results small {

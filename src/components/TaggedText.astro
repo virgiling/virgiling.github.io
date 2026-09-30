@@ -1,0 +1,40 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import {
+  inlineTagParts,
+  linkedTagParts,
+  type InlineTagPart,
+} from "../inline-tags";
+import { tagURL } from "../ui/shared";
+interface Props {
+  text?: string;
+  parts?: InlineTagPart[];
+  tags?: readonly string[];
+  enabled?: boolean;
+  href?: string;
+  linkAttributes?: HTMLAttributes<"a">;
+}
+const {
+  text = "",
+  parts = inlineTagParts(text),
+  tags,
+  enabled = true,
+  href,
+  linkAttributes = {},
+} = Astro.props;
+const segments = linkedTagParts(parts, tags, enabled);
+---
+
+{segments.map((part) =>
+  part.tag ? (
+    <a class="inline-tag" href={tagURL(part.tag)}>
+      {part.text}
+    </a>
+  ) : href ? (
+    <a {...linkAttributes} href={href}>
+      {part.text}
+    </a>
+  ) : (
+    part.text
+  ),
+)}

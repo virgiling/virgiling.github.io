@@ -13,6 +13,18 @@ test('Tailwind scans only renderer sources, with no automatic Vault scan or Pref
   assert.ok(css.includes('@theme inline'));assert.ok(css.includes('@apply flex'));
 });
 
+test('inline tags share normal badge styling in base, hover and mobile rules without a second hash prefix',async()=>{
+  const root=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  const variants=new Set<string>();
+  root.walkRules(rule=>{
+    if(rule.selectors.includes('.tag')&&rule.selectors.includes('.inline-tag'))variants.add(rule.parent?.type==='atrule'&&rule.parent.name==='media'?'mobile':'base');
+    if(rule.selectors.includes('.tag:hover')&&rule.selectors.includes('.inline-tag:hover'))variants.add('hover');
+    if(rule.selectors.some(selector=>selector.includes('.inline-tag')&&/:{1,2}before$/.test(selector)))assert.fail('inline tags already contain # in their text');
+    if(rule.selector==='.inline-tag')rule.walkAtRules('apply',r=>assert.doesNotMatch(r.params,/\bunderline\b/));
+  });
+  assert.deepEqual(variants,new Set(['base','hover','mobile']));
+});
+
 test('The compiled-style verifier rejects raw Tailwind and missing interaction styles',()=>{
   assert.throws(()=>verifyStyles('.header-inner{@apply flex;}'),/Uncompiled Tailwind/);
   assert.throws(()=>verifyStyles('[hidden]{display:block}'),/Compiled CSS contract missing/);

@@ -1,5 +1,6 @@
 ---
 import { tagURL } from "../ui/shared";
+import TaggedText from "./TaggedText.astro";
 import type { ArticleSummary } from "../ui/types";
 interface Props {
   note: ArticleSummary;
@@ -31,13 +32,16 @@ const stack = stackIndex !== null;
       : undefined
   }
 >
-  <a
-    class:list={["card-content", { "tag-result-title": !stack }]}
-    href={prefix + note.url}
-    aria-label={note.title}
-  >
+  <div class:list={["card-content", { "tag-result-title": !stack }]}>
+    <a
+      class="card-main-link"
+      href={prefix + note.url}
+      aria-label={note.title}
+    ></a>
     <div class="card-title-row">
-      <Heading>{note.title}</Heading>
+      <Heading>
+        <TaggedText text={note.title} tags={note.tags} />
+      </Heading>
       {headerDate && value && (
         <span class="card-created">
           {updated ? "最近更新" : "创作时间"}{" "}
@@ -45,8 +49,10 @@ const stack = stackIndex !== null;
         </span>
       )}
     </div>
-    <p class="card-description">{note.summary}</p>
-  </a>
+    <p class="card-description">
+      <TaggedText text={note.summary} tags={note.tags} />
+    </p>
+  </div>
   {((!headerDate && value) || tags.length > 0) && (
     <footer class="card-footer">
       {!headerDate && value && (

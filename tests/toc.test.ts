@@ -24,6 +24,7 @@ interface Link {
   setAttribute(key: string, value: string): void;
   removeAttribute(key: string): void;
   classList: { toggle(key: string, on: boolean): void };
+  contains(node: unknown): boolean;
 }
 function environment(
   specs: HeadingSpec[],
@@ -82,6 +83,7 @@ function environment(
     };
     const links: Link[] = headings.map((h, i) => ({
       dataset: { heading: h.id },
+      contains(node) { return node === this; },
       attrs: new Map(),
       classes: new Set(),
       offsetHeight: 28,

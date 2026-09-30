@@ -1,5 +1,6 @@
 ---
 import { breadcrumbItems } from "../ui/breadcrumbs.ts";
+import TaggedText from "./TaggedText.astro";
 import type { Note, DirectoryMeta } from "../content/types";
 import type { CatalogNote } from "../ui/types";
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 }
 const { note, pages, directories = [] } = Astro.props;
 const items = breadcrumbItems(note, pages, directories);
+const tags = pages.flatMap((page) => page.tags || []);
 ---
 
 {items.length > 0 && (
@@ -17,9 +19,13 @@ const items = breadcrumbItems(note, pages, directories);
       {items.map((item) => (
         <li>
           {item.url === note.url ? (
-            <span aria-current="page">{item.label}</span>
+            <span aria-current="page">
+              <TaggedText text={item.label} tags={tags} />
+            </span>
           ) : (
-            <a href={item.url}>{item.label}</a>
+            <span>
+              <TaggedText text={item.label} tags={tags} href={item.url} />
+            </span>
           )}
         </li>
       ))}

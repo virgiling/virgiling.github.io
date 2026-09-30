@@ -54,9 +54,9 @@ test('archive represents each MoC once as a native heading link, preserving labe
   const dirs=mapDirectoryMocs(notes,[{path:'01-courses',title:'Courses & notes'}]);
   const html=await renderComponent('Archive',{notes,config:{directories:dirs}}),tree=parse(html);
   const links=find(tree,n=>'data-directory-moc' in attrs(n));assert.equal(links.length,1);
-  assert.equal(links[0].tagName,'a');assert.equal(links[0].parentNode.tagName,'h2');
-  assert.equal(attrs(links[0]).href,'/preview/courses-toc');assert.equal(text(find(links[0],n=>attrs(n).class==='folder-heading-name')[0]),'Courses & notes');
-  assert.equal(text(links[0]).trim(),'Courses & notes');assert.equal(find(links[0],n=>attrs(n).class==='folder-link-arrow').length,1);
+  assert.equal(links[0].tagName,'a');assert.equal(links[0].parentNode.parentNode.tagName,'h2');
+  assert.equal(attrs(links[0]).href,'/preview/courses-toc');assert.equal(text(find(links[0].parentNode,n=>attrs(n).class==='folder-heading-name')[0]),'Courses & notes');
+  assert.equal(attrs(links[0])['aria-label'],'打开 Courses & notes');assert.equal(find(links[0],n=>attrs(n).class==='folder-link-arrow').length,1);
   assert.equal(find(tree,n=>'data-note' in attrs(n)).length,2);assert.ok(!html.includes('data-folder-root=""'));
   assert.ok(text(tree).includes('3 则笔记，慢慢生长。'));assert.ok(!html.includes('篇目录导读'));assert.ok(!html.includes('按目录浏览'));
   assert.ok(html.indexOf('data-note="01-courses/index.md"')<html.indexOf('data-note="01-courses/a.md"'));

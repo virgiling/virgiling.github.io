@@ -51,6 +51,13 @@ export function verifyStyles(css:string){
   has('.folder-heading-name',{'text-decoration-line':'underline'});
   has('.folder-link-hint',{display:'inline-flex','font-size':'13px'});
   assert.ok(entries.some(e=>e.selector==='.folder-heading-link.is-emphasized .folder-link-arrow'&&['translateX(3px)','translate(3px)'].includes(e.declarations.transform)),'MoC arrow state must remain after CSS minification');
+  for(const selector of ['.tag','.inline-tag']){
+    has(selector,{display:'inline-block','border-radius':'9px',background:'#e7eddf',border:'1px solid #cbd8c2','text-decoration':'none','line-height':'1.5'});
+    has(selector+':hover',{background:'#d8e4cd','border-color':'#9db28d','text-decoration':'none'});
+    has(selector,{'font-size':'15px','padding-block':'4px','padding-inline':'9px'},'560');
+  }
+  assert.ok(!entries.some(e=>e.selector==='.inline-tag'&&e.declarations['text-decoration-line']==='underline'),'Inline tags must look like badges, not ordinary underlined links');
+  assert.ok(!entries.some(e=>e.selector.includes('.inline-tag')&&/:{1,2}before$/.test(e.selector)&&e.declarations.content&&!['none','""',"''"].includes(e.declarations.content)),'Inline tag text already contains its # prefix');
   has('.toc-scroll',{'overscroll-behavior':'contain'});
   has('.graph svg[data-local-graph]',{'touch-action':'none',cursor:'default'});
   has('.graph-local a[data-node-id]',{cursor:'grab'});

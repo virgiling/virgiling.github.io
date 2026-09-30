@@ -1,5 +1,6 @@
 ---
 import HomeActivity from "./HomeActivity.astro";
+import TaggedText from "./TaggedText.astro";
 import OnThisPage from "./OnThisPage.astro";
 import LocalGraph from "./LocalGraph.astro";
 import { relations } from "../ui/reading.ts";
@@ -22,7 +23,7 @@ const home = note.source === "index.md";
     neighbors={connected}
   />
   <section class="side-section">
-    <OnThisPage headings={note.headings} />
+    <OnThisPage headings={note.headings} linkTags={!note.unlisted} />
   </section>
   {!home && (
     <section class="side-section">
@@ -33,9 +34,12 @@ const home = note.source === "index.md";
         <ul class="backlinks">
           {incoming.map((page) => (
             <li>
-              <a href={page.url} data-preview={page.slug}>
-                ↗ {page.title}
-              </a>
+              <TaggedText
+                text={`↗ ${page.title}`}
+                tags={page.tags}
+                href={page.url}
+                linkAttributes={{ "data-preview": page.slug }}
+              />
             </li>
           ))}
         </ul>

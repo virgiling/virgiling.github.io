@@ -1,12 +1,14 @@
 ---
 import ArchiveStack from "./ArchiveStack.astro";
+import TaggedText from "./TaggedText.astro";
 import { sortedFolders, type FolderNode } from "../ui/archive.ts";
 import { folderFrameId } from "../ui/shared";
 interface Props {
   node: FolderNode;
   depth: number;
+  tags?: string[];
 }
-const { node, depth } = Astro.props;
+const { node, depth, tags = [] } = Astro.props;
 const Heading = `h${Math.min(depth, 6)}` as "h3" | "h4" | "h5" | "h6";
 ---
 
@@ -17,10 +19,10 @@ const Heading = `h${Math.min(depth, 6)}` as "h3" | "h4" | "h5" | "h6";
 >
   <Heading class="folder-branch-heading">
     <span aria-hidden="true">↳</span>
-    {node.label}
+    <TaggedText text={node.label} tags={tags} />
   </Heading>
   <ArchiveStack node={node} depth={depth} />
   {sortedFolders(node.children.values()).map((child) => (
-    <Astro.self node={child} depth={depth + 1} />
+    <Astro.self node={child} depth={depth + 1} tags={tags} />
   ))}
 </section>

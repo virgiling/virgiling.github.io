@@ -1,7 +1,9 @@
 import type { Root } from "mdast";
+import type { InlineTagPart } from "../inline-tags";
 export interface Heading {
   id: string;
   text: string;
+  parts?: InlineTagPart[];
   depth: number;
   trail: string[];
 }

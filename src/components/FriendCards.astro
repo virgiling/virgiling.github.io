@@ -1,15 +1,23 @@
 ---
 import type { Friend } from "../friends/markdown";
+import TaggedText from "./TaggedText.astro";
 interface Props {
   friends: Friend[];
+  tags?: string[];
 }
-const { friends } = Astro.props;
+const { friends, tags = [] } = Astro.props;
 ---
 
 <section class="friends-section" id="friend-links" aria-label="友链">
   <div class="friend-grid">
     {friends.map((friend) => (
-      <a class="friend-card" href={friend.url} rel="noopener noreferrer">
+      <div class="friend-card">
+        <a
+          class="friend-main-link"
+          href={friend.url}
+          rel="noopener noreferrer"
+          aria-label={friend.name}
+        ></a>
         <span class="friend-avatar" aria-hidden="true">
           {friend.avatar ? (
             <img
@@ -25,11 +33,15 @@ const { friends } = Astro.props;
           )}
         </span>
         <span>
-          <strong>{friend.name}</strong>
-          <span class="friend-bio">{friend.bio}</span>
+          <strong>
+            <TaggedText text={friend.name} tags={tags} />
+          </strong>
+          <span class="friend-bio">
+            <TaggedText text={friend.bio} tags={tags} />
+          </span>
           <span class="friend-domain">{new URL(friend.url).hostname}</span>
         </span>
-      </a>
+      </div>
     ))}
   </div>
 </section>

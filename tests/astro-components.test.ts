@@ -46,7 +46,7 @@ test('table of contents preserves historical anchors, escaped labels, depth and 
   const {document}=parseHTML(`<html><body>${html}</body></html>`);
   assert.equal(document.querySelectorAll('.toc a').length,1);
   assert.equal(document.querySelector('.toc a')!.getAttribute('href'),'#'+encodeURIComponent(headings[0].id));
-  assert.equal(document.querySelector('.toc a')!.getAttribute('data-heading'),headings[0].id);
+  assert.equal(document.querySelector('.toc-entry')!.getAttribute('data-heading'),headings[0].id);
   assert.equal(document.querySelector('.toc a')!.textContent,headings[0].text);
   assert.equal(document.querySelector('nav')!.getAttribute('aria-label'),'移动端 ON THIS PAGE');
   assert.ok(document.querySelector('.toc-marker[hidden]'));

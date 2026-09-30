@@ -1,4 +1,5 @@
 import { url } from "../site.config";
+import { tagPath } from "../inline-tags";
 
 // XML feeds/sitemaps still need explicit serialization. Astro templates escape text themselves.
 const entities: Record<string, string> = {
@@ -13,5 +14,4 @@ export const esc = (value: unknown) =>
 export const folderId = (path: string) =>
   "folder-" + (path ? Buffer.from(path).toString("hex") : "root");
 export const folderFrameId = (path: string) => "frame-" + folderId(path);
-export const tagURL = (tag: string) =>
-  url(`tags/${Buffer.from(tag).toString("hex")}`);
+export const tagURL = (tag: string) => url(tagPath(tag));

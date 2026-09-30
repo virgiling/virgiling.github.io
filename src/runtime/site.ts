@@ -8,6 +8,7 @@ import { initLocalGraphs } from "./local-graph";
 import { initInteractionMotion } from "./interactions";
 import { initImageZoom } from "./image-zoom";
 import { initNavigationMotion } from "./navigation-motion";
+import { renderTaggedText } from "./tagged-text";
 import type { Note } from "../content/types";
 type PreviewRecord = Pick<Note, "slug" | "url" | "title" | "summary" | "tags">;
 type PreviewAnchor = HTMLElement | SVGElement;
@@ -71,8 +72,8 @@ function showPreview(
   clearTimeout(showTimer);
   clearTimeout(hideTimer);
   anchor = target;
-  $("#preview-title").textContent = n.title;
-  $("#preview-text").textContent = n.summary;
+  renderTaggedText($("#preview-title"), n.title, n.tags, prefix);
+  renderTaggedText($("#preview-text"), n.summary, n.tags, prefix);
   $("#preview-kind").textContent = n.tags.join(" / ");
   $<HTMLAnchorElement>("#preview-link").href =
     target.getAttribute("href") || n.url;

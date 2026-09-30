@@ -2,6 +2,7 @@
 import { articleActivity, type ActivityConfig } from "../ui/home-activity.ts";
 import type { CatalogNote } from "../ui/types";
 import { url } from "../site.config";
+import TaggedText from "./TaggedText.astro";
 interface Props {
   pages: CatalogNote[];
   config?: ActivityConfig;
@@ -20,7 +21,9 @@ const activity = articleActivity(pages, config);
     <ol class="recent-updates">
       {activity.recent.map((note) => (
         <li>
-          <a href={note.url}>{note.title}</a>
+          <span class="recent-title">
+            <TaggedText text={note.title} tags={note.tags} href={note.url} />
+          </span>
           <time datetime={note.activityDate}>{note.activityDate}</time>
         </li>
       ))}
