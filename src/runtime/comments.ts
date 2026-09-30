@@ -10,15 +10,13 @@ export function giscusAttributes(config: {
   repoId: string;
   category: string;
   categoryId: string;
-  term: string;
 }) {
   return {
     "data-repo": config.repo,
     "data-repo-id": config.repoId,
     "data-category": config.category,
     "data-category-id": config.categoryId,
-    "data-mapping": "specific",
-    "data-term": config.term,
+    "data-mapping": "og:title",
     "data-strict": "1",
     "data-reactions-enabled": "1",
     "data-input-position": "bottom",

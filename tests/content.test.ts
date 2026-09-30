@@ -33,6 +33,18 @@ test('publication precedes compilation and every discovery resource uses D',asyn
     assert.equal(s.notes.find(n=>n.unlisted)?.comments,false);
   });
 });
+test('article titles use frontmatter without filename suffixes, falling back only for missing or blank titles',async()=>{
+  await fixture({
+    'folder/original.md':'---\npublish: true\ntitle: "  固定标题  "\n---\nBody',
+    'moved/renamed.md':'---\npublish: true\ntitle: 固定标题\n---\nBody',
+    'fallback.md':'---\npublish: true\n---\nBody',
+    'blank.md':'---\npublish: true\ntitle: "  "\n---\nBody',
+  },async root=>{
+    const {notes}=await readContent(root),titles=new Map(notes.map(n=>[n.source,n.title]));
+    assert.equal(titles.get('folder/original.md'),'固定标题');assert.equal(titles.get('moved/renamed.md'),'固定标题');
+    assert.equal(titles.get('fallback.md'),'fallback');assert.equal(titles.get('blank.md'),'blank');
+  });
+});
 test('strict frontmatter, date, YAML aliases and route collision checks',async()=>{
   assert.equal(splitFrontmatter('No metadata'),null);
   assert.throws(()=>splitFrontmatter('---\npublish: true\npublish: false\n---\n'));

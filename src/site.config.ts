@@ -52,7 +52,7 @@ export const siteConfig = schema.parse({
     checkPaths: ["01-courses/", "03-tools/"],
     staleThreshold: 365,
   },
-  // Local and deployed pages use the same real discussion identity. Enabling
+  // Local and deployed pages read the same title-matched discussions. Enabling
   // the reader does not authorize automated login, posting or deployment.
   comments: {
     enabled: true,
@@ -65,7 +65,7 @@ export const siteConfig = schema.parse({
 export const url = (path = "") => siteConfig.base + path.replace(/^\//, "");
 export const canonical = (path = "") =>
   new URL(url(path), siteConfig.site).href;
-// Preview deployment prefixes must never become discussion identities.
+// Discussion backlinks must point to the public URL, never a preview prefix.
 export const discussionURL = (route = "") =>
   new URL("/" + route.replace(/^\/+/, ""), siteConfig.site).href;
 export const navigation = [

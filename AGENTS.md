@@ -13,7 +13,7 @@
 - `content/` 是 Git submodule；生产构建要求内容 HEAD 与 gitlink 一致且工作树干净。
 - 仅 `publish:true` 生成页面；`draft` 不替代发布标记。unlisted 可直链，但不进入列表、搜索、全局图谱、RSS/sitemap；可在自身页面的局部图中作为当前节点。
 - 保留硬忽略、符号链接拒绝与资源允许集合，避免将未发布内容带入产物。
-- 保留来源路径与正式文章 URL 的 giscus 身份；开发端口与 base 不改变讨论键。
+- giscus 以 `og:title` 严格匹配，启用评论的页面标题须唯一；不追加文件名或站点名。正式文章 URL 仅用作回链，开发端口与 base 不改变关联。迁移时保留原 Discussion 编号及历史 SHA-1 标记。
 - 有时长的界面效果统一通过共享 Motion，支持取消、销毁及运行时 reduced motion。直接操控与即时可见性校正不额外插值。
 - 样式沿用 Tailwind 与现有语义组件，保留 Markdown 和图谱的专用 CSS。
 - 字体输入位于 `assets/fonts/`；OFL 分片由固定来源生成，Biro 保留原始字节与 OpenType。`fonts:clean` 不与字体生成并行。

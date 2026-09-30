@@ -1,5 +1,5 @@
 ---
-import { siteConfig, discussionURL } from "../site.config";
+import { siteConfig } from "../site.config";
 import type { Note } from "../content/types";
 interface Props {
   note: Note;
@@ -12,10 +12,7 @@ const { note } = Astro.props;
     class="comments-entry"
     aria-labelledby="comments-heading"
     data-comments
-    data-config={JSON.stringify({
-      ...siteConfig.comments,
-      term: discussionURL(note.route),
-    })}
+    data-config={JSON.stringify(siteConfig.comments)}
   >
     <div>
       <span class="eyebrow">CONVERSATION</span>

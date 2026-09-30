@@ -1,5 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {parseHTML} from 'linkedom';
 import {exportSearch,importSearch} from '../src/search';
 import {commentAllowed,giscusAttributes} from '../src/runtime/comments';
 import {buildFolderTree} from '../src/ui/archive';
@@ -18,14 +19,20 @@ test('FlexSearch serialized roundtrip: CJK, mixed text, alias, AND tags and titl
   assert.deepEqual(search('操作系统 #Linux #主题').map((n:{id:string})=>n.id),['a']);assert.equal(search('#系统').length,0);
   assert.equal(search('不存在').length,0);assert.equal(search('#主题').length,2);assert.equal(search('ｘｖ６ #Linux').length,1);
 });
+test('comment sections leave identity to the page Open Graph title instead of a path-derived term',async()=>{
+  const html=await renderComponent('Comments',{note:{...note('folder/renamable.md'),comments:true}});
+  const {document}=parseHTML(`<html><body>${html}</body></html>`);
+  const config=JSON.parse(document.querySelector('[data-comments]')!.getAttribute('data-config')!);
+  assert.deepEqual(config,siteConfig.comments);assert.equal('term' in config,false);
+});
 test('real comments work on localhost and HTTP previews; explicit disable and opaque origins stay off',()=>{
   for(const origin of ['http://localhost:4321','http://127.0.0.1:4322','http://[::1]:4321','http://192.168.1.2:4321','https://virgiling.wiki','https://preview.example'])assert.equal(commentAllowed(origin),true,origin);
   assert.equal(commentAllowed('http://localhost:4321',false),false);
   for(const origin of ['null','file://','javascript:alert(1)'])assert.equal(commentAllowed(origin),false);
   assert.equal(siteConfig.comments.enabled,true);
-  const attrs=giscusAttributes({...siteConfig.comments,term:discussionURL('about')});assert.equal(attrs['data-mapping'],'specific');assert.equal(attrs['data-term'],'https://virgiling.wiki/about');assert.equal(attrs['data-strict'],'1');assert.equal(attrs['data-theme'],'light');assert.equal(attrs['data-lang'],'zh-CN');
+  const attrs=giscusAttributes(siteConfig.comments);assert.equal(attrs['data-mapping'],'og:title');assert.equal('data-term' in attrs,false);assert.equal(attrs['data-strict'],'1');assert.equal(attrs['data-theme'],'light');assert.equal(attrs['data-lang'],'zh-CN');
 });
-test('discussion identities preserve the public URL and are independent of local origin or preview base',()=>{
+test('discussion backlinks preserve the public URL and are independent of local origin or preview base',()=>{
   assert.equal(discussionURL(),'https://virgiling.wiki/');assert.equal(discussionURL('01-courses/'),'https://virgiling.wiki/01-courses/');
   assert.equal(discussionURL('03-tools/dotfiles'),'https://virgiling.wiki/03-tools/dotfiles');assert.equal(new URL(discussionURL('//evil.test')).origin,'https://virgiling.wiki');
   assert.equal(new URL(discussionURL('中文')).pathname,'/%E4%B8%AD%E6%96%87');

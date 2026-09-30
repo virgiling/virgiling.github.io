@@ -20,6 +20,7 @@ let publicGraph:any;
 const localGraphs:{file:string;ids:Set<string>;current:string}[]=[];
 const usedHan=new Set<number>();
 const archiveEntries=new Set<string>(),archiveMocs:{source:string;href:string;root:string}[]=[];
+const commentTitles=new Map<string,string>();
 const attributes=(node:any)=>Object.fromEntries((node.attrs||[]).map((a:{name:string;value:string})=>[a.name,a.value]));
 const errors:string[]=[],stats={pages:0,localLinks:0,initialJsGzipMax:0,cssGzip:0,fontBytes:0,searchGzip:0,graphGzip:0,archiveMocLinks:0};
 function output(path:string){
@@ -45,11 +46,14 @@ for(const file of files){
   const source=buffer.toString();assert.ok(!source.includes('/Users/'),'Absolute local path leaked');assert.ok(!source.includes('sourceMappingURL=data:'),'Inline sourcemap');
   if(!file.endsWith('.html'))continue;
   const doc=parse(source),ids=new Set<string>(),links:{value:string;kind:string}[]=[],scripts:string[]=[];let inlineJs='',favicons=0,friendTitles=0;
+  let pageTitle='',hasComments=false;const ogTitles:string[]=[];
   const friendPage=file==='link.html'&&source.includes('id="friend-circle"');
   function visit(node:any,skipFontText=false){
     skipFontText ||= ['script','style','pre','code','kbd','samp'].includes(node.tagName);
     if(node.nodeName==='#text'&&!skipFontText)for(const char of node.value)if(/\p{Script=Han}/u.test(char))usedHan.add(char.codePointAt(0)!);
     const attrs=attributes(node),classes=(attrs.class||'').split(/\s+/);
+    if(node.tagName==='title'&&node.parentNode?.tagName==='head')pageTitle=node.childNodes.map((child:{value?:string})=>child.value||'').join('');
+    if(node.tagName==='meta'&&attrs.property==='og:title')ogTitles.push(attrs.content);
     if(friendPage){
       if(classes.includes('article-header'))errors.push(`${file}: redundant article header on friend page`);
       if(node.tagName==='h1'){
@@ -80,7 +84,7 @@ for(const file of files){
       if(attrs.href!==base+'favicon.png'||attrs.type!=='image/png')errors.push(`${file}: favicon must use the base-aware original PNG`);
     }
     const discussion=new URL('/'+(file==='index.html'?'':file.replace(/index\.html$/,'').replace(/\.html$/,'')),siteConfig.site).href;
-    if('data-comments' in attrs){const config=JSON.parse(attrs['data-config']);if(config.enabled!==true||config.term!==discussion)errors.push(`${file}: comments do not use the public discussion identity`);}
+    if('data-comments' in attrs){hasComments=true;const config=JSON.parse(attrs['data-config']);if(config.enabled!==true||'term' in config)errors.push(`${file}: comments must use the Open Graph title, not a custom URL term`);}
     if(attrs.name==='giscus:backlink'&&attrs.content!==discussion)errors.push(`${file}: comments backlink points to a preview URL`);
     if(classes.includes('comments-status')&&(!('hidden' in attrs)||(node.childNodes||[]).some((n:any)=>n.value?.trim())))errors.push(`${file}: comments show placeholder engineering text`);
     if('data-local-graph' in attrs){
@@ -106,6 +110,13 @@ for(const file of files){
     node.childNodes?.forEach((child:any)=>visit(child,skipFontText));
   }
   visit(doc);html.set(file,{ids,links});stats.pages++;
+  const suffix=' · '+siteConfig.brand.name,title=pageTitle.endsWith(suffix)?pageTitle.slice(0,-suffix.length):pageTitle;
+  if(ogTitles.length!==1||!title||ogTitles[0]!==title)errors.push(`${file}: Open Graph title must equal the page title without site branding or filename suffixes`);
+  if(hasComments){
+    const previous=commentTitles.get(ogTitles[0]);
+    if(previous)errors.push(`${file}: duplicate comment title ${JSON.stringify(ogTitles[0])} also used by ${previous}`);
+    else commentTitles.set(ogTitles[0],file);
+  }
   if(favicons!==1)errors.push(`${file}: expected one favicon link`);
   if(friendPage&&friendTitles!==1)errors.push(`${file}: expected exactly one recent-activity h1`);
   let scriptSize=inlineJs?gzipSync(inlineJs).length:0;
