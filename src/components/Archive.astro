@@ -2,6 +2,7 @@
 import ArchiveStack from "./ArchiveStack.astro";
 import ArchiveBranch from "./ArchiveBranch.astro";
 import TaggedText from "./TaggedText.astro";
+import { linkableTags } from "../inline-tags";
 import {
   buildFolderTree,
   sortedFolders,
@@ -23,7 +24,7 @@ roots.sort(
     a.path.localeCompare(b.path, "en"),
 );
 const count = new Set(notes.map((n) => n.slug)).size;
-const tags = [...new Set(notes.flatMap((n) => n.tags || []))];
+const tags = [...new Set(notes.flatMap(linkableTags))];
 const themes = tags.length;
 ---
 

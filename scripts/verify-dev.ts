@@ -8,6 +8,9 @@ import {siteConfig} from '../src/site.config';
 import {validateGraph} from '../src/runtime/graph-view';
 import {hasBiro,biroPath,biroURL,biroStyles} from '../src/fonts';
 import {verifyDevGraph} from './dev-graph-contract';
+import {DOMParser} from 'linkedom';
+import {extractPreviewContent} from '../src/runtime/preview-content';
+import {verifyDevMap} from './map-contract';
 
 // Programmatic server on a separate port: no browser, no lock-file replacement,
 // no content edits. Watch events below are synthetic; the submodule stays clean.
@@ -23,10 +26,19 @@ try{
   const home=await page();const first=compilations;assert.equal(first,1);
   assert.ok(home.includes(`href="${base}tags/434346"`),'Homepage #CCF must honor the current base');
   await page(base+'tags/434346');
+  const parser=new DOMParser() as unknown as globalThis.DOMParser;
+  const preview=extractPreviewContent(home,'index.md',new URL(origin+base),'dev-popout',parser);
+  assert.equal(preview.container.querySelector('.prose')!.textContent,parser.parseFromString(home,'text/html').querySelector('.prose')!.textContent);
+  const previewModule=await page(base+'src/runtime/preview.ts');assert.ok(previewModule.includes('extractPreviewContent'),'Vite must serve the full-preview controller');
+  await page(base+'src/runtime/preview-content.ts');
+  const cardMotionModule=await page(base+'src/runtime/card-motion.ts');assert.ok(cardMotionModule.includes('[data-card-motion]:not(.stack-card)'),'Vite must compile the scoped card Motion controller');
+  const siteModule=await page(base+'src/runtime/site.ts');assert.ok(siteModule.includes('initCardMotion'),'The real site entry must initialize card motion');
   await Promise.all([page(),page(base+'about'),page(base+'articles')]);assert.equal(compilations,first,'warm/concurrent page requests must reuse content');
   const graph=/data-graph-index="([^"]+)"/.exec(home)![1];
   const graphResponse=await fetch(origin+graph);assert.equal(graphResponse.status,200);validateGraph(await graphResponse.json());assert.equal(compilations,first,'graph fetch must not recompile content');
   console.log(await verifyDevGraph(origin,base));
+  console.log(await verifyDevMap(origin,base));
+  assert.equal(compilations,first,'Journey and map module requests must reuse the public snapshot');
   const fontCSS=await page(base+'src/styles/site.css?direct'),uiFonts=new Set<string>();
   for(const [,value] of fontCSS.matchAll(/url\(["']?([^\s)"']+-ui[^\s)"']*\.woff2)/g))uiFonts.add(value);
   assert.equal(uiFonts.size,3,'Dev CSS must reference all generated UI subsets');
@@ -57,5 +69,5 @@ try{
   server.watcher.emit('all','change',resolve('content/index.md'));await delay(150);
   const refreshed=await page();assert.ok(!refreshed.includes(canary),'Astro route props must also be invalidated');assert.equal(compilations,first+1);
   await page();assert.equal(compilations,first+1,'new revision should compile only once');
-  console.log(JSON.stringify({base,status:'passed',checks:['inline #CCF link and tag route','warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation'],contentCompilations:compilations}));
+  console.log(JSON.stringify({base,status:'passed',checks:['inline #CCF link and tag route','full article extraction and Vite preview modules','Vite opt-in card Motion module and actual site entry','warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','Journey projection + actual Vite map/Motion/Leaflet/CSS dependency compilation','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation'],contentCompilations:compilations}));
 }finally{console.log=log;await server.stop();}

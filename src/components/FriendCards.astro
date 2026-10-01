@@ -4,14 +4,15 @@ import TaggedText from "./TaggedText.astro";
 interface Props {
   friends: Friend[];
   tags?: string[];
+  hoverMotion?: boolean;
 }
-const { friends, tags = [] } = Astro.props;
+const { friends, tags = [], hoverMotion = false } = Astro.props;
 ---
 
 <section class="friends-section" id="friend-links" aria-label="友链">
   <div class="friend-grid">
     {friends.map((friend) => (
-      <div class="friend-card">
+      <div class="friend-card" data-card-motion={hoverMotion ? "" : undefined}>
         <a
           class="friend-main-link"
           href={friend.url}

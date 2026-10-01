@@ -28,10 +28,11 @@ const parts = group.tag.split("/");
       </div>
     )}
   </header>
+  {group.notes.length === 0 && <p class="side-empty">暂无归入此标签的文章。</p>}
   <ul class="tag-results">
     {group.notes.map((note) => (
       <li>
-        <ArticleCard note={note} depth={2} />
+        <ArticleCard note={note} depth={2} hoverMotion />
       </li>
     ))}
   </ul>

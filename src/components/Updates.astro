@@ -18,7 +18,7 @@ const { recent } = articleActivity(pages, { recentCount: pages.length });
   {recent.length ? (
     <div class="card-list">
       {recent.map((note) => (
-        <ArticleCard note={note} depth={2} updated />
+        <ArticleCard note={note} depth={2} updated hoverMotion />
       ))}
     </div>
   ) : (

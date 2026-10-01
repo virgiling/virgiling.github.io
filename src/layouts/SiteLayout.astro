@@ -120,7 +120,8 @@ const { brand, footer } = siteConfig;
       hidden
     >
       <div class="popover-top">
-        <span>笔记预览</span>
+        <span>全文预览</span>
+        <a id="preview-link">打开原文 ↗</a>
         <button class="pin-button" id="pin-preview" aria-pressed="false">
           固定
         </button>
@@ -128,11 +129,15 @@ const { brand, footer } = siteConfig;
           ×
         </button>
       </div>
-      <div class="popover-body">
-        <span class="popover-kind" id="preview-kind"></span>
-        <h2 id="preview-title"></h2>
-        <p id="preview-text"></p>
-        <a id="preview-link">阅读全文 ↗</a>
+      <h2 class="sr-only" id="preview-title"></h2>
+      <div class="popover-body" tabindex="0" aria-label="文章全文，可滚动阅读">
+        <p id="preview-status" role="status">
+          正在加载全文…
+        </p>
+        <button class="dialog-close" id="retry-preview" hidden>
+          重试
+        </button>
+        <div id="preview-content"></div>
       </div>
     </div>
     <dialog id="search-dialog" aria-label="搜索笔记">

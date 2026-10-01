@@ -11,6 +11,7 @@ export interface SearchRecord {
   aliases: string[];
   summary: string;
   tags: string[];
+  tagMentions?: string[];
   text?: string;
 }
 export const normalize = (s: string) =>

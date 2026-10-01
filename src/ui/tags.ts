@@ -1,4 +1,5 @@
 import { tagURL } from "./shared";
+import { tagAncestors } from "../inline-tags";
 import type { ArticleSummary } from "./types";
 export interface TagGroup {
   tag: string;
@@ -8,6 +9,9 @@ export interface TagGroup {
 export function buildTags(notes: ArticleSummary[]): TagGroup[] {
   const groups = new Map<string, Map<string, ArticleSummary>>();
   for (const note of notes) {
+    // Keep mentioned destinations reachable without assigning the note to them.
+    for (const tag of tagAncestors(note.tagMentions || []))
+      if (!groups.has(tag)) groups.set(tag, new Map());
     for (const tag of note.tags || []) {
       const parts = tag.split("/").filter(Boolean);
       for (let i = 1; i <= parts.length; i++) {

@@ -1,5 +1,6 @@
 import type { Root } from "mdast";
 import type { InlineTagPart } from "../inline-tags";
+import type { JourneyMap } from "../maps/types";
 export interface Heading {
   id: string;
   text: string;
@@ -16,6 +17,9 @@ export interface Note {
   title: string;
   aliases: string[];
   tags: string[];
+  tagMentions: string[];
+  // Build-time metadata only; discovery resources serialize explicit projections.
+  properties: Record<string, unknown>;
   publish: true;
   unlisted: boolean;
   kind: "landing" | "directory" | "article";
@@ -60,4 +64,5 @@ export interface Snapshot {
   assets: Asset[];
   diagnostics: Diagnostic[];
   contentCommit: string;
+  journey: JourneyMap;
 }

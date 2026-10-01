@@ -25,6 +25,7 @@ import {
 } from "../markdown/inline-tags";
 import {
   inlineTagParts,
+  linkableTags,
   sliceTagParts,
   tagAncestors,
   tagPath,
@@ -83,9 +84,8 @@ export function parseNote(note: Note) {
   note.body = withoutComments(note.body);
   note.tree = parser.parse(note.body);
   remarkCallouts({ source: note.body })(note.tree);
-  note.tags = [
+  note.tagMentions = [
     ...new Set([
-      ...note.tags,
       ...inlineTagParts(note.title).flatMap((part) =>
         part.tag ? [part.tag] : [],
       ),
@@ -183,7 +183,7 @@ export class Compiler {
     this.tagURLs = new Set(
       [
         ...tagAncestors(
-          notes.filter((note) => !note.unlisted).flatMap((note) => note.tags),
+          notes.filter((note) => !note.unlisted).flatMap(linkableTags),
         ),
       ].map((tag) => url(tagPath(tag))),
     );

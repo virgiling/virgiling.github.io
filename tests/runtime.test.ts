@@ -8,6 +8,7 @@ type Motion = typeof import("../src/runtime/motion");
 type Runtime = Omit<Motion, "transition" | "stop"> &
   typeof import("../src/runtime/graph") &
   typeof import("../src/runtime/interactions") &
+  typeof import("../src/runtime/card-motion") &
   typeof import("../src/runtime/stacks") &
   Pick<typeof import("../src/runtime/search"), "initSearch"> &
   Pick<typeof import("../src/runtime/graph-assets"), "loadGraphAssets"> &
@@ -34,7 +35,7 @@ import { runInNewContext } from "node:vm";
 const bundle = await build({
   stdin: {
     contents:
-      "export * from './src/runtime/motion.ts';export {initGraph} from './src/runtime/graph.ts';export * from './src/runtime/interactions.ts';export {initNavigationMotion} from './src/runtime/navigation-motion.ts';export {initSearch} from './src/runtime/search.ts';export {loadGraphAssets} from './src/runtime/graph-assets.ts';export {visibleHeadingIndex,revealCalloutAncestors} from './src/runtime/toc.ts';export {initStacks} from './src/runtime/stacks.ts';",
+      "export * from './src/runtime/motion.ts';export {initGraph} from './src/runtime/graph.ts';export * from './src/runtime/interactions.ts';export * from './src/runtime/card-motion.ts';export {initNavigationMotion} from './src/runtime/navigation-motion.ts';export {initSearch} from './src/runtime/search.ts';export {loadGraphAssets} from './src/runtime/graph-assets.ts';export {visibleHeadingIndex,revealCalloutAncestors} from './src/runtime/toc.ts';export {initStacks} from './src/runtime/stacks.ts';",
     resolveDir: resolve("."),
   },
   bundle: true,
@@ -488,6 +489,149 @@ test("MoC arrow uses Motion for hover/focus, cancels cleanly and respects reduce
   link.dispatchEvent(new Event("focusin"));
   assert.ok(classes.has("is-emphasized"));
   assert.equal(arrow.animations.length, 2);
+});
+function cardMotionEnvironment({ hover = true, reduce = false } = {}) {
+  const classes = new Set<string>(),
+    child = {},
+    sibling = {};
+  const card = Object.assign(new Element(), {
+    contains: (node: unknown) => node === child || node === sibling,
+    matches: () => false,
+    classList: {
+      toggle: (key: string, on: boolean) =>
+        on ? classes.add(key) : classes.delete(key),
+      remove: (key: string) => classes.delete(key),
+    },
+  });
+  const doc = Object.assign(new EventTarget(), {
+    hidden: false,
+    activeElement: null as unknown,
+    querySelectorAll: (selector: string) => {
+      assert.equal(selector, "[data-card-motion]:not(.stack-card)");
+      return [card];
+    },
+  });
+  const hoverable = Object.assign(new EventTarget(), { matches: hover });
+  const preference = Object.assign(new EventTarget(), { matches: reduce });
+  const api = environment({
+    document: doc,
+    matchMedia: (query: string) =>
+      query.includes("any-hover") ? hoverable : preference,
+    getComputedStyle: () => ({
+      transform:
+        card.style.transform ||
+        (classes.has("is-card-emphasized") ? "scale(1.01)" : "none"),
+    }),
+  });
+  const controller = api.initCardMotion();
+  const emit = (type: string, values: Record<string, unknown> = {}) =>
+    card.dispatchEvent(Object.assign(new Event(type), values));
+  return {
+    api,
+    card,
+    child,
+    sibling,
+    classes,
+    doc,
+    hoverable,
+    preference,
+    controller,
+    emit,
+  };
+}
+test("opt-in cards enlarge by one percent through shared Motion and rapid reversals return transforms to CSS", async () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.ok(f.classes.has("is-card-emphasized"));
+  assert.equal(f.card.animations.length, 1);
+  assert.match(
+    String(f.card.animations[0].keyframes.transform),
+    /scale\(1\.01\)/,
+  );
+  f.emit("pointerleave");
+  assert.equal(f.classes.has("is-card-emphasized"), false);
+  assert.equal(f.card.animations[0].playState, "idle");
+  for (let i = 0; i < 5; i++) {
+    f.emit("pointerenter", { pointerType: "mouse" });
+    f.emit("pointerleave");
+  }
+  f.card.animations.forEach((animation) => animation.finish());
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(f.card.style.transform, "");
+  assert.equal(f.classes.size, 0);
+  f.controller.destroy();
+});
+test("card hover excludes touch/coarse pointers; keyboard focus stays active while moving between card links", () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "touch" });
+  assert.equal(f.card.animations.length, 0);
+  f.hoverable.matches = false;
+  f.hoverable.dispatchEvent(new Event("change"));
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.equal(f.card.animations.length, 0);
+  f.emit("focusin");
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("focusout", { relatedTarget: f.sibling });
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("pointerleave");
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("focusout", { relatedTarget: null });
+  assert.equal(f.classes.size, 0);
+  f.controller.destroy();
+});
+test("reduced motion, hover capability changes and hidden pages cancel and settle card effects immediately", () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.preference.matches = true;
+  f.preference.dispatchEvent(new Event("change"));
+  assert.equal(f.card.animations[0].playState, "idle");
+  assert.equal(f.classes.size, 0);
+  assert.equal(f.card.style.transform, "");
+  f.emit("focusin");
+  assert.equal(f.card.animations.length, 1);
+  f.preference.matches = false;
+  f.preference.dispatchEvent(new Event("change"));
+  assert.ok(f.classes.has("is-card-emphasized"));
+  assert.equal(f.card.animations.length, 1);
+  f.doc.hidden = true;
+  f.doc.dispatchEvent(new Event("visibilitychange"));
+  assert.equal(f.classes.size, 0);
+  f.doc.hidden = false;
+  f.doc.dispatchEvent(new Event("visibilitychange"));
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("focusout", { relatedTarget: null });
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.hoverable.matches = false;
+  f.hoverable.dispatchEvent(new Event("change"));
+  assert.equal(f.classes.size, 0);
+  assert.equal(f.card.style.transform, "");
+  f.controller.destroy();
+  const reduced = cardMotionEnvironment({ reduce: true });
+  reduced.emit("pointerenter", { pointerType: "mouse" });
+  reduced.emit("focusin");
+  assert.equal(reduced.card.animations.length, 0);
+  assert.equal(reduced.classes.size, 0);
+  reduced.controller.destroy();
+});
+test("card destruction cancels effects, removes listeners and permits a fresh page controller", () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.controller.destroy();
+  f.controller.destroy();
+  assert.equal(f.card.animations[0].playState, "idle");
+  assert.equal(f.classes.size, 0);
+  assert.equal(f.card.style.transform, "");
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.emit("focusin");
+  f.preference.dispatchEvent(new Event("change"));
+  f.doc.dispatchEvent(new Event("visibilitychange"));
+  assert.equal(f.card.animations.length, 1);
+  assert.equal(f.classes.size, 0);
+  const restored = f.api.initCardMotion();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.equal(f.card.animations.length, 2);
+  assert.ok(f.classes.has("is-card-emphasized"));
+  restored.destroy();
 });
 test("global graph load is close-safe, retryable and releases the viewer on close", async () => {
   let resolveLoad!: (assets: GraphAssets) => void;

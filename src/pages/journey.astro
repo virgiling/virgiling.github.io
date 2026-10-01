@@ -1,5 +1,8 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+import MapView from "../components/MapView.astro";
+import { getSnapshot } from "../content/snapshot";
+const { journey } = await getSnapshot();
 ---
 
 <SiteLayout title="足迹" active="journey" path="journey">
@@ -8,9 +11,19 @@ import SiteLayout from "../layouts/SiteLayout.astro";
       <div class="eyebrow">PLACES & MEMORIES</div>
       <h1>足迹</h1>
     </header>
-    <section class="journey-empty">
-      <h2>旅途还在继续</h2>
-      <p>暂时没有公开的足迹。</p>
-    </section>
+    {journey.status === "ready" && journey.data.points.length ? (
+      <MapView data={journey.data} />
+    ) : (
+      <section class="journey-empty">
+        <h2>
+          {journey.status === "ready" ? "旅途还在继续" : "足迹暂时无法显示"}
+        </h2>
+        <p>
+          {journey.status === "ready"
+            ? "暂时没有公开的足迹。"
+            : journey.message}
+        </p>
+      </section>
+    )}
   </main>
 </SiteLayout>

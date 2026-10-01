@@ -16,6 +16,7 @@ async function build(snapshot: Snapshot) {
       title: n.title,
       aliases: n.aliases,
       tags: n.tags,
+      tagMentions: n.tagMentions,
       summary: n.summary,
       text: n.plainText,
     })),

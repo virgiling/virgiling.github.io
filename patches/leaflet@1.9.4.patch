@@ -1,0 +1,30 @@
+diff --git a/dist/leaflet.css b/dist/leaflet.css
+index 2961b7618a57617d1015d31d2094c425c3d86ce9..7d12a401bde4171408bb2d94adc41495119cc4f8 100644
+--- a/dist/leaflet.css
++++ b/dist/leaflet.css
+@@ -178,9 +178,9 @@
+ 
+ .leaflet-fade-anim .leaflet-popup {
+ 	opacity: 0;
+-	-webkit-transition: opacity 0.2s linear;
+-	   -moz-transition: opacity 0.2s linear;
+-	        transition: opacity 0.2s linear;
++	-webkit-transition: none;
++	   -moz-transition: none;
++	        transition: none;
+ 	}
+ .leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+ 	opacity: 1;
+@@ -195,9 +195,9 @@ svg.leaflet-zoom-animated {
+ }
+ 
+ .leaflet-zoom-anim .leaflet-zoom-animated {
+-	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+-	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+-	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
++	-webkit-transition: none;
++	   -moz-transition: none;
++	        transition: none;
+ 	}
+ .leaflet-zoom-anim .leaflet-tile,
+ .leaflet-pan-anim .leaflet-tile {

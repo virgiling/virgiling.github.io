@@ -1,5 +1,6 @@
 import { transition, stop, durations } from "./motion";
 import { renderTaggedText } from "./tagged-text";
+import { linkableTags } from "../inline-tags";
 
 import type { SearchRecord } from "../search";
 type SearchResponse = { id: number } & (
@@ -62,8 +63,9 @@ export function initSearch({
       icon.setAttribute("aria-hidden", "true");
       copy.className = "result-copy";
       title.className = "result-title";
-      renderTaggedText(title, record.title, record.tags || []);
-      renderTaggedText(small, record.summary || "", record.tags || []);
+      const tags = linkableTags(record);
+      renderTaggedText(title, record.title, tags);
+      renderTaggedText(small, record.summary || "", tags);
       copy.append(title, small);
       row.append(a, icon, copy);
       li.append(row);

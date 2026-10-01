@@ -1,6 +1,7 @@
 ---
 import HomeActivity from "./HomeActivity.astro";
 import TaggedText from "./TaggedText.astro";
+import { linkableTags } from "../inline-tags";
 import OnThisPage from "./OnThisPage.astro";
 import LocalGraph from "./LocalGraph.astro";
 import { relations } from "../ui/reading.ts";
@@ -36,7 +37,7 @@ const home = note.source === "index.md";
             <li>
               <TaggedText
                 text={`↗ ${page.title}`}
-                tags={page.tags}
+                tags={linkableTags(page)}
                 href={page.url}
                 linkAttributes={{ "data-preview": page.slug }}
               />

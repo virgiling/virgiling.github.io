@@ -1,6 +1,7 @@
 ---
 import { tagURL } from "../ui/shared";
 import TaggedText from "./TaggedText.astro";
+import { linkableTags } from "../inline-tags";
 import type { ArticleSummary } from "../ui/types";
 interface Props {
   note: ArticleSummary;
@@ -8,6 +9,7 @@ interface Props {
   prefix?: string;
   stackIndex?: number | null;
   updated?: boolean;
+  hoverMotion?: boolean;
 }
 const {
   note,
@@ -15,6 +17,7 @@ const {
   prefix = "",
   stackIndex = null,
   updated = false,
+  hoverMotion = false,
 } = Astro.props;
 const Heading = `h${depth}` as `h${typeof depth}`;
 const tags = [...new Set(note.tags || [])];
@@ -26,6 +29,7 @@ const stack = stackIndex !== null;
 <article
   class:list={["note-card", { "stack-card": stack }]}
   data-note={note.slug}
+  data-card-motion={hoverMotion && !stack ? "" : undefined}
   style={
     stack
       ? `--i:${Math.min(stackIndex, 2)};z-index:${Math.max(1, 100 - stackIndex)}`
@@ -40,7 +44,7 @@ const stack = stackIndex !== null;
     ></a>
     <div class="card-title-row">
       <Heading>
-        <TaggedText text={note.title} tags={note.tags} />
+        <TaggedText text={note.title} tags={linkableTags(note)} />
       </Heading>
       {headerDate && value && (
         <span class="card-created">
@@ -50,7 +54,7 @@ const stack = stackIndex !== null;
       )}
     </div>
     <p class="card-description">
-      <TaggedText text={note.summary} tags={note.tags} />
+      <TaggedText text={note.summary} tags={linkableTags(note)} />
     </p>
   </div>
   {((!headerDate && value) || tags.length > 0) && (

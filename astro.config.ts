@@ -11,7 +11,7 @@ import {fontPreparation} from './src/integrations/font-preparation';
 export default defineConfig({
   site:siteConfig.site, base:siteConfig.base, output:'static', trailingSlash:'ignore',
   build:{format:'file'},
-  vite:{build:{assetsInlineLimit:file=>file.endsWith('.woff2')?false:undefined},plugins:[tailwindcss()],worker:{format:'es'},optimizeDeps:{include:['motion/mini','motion','@floating-ui/dom','d3-selection','d3-zoom','d3-drag','d3-force']},server:{watch:{ignored:[
+  vite:{build:{assetsInlineLimit:file=>file.endsWith('.woff2')?false:undefined,rolldownOptions:{output:{codeSplitting:{groups:[{name:'preload',priority:2,test:id=>id.includes('vite/preload-helper')},{name:'motion',priority:1,test:id=>id.endsWith('/src/runtime/motion.ts')},{name:'site',tags:['$initial'],test:id=>id.endsWith('/src/runtime/site.ts')||id.includes('/src/layouts/SiteLayout.astro?astro&type=script')}]}}}}, plugins:[tailwindcss()],worker:{format:'es'},optimizeDeps:{include:['motion/mini','motion','@floating-ui/dom','d3-selection','d3-zoom','d3-drag','d3-force','astro-leaflet > leaflet','lucide']},server:{watch:{ignored:[
     new RegExp('/content/(?:.*/)?(?:'+contentPolicy.ignoredDirectories.map(d=>d.replaceAll('.','\\.')).join('|')+')(?:/|$)'),
   ]}}},
   integrations:[fontPreparation(),{

@@ -6,6 +6,8 @@ export const durations = {
   toc: 0.2,
   popover: 0.14,
   navigation: 0.18,
+  cardHover: 0.2,
+  mapFocus: 0.28,
   press: 0.1,
   results: 0.12,
 };

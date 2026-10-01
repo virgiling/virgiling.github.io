@@ -387,6 +387,9 @@
       0 8px 26px #353f2b0d,
       0 1px 3px #353f2b08;
   }
+  [data-card-motion].is-card-emphasized {
+    transform: scale(1.01);
+  }
   .stack-ready:not(.is-open) .stack-deck {
     @apply gap-0 pb-[calc((var(--stack-count)_-_1)*26px)];
   }
@@ -1147,7 +1150,7 @@
   }
   /* Popover and Spotlight: Motion owns all timed transitions. No animated blur/backdrop filters. */
   .popover {
-    @apply fixed w-[352px] max-w-[calc(100vw_-_28px)] rounded-[14px] z-[60] overflow-hidden;
+    @apply fixed w-[600px] max-w-[calc(100vw_-_28px)] rounded-[14px] z-[60] overflow-hidden;
     background: var(--surface);
     border: 1px solid #d5dfcb;
     box-shadow: 0 14px 45px #34432924;
@@ -1174,20 +1177,26 @@
     line-height: 1;
   }
   .popover-body {
-    @apply pt-[20px] pr-[22px] pb-[23px] pl-[22px];
+    @apply relative pt-[20px] pr-[22px] pb-[23px] pl-[22px] overflow-auto;
+    max-height: min(65dvh, calc(100dvh - 90px));
+    overscroll-behavior: contain;
+    overflow-wrap: anywhere;
   }
-  .popover-kind {
-    @apply text-[10px] text-muted;
+  .popover-body .article-header {
+    @apply mb-[20px];
   }
-  .popover-body h2 {
-    @apply text-[24px] my-[10px] mx-0;
+  .popover-body .article-header > h1 {
+    @apply text-[24px] mt-0 mr-0 mb-[12px] ml-0;
   }
-  .popover-body p {
-    @apply text-[14px] text-[#5d6a53] mb-[16px];
+  .popover-body .prose {
+    --reading-font-size: 16px;
   }
-  .popover-body > a {
+  .popover-top > a {
     @apply text-[12px];
     text-decoration: none;
+  }
+  #preview-status {
+    @apply text-[14px] text-muted my-[12px] mx-0;
   }
   dialog {
     @apply text-ink rounded-[18px] p-0 max-h-[80dvh];

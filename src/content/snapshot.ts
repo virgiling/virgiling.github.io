@@ -2,10 +2,11 @@ import { resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 import { readContent } from "./read";
 import { parseNote, Compiler } from "./compile";
-import { url } from "../site.config";
+import { url, siteConfig } from "../site.config";
 import type { Snapshot, Diagnostic } from "./types";
 import { createSnapshotCache } from "./cache";
 import { mapDirectoryMocs } from "./directory-moc";
+import { readJourneyMap } from "./map-base";
 
 export async function buildSnapshot(root: string): Promise<Snapshot> {
   const { notes, files } = await readContent(root),
@@ -33,6 +34,14 @@ export async function buildSnapshot(root: string): Promise<Snapshot> {
     assets: [...compiler.assets.values()],
     diagnostics,
     contentCommit: "fixture",
+    journey: await readJourneyMap(
+      root,
+      files,
+      listed,
+      diagnostics,
+      siteConfig.journey.base,
+      siteConfig.journey.view,
+    ),
   };
 }
 const cache = createSnapshotCache(load);

@@ -29,8 +29,10 @@
   },
   "dependencies": {
     "@floating-ui/dom": "1.8.0",
+    "@quartz-community/bases-page": "1.0.0",
     "@shikijs/rehype": "4.4.3",
     "astro": "7.3.5",
+    "astro-leaflet": "1.12.0",
     "d3-drag": "3.0.0",
     "d3-force": "3.0.0",
     "d3-selection": "3.0.0",
@@ -40,6 +42,7 @@
     "hast-util-from-html": "2.0.3",
     "hast-util-to-html": "9.0.5",
     "image-size": "2.0.2",
+    "lucide": "1.49.0",
     "medium-zoom": "1.1.0",
     "motion": "13.4.4",
     "rehype-mathjax": "7.1.0",
@@ -76,6 +79,8 @@
     "vite": "8.3.1"
   },
   "patchedDependencies": {
-    "medium-zoom@1.1.0": "patches/medium-zoom@1.1.0.patch"
+    "medium-zoom@1.1.0": "patches/medium-zoom@1.1.0.patch",
+    "astro-leaflet@1.12.0": "patches/astro-leaflet@1.12.0.patch",
+    "leaflet@1.9.4": "patches/leaflet@1.9.4.patch"
   }
 }

@@ -1,6 +1,7 @@
 ---
 import { breadcrumbItems } from "../ui/breadcrumbs.ts";
 import TaggedText from "./TaggedText.astro";
+import { linkableTags } from "../inline-tags";
 import type { Note, DirectoryMeta } from "../content/types";
 import type { CatalogNote } from "../ui/types";
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 const { note, pages, directories = [] } = Astro.props;
 const items = breadcrumbItems(note, pages, directories);
-const tags = pages.flatMap((page) => page.tags || []);
+const tags = pages.flatMap(linkableTags);
 ---
 
 {items.length > 0 && (

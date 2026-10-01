@@ -1,0 +1,253 @@
+diff --git a/package.json b/package.json
+index d2f5e1984e27a0dbcb41753a744992fd1d3d531a..efbb278667ed30c12389e8a327b3afe5c2e7e11c 100644
+--- a/package.json
++++ b/package.json
+@@ -25,6 +25,7 @@
+       "default": "./index.ts"
+     },
+     "./client": "./src/client.ts",
++    "./hydrate": "./src/components/hydrate.ts",
+     "./leaflet": "./leaflet.ts"
+   },
+   "files": [
+diff --git a/src/components/Leaflet.astro b/src/components/Leaflet.astro
+index dee9b332d1bf5decc64da3afbd8fc5ac82008454..6ca5c5fe7fc743f5ee78c7059d124e94ea6de912 100644
+--- a/src/components/Leaflet.astro
++++ b/src/components/Leaflet.astro
+@@ -17,7 +17,7 @@
+ import Marker from './Marker.astro';
+ import type { AstroLeafletType } from '../index';
+ import { getLayerOptionsFromName, mergeTileLayerOptions } from '../layerFromName';
+-import 'leaflet/dist/leaflet.css';
++import stylesheet from 'leaflet/dist/leaflet.css?url';
+ 
+ // set default properties
+ function setDefaultProps(props: AstroLeafletType) {
+@@ -58,129 +58,23 @@ const {
+   options,
+   id = 'astro-leaflet-' + Math.random().toString(36).slice(2, 11),
+   class: className = null,
++  defer = false,
+   ...props
+ } = enrichedProps;
+ ---
+ 
+-<astro-leaflet data-id={id} data-options={JSON.stringify(options)}>
++{!defer && <link rel="stylesheet" href={stylesheet} />}
++<astro-leaflet data-id={id} data-options={JSON.stringify(options)} data-defer={defer ? '' : undefined}>
+   <div id={id} class:list={['astro-leaflet-size-kjghsdc', className]} {...props}></div>
+   {options.markers && options.markers.map((marker) => <Marker {...marker} />)}
+   <slot />
+ </astro-leaflet>
+ 
+ <script>
+-  import { map as Lmap, tileLayer as LtileLayer } from 'leaflet';
+-  import type { AstroLeafletOptionsType } from '../index';
+-  import type { Map } from 'leaflet';
+-
+-  class CustomElementAstroLeaflet extends HTMLElement {
+-    /** The map, once created. Can be accessed using    getMapFromId(id),
+-     * which is summarized by                           document.getElementById(id).leafletElement
+-     */
+-    leafletElement: Map | undefined;
+-
+-    constructor() {
+-      super();
+-      const options: AstroLeafletOptionsType = JSON.parse(this.dataset.options!);
+-      const id: string = this.dataset.id!;
+-      this.leafletElement = undefined;
+-
+-      this.createMap(id, options);
+-
+-      // create the map only when the document is loaded,
+-      // so that markers are created.
+-      // this is in case CustomElementCreateLeafletIcon is defined after CustomElementAstroLeaflet
+-      // cf. https://stackoverflow.com/questions/35805252/how-to-execute-a-script-when-the-custom-element-is-upgraded
+-      // document.addEventListener("readystatechange", (event) => {
+-      //   if (document.readyState !== 'complete') {
+-      //     return
+-      //   }
+-      //   this.createMap(id, options)
+-      // })
+-    }
+-
+-    createMap(id: string, options: AstroLeafletOptionsType) {
+-      let map = Lmap(id, options.mapOptions);
+-
+-      if (options.center) {
+-        map.setView(options.center, options.zoom, options.setViewOptions);
+-      }
+-      if (options.tileLayer) {
+-        LtileLayer(options.tileLayer!, options.tileLayerOptions).addTo(map);
+-      }
+-      // save the map
+-      this.leafletElement = map;
+-    }
++  // Deferred hosts decide when to load the map engine and its stylesheet.
++  if (document.querySelector('astro-leaflet:not([data-defer])')) {
++    void import('./hydrate');
+   }
+-  customElements.get('astro-leaflet') ||
+-    customElements.define('astro-leaflet', CustomElementAstroLeaflet);
+-
+-  import { CustomElementLayerGroup } from './customElements/layergroup';
+-  customElements.get('astro-leaflet-layergroup') ||
+-    customElements.define('astro-leaflet-layergroup', CustomElementLayerGroup);
+-  import { CustomElementTileLayer } from './customElements/tilelayer';
+-  customElements.get('astro-leaflet-tilelayer') ||
+-    customElements.define('astro-leaflet-tilelayer', CustomElementTileLayer);
+-
+-  import {
+-    CustomElementControl,
+-    CustomElementControlLayer,
+-    CustomElementBaseLayer,
+-    CustomElementOverlay,
+-  } from './customElements/control';
+-  customElements.get('astro-leaflet-control') ||
+-    customElements.define('astro-leaflet-control', CustomElementControl);
+-  customElements.get('astro-leaflet-controllayer') ||
+-    customElements.define('astro-leaflet-controllayer', CustomElementControlLayer);
+-  customElements.get('astro-leaflet-baselayer') ||
+-    customElements.define('astro-leaflet-baselayer', CustomElementBaseLayer);
+-  customElements.get('astro-leaflet-overlay') ||
+-    customElements.define('astro-leaflet-overlay', CustomElementOverlay);
+-
+-  import { CustomElementCircle } from './customElements/circle';
+-  customElements.get('astro-leaflet-circle') ||
+-    customElements.define('astro-leaflet-circle', CustomElementCircle);
+-  import { CustomElementGeoJson } from './customElements/geojson';
+-  customElements.get('astro-leaflet-geojson') ||
+-    customElements.define('astro-leaflet-geojson', CustomElementGeoJson);
+-  import { CustomElementPolygon } from './customElements/polygon';
+-  customElements.get('astro-leaflet-polygon') ||
+-    customElements.define('astro-leaflet-polygon', CustomElementPolygon);
+-  import { CustomElementPolyline } from './customElements/polyline';
+-  customElements.get('astro-leaflet-polyline') ||
+-    customElements.define('astro-leaflet-polyline', CustomElementPolyline);
+-
+-  import { CustomElementCreateLeafletIcon, CustomElementMarker } from './customElements/marker';
+-  customElements.get('create-leaflet-divicon') ||
+-    customElements.define('create-leaflet-divicon', CustomElementCreateLeafletIcon);
+-  customElements.get('astro-leaflet-marker') ||
+-    customElements.define('astro-leaflet-marker', CustomElementMarker);
+-
+-  import { CustomElementImageOverlay } from './customElements/imageoverlay';
+-  customElements.get('astro-leaflet-imageoverlay') ||
+-    customElements.define('astro-leaflet-imageoverlay', CustomElementImageOverlay);
+-
+-  // ***                               MANDATORY                           ***
+-  // *** fitbounds must be declared AFTER the leaflet components           ***
+-  // *** this ensures the components are created before getting fitbounds  ***
+-  import { CustomElementFitBounds } from './customElements/fitbounds';
+-  customElements.get('astro-leaflet-fitbounds') ||
+-    customElements.define('astro-leaflet-fitbounds', CustomElementFitBounds);
+-  import { CustomElementFitWorld } from './customElements/fitworld';
+-  customElements.get('astro-leaflet-fitworld') ||
+-    customElements.define('astro-leaflet-fitworld', CustomElementFitWorld);
+-  import { CustomElementLocate } from './customElements/locate';
+-  customElements.get('astro-leaflet-locate') ||
+-    customElements.define('astro-leaflet-locate', CustomElementLocate);
+-  import { CustomElementPopup } from './customElements/popup';
+-  customElements.get('astro-leaflet-popup') ||
+-    customElements.define('astro-leaflet-popup', CustomElementPopup);
+-  import { CustomElementTooltip } from './customElements/tooltip';
+-  customElements.get('astro-leaflet-tooltip') ||
+-    customElements.define('astro-leaflet-tooltip', CustomElementTooltip);
+-  import { CustomElementOpenPopup } from './customElements/openpopup';
+-  customElements.get('astro-leaflet-openpopup') ||
+-    customElements.define('astro-leaflet-openpopup', CustomElementOpenPopup);
+ </script>
+ 
+ <style is:global>
+diff --git a/node_modules/astro-leaflet/src/components/hydrate.ts b/src/components/hydrate.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..56d34e9e1572c80235153750857c2b5b192e3e84
+--- /dev/null
++++ b/src/components/hydrate.ts
+@@ -0,0 +1,73 @@
++// Copyright (c) Pascal Brand
++// MIT License
++// Client registration is separate so hosts can load Leaflet and its CSS on demand.
++import { map as Lmap, tileLayer as LtileLayer } from 'leaflet';
++import type { Map } from 'leaflet';
++import type { AstroLeafletOptionsType } from '../index';
++export { default as stylesheet } from 'leaflet/dist/leaflet.css?url';
++
++class CustomElementAstroLeaflet extends HTMLElement {
++  leafletElement: Map | undefined;
++
++  activate() {
++    this.dataset.active = '';
++    this.connectedCallback();
++  }
++
++  connectedCallback() {
++    if (this.leafletElement || !this.isConnected || ('defer' in this.dataset && !('active' in this.dataset))) return;
++    const options: AstroLeafletOptionsType = JSON.parse(this.dataset.options!);
++    const id = this.dataset.id!;
++    try {
++      const map = this.leafletElement = Lmap(id, options.mapOptions);
++      if (options.center) map.setView(options.center, options.zoom, options.setViewOptions);
++      if (options.tileLayer) LtileLayer(options.tileLayer, options.tileLayerOptions).addTo(map);
++    } catch (error) {
++      this.disconnectedCallback();
++      throw error;
++    }
++  }
++
++  disconnectedCallback() {
++    this.leafletElement?.remove();
++    this.leafletElement = undefined;
++    delete this.dataset.active;
++  }
++}
++customElements.get('astro-leaflet') || customElements.define('astro-leaflet', CustomElementAstroLeaflet);
++
++import { CustomElementLayerGroup } from './customElements/layergroup';
++customElements.get('astro-leaflet-layergroup') || customElements.define('astro-leaflet-layergroup', CustomElementLayerGroup);
++import { CustomElementTileLayer } from './customElements/tilelayer';
++customElements.get('astro-leaflet-tilelayer') || customElements.define('astro-leaflet-tilelayer', CustomElementTileLayer);
++import { CustomElementControl, CustomElementControlLayer, CustomElementBaseLayer, CustomElementOverlay } from './customElements/control';
++customElements.get('astro-leaflet-control') || customElements.define('astro-leaflet-control', CustomElementControl);
++customElements.get('astro-leaflet-controllayer') || customElements.define('astro-leaflet-controllayer', CustomElementControlLayer);
++customElements.get('astro-leaflet-baselayer') || customElements.define('astro-leaflet-baselayer', CustomElementBaseLayer);
++customElements.get('astro-leaflet-overlay') || customElements.define('astro-leaflet-overlay', CustomElementOverlay);
++import { CustomElementCircle } from './customElements/circle';
++customElements.get('astro-leaflet-circle') || customElements.define('astro-leaflet-circle', CustomElementCircle);
++import { CustomElementGeoJson } from './customElements/geojson';
++customElements.get('astro-leaflet-geojson') || customElements.define('astro-leaflet-geojson', CustomElementGeoJson);
++import { CustomElementPolygon } from './customElements/polygon';
++customElements.get('astro-leaflet-polygon') || customElements.define('astro-leaflet-polygon', CustomElementPolygon);
++import { CustomElementPolyline } from './customElements/polyline';
++customElements.get('astro-leaflet-polyline') || customElements.define('astro-leaflet-polyline', CustomElementPolyline);
++import { CustomElementCreateLeafletIcon, CustomElementMarker } from './customElements/marker';
++customElements.get('create-leaflet-divicon') || customElements.define('create-leaflet-divicon', CustomElementCreateLeafletIcon);
++customElements.get('astro-leaflet-marker') || customElements.define('astro-leaflet-marker', CustomElementMarker);
++import { CustomElementImageOverlay } from './customElements/imageoverlay';
++customElements.get('astro-leaflet-imageoverlay') || customElements.define('astro-leaflet-imageoverlay', CustomElementImageOverlay);
++// Bounds controls must register after the layers they inspect.
++import { CustomElementFitBounds } from './customElements/fitbounds';
++customElements.get('astro-leaflet-fitbounds') || customElements.define('astro-leaflet-fitbounds', CustomElementFitBounds);
++import { CustomElementFitWorld } from './customElements/fitworld';
++customElements.get('astro-leaflet-fitworld') || customElements.define('astro-leaflet-fitworld', CustomElementFitWorld);
++import { CustomElementLocate } from './customElements/locate';
++customElements.get('astro-leaflet-locate') || customElements.define('astro-leaflet-locate', CustomElementLocate);
++import { CustomElementPopup } from './customElements/popup';
++customElements.get('astro-leaflet-popup') || customElements.define('astro-leaflet-popup', CustomElementPopup);
++import { CustomElementTooltip } from './customElements/tooltip';
++customElements.get('astro-leaflet-tooltip') || customElements.define('astro-leaflet-tooltip', CustomElementTooltip);
++import { CustomElementOpenPopup } from './customElements/openpopup';
++customElements.get('astro-leaflet-openpopup') || customElements.define('astro-leaflet-openpopup', CustomElementOpenPopup);
+diff --git a/src/index.ts b/src/index.ts
+index 272a5cfe6beba14d5d9f308da08798cefd11ffc9..11ff4cd466ec72ccea1776c898c780aa9b762c67 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -87,6 +87,8 @@ export interface AstroLeafletOptionsType {
+  * in order to give a size to the map to display
+  */
+ export interface AstroLeafletType extends HTMLAttributes<'div'> {
++  /** The host loads astro-leaflet/hydrate when ready. */
++  defer?: boolean;
+   /** true if no default layer or other should be applied */
+   noDefault?: true | undefined;
+   /** options of leaflet: tileByNmae,... */

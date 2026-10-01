@@ -69,6 +69,14 @@ export function tagPath(tag: string) {
   );
 }
 
+// Navigation targets include mentions; classification consumers must use tags only.
+export function linkableTags(note: {
+  tags?: readonly string[];
+  tagMentions?: readonly string[];
+}) {
+  return [...new Set([...(note.tags || []), ...(note.tagMentions || [])])];
+}
+
 export function tagAncestors(tags: readonly string[]) {
   return new Set(
     tags.flatMap((tag) => {

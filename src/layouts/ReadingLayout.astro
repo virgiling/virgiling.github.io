@@ -2,6 +2,7 @@
 import SiteLayout from "./SiteLayout.astro";
 import Comments from "../components/Comments.astro";
 import TaggedText from "../components/TaggedText.astro";
+import { linkableTags } from "../inline-tags";
 import { url } from "../site.config";
 import ReadingMeta from "../components/ReadingMeta.astro";
 import ReadingSidebar from "../components/ReadingSidebar.astro";
@@ -54,8 +55,6 @@ const previews = related.map((n) => ({
   slug: n.id,
   url: n.url,
   title: n.title,
-  tags: n.tags,
-  summary: n.summary,
 }));
 ---
 
@@ -75,12 +74,12 @@ const previews = related.map((n) => ({
         directories={snapshot.directories}
       />
       {!friends?.friends.length && (
-        <header class="article-header">
+        <header class="article-header" data-preview-content>
           <div class="eyebrow">FROM THE NOTEBOOK</div>
           <h1 id="page-title">
             <TaggedText
               text={note.title}
-              tags={note.tags}
+              tags={linkableTags(note)}
               enabled={!note.unlisted}
             />
           </h1>
@@ -104,15 +103,19 @@ const previews = related.map((n) => ({
         note={note}
         asOf={process.env.BUILD_DATE || new Date().toISOString().slice(0, 10)}
       />
-      <div class="prose" set:html={articleHTML} />
+      <div class="prose" data-preview-content set:html={articleHTML} />
       {friends?.friends.length ? (
-        <>
-          <FriendCards friends={friends.friends} tags={note.tags} />
+        <div data-preview-content>
+          <FriendCards
+            friends={friends.friends}
+            tags={linkableTags(note)}
+            hoverMotion
+          />
           <FriendCircle
             posts={circlePosts(feedResults)}
             results={feedResults}
           />
-        </>
+        </div>
       ) : null}
       <Comments note={note} />
       {note.kind !== "landing" && (

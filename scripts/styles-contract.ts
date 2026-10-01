@@ -47,6 +47,9 @@ export function verifyStyles(css:string){
   has('.image-zoom-close',{'width':'44px','height':'44px'});
   has('.comments-entry',{display:'flex','flex-direction':'column','align-items':'stretch'});
   has('.giscus-host',{width:'100%'});
+  has('.popover',{width:'600px',position:'fixed'});
+  has('.popover-body',{'overflow':'auto','overscroll-behavior':'contain'});
+  assert.ok(entries.some(e=>e.selector==='.popover-body'&&e.declarations['max-height']?.includes('dvh')),'Full previews need a viewport-bounded scroll area');
   has('.folder-heading-link',{display:'inline-flex',color:'var(--accent)'});
   has('.folder-heading-name',{'text-decoration-line':'underline'});
   has('.folder-link-hint',{display:'inline-flex','font-size':'13px'});

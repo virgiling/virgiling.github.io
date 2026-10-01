@@ -1,0 +1,188 @@
+---
+import { Leaflet } from "astro-leaflet";
+import type { MapData } from "../maps/types";
+interface Props {
+  data: MapData;
+  id?: string;
+}
+const { data, id = "journey-map" } = Astro.props;
+---
+
+<section
+  class="journey-map"
+  data-map={JSON.stringify(data)}
+  aria-label={data.name}
+>
+  <div class="map-stage">
+    <Leaflet
+      defer
+      noDefault
+      id={id}
+      class="map-native"
+      style={`height:${data.height}px;max-height:70vh;`}
+      role="region"
+      aria-label="足迹地图"
+      options={{
+        center: data.center ?? [0, 0],
+        zoom: data.zoom ?? 2,
+        mapOptions: {
+          minZoom: data.minZoom,
+          maxZoom: data.maxZoom,
+          zoomAnimation: false,
+          fadeAnimation: false,
+          markerZoomAnimation: false,
+          inertia: false,
+          scrollWheelZoom: false,
+          touchZoom: true,
+          zoomSnap: 0,
+          bounceAtZoomLimits: false,
+        },
+        setViewOptions: { animate: false },
+      }}
+    />
+    <p class="map-status" role="status">
+      正在加载足迹地图…
+    </p>
+    <button class="map-retry" type="button" hidden>
+      重试加载地图
+    </button>
+  </div>
+  <noscript>
+    <style>
+      .map-stage {
+        display: none !important;
+      }
+    </style>
+    <p>启用 JavaScript 可查看地图。</p>
+  </noscript>
+</section>
+<script>
+  let maps: ReturnType<typeof import("../runtime/maps").initMaps> | undefined;
+  let generation = 0;
+  async function start() {
+    const root = document.querySelector<HTMLElement>("[data-map]");
+    if (!root) return;
+    const ticket = ++generation;
+    const retry = root.querySelector<HTMLButtonElement>(".map-retry")!;
+    try {
+      const { initMaps } = await import("../runtime/maps");
+      if (ticket !== generation) return;
+      retry.onclick = null;
+      maps = initMaps();
+    } catch {
+      if (ticket !== generation) return;
+      root.querySelector<HTMLElement>(".map-status")!.textContent =
+        "地图加载失败";
+      retry.hidden = false;
+      retry.onclick = start;
+    }
+  }
+  void start();
+  addEventListener("pagehide", () => {
+    generation++;
+    maps?.destroy();
+  });
+  addEventListener("pageshow", (event) => {
+    if (event.persisted) void start();
+  });
+</script>
+<style>
+  .journey-map {
+    margin-block: 2rem;
+  }
+  .map-stage {
+    position: relative;
+    isolation: isolate;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .map-status {
+    position: absolute;
+    inset: 1rem 1rem auto;
+    z-index: 1001;
+    margin: 0;
+    padding: 0.6rem 0.8rem;
+    background: var(--paper);
+    border-radius: 4px;
+  }
+  .map-retry {
+    position: absolute;
+    inset: 4.5rem auto auto 1rem;
+    z-index: 1001;
+    background: var(--paper);
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .journey-map :global(.leaflet-container) {
+    font: inherit;
+    background: var(--paper);
+    touch-action: none;
+  }
+  .journey-map :global(.map-marker) {
+    background: none;
+    border: none;
+  }
+  .journey-map :global(.map-marker-badge) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 2px solid white;
+    border-radius: 50%;
+    color: white;
+    background-color: var(--marker-color, #75665a);
+    box-shadow: 0 1px 5px #0004;
+  }
+  .journey-map :global(.map-marker-badge svg) {
+    width: 18px;
+    height: 18px;
+  }
+  .journey-map :global(.map-marker-count) {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    padding: 1px 4px;
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 8px;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  .journey-map :global(.map-popup ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .journey-map :global(.map-popup li) {
+    margin-block: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .journey-map :global(.map-popup-icon) {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: 0;
+    box-shadow: none;
+  }
+  .journey-map :global(.map-popup-icon svg) {
+    width: 14px;
+    height: 14px;
+  }
+  .journey-map :global(.map-popup a) {
+    color: var(--ink);
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+  .journey-map :global(.map-popup-coordinate) {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-block: 0.5rem 0;
+  }
+</style>

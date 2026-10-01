@@ -10,19 +10,28 @@ import {siteConfig} from '../src/site.config';
 import {verifyStyles} from './styles-contract';
 import {validateGraph} from '../src/runtime/graph-view';
 import {hasBiro,biroPath,biroURL,legacyBiroBytes} from '../src/fonts';
+import {createRequire} from 'node:module';
+import {readMapData,groupPoints,type MapData} from '../src/maps/types';
 const root=resolve('dist'),base=siteConfig.base,files:string[]=[];
 async function walk(dir:string){for(const entry of await readdir(dir,{withFileTypes:true})){const path=resolve(dir,entry.name);if(entry.isDirectory())await walk(path);else files.push(relative(root,path));}}
 await walk(root);const all=new Set(files),html=new Map<string,{ids:Set<string>;links:{value:string;kind:string}[]}>();
+const initialCSS=new Set<string>(),maps=new Map<string,MapData>();
+const leafletRequire=createRequire(import.meta.resolve('astro-leaflet/leaflet'));
+const leafletSprites=new Map(await Promise.all(['layers','layers-2x','marker-icon'].map(async name=>{
+  const bytes=await readFile(leafletRequire.resolve(`leaflet/dist/images/${name}.png`));
+  return [name,createHash('sha256').update(bytes).digest('hex')] as const;
+})));
 // Follow static JS imports as well as entry tags; shared Motion chunks are not free.
 const moduleGraph=await build({entryPoints:files.filter(f=>f.endsWith('.js')).map(f=>resolve(root,f)),bundle:true,write:false,metafile:true,outdir:'/tmp/notes-verify-unused',logLevel:'silent'});
 const jsImports=new Map(Object.entries(moduleGraph.metafile!.inputs).map(([path,input])=>[resolve(path),input.imports.filter(i=>!i.external&&i.kind==='import-statement').map(i=>resolve(i.path))]));
+const mapImports=new Map(Object.entries(moduleGraph.metafile!.inputs).map(([path,input])=>[resolve(path),input.imports.filter(i=>!i.external&&['import-statement','dynamic-import'].includes(i.kind)).map(i=>resolve(i.path))]));
 let publicGraph:any;
 const localGraphs:{file:string;ids:Set<string>;current:string}[]=[];
 const usedHan=new Set<number>();
 const archiveEntries=new Set<string>(),archiveMocs:{source:string;href:string;root:string}[]=[];
 const commentTitles=new Map<string,string>();
 const attributes=(node:any)=>Object.fromEntries((node.attrs||[]).map((a:{name:string;value:string})=>[a.name,a.value]));
-const errors:string[]=[],stats={pages:0,localLinks:0,initialJsGzipMax:0,cssGzip:0,fontBytes:0,searchGzip:0,graphGzip:0,archiveMocLinks:0};
+const errors:string[]=[],stats={pages:0,localLinks:0,initialJsGzipMax:0,cssGzip:0,cssGzipTotal:0,deferredCssGzip:0,mapJsGzip:0,leafletSpriteBytes:0,journeyPoints:0,journeyPlaces:0,fontBytes:0,searchGzip:0,graphGzip:0,archiveMocLinks:0};
 function output(path:string){
   if(!path.startsWith(base))return undefined;let local=decodeURIComponent(path.slice(base.length));
   if(!local)return 'index.html';
@@ -33,9 +42,14 @@ for(const file of files){
   assert.ok(!/(^|\/)(?:content|private|\.git|\.obsidian|\.claudian)(?:\/|$)/.test(file),`Forbidden output path ${file}`);
   assert.ok(!/\.(?:md|base|canvas|bib|csl|map|ttf|otf)$/i.test(file),`Forbidden raw source ${file}`);
   const buffer=await readFile(resolve(root,file));
-  if(file.endsWith('.css'))stats.cssGzip+=gzipSync(buffer).length;
+  if(file.endsWith('.css'))stats.cssGzipTotal+=gzipSync(buffer).length;
   if(file.endsWith('.woff2'))stats.fontBytes+=buffer.length;
-  assert.ok(!/^_astro\/.*\.(?:png|jpe?g|gif|webp|avif)$/i.test(file),`Unexpected generated image: ${file}`);
+  if(/^_astro\/.*\.(?:png|jpe?g|gif|webp|avif)$/i.test(file)){
+    // These are unchanged vendor CSS sprites, not optimized article images.
+    const sprite=/^_astro\/(layers-2x|layers|marker-icon)\.[\w-]+\.png$/.exec(file)?.[1];
+    assert.ok(sprite&&leafletSprites.get(sprite)===createHash('sha256').update(buffer).digest('hex'),`Unexpected generated image: ${file}`);
+    stats.leafletSpriteBytes+=buffer.length;
+  }
   if(file.startsWith('data/search-'))stats.searchGzip+=gzipSync(buffer).length;
   if(file.startsWith('data/graph-')){
     stats.graphGzip+=gzipSync(buffer).length;
@@ -79,6 +93,13 @@ for(const file of files){
       if(/\|\d+(?:x\d+)?$/.test(attrs.alt||''))errors.push(`${file}: unresolved OFM image dimensions`);
     }
     if(node.tagName==='link'&&attrs.rel==='modulepreload'&&attrs.href)scripts.push(attrs.href);
+    if(node.tagName==='link'&&attrs.rel==='stylesheet'&&attrs.href){const target=output(attrs.href);if(target)initialCSS.add(target);}
+    if('data-map' in attrs){
+      const map=readMapData(attrs['data-map']);
+      if(file!=='journey.html'||maps.has(file))errors.push(`${file}: unexpected or duplicate discovery map`);
+      maps.set(file,map);stats.journeyPoints+=map.points.length;stats.journeyPlaces+=groupPoints(map.points).length;
+      if(node.tagName!=='section')errors.push(`${file}: map needs an accessible section`);
+    }
     if(node.tagName==='link'&&attrs.rel==='icon'){
       favicons++;
       if(attrs.href!==base+'favicon.png'||attrs.type!=='image/png')errors.push(`${file}: favicon must use the base-aware original PNG`);
@@ -99,6 +120,9 @@ for(const file of files){
       localGraphs.push({file,ids,current:current[0]});
     }
     if(node.tagName==='html'&&('data-biro' in attrs)!==hasBiro())errors.push(`${file}: font availability mismatch`);
+    const hoverPage=file==='updates.html'||file==='link.html'||file.startsWith('tags/'),motionCard=classes.includes('note-card')||classes.includes('friend-card');
+    if('data-card-motion' in attrs&&(!hoverPage||classes.includes('stack-card')||!motionCard))errors.push(`${file}: card hover motion must stay on updates/tag/friend cards, never archive stacks`);
+    if(hoverPage&&motionCard&&!('data-card-motion' in attrs))errors.push(`${file}: expected opt-in card hover motion`);
     if(attrs.id){if(ids.has(attrs.id))errors.push(`${file}: duplicate id ${attrs.id}`);ids.add(attrs.id);}
     if(node.tagName==='script'){
       if(attrs.src)scripts.push(attrs.src);
@@ -125,6 +149,19 @@ for(const file of files){
   for(const script of scripts){assert.ok(!/^https?:/.test(script),'No unsolicited remote scripts');const target=output(script);if(target)include(resolve(root,target));}
   for(const path of initial)scriptSize+=gzipSync(await readFile(path)).length;
   stats.initialJsGzipMax=Math.max(stats.initialJsGzipMax,scriptSize);
+}
+for(const file of initialCSS)stats.cssGzip+=gzipSync(await readFile(resolve(root,file))).length;
+stats.deferredCssGzip=stats.cssGzipTotal-stats.cssGzip;
+const mapModules=new Set<string>();
+function includeMap(path:string){if(mapModules.has(path))return;mapModules.add(path);for(const child of mapImports.get(path)||[])includeMap(child);}
+// Include both lazy layers, route bootstraps and every static/dynamic descendant.
+for(const file of files)if(/^_astro\/(?:map-view|maps|(?:MapView|Leaflet)\.astro_astro_type_script_index_0_lang)\.[\w-]+\.js$/.test(file))includeMap(resolve(root,file));
+for(const file of initialCSS)assert.ok(!(await readFile(resolve(root,file),'utf8')).includes('.leaflet-pane'),'Leaflet CSS must remain visibility-loaded, not route-hoisted');
+for(const path of mapModules)stats.mapJsGzip+=gzipSync(await readFile(path)).length;
+assert.ok(!maps.size||mapModules.size,'A rendered map needs its deferred viewer module');
+for(const [file,map] of maps)for(const point of map.points){
+  if(!publicGraph.nodes.some((node:{id:string;url:string})=>node.id==='page:'+point.id&&node.url===point.url))errors.push(`${file}: map point is outside public discovery data`);
+  if(!output(point.url))errors.push(`${file}: missing map article ${point.url}`);
 }
 const archiveExpected=new Set<string>(publicGraph.nodes.filter((n:any)=>n.type==='page'&&!['page:index.md','page:about.md'].includes(n.id)).map((n:any)=>n.id.slice(5)));
 if(archiveExpected.size!==archiveEntries.size||[...archiveExpected].some(source=>!archiveEntries.has(source)))errors.push('Archive must represent every discoverable non-landing page exactly once, as a card or MoC heading');
@@ -166,7 +203,9 @@ verifyStyles((await Promise.all(files.filter(f=>f.endsWith('.css')).map(f=>readF
 // CSS public-font URLs must also honor a non-root base.
 for(const file of files.filter(f=>f.endsWith('.css'))){const text=await readFile(resolve(root,file),'utf8');for(const match of text.matchAll(/url\(["']?([^\s)"']+)/g)){if(match[1].startsWith('data:'))continue;const target=new URL(match[1],'https://local.invalid'+base+file);if(!output(target.pathname))errors.push(`${file}: missing CSS resource ${match[1]}`);}}
 assert.ok(stats.initialJsGzipMax<=20*1024,`Initial JS exceeds budget: ${stats.initialJsGzipMax}`);
-assert.ok(stats.cssGzip<=12*1024,`CSS exceeds budget: ${stats.cssGzip}`);
+assert.ok(stats.cssGzip<=12*1024,`Shared/route CSS exceeds budget: ${stats.cssGzip}`);
+assert.ok(stats.deferredCssGzip<=8*1024,`Deferred map CSS exceeds budget: ${stats.deferredCssGzip}`);
+assert.ok(stats.mapJsGzip<=80*1024,`Deferred map JS exceeds budget: ${stats.mapJsGzip}`);
 // The author's explicit original-Biro choice is accounted separately, not
 // hidden. Complete coverage is now a sharded archive, not the old three files;
 // enforce separate UI, per-shard and total archive budgets below.

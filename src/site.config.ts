@@ -11,6 +11,7 @@ const schema = z.object({
     motto: z.string(),
   }),
   footer: z.object({ github: z.url() }),
+  journey: z.object({ base: z.string(), view: z.string() }),
   reading: z.object({
     cjkPerMinute: z.number().positive(),
     wordsPerMinute: z.number().positive(),
@@ -44,6 +45,7 @@ export const siteConfig = schema.parse({
     motto: "Not all those who wander are lost.",
   },
   footer: { github: "https://github.com/virgiling" },
+  journey: { base: "My Journey.base", view: "My Journey" },
   reading: { cjkPerMinute: 300, wordsPerMinute: 200 },
   archive: { rootOrder: ["01-courses", "03-tools"] },
   home: { recentCount: 1, heatmapWeeks: 26 },

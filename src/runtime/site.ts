@@ -1,159 +1,44 @@
 import { transition, stop, durations } from "./motion";
-import { computePosition, flip, shift, offset } from "@floating-ui/dom";
 import { initStacks } from "./stacks";
 import { initSearch } from "./search";
 import { initOnThisPage } from "./toc";
 import { initGraph } from "./graph";
 import { initLocalGraphs } from "./local-graph";
 import { initInteractionMotion } from "./interactions";
+import { initCardMotion } from "./card-motion";
 import { initImageZoom } from "./image-zoom";
 import { initNavigationMotion } from "./navigation-motion";
-import { renderTaggedText } from "./tagged-text";
-import type { Note } from "../content/types";
-type PreviewRecord = Pick<Note, "slug" | "url" | "title" | "summary" | "tags">;
-type PreviewAnchor = HTMLElement | SVGElement;
+import { initNotePreview, type PreviewRecord } from "./preview";
 const $ = <T extends Element = HTMLElement>(s: string) =>
     document.querySelector<T>(s)!,
   $$ = <T extends Element = HTMLElement>(s: string) => [
     ...document.querySelectorAll<T>(s),
   ];
-const prefix = document.body.dataset.root || "";
 initStacks();
 initInteractionMotion();
 initNavigationMotion();
 const toc = initOnThisPage();
 let imageZoom = initImageZoom(),
-  localGraphs = initLocalGraphs();
+  localGraphs = initLocalGraphs(),
+  cardMotion = initCardMotion();
 addEventListener("pagehide", () => {
   imageZoom.destroy();
   localGraphs.destroy();
+  cardMotion.destroy();
 });
 addEventListener("pageshow", (event) => {
   if (event.persisted) {
     imageZoom = initImageZoom();
     localGraphs = initLocalGraphs();
+    cardMotion = initCardMotion();
   }
 });
 
-const pop = $("#note-preview"),
-  previewRecords: PreviewRecord[] = JSON.parse(
-    $("#preview-data")?.textContent || "[]",
-  );
-let anchor: PreviewAnchor | undefined,
-  pinned = false,
-  showTimer: ReturnType<typeof setTimeout> | undefined,
-  hideTimer: ReturnType<typeof setTimeout> | undefined;
-async function positionPreview() {
-  if (!anchor || pop.hidden) return;
-  const current = anchor;
-  const { x, y } = await computePosition(current, pop, {
-    strategy: "fixed",
-    placement: "bottom-start",
-    middleware: [offset(10), flip(), shift({ padding: 14 })],
-  });
-  if (anchor === current && !pop.hidden) {
-    pop.style.left = `${x}px`;
-    pop.style.top = `${y}px`;
-  }
-}
-function pin(value: boolean) {
-  pinned = value;
-  $("#pin-preview").setAttribute("aria-pressed", String(value));
-  $("#pin-preview").textContent = value ? "取消固定" : "固定";
-}
-function showPreview(
-  target: PreviewAnchor,
-  key: string | undefined,
-  explicit = false,
-) {
-  if (target.closest("[data-local-graph].is-node-dragging")) return;
-  const n = previewRecords.find((r) => r.slug === key);
-  if (!n || (pinned && !explicit)) return;
-  clearTimeout(showTimer);
-  clearTimeout(hideTimer);
-  anchor = target;
-  renderTaggedText($("#preview-title"), n.title, n.tags, prefix);
-  renderTaggedText($("#preview-text"), n.summary, n.tags, prefix);
-  $("#preview-kind").textContent = n.tags.join(" / ");
-  $<HTMLAnchorElement>("#preview-link").href =
-    target.getAttribute("href") || n.url;
-  const wasHidden = pop.hidden;
-  pop.hidden = false;
-  pin(explicit);
-  positionPreview();
-  if (wasHidden) transition(pop, { opacity: [0, 1] }, durations.popover);
-  if (explicit) $("#close-preview").focus({ preventScroll: true });
-}
-function hidePreview(restore = false) {
-  const previous = anchor;
-  clearTimeout(showTimer);
-  clearTimeout(hideTimer);
-  stop(pop);
-  pop.hidden = true;
-  pin(false);
-  anchor = undefined;
-  if (restore && previous) {
-    previous.focus({ preventScroll: true });
-    clearTimeout(showTimer);
-  }
-}
-function scheduleHide() {
-  clearTimeout(showTimer);
-  clearTimeout(hideTimer);
-  hideTimer = setTimeout(() => {
-    if (
-      !pinned &&
-      !pop.matches(":hover") &&
-      !pop.contains(document.activeElement)
-    )
-      hidePreview();
-  }, 180);
-}
-$$<HTMLAnchorElement | SVGAElement>("[data-preview]").forEach((link) => {
-  link.addEventListener("pointerenter", (e) => {
-    if ((e as PointerEvent).pointerType === "touch") return;
-    clearTimeout(hideTimer);
-    clearTimeout(showTimer);
-    showTimer = setTimeout(() => showPreview(link, link.dataset.preview), 180);
-  });
-  link.addEventListener("pointerleave", scheduleHide);
-  link.addEventListener("focus", () => {
-    clearTimeout(showTimer);
-    showTimer = setTimeout(() => showPreview(link, link.dataset.preview), 180);
-  });
-  link.addEventListener("blur", scheduleHide);
-  link.addEventListener("click", () => hidePreview());
-});
-$$("[data-open-preview]").forEach((b) =>
-  b.addEventListener("click", () =>
-    showPreview(b, b.dataset.openPreview, true),
-  ),
+const previewRecords: PreviewRecord[] = JSON.parse(
+  $("#preview-data")?.textContent || "[]",
 );
-pop.addEventListener("pointerenter", () => clearTimeout(hideTimer));
-pop.addEventListener("pointerleave", scheduleHide);
-pop.addEventListener("focusout", scheduleHide);
-$("#pin-preview").addEventListener("click", () => pin(!pinned));
-$("#close-preview").addEventListener("click", () => hidePreview(true));
-$("#preview-link").addEventListener("click", () => hidePreview());
-document.addEventListener("pointerdown", (e) => {
-  const target = e.target as Element;
-  if (target.closest("[data-local-graph]")) {
-    hidePreview();
-    return;
-  }
-  if (
-    !pop.hidden &&
-    !pop.contains(target) &&
-    !target.closest("[data-preview],[data-open-preview]")
-  )
-    hidePreview();
-});
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !pop.hidden) {
-    e.preventDefault();
-    hidePreview(true);
-  }
-});
+const preview = initNotePreview({ records: previewRecords });
+const hidePreview = () => preview.hide();
 
 const outline = $<HTMLDialogElement>("#outline-dialog");
 const graph = initGraph({
@@ -163,7 +48,6 @@ const graph = initGraph({
   },
 });
 initSearch({
-  prefix,
   beforeOpen: () => {
     hidePreview();
     graph.close({ restoreFocus: false });
@@ -199,11 +83,11 @@ if (outline) {
 let ticking = false;
 const progress = $(".reading-progress");
 function onScroll() {
+  void preview.position();
   if (progress) {
     const max = document.documentElement.scrollHeight - innerHeight;
     progress.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
   }
-  if (!pop.hidden) positionPreview();
 }
 addEventListener(
   "scroll",
@@ -218,5 +102,4 @@ addEventListener(
   },
   { passive: true },
 );
-addEventListener("resize", positionPreview);
 onScroll();

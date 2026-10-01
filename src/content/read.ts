@@ -136,6 +136,8 @@ export async function readContent(
             ),
           ),
         ].filter(Boolean),
+        tagMentions: [],
+        properties: data,
         publish: true,
         unlisted: data.unlisted === true,
         kind: ["index.md", "about.md"].includes(path)

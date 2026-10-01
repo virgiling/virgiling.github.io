@@ -6,6 +6,8 @@ import {join,dirname} from 'node:path';
 import {parseHTML} from 'linkedom';
 import {buildSnapshot} from '../src/content/snapshot';
 import {buildTags} from '../src/ui/tags';
+import {graphModel,localGraphModel} from '../src/ui/graph';
+import {exportSearch,importSearch} from '../src/search';
 import {inlineTagParts,tagPath} from '../src/inline-tags';
 import {renderComponent} from './helpers/render-astro';
 import {renderTaggedText} from '../src/runtime/tagged-text';
@@ -34,8 +36,9 @@ test('Markdown inline tags link to generated tag pages, including headings, tabl
     assert.ok(document.querySelector('table a.inline-tag'));assert.ok(document.querySelector('.callout-title a.inline-tag'));
     assert.ok(document.querySelector('mark a.inline-tag'));assert.match(n.html,/class="inline-tag"[^>]*>#Footnote/);
     assert.equal(document.querySelector('a a'),null);assert.equal(document.querySelector('code a'),null);
-    assert.deepEqual(new Set(n.tags),new Set(['CCF','主题/计算机','Callout','Inside','Marked','Footnote']));
-    assert.deepEqual(new Set(buildTags(s.listed).map(g=>g.tag)),new Set([...n.tags,'主题']));
+    assert.deepEqual(n.tags,[]);assert.deepEqual(new Set(n.tagMentions),new Set(['CCF','主题/计算机','Callout','Inside','Marked','Footnote']));
+    assert.deepEqual(new Set(buildTags(s.listed).map(g=>g.tag)),new Set([...n.tagMentions,'主题']));
+    assert.ok(buildTags(s.listed).every(g=>g.notes.length===0));
     assert.equal(n.headings[0].id,'talk-ccf-and-code');
     const toc=await renderComponent('OnThisPage',{headings:n.headings});
     const outline=parseHTML(`<html><body>${toc}</body></html>`).document;
@@ -47,21 +50,22 @@ test('Markdown inline tags link to generated tag pages, including headings, tabl
 test('raw HTML text supports tags without interpreting attributes, authored links or code as tags',async()=>{
   await fixture({'a.md':md('<div title="#Attribute">Text #HTML <code>#CodeBlock</code> <a href="https://example.com">#Linked</a></div>\n\nText <code>#InlineCode</code> <a href="https://example.com">#InlineLink</a> #Live')},async root=>{
     const n=(await buildSnapshot(root)).notes[0],{document}=parseHTML(`<html><body>${n.html}</body></html>`);
-    assert.deepEqual(new Set(n.tags),new Set(['HTML','Live']));
+    assert.deepEqual(n.tags,[]);assert.deepEqual(new Set(n.tagMentions),new Set(['HTML','Live']));
     assert.deepEqual([...document.querySelectorAll('a.inline-tag')].map(a=>a.textContent),['#HTML','#Live']);
     assert.equal(document.querySelector('code a'),null);assert.equal(document.querySelector('a a'),null);
   });
 });
 
-test('titles and descriptions contribute tags, and component links never nest inside their original destination',async()=>{
+test('titles and descriptions contribute only tag mentions, and component links never nest inside their original destination',async()=>{
   await fixture({'article.md':'---\npublish: true\ntitle: "Guide #CCF"\ndescription: "More #主题/计算机"\n---\nBody'},async root=>{
     const n=(await buildSnapshot(root)).notes[0];assert.equal(n.title,'Guide #CCF');
-    assert.deepEqual(n.tags,['CCF','主题/计算机']);
+    assert.deepEqual(n.tags,[]);assert.deepEqual(n.tagMentions,['CCF','主题/计算机']);
     const card=await renderComponent('ArticleCard',{note:n});
     const document=parseHTML(`<html><body>${card}</body></html>`).document;
     assert.ok(document.querySelector('.card-main-link[href="/article"]'));
     assert.ok(document.querySelector('h3 a.inline-tag[href="/tags/434346"]'));
     assert.ok(document.querySelector('.card-description a.inline-tag'));assert.equal(document.querySelector('a a'),null);
+    assert.equal(document.querySelector('.card-tags'),null);
     const toc=await renderComponent('OnThisPage',{headings:[{id:'legacy',text:'#CCF',depth:2,trail:[]}],mobile:true});
     const outline=parseHTML(`<html><body>${toc}</body></html>`).document;
     assert.equal(outline.querySelector('[data-heading]')!.getAttribute('data-heading'),'legacy');
@@ -89,10 +93,29 @@ test('browser-created preview and search text uses the same safe base-aware tag 
   renderTaggedText(target,'Plain',[],'/preview/');assert.equal(target.textContent,'Plain');assert.equal(target.querySelector('a'),null);
 });
 
+test('tag mentions navigate without classifying the article or creating graph relationships',async()=>{
+  await fixture({'mention.md':md('See #CCF and #主题/计算机 and #MentionOnly. [[member]]\n\n## Related #HeadingOnly','tags: [OwnCategory]\n'),'member.md':md('Member','tags: [CCF, 主题/计算机]\n')},async root=>{
+    const s=await buildSnapshot(root),mention=s.notes.find(n=>n.source==='mention.md')!,member=s.notes.find(n=>n.source==='member.md')!;
+    assert.deepEqual(mention.tags,['OwnCategory']);assert.deepEqual(member.tags,['CCF','主题/计算机']);
+    assert.match(mention.html,/href="\/tags\/434346"/);assert.deepEqual(mention.links,['member.md']);
+    const groups=buildTags(s.listed);assert.deepEqual(groups.find(g=>g.tag==='CCF')!.notes.map(n=>n.slug),['member.md']);
+    assert.deepEqual(groups.find(g=>g.tag==='主题')!.notes.map(n=>n.slug),['member.md']);
+    assert.deepEqual(groups.find(g=>g.tag==='MentionOnly')!.notes,[]);
+    const graph=graphModel(null,s.listed),local=localGraphModel(mention,s.listed);
+    assert.ok(graph.edges.some(e=>e.from==='page:mention.md'&&e.to==='page:member.md'&&e.type==='page-link'));
+    assert.deepEqual(graph.edges.filter(e=>e.from==='page:mention.md'&&e.type==='tag-membership').map(e=>e.to),['tag:OwnCategory']);
+    assert.ok(!graph.nodes.some(n=>n.id==='tag:MentionOnly'||n.id==='tag:HeadingOnly'));
+    assert.ok(!local.nodes.some(n=>n.id==='tag:CCF'||n.id==='tag:主题/计算机'));
+    const search=importSearch(await exportSearch(s.listed.map(n=>({id:n.id,url:n.url,title:n.title,aliases:n.aliases,tags:n.tags,summary:n.summary,text:n.plainText}))));
+    assert.deepEqual(search('#CCF').map(n=>n.id),['member.md']);assert.equal(search('#MentionOnly').length,0);
+    assert.ok(search('MentionOnly').some(n=>n.id==='mention.md'));
+  });
+});
+
 test('inline tags respect publication and transclusion boundaries',async()=>{
   await fixture({'a.md':md('![[b]]\n\n#Public'),'b.md':md('#Embedded'),'hidden.md':md('#HiddenOnly','unlisted: true\n'),'private.md':'---\npublish: false\n---\n#Private'},async root=>{
     const s=await buildSnapshot(root),a=s.notes.find(n=>n.source==='a.md')!,hidden=s.notes.find(n=>n.unlisted)!;
-    assert.deepEqual(a.tags,['Public']);assert.match(a.html,/#Embedded<\/a>/);
+    assert.deepEqual(a.tags,[]);assert.deepEqual(a.tagMentions,['Public']);assert.match(a.html,/#Embedded<\/a>/);
     assert.equal(hidden.html.includes('class="inline-tag"'),false);
     assert.deepEqual(new Set(buildTags(s.listed).map(g=>g.tag)),new Set(['Public','Embedded']));
   });
