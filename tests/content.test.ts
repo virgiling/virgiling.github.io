@@ -9,6 +9,8 @@ import {withoutComments} from '../src/content/compile';
 import {exportSearch} from '../src/search';
 import {globalGraphData} from '../src/ui/graph';
 import {calloutAliases} from '../src/markdown/callouts';
+import {parseHTML} from 'linkedom';
+import {url} from '../src/site.config';
 const md=(body:string,meta='')=>`---\npublish: true\ntitle: Public\ndate: "2026-01-02"\n${meta}---\n${body}`;
 async function fixture(files:Record<string,string>,run:(root:string)=>Promise<void>){
   const root=await mkdtemp(join(tmpdir(),'notes-test-'));
@@ -29,8 +31,49 @@ test('publication precedes compilation and every discovery resource uses D',asyn
     const search=await exportSearch(s.listed.map(n=>({id:n.id,url:n.url,title:n.title,aliases:n.aliases,tags:n.tags,summary:n.summary,text:n.plainText})));
     const publicData=JSON.stringify({html:s.listed.map(n=>n.html),search,graph:globalGraphData(s.listed)});
     for(const canary of ['PRIVATE_TITLE_CANARY','PRIVATE_BODY_CANARY','PRIVATE_DEFAULT_CANARY','PRIVATE_DIRECTORY_CANARY','PRIVATE_ASSET_CANARY','BASE_COORDINATE_CANARY','UNLISTED_BODY_CANARY'])assert.ok(!publicData.includes(canary),canary);
-    assert.match(s.listed[0].html,/内容未公开或不可用/);
+    assert.doesNotMatch(s.listed[0].html,/该内容未公开或不可用/);
+    assert.ok(s.listed[0].html.includes(`href="${url('404')}"`));
     assert.equal(s.notes.find(n=>n.unlisted)?.comments,false);
+  });
+});
+test('unavailable wiki, Markdown, reference and embed targets retain authored labels and native 404 popout links without revealing unpublished metadata',async()=>{
+  await fixture({
+    'a.md':md('[[00-Osaka-02|大阪 (Osaka)-Day1-梅田]]\n\n正文 [[Secret|作者写的标题]] 和 [[Missing]]。\n\n![[Secret|嵌入说明]]\n\n[**保留强调**](Secret.md)\n\n[引用的名称][absent]\n\n[absent]: Missing.md\n\n![[Hidden|未列出的嵌入]]\n\n[[B#不存在的章节|章节名称]]\n\n<a href="missing-html">HTML 名称</a>\n\n![图片说明](missing.png)\n\n![[sized-image.png|120x80]]\n\n[[B]] [[Hidden]]'),
+    'Secret.md':'---\npublish: false\ntitle: PRIVATE_TITLE_CANARY\naliases: [PRIVATE_ALIAS_CANARY]\n---\nPRIVATE_BODY_CANARY',
+    'Hidden.md':md('UNLISTED_BODY_CANARY','unlisted: true\n').replace('title: Public','title: UNLISTED_TITLE_CANARY'),
+    'B.md':md('## 可见的章节\n\nPublic'),
+  },async root=>{
+    const s=await buildSnapshot(root),a=s.notes.find(n=>n.source==='a.md')!;
+    const {document}=parseHTML(a.html);
+    const fallback=[...document.querySelectorAll<HTMLAnchorElement>(`a[href="${url('404')}"]:not(.preview-button)`)];
+    assert.deepEqual(fallback.map(link=>link.textContent),['大阪 (Osaka)-Day1-梅田','作者写的标题','Missing','嵌入说明','保留强调','引用的名称','未列出的嵌入','章节名称','HTML 名称']);
+    assert.ok(fallback.find(link=>link.textContent==='保留强调')!.querySelector('strong'));
+    for(const link of fallback){
+      const pin=link.nextElementSibling!;
+      assert.equal(pin.tagName,'A');assert.equal(pin.getAttribute('href'),url('404'));assert.ok(pin.classList.contains('preview-button'));
+      assert.equal(link.hasAttribute('data-preview'),false);assert.equal(pin.hasAttribute('data-open-preview'),false);
+    }
+    assert.doesNotMatch(a.html,/该内容未公开或不可用|#unavailable|PRIVATE_(?:TITLE|ALIAS|BODY)_CANARY|UNLISTED_(?:TITLE|BODY)_CANARY/);
+    assert.ok(document.querySelector(`a[href="${url('B')}"][data-preview="B.md"]`));
+    assert.ok(document.querySelector(`a[href="${url('Hidden')}"]:not([data-preview])`));
+    assert.deepEqual(a.links,['B.md','Hidden.md']);
+  });
+});
+test('unavailable local images disappear without replacing their captions; valid images and explicit attachment links remain',async()=>{
+  await fixture({
+    'a.md':md('![[missing.jpeg|320]]\n_(在浦东机场用租的 Pocket3 拍的猫猫虫)_\n\n![MISSING_ALT](missing.png)\n_(Markdown 图注)_\n\n![MISSING_REF][image-ref]\n_(引用式图注)_\n\n[image-ref]: missing-reference.webp\n\n<img src="missing-html.png" alt="MISSING_HTML">\n\n_(HTML 图注)_\n\n![[private/no.jpg|PRIVATE_ALT]]\n\n![[ok.png|200]]\n_(正常图片的图注)_\n\n![远程图片](https://example.test/ok.jpg)\n\n[[missing.jpeg|显式附件链接]]'),
+    'ok.png':'PUBLIC_IMAGE_BYTES',
+    'private/no.jpg':'PRIVATE_IMAGE_CANARY',
+  },async root=>{
+    const s=await buildSnapshot(root),a=s.listed[0],{document}=parseHTML(a.html);
+    assert.doesNotMatch(a.html,/该内容未公开或不可用|MISSING_(?:ALT|REF|HTML)|PRIVATE_(?:ALT|IMAGE_CANARY)|missing(?:-reference)?\.(?:png|webp)/);
+    for(const caption of ['在浦东机场用租的 Pocket3 拍的猫猫虫','Markdown 图注','引用式图注','HTML 图注','正常图片的图注'])assert.ok([...document.querySelectorAll('p,figcaption')].some(node=>node.textContent!.includes(caption)),caption);
+    const images=[...document.querySelectorAll('img')];assert.equal(images.length,2);
+    assert.ok(images.some(image=>image.getAttribute('src')!.startsWith(url('media/'))));
+    assert.ok(images.some(image=>image.getAttribute('src')==='https://example.test/ok.jpg'));
+    assert.equal(document.querySelector(`a[href="${url('404')}"]:not(.preview-button)`)!.textContent,'显式附件链接');
+    assert.equal(document.querySelectorAll('.preview-button').length,1);
+    assert.deepEqual(s.assets.map(asset=>asset.source),['ok.png']);
   });
 });
 test('article titles use frontmatter without filename suffixes, falling back only for missing or blank titles',async()=>{

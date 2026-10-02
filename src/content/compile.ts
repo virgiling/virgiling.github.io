@@ -131,7 +131,12 @@ export function parseNote(note: Note) {
   });
 }
 const t = (value: string) => ({ type: "text", value });
-const unavailable = () => ({ type: "text", value: "该内容未公开或不可用" });
+// An authored label is public; missing targets never supply titles or content.
+const unavailable = (label: string) => ({
+  type: "link",
+  url: url("404"),
+  children: [t(label)],
+});
 const pinIcon = () => ({
   type: "element",
   tagName: "svg",
@@ -366,7 +371,21 @@ export class Compiler {
             embed: embedded,
           });
           if (!result) {
-            children.push(unavailable());
+            // Image references disappear, but their separate caption stays authored prose.
+            if (
+              embedded &&
+              /\.(?:png|jpe?g|gif|webp|avif|svg|bmp|heic)(?:#.*)?$/i.test(
+                target,
+              )
+            )
+              continue;
+            const sizeAlias =
+              embedded &&
+              mediaTypes.has(
+                posix.extname(target.split("#")[0]).toLowerCase(),
+              ) &&
+              /^\d{1,4}(?:x\d{1,4})?$/.test(match[3] || "");
+            children.push(unavailable(sizeAlias ? wikiLabel(target) : label));
             continue;
           }
           if (record && !note.links.includes(result.note.id))
@@ -481,13 +500,10 @@ export class Compiler {
             "unavailable-asset",
             "Image is not in the allowed asset set",
           );
-          return unavailable();
+          return { type: "fragment", children: [] };
         } else {
           const result = this.resolver.resolve(owner, node.url);
-          if (!result)
-            return node.type === "definition"
-              ? { ...node, url: "#unavailable" }
-              : { type: "text", value: textOf(node) || "该内容未公开或不可用" };
+          if (!result) return { ...node, url: url("404") };
           node.url = result.href;
           if (record && !note.links.includes(result.note.id))
             note.links.push(result.note.id);
@@ -512,6 +528,8 @@ export class Compiler {
             ),
           )
         ).flatMap((n) => (n.type === "fragment" ? n.children : [n]));
+        if (node.type === "paragraph" && node.children.length === 0)
+          return { type: "fragment", children: [] };
         // Transclusions are block nodes, never invalid blockquotes inside a paragraph.
         if (
           node.type === "paragraph" &&
@@ -645,36 +663,29 @@ export class Compiler {
       .use(mathjax)
       .use(() => (tree) => {
         visit(tree, "element", (n: any, index, parent: any) => {
-          if (
-            n.tagName === "a" &&
-            n.properties.dataPreview &&
-            parent &&
-            index !== undefined
-          ) {
-            parent.children.splice(index + 1, 0, {
-              type: "element",
-              tagName: "button",
-              properties: {
-                type: "button",
-                className: ["preview-button"],
-                dataOpenPreview: n.properties.dataPreview,
-                ariaLabel: "固定预览：" + textOf(n),
-                ariaHasPopup: "dialog",
-                ariaControls: "note-preview",
-              },
-              children: [pinIcon()],
-            });
-          }
-          if (n.tagName === "a" && n.properties.href === "#unavailable") {
-            n.tagName = "span";
-            delete n.properties.href;
-          }
           if (n.tagName === "input") {
             n.properties.disabled = true;
             n.properties.ariaLabel = "任务状态（只读）";
           }
           if (n.tagName === "pre") n.properties.tabIndex = 0;
-          if (n.tagName === "img") n.properties.loading = "lazy";
+          if (n.tagName === "img") {
+            const source = n.properties.src;
+            if (
+              (typeof source !== "string" ||
+                (!/^https?:\/\//i.test(source) &&
+                  ![...this.assets.values()].some(
+                    (asset) =>
+                      source === asset.url ||
+                      source.startsWith(asset.url + "#"),
+                  ))) &&
+              parent &&
+              index !== undefined
+            ) {
+              parent.children.splice(index, 1);
+              return index;
+            }
+            n.properties.loading = "lazy";
+          }
           if (/^h[1-6]$/.test(n.tagName) && n.properties.id) {
             n.children.push({
               type: "element",
@@ -700,9 +711,41 @@ export class Compiler {
               ![...this.assets.values()].some(
                 (x) => value === x.url || value.startsWith(x.url + "#"),
               ) &&
-              !this.tagURLs.has(value)
-            )
-              delete n.properties[attr];
+              !this.tagURLs.has(value) &&
+              value !== url("404")
+            ) {
+              if (n.tagName === "a") n.properties.href = url("404");
+              else delete n.properties[attr];
+            }
+          }
+          const missing = n.properties.href === url("404");
+          if (
+            n.tagName === "a" &&
+            (n.properties.dataPreview || missing) &&
+            !n.properties.className?.includes("preview-button") &&
+            parent &&
+            index !== undefined
+          ) {
+            parent.children.splice(index + 1, 0, {
+              type: "element",
+              tagName: missing ? "a" : "button",
+              properties: {
+                className: ["preview-button"],
+                ...(missing
+                  ? {
+                      href: url("404"),
+                      ariaLabel: "打开未找到页面：" + textOf(n),
+                    }
+                  : {
+                      type: "button",
+                      dataOpenPreview: n.properties.dataPreview,
+                      ariaLabel: "固定预览：" + textOf(n),
+                      ariaHasPopup: "dialog",
+                      ariaControls: "note-preview",
+                    }),
+              },
+              children: [pinIcon()],
+            });
           }
         });
       })

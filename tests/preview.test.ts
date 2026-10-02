@@ -29,6 +29,15 @@ test('Quartz-adapted extraction includes the complete article, scopes IDs and no
   assert.throws(()=>extractPreviewContent('<article data-note-id="b.md">No preview marker</article>','b.md',page,'x',parser),/unavailable/);
 });
 
+test('full article previews keep unavailable-link labels and their 404 destination without importing another popout control',()=>{
+  const source=article().replace('<p>Opening paragraph</p>','<p><a href="/preview/404">作者写的名称</a><a class="preview-button" href="/preview/404" aria-label="打开未找到页面"><svg></svg></a></p>');
+  const {container}=extractPreviewContent(source,'b.md',new URL('https://site.test/preview/folder/b'),'missing-label',parser);
+  const link=[...container.querySelectorAll('a')].find(node=>node.textContent==='作者写的名称')!;
+  assert.equal(link.getAttribute('href'),'https://site.test/preview/404');
+  assert.equal(link.hasAttribute('data-preview-anchor'),false);
+  assert.equal(container.querySelector('.preview-button'),null);
+});
+
 test('article requests cache successful HTML, bound memory, allow retry and do not retain aborted or failed responses',async()=>{
   let count=0,fail=false,kind='text/html';
   const fetcher:typeof fetch=async(_url:Parameters<typeof fetch>[0],options?:Parameters<typeof fetch>[1])=>{

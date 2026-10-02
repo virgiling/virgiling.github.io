@@ -67,5 +67,7 @@ try{
   assert.equal(fontURLs.size,3,'UI font files must be emitted, not inlined or omitted');
   for(const address of fontURLs){assert.ok(new URL(address).pathname.startsWith(base));const response=await fetch(address);assert.equal(response.status,200);assert.match(response.headers.get('content-type')||'',/font\/woff2/);assert.equal(Buffer.from(await response.arrayBuffer()).subarray(0,4).toString(),'wOF2');}
   assert.equal((await fetch(origin+base+'missing-http-fixture')).status,404);
+  const fallback=parser.parseFromString(await(await fetch(origin+base+'404')).text(),'text/html');
+  assert.equal(fallback.querySelector('main h1')?.textContent,'页面未找到','Unavailable links and popout icons must reach the site 404 page');
   console.log(`HTTP checks passed: ${paths.length} resources/deep links including supplied Biro, original favicon, ${images.length} direct OSS image URLs, ${fontURLs.size} generated UI fonts, Journey ${journey.points.length} points/${groupPoints(journey.points).length} places with ${mapAssets.length} deferred map assets, and 404, base=${base}`);
 }finally{server.kill('SIGTERM');await Promise.race([once(server,'exit'),delay(3000)]);if(server.exitCode===null)server.kill('SIGKILL');}
