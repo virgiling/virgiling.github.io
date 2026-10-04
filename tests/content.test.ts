@@ -119,9 +119,10 @@ test('two-pass links support aliases, headings, blocks, ambiguity and Unicode',a
 });
 test('heading wikilinks display resolved labels in the TOC while preserving old deep-link IDs',async()=>{
   await fixture({
-    'a.md':md('[[courses#CMU 15-213 CS: APP]] [[courses#CMU 15-213 CS: APP#Exercises]]'),
-    'courses.md':md('## [[01-courses/csapp/index|CMU 15-213]] CS: APP\n\n### **Exercises**\n\n## `[[literal|code]]`\n\n## [[Target]]'),
+    'a.md':md('[[courses#CMU 15-213 CS: APP]] [[courses#CMU 15-213 CS: APP#Exercises]] [[courses#Stanford CS144 Computer Network]]'),
+    'courses.md':md('## [[01-courses/csapp/index|CMU 15-213]] CS: APP\n\n### **Exercises**\n\n## `[[literal|code]]`\n\n## [[Target]]\n\n## [[01-courses/CS144/index|Stanford CS144]] Computer Network'),
     '01-courses/csapp/index.md':md('Course'),'Target.md':md('Target'),
+    '01-courses/CS144/index.md':md('Networking course'),
   },async root=>{
     const s=await buildSnapshot(root),course=s.notes.find(n=>n.source==='courses.md')!,a=s.notes.find(n=>n.source==='a.md')!;
     const heading=course.headings[0];
@@ -131,6 +132,12 @@ test('heading wikilinks display resolved labels in the TOC while preserving old 
     assert.equal(course.headings[2].text,'[[literal|code]]');assert.equal(course.headings[3].text,'Target');
     assert.match(course.html,/id="01-coursescsappindexcmu-15-213-cs-app"/);
     assert.match(a.html,/href="\/courses#01-coursescsappindexcmu-15-213-cs-app"/);assert.match(a.html,/href="\/courses#exercises"/);
+    const {document}=parseHTML(course.html),network=document.querySelector('#01-coursescs144indexstanford-cs144-computer-network')!;
+    assert.equal(course.headings[4].text,'Stanford CS144 Computer Network');
+    assert.equal(network.querySelector('a[data-preview]')!.getAttribute('href'),url('01-courses/CS144/'));
+    assert.equal(network.querySelector('button.preview-button')!.getAttribute('data-open-preview'),'01-courses/CS144/index.md');
+    assert.equal(network.querySelector('.heading-anchor')!.getAttribute('href'),'#'+network.id);
+    assert.match(a.html,/href="\/courses#01-coursescs144indexstanford-cs144-computer-network"/);
   });
 });
 test('section/block transclusion, cycles, scoped footnotes and authored edges',async()=>{

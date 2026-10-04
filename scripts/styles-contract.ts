@@ -28,6 +28,8 @@ export function verifyStyles(css:string){
   has('.article-header>h1',{'font-size':'28px'},'560');
   has('.prose h1',{'font-size':'30px'});
   has('.prose h1',{'font-size':'26px'},'560');
+  for(const selector of ['.prose h2','.prose h3'])has(selector,{display:'block'},'800');
+  has('.prose .heading-anchor',{display:'none'},'800');
   assert.ok(!entries.some(e=>/^\.article h1(?::|$)/.test(e.selector)),'Page-title styles must not match every prose h1');
   has('.friends-section h1',{'font-size':'24px'});
   has('.friend-posts li',{display:'grid','grid-template-columns':'minmax(0,1fr) auto','padding-block':'8px'});

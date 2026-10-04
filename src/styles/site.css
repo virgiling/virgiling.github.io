@@ -1371,6 +1371,13 @@
     .article-layout {
       @apply block pt-[30px];
     }
+    .prose h2,
+    .prose h3 {
+      display: block;
+    }
+    .prose .heading-anchor {
+      display: none;
+    }
     .sidebar {
       @apply static max-h-none overflow-visible mt-[52px] p-0 flex flex-col gap-[24px];
     }

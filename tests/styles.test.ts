@@ -25,6 +25,19 @@ test('inline tags share normal badge styling in base, hover and mobile rules wit
   assert.deepEqual(variants,new Set(['base','hover','mobile']));
 });
 
+test('narrow prose headings use inline text flow and hide only the permalink marker, not the explicit preview control',async()=>{
+  const root=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  const rules:{selectors:string[];declarations:Record<string,string>}[]=[];
+  root.walkRules(rule=>{
+    if(rule.parent?.type!=='atrule'||rule.parent.name!=='media'||!rule.parent.params.includes('800px'))return;
+    const declarations:Record<string,string>={};rule.walkDecls(decl=>{declarations[decl.prop]=decl.value;});
+    rules.push({selectors:rule.selectors,declarations});
+  });
+  for(const selector of ['.prose h2','.prose h3'])assert.ok(rules.some(rule=>rule.selectors.includes(selector)&&rule.declarations.display==='block'),`${selector} must not split inline links and text into flex columns`);
+  assert.ok(rules.some(rule=>rule.selectors.includes('.prose .heading-anchor')&&rule.declarations.display==='none'));
+  assert.ok(!rules.some(rule=>rule.selectors.includes('.preview-button')&&rule.declarations.display==='none'),'Touch users still need explicit full-article previews');
+});
+
 test('The compiled-style verifier rejects raw Tailwind and missing interaction styles',()=>{
   assert.throws(()=>verifyStyles('.header-inner{@apply flex;}'),/Uncompiled Tailwind/);
   assert.throws(()=>verifyStyles('[hidden]{display:block}'),/Compiled CSS contract missing/);
