@@ -8,10 +8,8 @@ const pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'
 const steps=workflow.jobs.build.steps;
 const action=(name:string)=>steps.find((step:any)=>step.uses?.startsWith(name+'@'));
 
-test('Pages builds main and deploys only after successful validation with scoped permissions',()=>{
-  assert.deepEqual(workflow.on.push.branches,['main']);
-  assert.ok(Object.hasOwn(workflow.on,'workflow_dispatch'));
-  assert.deepEqual(workflow.on.schedule,[{cron:'23 */6 * * *'}]);
+test('Pages triggers only on main pushes and deploys after successful validation with scoped permissions',()=>{
+  assert.deepEqual(workflow.on,{push:{branches:['main']}},'Publishing runs once per main push, without scheduled, manual or chained workflow triggers');
   assert.deepEqual(workflow.permissions,{});
   assert.deepEqual(workflow.jobs.build.permissions,{contents:'read'});
   const deploy=workflow.jobs.deploy;

@@ -3,10 +3,6 @@ name: Deploy Astro site to GitHub Pages
 on:
   push:
     branches: [main]
-  workflow_dispatch:
-  # Rebuild static friend-feed snapshots without browser-side RSS/CORS requests.
-  schedule:
-    - cron: '23 */6 * * *'
 
 permissions: {}
 
