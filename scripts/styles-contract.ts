@@ -42,6 +42,9 @@ export function verifyStyles(css:string){
   has('.reading-meta',{'font-family':'var(--hand)','font-size':'18px'});
   has('.reading-meta',{'font-size':'17px'},'560');
   has('.prose',{'font-size':'var(--reading-font-size)','line-height':'1.95'});
+  for(const selector of ['.prose del','.prose s'])has(selector,{'text-decoration-line':'line-through','text-decoration-style':'double'});
+  has('.prose .csl-entry',{display:'grid','grid-template-columns':'minmax(4em,max-content) minmax(0,1fr)'});
+  has('.prose .reference-venue',{color:'var(--muted)'});
   has('.prose img',{'max-width':'100%','height':'auto','object-fit':'contain'});
   has('.prose img[data-image-sized]',{'width':'auto','max-width':'min(100%, var(--image-width,100%))','max-height':'var(--image-height,none)'});
   has('.medium-zoom-image--hidden',{'visibility':'hidden'});

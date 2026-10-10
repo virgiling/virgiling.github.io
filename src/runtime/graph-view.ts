@@ -7,7 +7,8 @@ import {
   type SimulatedNode,
 } from "../graph/force-simulator";
 import { motionLoop, reduced } from "./motion";
-import { labelOpacity } from "../graph/display";
+import { globalLabelOpacity } from "../graph/display";
+import { globalGraphStyle } from "../graph/global-style";
 export interface Point {
   x: number;
   y: number;
@@ -166,9 +167,17 @@ export function paintGraph(
   ctx.translate(transform.x, transform.y);
   ctx.scale(transform.k, transform.k);
   const nodes = nodesById || new Map(data.nodes.map((n) => [n.id, n]));
+  ctx.setLineDash([]);
   for (const e of data.edges) {
     const a = nodes.get(e.from)!,
-      b = nodes.get(e.to)!;
+      b = nodes.get(e.to)!,
+      dx = b.x - a.x,
+      dy = b.y - a.y,
+      distance = Math.hypot(dx, dy),
+      start = a.radius || 6,
+      end = b.radius || 6;
+    // Stop at the visible circles, including hollow tags; dragged nodes can overlap.
+    if (distance <= start + end) continue;
     ctx.beginPath();
     ctx.strokeStyle =
       e.type === "tag-parent"
@@ -176,13 +185,13 @@ export function paintGraph(
         : e.type === "tag-membership"
           ? colors.membership
           : colors.link;
-    ctx.lineWidth = e.type === "tag-parent" ? 1.5 : 1;
-    ctx.setLineDash(e.type === "tag-membership" ? [3, 3] : []);
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
+    ctx.lineWidth = globalGraphStyle.linkThickness / transform.k;
+    ctx.globalAlpha = 1;
+    ctx.moveTo(a.x + (dx * start) / distance, a.y + (dy * start) / distance);
+    ctx.lineTo(b.x - (dx * end) / distance, b.y - (dy * end) / distance);
     ctx.stroke();
   }
-  ctx.setLineDash([]);
+  ctx.globalAlpha = 1;
   ctx.font = `14px ${fontFamily}`;
   ctx.textAlign = "center";
   for (const n of data.nodes) {
@@ -211,7 +220,7 @@ export function paintGraph(
     const opacity =
       n.id === highlight || n.id === `page:${current}`
         ? 1
-        : labelOpacity(transform.k);
+        : globalLabelOpacity(transform.k);
     if (opacity > 0) {
       const label = Array.from(n.label);
       ctx.globalAlpha = opacity;
@@ -291,14 +300,14 @@ export function mountGraph(
       return --remaining > 0 && simulation.alpha() >= simulation.alphaMin();
     },
     () => {
-      simulation.tick(180);
+      simulation.tick(globalGraphStyle.force.ticks);
       repaint();
     },
     doc,
   );
   function reheat(alpha = 0.3) {
     simulation.alpha(Math.max(simulation.alpha(), alpha));
-    remaining = 180;
+    remaining = globalGraphStyle.force.ticks;
     loop.start();
   }
   function at(event: MouseEvent | TouchEvent) {

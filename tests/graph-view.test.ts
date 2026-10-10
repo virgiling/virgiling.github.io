@@ -112,7 +112,7 @@ test("Canvas radius, hit target and label placement follow bounded node metrics;
       ]),
     ),
     data,
-    { width: 900, height: 500, transform: { x: 0, y: 0, k: 1 } },
+    { width: 900, height: 500, transform: { x: 0, y: 0, k: 0.75 } },
   );
   assert.deepEqual(
     e.calls.filter((c) => c[0] === "arc").map((c) => c[3]),
@@ -134,6 +134,58 @@ test("Canvas radius, hit target and label placement follow bounded node metrics;
   assert.ok(e.calls.some((c) => c[0] === "fillText" && c[1] === "主题"));
   mounted.destroy();
   e.paint();
+});
+test("global connections remain fine continuous screen-space threads across zoom without fading node fills", () => {
+  const e = environment();
+  const data: GraphData = { ...graph, edges: [
+    {from:"page:a",to:"tag:主题",type:"page-link"},
+    {from:"page:a",to:"tag:主题",type:"tag-membership"},
+    {from:"page:a",to:"tag:主题",type:"tag-parent"},
+  ] };
+  for (const k of [0.25, 1, 3]) {
+    const strokes: {width:number;opacity:number}[] = [], fills:number[] = [], dashes:number[][] = [];
+    let segments=0;
+    const ctx = {
+      lineWidth:0, globalAlpha:1,
+      setTransform(){},clearRect(){},translate(){},scale(){},beginPath(){},moveTo(){},lineTo(){segments++;},arc(){},fillText(){},
+      setLineDash(value:number[]){dashes.push(value);},
+      stroke(){strokes.push({width:this.lineWidth*k,opacity:this.globalAlpha});},
+      fill(){fills.push(this.globalAlpha);},
+    };
+    e.viewer.paintGraph(ctx,data,{width:900,height:500,transform:{x:0,y:0,k}});
+    assert.deepEqual(strokes.slice(0,3),[{width:.5,opacity:1},{width:.5,opacity:1},{width:.5,opacity:1}]);
+    assert.ok(dashes.every(dash=>dash.length===0),'Membership edges no longer break into dotted scaffolding');
+    assert.deepEqual(fills,[1]);assert.equal(ctx.globalAlpha,1);
+    assert.equal(segments,data.edges.length,'Arrows OFF: each edge is one segment without arrowheads');
+  }
+});
+test("larger degree circles share their radius with picking, label offsets and clipped edge endpoints", () => {
+  const e=environment(),data:GraphData={...graph,nodes:[
+    {...graph.nodes[0],x:10,y:10,radius:30},
+    {...graph.nodes[1],x:110,y:10,radius:10},
+  ]};
+  const ctx=Object.fromEntries([
+    'setTransform','clearRect','translate','scale','beginPath','setLineDash','moveTo','lineTo','stroke','arc','fill','fillText',
+  ].map(name=>[name,(...args:unknown[])=>e.calls.push([name,...args] as CanvasCall)]));
+  e.viewer.paintGraph(ctx,data,{width:900,height:500,transform:{x:0,y:0,k:1},current:'a'});
+  assert.deepEqual(e.calls.find(call=>call[0]==='moveTo'),['moveTo',40,10]);
+  assert.deepEqual(e.calls.find(call=>call[0]==='lineTo'),['lineTo',100,10]);
+  assert.ok(e.calls.some(call=>call[0]==='fillText'&&call[1]==='<A>'&&call[3]===54),'Labels clear the enlarged circle');
+  assert.equal(e.viewer.pickNode(data.nodes,{x:42,y:10},{x:0,y:0,k:1})?.id,'page:a');
+  assert.equal(e.viewer.pickNode(data.nodes,{x:44,y:10},{x:0,y:0,k:1}),undefined);
+  for(const x of [40,10]){
+    e.calls.length=0;
+    e.viewer.paintGraph(ctx,{...data,nodes:[data.nodes[0],{...data.nodes[1],x}]},{width:900,height:500,transform:{x:0,y:0,k:1}});
+    assert.equal(e.calls.some(call=>call[0]==='lineTo'||call[0]==='moveTo'),false,'Overlapping or coincident nodes do not draw an inverted or NaN segment');
+  }
+});
+test("global simulation settles without perpetual activity and reduced motion skips relaxation", () => {
+  for (const reducedMotion of [false,true]) {
+    const e=environment({reducedMotion}),mounted=e.viewer.mountGraph(e.host,graph);
+    for(let i=0;i<245;i++)e.paint();
+    assert.equal(e.frames.size,0,'Relaxation must stop at the cooling threshold or hard tick limit');
+    mounted.destroy();e.paint();assert.equal(e.frames.size,0);
+  }
 });
 test("Canvas-only glyph loading is requested lazily and cannot repaint a destroyed graph", async () => {
   const e = environment();

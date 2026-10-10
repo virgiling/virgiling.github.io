@@ -152,6 +152,20 @@ test('section/block transclusion, cycles, scoped footnotes and authored edges',a
     assert.match(a.html,/fn-.*embed-/);assert.match(a.html,/Footnote/);assert.ok(!a.plainText.includes('Text'));
   });
 });
+test('strikethrough retains semantic inline deletion across emphasis, links and soft line breaks while code stays literal',async()=>{
+  await fixture({'a.md':md('~~中文 **强调** [链接](https://example.com)~~\n\n~~第一行\n第二行~~\n\n<del>HTML 删除</del> <s>不再准确</s>\n\n`~~literal~~`\n\n```text\n~~code sample~~\n```')},async root=>{
+    const {document}=parseHTML((await buildSnapshot(root)).notes[0].html);
+    const deletions=[...document.querySelectorAll('del')];
+    assert.equal(deletions.length,3);
+    assert.equal(deletions[0].querySelector('strong')?.textContent,'强调');
+    assert.equal(deletions[0].querySelector('a')?.getAttribute('href'),'https://example.com');
+    assert.equal(deletions[1].textContent,'第一行\n第二行');assert.equal(deletions[2].textContent,'HTML 删除');
+    assert.equal(document.querySelector('s')?.textContent,'不再准确');
+    assert.equal(document.querySelector('code del'),null);
+    assert.ok([...document.querySelectorAll('code')].some(code=>code.textContent==='~~literal~~'));
+    assert.ok(document.querySelector('pre code')?.textContent?.includes('~~code sample~~'));
+  });
+});
 test('safe HTML, mathematical SVG, Shiki, inline footnotes and poetry',async()=>{
   await fixture({'a.md':md('==marked== ^[Inline note]\n\n<script>alert(1)</script>\n\n<img src="x" onerror="alert(2)">\n\n$x^2$\n\n```js\nconst x = 1\n```\n\n```poetry\nOne\nTwo\n```')},async root=>{
     const n=(await buildSnapshot(root)).notes[0];assert.match(n.html,/<mark>marked<\/mark>/);assert.match(n.html,/Inline note/);

@@ -581,6 +581,20 @@
   .prose a {
     overflow-wrap: anywhere;
   }
+  .prose .csl-entry {
+    display: grid;
+    grid-template-columns: minmax(4em, max-content) minmax(0, 1fr);
+    gap: 0.75em;
+    margin-block: 0.75em;
+  }
+  .prose .reference-venue {
+    color: var(--muted);
+  }
+  .prose del,
+  .prose s {
+    text-decoration-line: line-through;
+    text-decoration-style: double;
+  }
   .prose h1 {
     @apply text-[30px] mt-[40px] mr-0 mb-[20px] ml-0 pb-[10px];
     border-bottom: 1px solid #cfd8c5;

@@ -38,6 +38,15 @@ test('narrow prose headings use inline text flow and hide only the permalink mar
   assert.ok(!rules.some(rule=>rule.selectors.includes('.preview-button')&&rule.declarations.display==='none'),'Touch users still need explicit full-article previews');
 });
 
+test('prose deletion uses native double line-through without a positioning overlay or forced line thickness',async()=>{
+  const root=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  for(const selector of ['.prose del','.prose s']){
+    const declarations:Record<string,string>={};
+    root.walkRules(rule=>{if(rule.selectors.includes(selector))rule.walkDecls(decl=>{declarations[decl.prop]=decl.value;});});
+    assert.deepEqual(declarations,{'text-decoration-line':'line-through','text-decoration-style':'double'});
+  }
+});
+
 test('The compiled-style verifier rejects raw Tailwind and missing interaction styles',()=>{
   assert.throws(()=>verifyStyles('.header-inner{@apply flex;}'),/Uncompiled Tailwind/);
   assert.throws(()=>verifyStyles('[hidden]{display:block}'),/Compiled CSS contract missing/);

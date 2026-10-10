@@ -2,6 +2,8 @@ import { unified } from "unified";
 import parse from "remark-parse";
 import gfm from "remark-gfm";
 import math from "remark-math";
+import cite from "@benrbray/remark-cite";
+import { Citations } from "../markdown/citations";
 import toHast from "remark-rehype";
 import raw from "rehype-raw";
 import sanitize, { defaultSchema } from "rehype-sanitize";
@@ -35,7 +37,7 @@ import { url } from "../site.config";
 import { Resolver } from "./resolve";
 import type { Note, Asset, Diagnostic } from "./types";
 
-const parser = unified().use(parse).use(gfm).use(math);
+const parser = unified().use(parse).use(gfm).use(math).use(cite);
 export const textOf = (node: any): string =>
   node.type === "html"
     ? ""
@@ -178,6 +180,7 @@ export class Compiler {
   assets = new Map<string, Asset>();
   resolver: Resolver;
   tagURLs: Set<string>;
+  citations: Citations;
   constructor(
     public root: string,
     public notes: Note[],
@@ -185,6 +188,7 @@ export class Compiler {
     public diagnostics: Diagnostic[],
   ) {
     this.resolver = new Resolver(notes, diagnostics);
+    this.citations = new Citations(root, diagnostics);
     this.tagURLs = new Set(
       [
         ...tagAncestors(
@@ -613,6 +617,7 @@ export class Compiler {
         input: [...(defaultSchema.attributes?.input || []), "ariaLabel"],
       },
     };
+    const renderCitations = this.citations.prepare(tree, note);
     const processor = unified()
       .use(toHast, {
         allowDangerousHtml: true,
@@ -621,6 +626,7 @@ export class Compiler {
         footnoteBackLabel: "返回正文",
       })
       .use(raw)
+      .use(() => renderCitations)
       .use(() => (tree) => {
         visit(tree, "element", (n: any) => {
           if (

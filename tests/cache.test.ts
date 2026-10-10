@@ -32,5 +32,7 @@ test('content events invalidate both content and Astro route caches, not just th
   const cleanup=registerContentWatcher(server,'/content');
   watcher.emit('all','change','/content/private/a.md');assert.equal(events.length,0);
   watcher.emit('all','change','/content/index.md');assert.deepEqual(events,['notes:content-changed','astro:content-changed','notes:content-changed','astro:content-changed']);assert.equal(reload.length,1);
-  cleanup();watcher.emit('all','change','/content/index.md');assert.equal(reload.length,1);
+  watcher.emit('all','change','/content/ref.bib');assert.equal(reload.length,2);assert.equal(events.length,8);
+  watcher.emit('all','change','/content/nested/ref.bib');assert.equal(reload.length,2);
+  cleanup();watcher.emit('all','change','/content/index.md');assert.equal(reload.length,2);
 });

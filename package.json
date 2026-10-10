@@ -28,6 +28,9 @@
     "validate": "bun run format:check && bun run check && bun run test && bun run build && bun run verify"
   },
   "dependencies": {
+    "@benrbray/remark-cite": "2.0.1-alpha.4",
+    "@citation-js/core": "0.7.21",
+    "@citation-js/plugin-bibtex": "0.7.21",
     "@floating-ui/dom": "1.8.0",
     "@quartz-community/bases-page": "1.0.0",
     "@shikijs/rehype": "4.4.3",
@@ -45,6 +48,7 @@
     "lucide": "1.49.0",
     "medium-zoom": "1.1.0",
     "motion": "13.4.4",
+    "rehype-citation": "2.3.2",
     "rehype-mathjax": "7.1.0",
     "rehype-raw": "7.0.0",
     "rehype-sanitize": "6.0.0",
@@ -81,6 +85,7 @@
   "patchedDependencies": {
     "medium-zoom@1.1.0": "patches/medium-zoom@1.1.0.patch",
     "astro-leaflet@1.12.0": "patches/astro-leaflet@1.12.0.patch",
-    "leaflet@1.9.4": "patches/leaflet@1.9.4.patch"
+    "leaflet@1.9.4": "patches/leaflet@1.9.4.patch",
+    "rehype-citation@2.3.2": "patches/rehype-citation@2.3.2.patch"
   }
 }

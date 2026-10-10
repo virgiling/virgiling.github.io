@@ -14,13 +14,14 @@ import {
 } from "d3-force";
 import type { SimulationNodeDatum } from "d3-force";
 import { nodeDegrees, nodeRadius } from "./display";
+import { globalGraphStyle, type GraphRelation } from "./global-style";
 export interface ForceNode extends SimulationNodeDatum {
   id: string;
   current?: boolean;
 }
 export interface ForceModel<N extends ForceNode = ForceNode> {
   nodes: N[];
-  edges: { from: string; to: string }[];
+  edges: { from: string; to: string; type?: GraphRelation }[];
 }
 export interface ForceOptions {
   x?: number;
@@ -57,7 +58,12 @@ export function createGraphSimulation<N extends ForceNode>(
     nodes.sort(
       (a, b) => hash(a.id) - hash(b.id) || a.id.localeCompare(b.id, "en"),
     );
-  const links = model.edges.map((e) => ({ source: e.from, target: e.to }));
+  const links = model.edges.map((e) => ({
+    ...e,
+    source: e.from,
+    target: e.to,
+    type: e.type || "page-link",
+  }));
   if (local)
     return forceSimulation(nodes)
       .stop()
@@ -72,27 +78,31 @@ export function createGraphSimulation<N extends ForceNode>(
       .force("collision", forceCollide(15 * scale).iterations(2))
       .force("forceX", forceX(x).strength(0.1))
       .force("forceY", forceY(y).strength(0.1));
+  const { force: settings } = globalGraphStyle;
   const simulation = forceSimulation(nodes)
     .stop()
     .force(
       "link",
       forceLink<SimulatedNode<N>, (typeof links)[number]>(links)
         .id((n) => n.id)
-        .distance(68),
+        .distance(settings.distance)
+        .strength(settings.link),
     )
-    .force("charge", forceManyBody().distanceMax(500).strength(-160))
-    .force("forceX", forceX(x).strength(0.035))
-    .force("forceY", forceY(y).strength(0.035))
+    .force("charge", forceManyBody().strength(-100 * settings.repel))
+    .force("forceX", forceX(x).strength(settings.center))
+    .force("forceY", forceY(y).strength(settings.center))
     .force(
       "collision",
-      forceCollide<SimulatedNode<N>>().radius((n) => n.radius + 5),
+      forceCollide<SimulatedNode<N>>().radius(
+        (n) => n.radius + settings.collisionPadding,
+      ),
     )
-    .alphaDecay(0.035);
+    .alphaDecay(settings.alphaDecay);
   return simulation;
 }
 export function globalForceLayout(model: ForceModel) {
   const simulation = createGraphSimulation(model);
-  simulation.tick(180);
+  simulation.tick(globalGraphStyle.force.ticks);
   const nodes = simulation.nodes();
   const width = Math.max(240, ...nodes.map((n) => Math.abs(n.x!) * 2 + 100));
   const height = Math.max(200, ...nodes.map((n) => Math.abs(n.y!) * 2 + 100));

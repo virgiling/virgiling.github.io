@@ -1,0 +1,122 @@
+diff --git a/dist/node/generator.mjs b/dist/node/generator.mjs
+index d89818fd5fe3d917093704a09bea97dc8b550bcf..5218b3004ef44b14d530fc173eca2e05082b8265 100644
+--- a/dist/node/generator.mjs
++++ b/dist/node/generator.mjs
+@@ -409,6 +409,10 @@ const getBibliography = async (options, file) => {
+  */
+ const loadCSL = async (Cite, format, root = '') => {
+   const config = Cite.plugins.config.get('@csl');
++  if (format.trimStart().startsWith('<')) {
++    if (!config.templates.has(format)) config.templates.add(format, format);
++    return format;
++  }
+   if (!Object.keys(config.templates.data).includes(format)) {
+     const cslName = `customCSL-${Math.random().toString(36).slice(2, 7)}`;
+     let cslPath = '';
+@@ -859,8 +863,8 @@ const rehypeCitationGenerator = Cite => {
+       const config = Cite.plugins.config.get('@csl');
+       const citeFormat = await loadCSL(Cite, inputCiteformat, options.path);
+       const lang = await loadLocale(Cite, inputLang, options.path);
+-      let bibliography = await getBibliography(options, file);
+-      if (bibliography.length === 0) {
++      let bibliography = options.bibliographyData ? [] : await getBibliography(options, file);
++      if (bibliography.length === 0 && !options.bibliographyData?.length) {
+         return;
+       }
+       for (let i = 0; i < bibliography.length; i++) {
+@@ -884,7 +888,7 @@ const rehypeCitationGenerator = Cite => {
+           }
+         }
+       }
+-      const citations = new Cite(bibtexFile, {
++      const citations = new Cite(options.bibliographyData ?? bibtexFile, {
+         generateGraph: false
+       });
+       const citationIds = citations.data.map(x => x.id);
+diff --git a/dist/node/rehype-citation.mjs b/dist/node/rehype-citation.mjs
+index 57d48c7008c0a5591efa82bd9c674938365eaa30..fc3b0580ed239029edeee2ff0764197689c253f5 100644
+--- a/dist/node/rehype-citation.mjs
++++ b/dist/node/rehype-citation.mjs
+@@ -421,6 +421,10 @@ const getBibliography = async (options, file) => {
+  */
+ const loadCSL = async (Cite, format, root = '') => {
+   const config = Cite.plugins.config.get('@csl');
++  if (format.trimStart().startsWith('<')) {
++    if (!config.templates.has(format)) config.templates.add(format, format);
++    return format;
++  }
+   if (!Object.keys(config.templates.data).includes(format)) {
+     const cslName = `customCSL-${Math.random().toString(36).slice(2, 7)}`;
+     let cslPath = '';
+@@ -871,8 +875,8 @@ const rehypeCitationGenerator = Cite => {
+       const config = Cite.plugins.config.get('@csl');
+       const citeFormat = await loadCSL(Cite, inputCiteformat, options.path);
+       const lang = await loadLocale(Cite, inputLang, options.path);
+-      let bibliography = await getBibliography(options, file);
+-      if (bibliography.length === 0) {
++      let bibliography = options.bibliographyData ? [] : await getBibliography(options, file);
++      if (bibliography.length === 0 && !options.bibliographyData?.length) {
+         return;
+       }
+       for (let i = 0; i < bibliography.length; i++) {
+@@ -896,7 +900,7 @@ const rehypeCitationGenerator = Cite => {
+           }
+         }
+       }
+-      const citations = new Cite(bibtexFile, {
++      const citations = new Cite(options.bibliographyData ?? bibtexFile, {
+         generateGraph: false
+       });
+       const citationIds = citations.data.map(x => x.id);
+diff --git a/dist/node/src/generator.js b/dist/node/src/generator.js
+index 0967e43609f3ae4228038abe6458bedc258b416f..812def828038a2540b9fe4b8810041bb8c547fe0 100644
+--- a/dist/node/src/generator.js
++++ b/dist/node/src/generator.js
+@@ -44,8 +44,8 @@ const rehypeCitationGenerator = (Cite) => {
+             const config = Cite.plugins.config.get('@csl');
+             const citeFormat = await loadCSL(Cite, inputCiteformat, options.path);
+             const lang = await loadLocale(Cite, inputLang, options.path);
+-            let bibliography = await getBibliography(options, file);
+-            if (bibliography.length === 0) {
++            let bibliography = options.bibliographyData ? [] : await getBibliography(options, file);
++            if (bibliography.length === 0 && !options.bibliographyData?.length) {
+                 return;
+             }
+             for (let i = 0; i < bibliography.length; i++) {
+@@ -72,7 +72,7 @@ const rehypeCitationGenerator = (Cite) => {
+                     }
+                 }
+             }
+-            const citations = new Cite(bibtexFile, { generateGraph: false });
++            const citations = new Cite(options.bibliographyData ?? bibtexFile, { generateGraph: false });
+             const citationIds = citations.data.map((x) => x.id);
+             const citationPre = [];
+             const citationDict = {};
+diff --git a/dist/node/src/types.d.ts b/dist/node/src/types.d.ts
+index 26f127c7d72ada7af0fc202dc05ad151461868cf..58504e479c465502d93c34cdb3126729e5b62a51 100644
+--- a/dist/node/src/types.d.ts
++++ b/dist/node/src/types.d.ts
+@@ -63,6 +63,8 @@ export const Types: {};
+  * Configuration.
+  */
+ export type Options = {
++    /** Prevalidated CSL-JSON records; bypasses bibliography filesystem/network reads. */
++    bibliographyData?: unknown[];
+     /**
+      * Name or path to Bibtex, CSL-JSON or CFF file. If multiple files are provided, they will be merged.
+      */
+diff --git a/dist/node/src/utils.js b/dist/node/src/utils.js
+index 06ccbe9425db22c714280aa6ad1eb6f1a1c73543..45bfc6f16a5658b4b8832b37540d980f3eaecd11 100644
+--- a/dist/node/src/utils.js
++++ b/dist/node/src/utils.js
+@@ -96,6 +96,10 @@ export const getBibliography = async (options, file) => {
+  */
+ export const loadCSL = async (Cite, format, root = '') => {
+     const config = Cite.plugins.config.get('@csl');
++    if (format.trimStart().startsWith('<')) {
++        if (!config.templates.has(format)) config.templates.add(format, format);
++        return format;
++    }
+     if (!Object.keys(config.templates.data).includes(format)) {
+         const cslName = `customCSL-${Math.random().toString(36).slice(2, 7)}`;
+         let cslPath = '';

@@ -17,7 +17,7 @@ export function watchedContentPath(file: string, root = resolve("content")) {
       )
   )
     return false;
-  return classifyContentPath(path) !== "ignored";
+  return path === "ref.bib" || classifyContentPath(path) !== "ignored";
 }
 export function registerContentWatcher(server: any, root = resolve("content")) {
   server.watcher.add(root);

@@ -38,6 +38,14 @@ test('full article previews keep unavailable-link labels and their 404 destinati
   assert.equal(container.querySelector('.preview-button'),null);
 });
 
+test('full previews retain semantic strikethrough inside prose so the shared double-line style still applies',()=>{
+  const source=article().replace('<p>Opening paragraph</p>','<p><del>删除 <strong>重点</strong></del> <s>旧内容</s></p>');
+  const {container}=extractPreviewContent(source,'b.md',new URL('https://site.test/preview/folder/b'),'deletion',parser);
+  assert.equal(container.querySelector('.prose del')?.textContent,'删除 重点');
+  assert.equal(container.querySelector('.prose del strong')?.textContent,'重点');
+  assert.equal(container.querySelector('.prose s')?.textContent,'旧内容');
+});
+
 test('article requests cache successful HTML, bound memory, allow retry and do not retain aborted or failed responses',async()=>{
   let count=0,fail=false,kind='text/html';
   const fetcher:typeof fetch=async(_url:Parameters<typeof fetch>[0],options?:Parameters<typeof fetch>[1])=>{
