@@ -772,7 +772,7 @@
     @apply rounded-[9px] overflow-auto my-[25px] mx-0 py-[20px] px-[23px] text-[14px] max-w-full text-[#3e4d36];
     background: #f1f2ec;
     border: 1px solid #e4e7db;
-    line-height: 1.7;
+    line-height: 1.95;
     tab-size: 2;
   }
   .prose pre code {
@@ -782,15 +782,33 @@
     @apply inline-block w-[12px] h-[12px] align-middle;
   }
   .code-block {
+    position: relative;
     margin-block: 25px;
-    border: 1px solid #e4e7db;
-    border-radius: 9px;
-    overflow: hidden;
   }
   .prose .code-block pre {
     margin: 0;
-    border: 0;
-    border-radius: 0;
+  }
+  .copy-code {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--muted);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .code-block:hover .copy-code,
+  .code-block:focus-within .copy-code {
+    opacity: 1;
+    pointer-events: auto;
   }
   .preview-button {
     @apply align-middle text-[12px] text-[#486447] ml-[5px] py-0 px-[5px] rounded-[4px];
@@ -1383,19 +1401,16 @@
     box-shadow: 0 14px 45px #34432924;
     line-height: 1.65;
   }
-  .code-toolbar,
   .popover-top {
     @apply flex items-center gap-[10px] py-[9px] px-[15px] text-[12px] text-accent;
     background: #f0f3e9;
   }
-  .copy-code,
   .pin-button,
   .close-icon {
     @apply text-accent p-[2px] text-[12px];
     border: 0;
     background: transparent;
   }
-  .copy-code,
   .pin-button {
     @apply ml-auto;
   }

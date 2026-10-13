@@ -18,7 +18,7 @@ import { readFile } from "node:fs/promises";
 import { remarkCallouts, rehypeCallouts } from "../markdown/callouts";
 import { rehypeFigures } from "../markdown/figures";
 import { noteSummary } from "./summary";
-import { markCodeLanguages, codeBlockFrames } from "../markdown/code-blocks";
+import { codeBlockFrames } from "../markdown/code-blocks";
 import {
   markdownTags,
   headingTagParts,
@@ -662,17 +662,9 @@ export class Compiler {
           return index + 2;
         });
       })
-      .use(markCodeLanguages)
       .use(shiki, {
         theme: "catppuccin-latte",
         fallbackLanguage: "text",
-        transformers: [
-          {
-            pre(node) {
-              node.properties.dataLanguage = this.options.lang;
-            },
-          },
-        ],
       })
       .use(mathjax)
       .use(() => (tree) => {

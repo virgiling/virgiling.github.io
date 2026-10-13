@@ -13,9 +13,31 @@ test('reading polish keeps decorative typography and heading lines while boundin
   assert.match(values(':root'),/--prose-measure: 40em/);
   assert.match(values('.prose > :is(p, ul, ol, blockquote)'),/max-width: var\(--prose-measure\)/);
   assert.match(values('.prose pre'),/text-\[14px\]/);assert.doesNotMatch(values('.prose pre'),/text-\[(?:11|12)px\]/);
-  assert.match(values('.prose pre'),/line-height: 1.7/);
+  assert.match(values('.prose pre'),/line-height: 1.95/);
+  assert.match(values('.prose pre'),/rounded-\[9px\].*py-\[20px\] px-\[23px\]/);
+  assert.match(values('.prose pre'),/background: #f1f2ec/);
+  assert.match(values('.prose pre'),/border: 1px solid #e4e7db/);
   assert.equal(values('.wikilink'),'');
   assert.match(values('.preview-button'),/min-width: 32px/);
+});
+
+test('copy affordance floats without a toolbar or extra code frame and is revealed only by hover or focus',async()=>{
+  const root=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  const values=(selector:string)=>{const rules:string[]=[];root.walkRules(rule=>{if(rule.selectors.includes(selector))rules.push(rule.toString());});return rules.join('\n');};
+  assert.equal(values('.code-toolbar'),'');
+  assert.equal(values('.code-language'),'');
+  assert.match(values('.code-block'),/position: relative/);
+  assert.doesNotMatch(values('.code-block'),/border|background|overflow|padding/);
+  assert.doesNotMatch(values('.prose .code-block pre'),/border|background|padding/);
+  assert.match(values('.copy-code'),/position: absolute/);
+  assert.match(values('.copy-code'),/top: 8px/);
+  assert.match(values('.copy-code'),/right: 8px/);
+  assert.match(values('.copy-code'),/opacity: 0/);
+  assert.match(values('.copy-code'),/pointer-events: none/);
+  for(const selector of ['.code-block:hover .copy-code','.code-block:focus-within .copy-code']){
+    assert.match(values(selector),/opacity: 1/);
+    assert.match(values(selector),/pointer-events: auto/);
+  }
 });
 
 test('outline flexibility, mobile deduplication and print hiding stay independent of visual inspection',async()=>{

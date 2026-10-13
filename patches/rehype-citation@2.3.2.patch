@@ -1,3 +1,16 @@
+diff --git a/dist/node/cite.mjs b/dist/node/cite.mjs
+index d058a8bd930d320c6548313caa7aaf48cb27f248..5bf9303ec9b7b9925f0f6fbb04006f081effcbb4 100644
+--- a/dist/node/cite.mjs
++++ b/dist/node/cite.mjs
+@@ -4,7 +4,7 @@ import path from 'path';
+ import Url from 'url';
+ import Stream from 'stream';
+ import http from 'http';
+-import punycode from 'punycode';
++import punycode from 'punycode/punycode.js';
+ import https from 'https';
+ import zlib from 'zlib';
+ import { parse as parse$9, format as format$9 } from '@citation-js/date';
 diff --git a/dist/node/generator.mjs b/dist/node/generator.mjs
 index d89818fd5fe3d917093704a09bea97dc8b550bcf..5218b3004ef44b14d530fc173eca2e05082b8265 100644
 --- a/dist/node/generator.mjs
@@ -34,9 +47,18 @@ index d89818fd5fe3d917093704a09bea97dc8b550bcf..5218b3004ef44b14d530fc173eca2e05
        });
        const citationIds = citations.data.map(x => x.id);
 diff --git a/dist/node/rehype-citation.mjs b/dist/node/rehype-citation.mjs
-index 57d48c7008c0a5591efa82bd9c674938365eaa30..fc3b0580ed239029edeee2ff0764197689c253f5 100644
+index 57d48c7008c0a5591efa82bd9c674938365eaa30..d14e2530a91df04130d9ce9f4b5d19a09c429e1e 100644
 --- a/dist/node/rehype-citation.mjs
 +++ b/dist/node/rehype-citation.mjs
+@@ -8,7 +8,7 @@ import path from 'path';
+ import Url from 'url';
+ import Stream from 'stream';
+ import http from 'http';
+-import punycode from 'punycode';
++import punycode from 'punycode/punycode.js';
+ import https from 'https';
+ import zlib from 'zlib';
+ import { parse as parse$9, format as format$9 } from '@citation-js/date';
 @@ -421,6 +421,10 @@ const getBibliography = async (options, file) => {
   */
  const loadCSL = async (Cite, format, root = '') => {

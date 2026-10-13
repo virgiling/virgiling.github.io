@@ -44,7 +44,9 @@ test('summary extraction skips structural noise, prefers abstract bodies and pre
     assert.equal(note('authored').summary,'作者'.repeat(80));
     assert.equal(note('links').summary,'显示标签 是一段介绍。');
     const code=doc(note('code').html);
-    assert.equal(code.querySelector('.code-language')!.textContent,'js');
+    assert.equal(code.querySelector('.code-toolbar,.code-language'),null);
+    assert.equal(code.querySelector('.code-block')!.children.length,1);
+    assert.equal(code.querySelector('pre')!.getAttribute('tabindex'),'0');
     assert.match(code.querySelector('.code-block pre code')!.textContent,/console.log/);
     assert.equal(code.querySelector('button.copy-code'),null,'no inert copy button without JS');
     const self=doc(note('self').html);

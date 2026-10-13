@@ -73,6 +73,7 @@ for(const file of files){
     if(classes.includes('sidebar'))sidebarPosition=position;
     if(classes.includes('reading-discussion'))discussionPosition=position;
     if(classes.includes('copy-code'))errors.push(`${file}: copy buttons must be added only when JavaScript is active`);
+    if(classes.some((c:string)=>['code-toolbar','code-language'].includes(c)))errors.push(`${file}: removed code toolbar returned`);
     if(node.tagName==='meta'&&attrs.property==='og:image'&&attrs.content!==new URL(base+'favicon.png',siteConfig.site).href)errors.push(`${file}: sharing image must reuse the configured favicon`);
     if(node.tagName==='title'&&node.parentNode?.tagName==='head')pageTitle=node.childNodes.map((child:{value?:string})=>child.value||'').join('');
     if(node.tagName==='meta'&&attrs.property==='og:title')ogTitles.push(attrs.content);

@@ -42,6 +42,10 @@ export function verifyStyles(css:string){
   has('.reading-meta',{'font-family':'var(--hand)','font-size':'18px'});
   has('.reading-meta',{'font-size':'17px'},'560');
   has('.prose',{'font-size':'var(--reading-font-size)','line-height':'1.95'});
+  has('.prose pre',{'font-size':'14px','line-height':'1.95','border-radius':'9px',background:'#f1f2ec',border:'1px solid #e4e7db'});
+  has('.copy-code',{position:'absolute',top:'8px',right:'8px',width:'32px',height:'32px',opacity:'0','pointer-events':'none'});
+  for(const selector of ['.code-block:hover .copy-code','.code-block:focus-within .copy-code'])has(selector,{opacity:'1','pointer-events':'auto'});
+  assert.ok(!entries.some(e=>/code-toolbar|code-language/.test(e.selector)),'Removed code toolbar styles returned');
   for(const selector of ['.prose del','.prose s'])has(selector,{'text-decoration-line':'line-through','text-decoration-style':'double'});
   has('.prose .csl-entry',{display:'grid','grid-template-columns':'minmax(4em,max-content) minmax(0,1fr)'});
   has('.prose .reference-venue',{color:'var(--muted)'});

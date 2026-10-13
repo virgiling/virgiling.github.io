@@ -13,24 +13,40 @@ function globals(values: Record<string, unknown>) {
 const tick=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
 
 test('copy tools copy code only, recover from failure, enhance previews and cancel stale results on destroy',async()=>{
-  const {document,window}=parseHTML('<html><body><div class="code-block"><div class="code-toolbar">js</div><pre><code>let x = 1;\n</code></pre></div><div id="preview-content"></div></body></html>');
+  const {document,window}=parseHTML('<html><body><div class="code-block"><pre tabindex="0"><code>let x = 1;\n</code></pre></div><div id="preview-content"></div></body></html>');
   const restore=globals({Element:window.Element,MutationObserver:window.MutationObserver});
   let reject=false;
   const copied:string[]=[];
+  const pre=document.querySelector('pre')!.outerHTML;
   const controller=initCodeCopy(document,{async writeText(value){if(reject)throw new Error('denied');copied.push(value);}});
   try{
     const button=document.querySelector<HTMLButtonElement>('.copy-code')!;
-    button.click();await tick();
+    assert.equal(button.parentElement?.className,'code-block');
+    assert.equal(document.querySelector('pre')!.outerHTML,pre,'The control must not change or enter the scrolling pre');
+    assert.equal(button.querySelector('svg')!.getAttribute('aria-hidden'),'true');
+    assert.equal(button.querySelector('.sr-only')!.textContent,'复制');
+    assert.equal(button.type,'button');
+    const icon=button.querySelector('path')!,idlePath=icon.getAttribute('d');
+    icon.dispatchEvent(new window.Event('click',{bubbles:true}));await tick();
     assert.deepEqual(copied,['let x = 1;\n']);assert.equal(button.textContent,'已复制');
+    assert.notEqual(icon.getAttribute('d'),idlePath);
+    assert.equal(button.getAttribute('aria-label'),'代码已复制');
     reject=true;button.click();await tick();assert.match(button.textContent,/复制失败/);
-    document.querySelector('#preview-content')!.innerHTML='<div class="code-block"><div class="code-toolbar">text</div><pre><code>preview</code></pre></div>';
+    assert.match(button.title,/请手动选择代码/);
+    document.querySelector('#preview-content')!.innerHTML='<div class="code-block"><pre><code>preview</code></pre></div>';
     await tick();assert.equal(document.querySelectorAll('.copy-code').length,2);
+    reject=false;document.querySelector<HTMLButtonElement>('#preview-content .copy-code')!.click();await tick();
+    assert.deepEqual(copied,['let x = 1;\n','preview']);
+    assert.equal(document.querySelectorAll('.copy-code').length,2,'Feedback must not cause duplicate controls');
     controller.destroy();assert.equal(document.querySelectorAll('.copy-code').length,0);
     let finish:()=>void=()=>{};
     const late=initCodeCopy(document,{writeText:()=>new Promise<void>(resolve=>{finish=resolve;})});
     const lateButton=document.querySelector<HTMLButtonElement>('.copy-code')!;
     lateButton.click();late.destroy();finish();await tick();assert.equal(lateButton.textContent,'复制');
-    const again=initCodeCopy(document,undefined);again.destroy();
+    const again=initCodeCopy(document,undefined);
+    const unavailable=document.querySelector<HTMLButtonElement>('.copy-code')!;
+    unavailable.click();await tick();assert.match(unavailable.textContent,/复制失败/);
+    again.destroy();
     assert.equal(document.querySelectorAll('.copy-code').length,0);
   }finally{controller.destroy();restore();}
 });
