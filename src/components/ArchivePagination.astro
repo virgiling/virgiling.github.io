@@ -1,0 +1,66 @@
+---
+import { archiveRoute } from "../ui/archive-pagination";
+import { url } from "../site.config";
+interface Props {
+  index: number;
+  total: number;
+}
+const { index, total } = Astro.props;
+const controls = [
+  { label: "第一页", symbol: "«", page: 0, disabled: index === 0 },
+  {
+    label: "上一页",
+    symbol: "←",
+    page: index - 1,
+    disabled: index === 0,
+    rel: "prev",
+  },
+  {
+    label: "下一页",
+    symbol: "→",
+    page: index + 1,
+    disabled: index === total - 1,
+    rel: "next",
+  },
+  {
+    label: "最后一页",
+    symbol: "»",
+    page: total - 1,
+    disabled: index === total - 1,
+  },
+];
+---
+
+{total > 1 && (
+  <nav class="archive-pagination" aria-label="归档分页">
+    {controls.map((control, i) => {
+      const Tag = control.disabled ? "span" : "a";
+      return (
+        <>
+          {i === 2 && (
+            <span
+              class="archive-page-number"
+              aria-current="page"
+              aria-label={`第 ${index + 1} 页，共 ${total} 页`}
+            >
+              {index + 1} / {total}
+            </span>
+          )}
+          <Tag
+            class="archive-control"
+            href={
+              control.disabled ? undefined : url(archiveRoute(control.page))
+            }
+            rel={control.disabled ? undefined : control.rel}
+            role={control.disabled ? "link" : undefined}
+            aria-label={control.label}
+            aria-disabled={control.disabled ? "true" : undefined}
+            data-control-motion={control.disabled ? undefined : ""}
+          >
+            <span aria-hidden="true">{control.symbol}</span>
+          </Tag>
+        </>
+      );
+    })}
+  </nav>
+)}

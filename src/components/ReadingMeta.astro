@@ -1,5 +1,6 @@
 ---
 import type { Note } from "../content/types";
+import MetaIcon from "./MetaIcon.astro";
 import { siteConfig } from "../site.config";
 import { dateText, readingMinutes } from "../ui/reading.ts";
 interface Props {
@@ -12,17 +13,13 @@ const { note, config = siteConfig.reading } = Astro.props;
 <div class="reading-meta">
   {note.date && (
     <span>
-      <span class="meta-icon" aria-hidden="true">
-        ✏️
-      </span>
+      <MetaIcon kind="created" />
       <time datetime={note.date}>{dateText(note.date)}</time>
     </span>
   )}
-  {note.updated && (
+  {note.updated && note.updated !== note.date && (
     <span>
-      <span class="meta-icon" aria-hidden="true">
-        🔧
-      </span>
+      <MetaIcon kind="updated" />
       <time datetime={note.updated}>{dateText(note.updated)}</time>
     </span>
   )}

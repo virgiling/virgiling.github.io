@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from "astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Archive from "../../components/Archive.astro";
+import { getSnapshot } from "../../content/snapshot";
+import { siteConfig } from "../../site.config";
+import {
+  buildArchivePagination,
+  archiveRoute,
+} from "../../ui/archive-pagination";
+export const getStaticPaths = (async ({ paginate }) => {
+  const snapshot = await getSnapshot();
+  const pagination = buildArchivePagination(snapshot.listed, {
+    ...siteConfig.archive,
+    directories: snapshot.directories,
+  });
+  // Each item is a directory slice already bounded by the article pageSize.
+  // /articles owns page one, avoiding a duplicate /articles/1.
+  return paginate(pagination.pages, {
+    pageSize: 1,
+    props: { snapshot, pagination },
+  }).filter((entry) => entry.props.page.currentPage > 1);
+}) satisfies GetStaticPaths;
+const { page, snapshot, pagination } = Astro.props;
+const index = page.currentPage - 1;
+---
+
+<SiteLayout
+  title={`文章 · 第 ${index + 1} 页`}
+  active="articles"
+  path={archiveRoute(index)}
+>
+  <Archive
+    notes={snapshot.listed.filter((n) => n.kind !== "landing")}
+    config={{ ...siteConfig.archive, directories: snapshot.directories }}
+    pagination={pagination}
+    pageIndex={index}
+  />
+</SiteLayout>

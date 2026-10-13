@@ -10,12 +10,14 @@ import {siteConfig,url} from '../src/site.config';
 import type {CatalogNote} from '../src/ui/types';
 const article:CatalogNote={slug:'a',source:'01-courses/a.md',url:'/a',title:'A <script> & "title"',summary:'A <summary>',kind:'article',tags:[],date:'2026-01-02',updated:'2026-03-04'};
 
-test('reading metadata preserves icons and dates without Published or Last updated labels',async()=>{
+test('reading metadata uses linear icons and dates without Published or Last updated labels',async()=>{
   const note={date:'2026-01-02',updated:'2026-03-04',readingText:'汉'.repeat(600),plainText:''};
   const html=await renderComponent('ReadingMeta',{note});
   const {document}=parseHTML(`<html><body>${html}</body></html>`);
   assert.deepEqual([...document.querySelectorAll('time')].map(n=>n.getAttribute('datetime')),[note.date,note.updated]);
-  assert.deepEqual([...document.querySelectorAll('.meta-icon')].map(n=>n.textContent),['✏️','🔧']);
+  assert.deepEqual([...document.querySelectorAll('svg.meta-icon')].map(n=>n.getAttribute('data-icon')),['created','updated']);
+  const same=parseHTML(`<html><body>${await renderComponent('ReadingMeta',{note:{...note,updated:note.date}})}</body></html>`).document;
+  assert.equal(same.querySelectorAll('time').length,1);
   assert.equal(document.querySelector('.read-time')!.textContent,'2 min read');
   assert.doesNotMatch(html,/Published|Last updated/);
   const empty=await renderComponent('ReadingMeta',{note:{...note,date:'',updated:'',readingText:''}});
@@ -52,12 +54,13 @@ test('table of contents preserves historical anchors, escaped labels, depth and 
   assert.ok(document.querySelector('.toc-marker[hidden]'));
 });
 
-test('freshness uses the existing callout contract and respects scheduled reviews and explicit opt-out',async()=>{
+test('freshness uses a quiet notice and respects scheduled reviews and explicit opt-out',async()=>{
   const note={...article,reviewed:'',reviewAfter:''};
   const html=await renderComponent('FreshnessNotice',{note,asOf:'2027-03-05'});
   const {document}=parseHTML(`<html><body>${html}</body></html>`);
-  assert.ok(document.querySelector('aside.freshness-notice[data-callout="warning"] .callout-title .callout-icon svg'));
-  assert.match(document.querySelector('.callout-content p')!.textContent,/2026-03-04.*365 天/);
+  assert.ok(document.querySelector('aside.freshness-notice[aria-label="时效性提示"] svg'));
+  assert.equal(document.querySelector('.callout'),null);
+  assert.match(document.querySelector('.freshness-notice p')!.textContent,/2026-03-04.*365 天/);
   const review=await renderComponent('FreshnessNotice',{note:{...note,reviewAfter:'2026-03-01'},asOf:'2026-03-04'});assert.match(review,/逾期 3 天/);
   const disabled=await renderComponent('FreshnessNotice',{note:{...note,stale:false},asOf:'2027-03-05'});assert.doesNotMatch(disabled,/<aside/);
   assert.throws(()=>freshnessStatus(note,siteConfig.freshness,'invalid'),/Invalid freshness/);

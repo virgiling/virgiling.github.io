@@ -1,0 +1,34 @@
+---
+import type { seriesNavigation } from "../ui/series";
+interface Props {
+  model: ReturnType<typeof seriesNavigation>;
+}
+const { model } = Astro.props;
+---
+
+{model && (
+  <nav class="series-nav" aria-label="同目录阅读">
+    {(model.previous || model.next) && (
+      <div class="series-neighbors">
+        {model.previous ? (
+          <a href={model.previous.url} rel="prev">
+            <span>← 上一篇</span>
+            {model.previous.title}
+          </a>
+        ) : (
+          <span />
+        )}
+        {model.next && (
+          <a href={model.next.url} rel="next">
+            <span>下一篇 →</span>
+            {model.next.title}
+          </a>
+        )}
+      </div>
+    )}
+    <div class="series-return">
+      {model.index && <a href={model.index.url}>系列目录</a>}
+      <a href={model.back.url}>← 返回{model.back.label}</a>
+    </div>
+  </nav>
+)}

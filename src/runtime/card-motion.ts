@@ -1,13 +1,14 @@
 import { transition, stop, reduced, durations } from "./motion";
 
-// Cards explicitly opt in; archive stacks keep their own transform controller.
+// Cards and floating navigation controls opt in; archive stacks keep their
+// own transform controller. CSS supplies each surface's final transform.
 export function initCardMotion() {
   const hoverable = matchMedia("(any-hover: hover)");
   const cleanup: Array<() => void> = [];
   const syncCards: Array<(instant?: boolean) => void> = [];
   let disposed = false;
   for (const card of document.querySelectorAll<HTMLElement>(
-    "[data-card-motion]:not(.stack-card)",
+    "[data-card-motion]:not(.stack-card), [data-control-motion]",
   )) {
     let hovered = hoverable.matches && card.matches(":hover"),
       focused = card.contains(document.activeElement),

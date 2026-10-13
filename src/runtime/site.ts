@@ -8,6 +8,8 @@ import { initInteractionMotion } from "./interactions";
 import { initCardMotion } from "./card-motion";
 import { initImageZoom } from "./image-zoom";
 import { initNavigationMotion } from "./navigation-motion";
+import { initCodeCopy } from "./code-copy";
+import { initScrollHeader, shortcutLabel } from "./scroll-header";
 import { initNotePreview, type PreviewRecord } from "./preview";
 const $ = <T extends Element = HTMLElement>(s: string) =>
     document.querySelector<T>(s)!,
@@ -18,19 +20,27 @@ initStacks();
 initInteractionMotion();
 initNavigationMotion();
 const toc = initOnThisPage();
+const shortcut = document.querySelector(".search-trigger .key");
+if (shortcut) shortcut.textContent = shortcutLabel(navigator.userAgent);
 let imageZoom = initImageZoom(),
   localGraphs = initLocalGraphs(),
-  cardMotion = initCardMotion();
+  cardMotion = initCardMotion(),
+  codeCopy = initCodeCopy(),
+  scrollHeader = initScrollHeader();
 addEventListener("pagehide", () => {
   imageZoom.destroy();
   localGraphs.destroy();
   cardMotion.destroy();
+  codeCopy.destroy();
+  scrollHeader.destroy();
 });
 addEventListener("pageshow", (event) => {
   if (event.persisted) {
     imageZoom = initImageZoom();
     localGraphs = initLocalGraphs();
     cardMotion = initCardMotion();
+    codeCopy = initCodeCopy();
+    scrollHeader = initScrollHeader();
   }
 });
 

@@ -1,5 +1,6 @@
 ---
 import { breadcrumbItems } from "../ui/breadcrumbs.ts";
+import { folderFrameId } from "../ui/shared";
 import TaggedText from "./TaggedText.astro";
 import { linkableTags } from "../inline-tags";
 import type { Note, DirectoryMeta } from "../content/types";
@@ -8,13 +9,19 @@ interface Props {
   note: Pick<Note, "kind" | "source" | "url">;
   pages: CatalogNote[];
   directories?: DirectoryMeta[];
+  archiveLinks?: import("../ui/archive-pagination").DirectoryLink[];
 }
-const { note, pages, directories = [] } = Astro.props;
-const items = breadcrumbItems(note, pages, directories);
+const { note, pages, directories = [], archiveLinks = [] } = Astro.props;
+const items = breadcrumbItems(note, pages, directories).map((item) => {
+  const folder = archiveLinks.find((d) =>
+    item.url.endsWith("#" + folderFrameId(d.path)),
+  );
+  return folder ? { ...item, url: folder.href } : item;
+});
 const tags = pages.flatMap(linkableTags);
 ---
 
-{items.length > 0 && (
+{items.length > 1 && (
   <nav class="breadcrumb" aria-label="面包屑">
     <ol>
       {items.map((item) => (

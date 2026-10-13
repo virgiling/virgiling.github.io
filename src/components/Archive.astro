@@ -1,5 +1,7 @@
 ---
 import ArchiveStack from "./ArchiveStack.astro";
+import ArchivePagination from "./ArchivePagination.astro";
+import type { ArchivePagination as PaginationModel } from "../ui/archive-pagination";
 import ArchiveBranch from "./ArchiveBranch.astro";
 import TaggedText from "./TaggedText.astro";
 import { linkableTags } from "../inline-tags";
@@ -13,9 +15,16 @@ import type { CatalogNote } from "../ui/types";
 interface Props {
   notes: CatalogNote[];
   config?: ArchiveConfig;
+  pagination?: PaginationModel;
+  pageIndex?: number;
 }
-const { notes, config = {} } = Astro.props;
-const roots = buildFolderTree(notes, config.directories);
+const { notes, config = {}, pagination, pageIndex = 0 } = Astro.props;
+const slice = pagination?.pages[pageIndex];
+const roots = pagination
+  ? slice
+    ? [slice.root]
+    : []
+  : buildFolderTree(notes, config.directories);
 const order = config.rootOrder || [];
 roots.sort(
   (a, b) =>
@@ -23,9 +32,28 @@ roots.sort(
       (order.includes(b.path) ? order.indexOf(b.path) : order.length) ||
     a.path.localeCompare(b.path, "en"),
 );
-const count = new Set(notes.map((n) => n.slug)).size;
-const tags = [...new Set(notes.flatMap(linkableTags))];
+const represented = new Set(
+  (pagination ? pagination.pages.map((page) => page.root) : roots).flatMap(
+    (root) => [...root.members, ...(root.moc ? [root.moc.slug] : [])],
+  ),
+);
+const count = represented.size;
+const tags = [
+  ...new Set(
+    notes.filter((n) => represented.has(n.slug)).flatMap(linkableTags),
+  ),
+];
 const themes = tags.length;
+function hasDirectory(
+  node: import("../ui/archive").FolderNode | undefined,
+  path: string,
+): boolean {
+  return (
+    !!node &&
+    (node.path === path ||
+      [...node.children.values()].some((child) => hasDirectory(child, path)))
+  );
+}
 ---
 
 <main class="shell archive-page" id="main">
@@ -36,6 +64,48 @@ const themes = tags.length;
       {count} 则笔记，{themes ? `${themes} 个主题，` : ""}慢慢生长。
     </p>
   </div>
+  {pagination && (
+    <>
+      <nav class="archive-directories" aria-label="按目录浏览">
+        {pagination.directories
+          .filter((d) => d.root)
+          .map((d, index) => (
+            <a
+              class="archive-control"
+              data-control-motion
+              href={d.href}
+              id={
+                d.path === slice?.root.path ? undefined : folderFrameId(d.path)
+              }
+              aria-current={d.path === slice?.root.path ? "true" : undefined}
+            >
+              <span class="archive-directory-number" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span>{d.label}</span>
+              <span
+                class="archive-directory-count"
+                aria-label={`${d.count} 则笔记`}
+              >
+                {d.count}
+              </span>
+            </a>
+          ))}
+      </nav>
+      {pageIndex === 0 && (
+        <div class="archive-legacy-links" aria-label="子目录入口">
+          {pagination.directories
+            .filter((d) => !d.root && !hasDirectory(slice?.root, d.path))
+            .map((d) => (
+              <a class="sr-only" id={folderFrameId(d.path)} href={d.href}>
+                {d.label} →
+              </a>
+            ))}
+        </div>
+      )}
+      <ArchivePagination index={pageIndex} total={pagination.pages.length} />
+    </>
+  )}
   <div class="folder-tree">
     {roots.map((root, index) => (
       <section
@@ -45,10 +115,15 @@ const themes = tags.length;
         aria-labelledby={`root-${folderId(root.path)}`}
       >
         <header class="folder-frame-header">
-          <span class="frame-number">{String(index + 1).padStart(2, "0")}</span>
+          <span class="frame-number">
+            {String((slice?.rootIndex ?? index) + 1).padStart(2, "0")}
+          </span>
           <h2 id={`root-${folderId(root.path)}`}>
             {root.moc ? (
-              <span class="folder-heading-link">
+              <span
+                class="folder-heading-link archive-control"
+                data-control-motion
+              >
                 <span class="folder-heading-name">
                   <TaggedText
                     text={root.label}
@@ -59,7 +134,7 @@ const themes = tags.length;
                 <a
                   class="folder-link-hint"
                   href={root.moc.url}
-                  data-directory-moc={root.moc.source}
+                  data-directory-moc={slice?.part ? undefined : root.moc.source}
                   aria-label={`打开 ${root.label}`}
                 >
                   <svg
@@ -81,6 +156,11 @@ const themes = tags.length;
             )}
           </h2>
         </header>
+        {slice && slice.parts > 1 && (
+          <p class="frame-page">
+            本目录第 {slice.part + 1} / {slice.parts} 页
+          </p>
+        )}
         <ArchiveStack node={root} depth={2} />
         {sortedFolders(root.children.values()).map((child) => (
           <ArchiveBranch node={child} depth={3} tags={tags} />

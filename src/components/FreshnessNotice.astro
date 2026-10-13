@@ -13,33 +13,28 @@ const status = freshnessStatus(note, config, asOf);
 
 {status && (
   <aside
-    class="callout freshness-notice"
-    data-callout="warning"
-    data-callout-kind="warning"
+    class:list={[
+      "freshness-notice",
+      { "freshness-review": status.kind === "review" },
+    ]}
     aria-label="时效性提示"
   >
-    <div class="callout-title">
-      <span class="callout-icon" aria-hidden="true">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          focusable="false"
-        >
-          <path d={warningIconPath} />
-        </svg>
-      </span>
-      <span class="callout-title-inner">时效性提示</span>
-    </div>
-    <div class="callout-content">
-      <p>
-        {status.kind === "review"
-          ? `本文的计划复核日期为 ${status.date}，现已逾期 ${status.days} 天，请确认内容仍然有效。`
-          : `本文最后复核或更新于 ${status.date}，距今已超过 ${status.threshold} 天，内容可能已经过时。`}
-      </p>
-    </div>
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      focusable="false"
+    >
+      <path d={warningIconPath} />
+    </svg>
+    <p>
+      {status.kind === "review"
+        ? `本文的计划复核日期为 ${status.date}，现已逾期 ${status.days} 天，请确认内容仍然有效。`
+        : `本文最后复核或更新于 ${status.date}，距今已超过 ${status.threshold} 天，内容可能已经过时。`}
+    </p>
   </aside>
 )}

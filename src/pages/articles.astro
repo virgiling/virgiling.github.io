@@ -3,12 +3,18 @@ import SiteLayout from "../layouts/SiteLayout.astro";
 import { getSnapshot } from "../content/snapshot";
 import Archive from "../components/Archive.astro";
 import { siteConfig } from "../site.config";
+import { buildArchivePagination } from "../ui/archive-pagination";
 const snapshot = await getSnapshot();
+const pagination = buildArchivePagination(snapshot.listed, {
+  ...siteConfig.archive,
+  directories: snapshot.directories,
+});
 ---
 
 <SiteLayout title="文章" active="articles" path="articles">
   <Archive
     notes={snapshot.listed.filter((n) => n.kind !== "landing")}
+    pagination={pagination}
     config={{ ...siteConfig.archive, directories: snapshot.directories }}
   />
 </SiteLayout>

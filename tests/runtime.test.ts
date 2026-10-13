@@ -490,7 +490,7 @@ test("MoC arrow uses Motion for hover/focus, cancels cleanly and respects reduce
   assert.ok(classes.has("is-emphasized"));
   assert.equal(arrow.animations.length, 2);
 });
-function cardMotionEnvironment({ hover = true, reduce = false } = {}) {
+function cardMotionEnvironment({ hover = true, reduce = false, control = false } = {}) {
   const classes = new Set<string>(),
     child = {},
     sibling = {};
@@ -507,7 +507,7 @@ function cardMotionEnvironment({ hover = true, reduce = false } = {}) {
     hidden: false,
     activeElement: null as unknown,
     querySelectorAll: (selector: string) => {
-      assert.equal(selector, "[data-card-motion]:not(.stack-card)");
+      assert.equal(selector, "[data-card-motion]:not(.stack-card), [data-control-motion]");
       return [card];
     },
   });
@@ -520,7 +520,7 @@ function cardMotionEnvironment({ hover = true, reduce = false } = {}) {
     getComputedStyle: () => ({
       transform:
         card.style.transform ||
-        (classes.has("is-card-emphasized") ? "scale(1.01)" : "none"),
+        (classes.has("is-card-emphasized") ? (control ? "translateY(-2px)" : "scale(1.01)") : "none"),
     }),
   });
   const controller = api.initCardMotion();
@@ -631,6 +631,31 @@ test("card destruction cancels effects, removes listeners and permits a fresh pa
   f.emit("pointerenter", { pointerType: "mouse" });
   assert.equal(f.card.animations.length, 2);
   assert.ok(f.classes.has("is-card-emphasized"));
+  restored.destroy();
+});
+test("floating archive controls lift through Motion and cancel on reversal, reduced motion and destruction", () => {
+  const f = cardMotionEnvironment({ control: true });
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.match(String(f.card.animations[0].keyframes.transform), /translateY\(-2px\)/);
+  f.emit("pointerleave");
+  assert.equal(f.card.animations[0].playState, "idle");
+  f.emit("focusin");
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.preference.matches = true;
+  f.preference.dispatchEvent(new Event("change"));
+  assert.equal(f.card.style.transform, "");
+  assert.equal(f.classes.size, 0);
+  const count = f.card.animations.length;
+  f.emit("focusout");
+  f.emit("pointerenter", { pointerType: "touch" });
+  assert.equal(f.card.animations.length, count);
+  f.controller.destroy();
+  f.preference.matches = false;
+  f.emit("focusin");
+  assert.equal(f.card.animations.length, count);
+  const restored = f.api.initCardMotion();
+  f.emit("focusin");
+  assert.equal(f.card.animations.length, count + 1);
   restored.destroy();
 });
 test("global graph load is close-safe, retryable and releases the viewer on close", async () => {

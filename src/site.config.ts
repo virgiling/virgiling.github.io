@@ -10,13 +10,16 @@ const schema = z.object({
     author: z.string(),
     motto: z.string(),
   }),
-  footer: z.object({ github: z.url() }),
+  footer: z.object({ github: z.url(), cv: z.url() }),
   journey: z.object({ base: z.string(), view: z.string() }),
   reading: z.object({
     cjkPerMinute: z.number().positive(),
     wordsPerMinute: z.number().positive(),
   }),
-  archive: z.object({ rootOrder: z.array(z.string()) }),
+  archive: z.object({
+    rootOrder: z.array(z.string()),
+    pageSize: z.number().int().positive(),
+  }),
   home: z.object({
     recentCount: z.number().int().positive(),
     heatmapWeeks: z.number().int().positive(),
@@ -44,10 +47,13 @@ export const siteConfig = schema.parse({
     author: "Dian 'Virgil' Ling",
     motto: "Not all those who wander are lost.",
   },
-  footer: { github: "https://github.com/virgiling" },
+  footer: {
+    github: "https://github.com/virgiling",
+    cv: "https://cv.virgiling.wiki",
+  },
   journey: { base: "My Journey.base", view: "My Journey" },
   reading: { cjkPerMinute: 300, wordsPerMinute: 200 },
-  archive: { rootOrder: ["01-courses", "03-tools"] },
+  archive: { rootOrder: ["01-courses", "03-tools"], pageSize: 20 },
   home: { recentCount: 1, heatmapWeeks: 26 },
   freshness: {
     enabled: true,

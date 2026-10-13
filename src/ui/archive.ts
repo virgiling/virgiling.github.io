@@ -79,7 +79,9 @@ export function buildFolderTree(
     }
   }
   prune(roots);
-  return [...roots.values()];
+  // Standalone root pages have their own navigation. Keep mapped root MoCs
+  // above, but do not invent an archive frame for the filesystem root.
+  return [...roots.values()].filter((root) => root.path);
 }
 export const sortedFolders = (nodes: Iterable<FolderNode>) =>
   [...nodes].sort((a, b) => a.path.localeCompare(b.path, "en"));

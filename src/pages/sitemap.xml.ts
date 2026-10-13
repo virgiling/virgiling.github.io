@@ -1,13 +1,19 @@
 import { getSnapshot } from "../content/snapshot";
-import { canonical } from "../site.config";
+import { canonical, siteConfig } from "../site.config";
+import { buildArchivePagination, archiveRoute } from "../ui/archive-pagination";
 import { buildTags } from "../ui/tags";
 import { esc } from "../ui/shared";
 export async function GET() {
-  const { listed } = await getSnapshot();
+  const { listed, directories } = await getSnapshot();
+  const archive = buildArchivePagination(listed, {
+    ...siteConfig.archive,
+    directories,
+  });
   const routes = [
     ...listed.map((n) => ({ path: n.route, date: n.updated || n.date })),
     ...[
       "articles",
+      ...archive.pages.slice(1).map((_, i) => archiveRoute(i + 1)),
       "updates",
       "journey",
       ...buildTags(listed).map(

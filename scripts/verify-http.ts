@@ -32,6 +32,10 @@ try{
   assert.ok(tagLinks.includes(base+'tags/434346'),'Homepage #CCF must link to its tag page');
   const paths=[base,base+'articles',base+'updates',base+'link',base+'about',base+'journey',base+'03-tools/obsidian-plugin',base+'01-courses/MITOS/',base+'01-courses/MITOS/xv6-lab0',base+'rss.xml',base+'sitemap.xml'];
   paths.push(...new Set(tagLinks));
+  const sitemap=await(await fetch(origin+base+'sitemap.xml')).text();
+  const archivePaths=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>new URL(match[1]).pathname).filter(path=>path.startsWith(base+'articles/')&&/^\d+$/.test(path.slice((base+'articles/').length)));
+  assert.ok(archivePaths.length>0,'The current archive must expose its static continuation pages');
+  paths.push(...archivePaths);
   for(const match of home.matchAll(/(?:src|data-search-index|data-graph-index)="([^"<>]+)"/g))if(match[1].startsWith(base))paths.push(match[1]);
   if(hasBiro())paths.push(biroURL(base));
   for(const path of paths){const response=await fetch(origin+path);assert.equal(response.status,200,`${path} returned ${response.status}`);assert.ok((await response.arrayBuffer()).byteLength>0);}
@@ -48,6 +52,24 @@ try{
   const article=await(await fetch(origin+base+'03-tools/obsidian-plugin')).text(),images:any[]=[];
   visit(fromHtml(article),'element',(node:any)=>{if(node.tagName==='img')images.push(node.properties);});
   const parser=new DOMParser() as unknown as globalThis.DOMParser;
+  for(const path of [base+'articles',...archivePaths]){
+    const page=parser.parseFromString(await(await fetch(origin+path)).text(),'text/html');
+    assert.equal(page.querySelectorAll('.folder-frame').length,1,'Each archive page keeps one directory frame');
+    assert.equal(page.querySelector('[data-folder-root=""]'),null,'The archive must not expose a root frame');
+    assert.equal(page.querySelectorAll('.archive-pagination').length,1,'Only one top pager');
+    assert.equal(page.querySelectorAll('.archive-pagination > *').length,5,'First, previous, current/total, next, last');
+    for(const link of page.querySelectorAll<HTMLAnchorElement>('.archive-pagination a')){
+      assert.ok(link.hasAttribute('data-control-motion'));
+      assert.equal((await fetch(new URL(link.getAttribute('href')!,origin))).status,200,'Native pagination destination');
+    }
+    assert.ok(page.querySelectorAll('[data-note]').length<=siteConfig.archive.pageSize,'Only the current article slice may be sent');
+    for(const link of page.querySelectorAll<HTMLAnchorElement>('.archive-directories a')){
+      const target=new URL(link.getAttribute('href')!,origin);
+      const response=await fetch(target);assert.equal(response.status,200,target.pathname);
+      const targetPage=parser.parseFromString(await response.text(),'text/html');
+      assert.ok(targetPage.getElementById(decodeURIComponent(target.hash.slice(1))),'Directory link must land on its actual frame');
+    }
+  }
   const preview=extractPreviewContent(article,'03-tools/obsidian-plugin.md',new URL(origin+base+'03-tools/obsidian-plugin'),'http-popout',parser);
   const authored=parser.parseFromString(article,'text/html').querySelector('.prose')!;
   assert.equal(preview.container.querySelector('.prose')!.textContent,authored.textContent,'HTTP article preview must include the full prose, not its summary');

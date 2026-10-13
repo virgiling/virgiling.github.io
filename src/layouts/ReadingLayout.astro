@@ -3,7 +3,10 @@ import SiteLayout from "./SiteLayout.astro";
 import Comments from "../components/Comments.astro";
 import TaggedText from "../components/TaggedText.astro";
 import { linkableTags } from "../inline-tags";
-import { url } from "../site.config";
+import { url, siteConfig } from "../site.config";
+import SeriesNav from "../components/SeriesNav.astro";
+import { seriesNavigation } from "../ui/series";
+import { buildArchivePagination } from "../ui/archive-pagination";
 import ReadingMeta from "../components/ReadingMeta.astro";
 import ReadingSidebar from "../components/ReadingSidebar.astro";
 import OnThisPage from "../components/OnThisPage.astro";
@@ -40,6 +43,17 @@ const readingNote = friends?.friends.length
     }
   : note;
 const articleHTML = articleImages(friends?.html ?? note.html);
+const archive = buildArchivePagination(snapshot.listed, {
+  ...siteConfig.archive,
+  directories: snapshot.directories,
+});
+const series = seriesNavigation(
+  note,
+  snapshot.listed,
+  snapshot.directories,
+  archive.directories,
+);
+const asOf = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
 const active =
   note.source === "link.md"
     ? "friends"
@@ -65,6 +79,8 @@ const previews = related.map((n) => ({
   active={active}
   reading
   unlisted={note.unlisted}
+  published={note.date}
+  modified={note.updated}
 >
   <main class="shell article-layout" id="main">
     <article class="article" data-note-id={note.id}>
@@ -72,10 +88,13 @@ const previews = related.map((n) => ({
         note={note}
         pages={snapshot.listed}
         directories={snapshot.directories}
+        archiveLinks={archive.directories}
       />
       {!friends?.friends.length && (
         <header class="article-header" data-preview-content>
-          <div class="eyebrow">FROM THE NOTEBOOK</div>
+          {note.kind === "landing" && (
+            <div class="eyebrow">FROM THE NOTEBOOK</div>
+          )}
           <h1 id="page-title">
             <TaggedText
               text={note.title}
@@ -84,6 +103,7 @@ const previews = related.map((n) => ({
             />
           </h1>
           <ReadingMeta note={note} />
+          <FreshnessNotice note={note} asOf={asOf} />
           {note.tags.length > 0 && (
             <div class="article-tags">
               {note.tags.map((t) =>
@@ -99,10 +119,7 @@ const previews = related.map((n) => ({
           )}
         </header>
       )}
-      <FreshnessNotice
-        note={note}
-        asOf={process.env.BUILD_DATE || new Date().toISOString().slice(0, 10)}
-      />
+      {friends?.friends.length && <FreshnessNotice note={note} asOf={asOf} />}
       <div class="prose" data-preview-content set:html={articleHTML} />
       {friends?.friends.length ? (
         <div data-preview-content>
@@ -117,14 +134,17 @@ const previews = related.map((n) => ({
           />
         </div>
       ) : null}
-      <Comments note={note} />
-      {note.kind !== "landing" && (
+      <SeriesNav model={series} />
+      {note.unlisted && (
         <div class="article-bottom">
           <a href={url("articles")}>← 返回文章</a>
         </div>
       )}
     </article>
     <ReadingSidebar note={readingNote} pages={snapshot.listed} />
+    <div class="reading-discussion">
+      <Comments note={note} />
+    </div>
   </main>
   <button
     class="mobile-outline"

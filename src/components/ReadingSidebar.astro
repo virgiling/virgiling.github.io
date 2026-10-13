@@ -23,11 +23,11 @@ const home = note.source === "index.md";
     note={note.unlisted ? { ...note, tags: [] } : note}
     neighbors={connected}
   />
-  <section class="side-section">
+  <section class="side-section outline-section">
     <OnThisPage headings={note.headings} linkTags={!note.unlisted} />
   </section>
   {!home && (
-    <section class="side-section">
+    <section class="side-section backlinks-section">
       <h2 class="side-title">
         反向链接 <small>{incoming.length}</small>
       </h2>

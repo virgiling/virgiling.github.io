@@ -56,7 +56,10 @@ export function verifyStyles(css:string){
   has('.popover-body',{'overflow':'auto','overscroll-behavior':'contain'});
   assert.ok(entries.some(e=>e.selector==='.popover-body'&&e.declarations['max-height']?.includes('dvh')),'Full previews need a viewport-bounded scroll area');
   has('.folder-heading-link',{display:'inline-flex',color:'var(--accent)'});
-  has('.folder-heading-name',{'text-decoration-line':'underline'});
+  has('.folder-heading-name a',{'text-decoration':'none'});
+  has('.archive-control',{'min-height':'38px','border-radius':'999px','text-decoration':'none'});
+  has('.archive-pagination',{'justify-content':'center','flex-wrap':'nowrap'});
+  assert.ok(entries.some(e=>e.selector==='.archive-control.is-card-emphasized'&&e.declarations.transform==='translateY(-2px)'),'Archive controls must retain their Motion lift target');
   has('.folder-link-hint',{display:'inline-flex','font-size':'13px'});
   assert.ok(entries.some(e=>e.selector==='.folder-heading-link.is-emphasized .folder-link-arrow'&&['translateX(3px)','translate(3px)'].includes(e.declarations.transform)),'MoC arrow state must remain after CSS minification');
   for(const selector of ['.tag','.inline-tag']){

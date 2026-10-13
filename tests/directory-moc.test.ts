@@ -39,13 +39,13 @@ test('ambiguous MoCs or equally named root folders fail closed with public-only 
   assert.ok(collisions.every(d=>!d.moc));assert.equal(warnings.length,2);
 });
 
-test('unmatched and nested outlines stay cards; a public MoC-only directory retains its heading',async()=>{
+test('root outlines are omitted, nested outlines stay cards, and a public MoC-only directory retains its heading',async()=>{
   const notes=[note('orphan-toc.md'),note('01-courses/sub/sub-toc.md'),note('tools-toc.md')];
   const dirs=mapDirectoryMocs(notes,[{path:'03-tools',title:'Tools'}]);
   const roots=buildFolderTree(notes,dirs);
   assert.equal(roots.find(n=>n.path==='03-tools')!.moc!.source,'tools-toc.md');
   const html=await renderComponent('Archive',{notes,config:{directories:dirs}});
-  assert.ok(html.includes('data-note="orphan-toc.md"'));assert.ok(html.includes('data-note="01-courses/sub/sub-toc.md"'));
+  assert.ok(!html.includes('data-note="orphan-toc.md"'));assert.ok(html.includes('data-note="01-courses/sub/sub-toc.md"'));
   assert.ok(html.includes('data-directory-moc="tools-toc.md"'));assert.ok(!html.includes('data-note="tools-toc.md"'));
 });
 
@@ -63,7 +63,7 @@ test('archive represents each MoC once as a native heading link, preserving labe
 });
 
 test('garden summary counts unique notes and explicit themes, not synthesized tag ancestors',async()=>{
-  const a={...note('a.md'),tags:['topic/sub']},b={...note('b.md'),tags:['topic/sub','tools']};
+  const a={...note('folder/a.md'),tags:['topic/sub']},b={...note('folder/b.md'),tags:['topic/sub','tools']};
   const tree=parse(await renderComponent('Archive',{notes:[a,b,a]}));
   assert.equal(text(find(tree,n=>attrs(n).class==='archive-count')[0]),'2 则笔记，2 个主题，慢慢生长。');
 });

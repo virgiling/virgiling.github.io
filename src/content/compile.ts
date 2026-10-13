@@ -17,6 +17,8 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { remarkCallouts, rehypeCallouts } from "../markdown/callouts";
 import { rehypeFigures } from "../markdown/figures";
+import { noteSummary } from "./summary";
+import { markCodeLanguages, codeBlockFrames } from "../markdown/code-blocks";
 import {
   markdownTags,
   headingTagParts,
@@ -567,12 +569,7 @@ export class Compiler {
       .replace(/!?\[\[[^\]]+\]\]/g, "")
       .replace(/\s+/g, " ")
       .trim();
-    note.summary =
-      note.description ||
-      note.plainText
-        .split(/(?<=[。！？])\s*|(?<=[.!?])\s+(?=[A-Z\p{Script=Han}])/u)[0]
-        ?.slice(0, 240) ||
-      note.title;
+    note.summary = noteSummary(note.tree, note.description, note.title);
     const schema: any = {
       ...defaultSchema,
       clobberPrefix: "",
@@ -665,7 +662,18 @@ export class Compiler {
           return index + 2;
         });
       })
-      .use(shiki, { theme: "catppuccin-latte", fallbackLanguage: "text" })
+      .use(markCodeLanguages)
+      .use(shiki, {
+        theme: "catppuccin-latte",
+        fallbackLanguage: "text",
+        transformers: [
+          {
+            pre(node) {
+              node.properties.dataLanguage = this.options.lang;
+            },
+          },
+        ],
+      })
       .use(mathjax)
       .use(() => (tree) => {
         visit(tree, "element", (n: any, index, parent: any) => {
@@ -728,6 +736,10 @@ export class Compiler {
           if (
             n.tagName === "a" &&
             (n.properties.dataPreview || missing) &&
+            textOf(n)
+              .replace(/[\u200B\uFEFF]/g, "")
+              .trim() &&
+            n.properties.href !== note.url &&
             !n.properties.className?.includes("preview-button") &&
             parent &&
             index !== undefined
@@ -758,6 +770,7 @@ export class Compiler {
       .use(stringify);
     const hast = await processor.run(tree);
     note.readingText = textOf(hast);
+    codeBlockFrames()(hast);
     note.html = processor.stringify(hast);
     return note;
   }
