@@ -107,9 +107,6 @@
   text-decoration-line: line-through;
   text-decoration-style: double;
 }
-.prose > :is(p, ul, ol, blockquote) {
-  max-width: var(--prose-measure);
-}
 @supports (text-autospace: normal) {
   .prose {
     text-autospace: normal;

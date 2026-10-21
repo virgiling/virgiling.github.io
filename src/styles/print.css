@@ -21,9 +21,6 @@
     width: 100%;
     max-width: none;
   }
-  .prose > :is(p, ul, ol, blockquote) {
-    max-width: none;
-  }
   .prose pre {
     white-space: pre-wrap;
     overflow-wrap: anywhere;

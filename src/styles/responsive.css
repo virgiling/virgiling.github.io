@@ -1,7 +1,7 @@
 /* Responsive breakpoints in cascade order. */
 @media (min-width: 1441px) {
   :root {
-    --reading-width: 1260px;
+    --reading-width: 1200px;
   }
 }
 @media (max-width: 1100px) {

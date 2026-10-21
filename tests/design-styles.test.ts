@@ -2,18 +2,19 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readSiteStyles} from './helpers/styles';
 
-test('reading polish keeps decorative typography and heading lines while bounding prose and code',async()=>{
+test('reading polish keeps decorative typography, full-column prose, and code sizing',async()=>{
   const root=await readSiteStyles();
   const values=(selector:string)=>{const entries:string[]=[];root.walkRules(rule=>{if(rule.selectors.includes(selector))entries.push(rule.toString());});return entries.join('\n');};
   assert.match(values('.eyebrow'),/text-\[11px\]/);assert.match(values('.eyebrow'),/text-\[10px\]/);
   assert.match(values('.prose h2'),/border-bottom: 1px solid #cfd8c5/);
   assert.match(values('.prose h3 .heading-text'),/border-bottom: 1px dashed #b3c1a7/);
   assert.match(values('.prose h1 + h2'),/margin-top: 20px/);
-  assert.match(values(':root'),/--prose-measure: 40em/);
+  assert.doesNotMatch(values(':root'),/--prose-measure/);
+  assert.match(values(':root'),/--reading-width: 1200px/);
+  assert.match(values(':root'),/--reading-gap: clamp\(44px, 4vw, 64px\)/);
   assert.match(values(':root'),/--sidebar-width: clamp\(256px, 19vw, 280px\)/);
   assert.match(values('.update-heatmap svg'),/max-w-\[280px\]/);
   assert.match(values('.graph'),/max-w-\[280px\]/);
-  assert.match(values('.prose > :is(p, ul, ol, blockquote)'),/max-width: var\(--prose-measure\)/);
   assert.match(values('.prose pre'),/text-\[14px\]/);assert.doesNotMatch(values('.prose pre'),/text-\[(?:11|12)px\]/);
   assert.match(values('.prose pre'),/line-height: 1.95/);
   assert.match(values('.prose pre'),/rounded-\[9px\].*py-\[20px\] px-\[23px\]/);
