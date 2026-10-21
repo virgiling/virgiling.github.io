@@ -1,0 +1,123 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { cardMotionEnvironment } from "./helpers/card-motion-environment";
+
+test("opt-in cards enlarge by one percent through shared Motion and rapid reversals return transforms to CSS", async () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.ok(f.classes.has("is-card-emphasized"));
+  assert.equal(f.card.animations.length, 1);
+  assert.match(
+    String(f.card.animations[0].keyframes.transform),
+    /scale\(1\.01\)/,
+  );
+  f.emit("pointerleave");
+  assert.equal(f.classes.has("is-card-emphasized"), false);
+  assert.equal(f.card.animations[0].playState, "idle");
+  for (let i = 0; i < 5; i++) {
+    f.emit("pointerenter", { pointerType: "mouse" });
+    f.emit("pointerleave");
+  }
+  f.card.animations.forEach((animation) => animation.finish());
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(f.card.style.transform, "");
+  assert.equal(f.classes.size, 0);
+  f.controller.destroy();
+});
+test("card hover excludes touch/coarse pointers; keyboard focus stays active while moving between card links", () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "touch" });
+  assert.equal(f.card.animations.length, 0);
+  f.hoverable.matches = false;
+  f.hoverable.dispatchEvent(new Event("change"));
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.equal(f.card.animations.length, 0);
+  f.emit("focusin");
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("focusout", { relatedTarget: f.sibling });
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("pointerleave");
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("focusout", { relatedTarget: null });
+  assert.equal(f.classes.size, 0);
+  f.controller.destroy();
+});
+test("reduced motion, hover capability changes and hidden pages cancel and settle card effects immediately", () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.preference.matches = true;
+  f.preference.dispatchEvent(new Event("change"));
+  assert.equal(f.card.animations[0].playState, "idle");
+  assert.equal(f.classes.size, 0);
+  assert.equal(f.card.style.transform, "");
+  f.emit("focusin");
+  assert.equal(f.card.animations.length, 1);
+  f.preference.matches = false;
+  f.preference.dispatchEvent(new Event("change"));
+  assert.ok(f.classes.has("is-card-emphasized"));
+  assert.equal(f.card.animations.length, 1);
+  f.doc.hidden = true;
+  f.doc.dispatchEvent(new Event("visibilitychange"));
+  assert.equal(f.classes.size, 0);
+  f.doc.hidden = false;
+  f.doc.dispatchEvent(new Event("visibilitychange"));
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.emit("focusout", { relatedTarget: null });
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.hoverable.matches = false;
+  f.hoverable.dispatchEvent(new Event("change"));
+  assert.equal(f.classes.size, 0);
+  assert.equal(f.card.style.transform, "");
+  f.controller.destroy();
+  const reduced = cardMotionEnvironment({ reduce: true });
+  reduced.emit("pointerenter", { pointerType: "mouse" });
+  reduced.emit("focusin");
+  assert.equal(reduced.card.animations.length, 0);
+  assert.equal(reduced.classes.size, 0);
+  reduced.controller.destroy();
+});
+test("card destruction cancels effects, removes listeners and permits a fresh page controller", () => {
+  const f = cardMotionEnvironment();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.controller.destroy();
+  f.controller.destroy();
+  assert.equal(f.card.animations[0].playState, "idle");
+  assert.equal(f.classes.size, 0);
+  assert.equal(f.card.style.transform, "");
+  f.emit("pointerenter", { pointerType: "mouse" });
+  f.emit("focusin");
+  f.preference.dispatchEvent(new Event("change"));
+  f.doc.dispatchEvent(new Event("visibilitychange"));
+  assert.equal(f.card.animations.length, 1);
+  assert.equal(f.classes.size, 0);
+  const restored = f.api.initCardMotion();
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.equal(f.card.animations.length, 2);
+  assert.ok(f.classes.has("is-card-emphasized"));
+  restored.destroy();
+});
+test("floating archive controls lift through Motion and cancel on reversal, reduced motion and destruction", () => {
+  const f = cardMotionEnvironment({ control: true });
+  f.emit("pointerenter", { pointerType: "mouse" });
+  assert.match(String(f.card.animations[0].keyframes.transform), /translateY\(-2px\)/);
+  f.emit("pointerleave");
+  assert.equal(f.card.animations[0].playState, "idle");
+  f.emit("focusin");
+  assert.ok(f.classes.has("is-card-emphasized"));
+  f.preference.matches = true;
+  f.preference.dispatchEvent(new Event("change"));
+  assert.equal(f.card.style.transform, "");
+  assert.equal(f.classes.size, 0);
+  const count = f.card.animations.length;
+  f.emit("focusout");
+  f.emit("pointerenter", { pointerType: "touch" });
+  assert.equal(f.card.animations.length, count);
+  f.controller.destroy();
+  f.preference.matches = false;
+  f.emit("focusin");
+  assert.equal(f.card.animations.length, count);
+  const restored = f.api.initCardMotion();
+  f.emit("focusin");
+  assert.equal(f.card.animations.length, count + 1);
+  restored.destroy();
+});

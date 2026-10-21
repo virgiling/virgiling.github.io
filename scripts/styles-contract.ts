@@ -28,8 +28,8 @@ export function verifyStyles(css:string){
   has('.article-header>h1',{'font-size':'28px'},'560');
   has('.prose h1',{'font-size':'30px'});
   has('.prose h1',{'font-size':'26px'},'560');
-  for(const selector of ['.prose h2','.prose h3'])has(selector,{display:'block'},'800');
-  has('.prose .heading-anchor',{display:'none'},'800');
+  for(const selector of ['.prose h2','.prose h3'])has(selector,{display:'block'},'960');
+  has('.prose .heading-anchor',{display:'none'},'960');
   assert.ok(!entries.some(e=>/^\.article h1(?::|$)/.test(e.selector)),'Page-title styles must not match every prose h1');
   has('.friends-section h1',{'font-size':'24px'});
   has('.friend-posts li',{display:'grid','grid-template-columns':'minmax(0,1fr) auto','padding-block':'8px'});
@@ -38,7 +38,7 @@ export function verifyStyles(css:string){
   has('.friend-post-title',{'font-size':'15px','text-overflow':'ellipsis','white-space':'nowrap'});
   has('.friend-post-date',{'white-space':'nowrap'});
   has('.article-layout',{display:'grid'});
-  has('.article-layout',{display:'block'},'800');
+  has('.article-layout',{display:'block'},'960');
   has('.reading-meta',{'font-family':'var(--hand)','font-size':'18px'});
   has('.reading-meta',{'font-size':'17px'},'560');
   has('.prose',{'font-size':'var(--reading-font-size)','line-height':'1.95'});
@@ -74,6 +74,8 @@ export function verifyStyles(css:string){
   assert.ok(!entries.some(e=>e.selector==='.inline-tag'&&e.declarations['text-decoration-line']==='underline'),'Inline tags must look like badges, not ordinary underlined links');
   assert.ok(!entries.some(e=>e.selector.includes('.inline-tag')&&/:{1,2}before$/.test(e.selector)&&e.declarations.content&&!['none','""',"''"].includes(e.declarations.content)),'Inline tag text already contains its # prefix');
   has('.toc-scroll',{'overscroll-behavior':'contain'});
+  has('.graph',{'max-width':'280px'},'960');
+  has('.update-heatmap svg',{'max-width':'280px'});
   has('.graph svg[data-local-graph]',{'touch-action':'none',cursor:'default'});
   has('.graph-local a[data-node-id]',{cursor:'grab'});
   has('.graph-local a.is-dragging',{cursor:'grabbing'});

@@ -1,0 +1,82 @@
+/* Base element styles: box sizing, typography, links, focus, and shell primitives. */
+* {
+  @apply box-border;
+}
+html {
+  scroll-padding-top: calc(var(--topbar-height, 35px) + 12px);
+}
+body {
+  @apply m-0 text-ink font-body text-[17px];
+  background: var(--paper);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+a {
+  @apply text-accent;
+  text-underline-offset: 4px;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+button {
+  @apply text-inherit cursor-pointer;
+}
+button:disabled {
+  @apply cursor-default;
+}
+[hidden] {
+  display: none !important;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+pre:focus-visible {
+  @apply rounded-[4px];
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+::selection {
+  @apply text-[#263823];
+  background: #dfe8d2;
+}
+.shell {
+  @apply w-[min(var(--reading-width),calc(100%_-_80px))] mx-auto;
+}
+.skip {
+  @apply fixed left-[16px] top-[-80px] py-[10px] px-[18px] z-[80];
+  background: white;
+}
+.skip:focus {
+  @apply top-[12px];
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  @apply mt-0;
+}
+h1,
+h2,
+h3,
+h4 {
+  @apply font-semibold;
+  line-height: 1.45;
+}
+svg {
+  @apply max-w-full;
+}
+code,
+kbd,
+pre {
+  @apply font-code;
+}

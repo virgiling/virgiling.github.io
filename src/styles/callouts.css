@@ -1,0 +1,135 @@
+/* Baseline-inspired spacing; site-specific opaque tints keep nested callout colors independent. */
+.callout {
+  @apply my-[25px] mx-0 p-[16px] rounded-[10px] text-inherit;
+  --callout-color: #446487;
+  --callout-bg: #edf2f8;
+  --callout-border: #bbcbdc;
+  background: var(--callout-bg);
+  border: 1px solid var(--callout-border);
+  font: inherit;
+  overflow-wrap: anywhere;
+}
+.callout[data-callout-kind="abstract"] {
+  --callout-color: #3d6c72;
+  --callout-bg: #eaf3f2;
+  --callout-border: #aacacb;
+}
+.callout[data-callout-kind="info"] {
+  --callout-color: #366d83;
+  --callout-bg: #eaf3f7;
+  --callout-border: #a6c8d4;
+}
+.callout[data-callout-kind="todo"] {
+  --callout-color: #526087;
+  --callout-bg: #eff1f8;
+  --callout-border: #bbc2d9;
+}
+.callout[data-callout-kind="tip"] {
+  --callout-color: #496c45;
+  --callout-bg: #edf4e9;
+  --callout-border: #b7cdb0;
+}
+.callout[data-callout-kind="success"] {
+  --callout-color: #357054;
+  --callout-bg: #e9f4ed;
+  --callout-border: #a7cdb4;
+}
+.callout[data-callout-kind="question"] {
+  --callout-color: #7b652e;
+  --callout-bg: #f8f3e4;
+  --callout-border: #dacc9e;
+}
+.callout[data-callout-kind="warning"] {
+  --callout-color: #8b5b22;
+  --callout-bg: #fbf0de;
+  --callout-border: #debf89;
+}
+.callout[data-callout-kind="failure"] {
+  --callout-color: #945154;
+  --callout-bg: #f8eeee;
+  --callout-border: #d8b4b5;
+}
+.callout[data-callout-kind="danger"] {
+  --callout-color: #993e3b;
+  --callout-bg: #f9e9e7;
+  --callout-border: #dbaaa5;
+}
+.callout[data-callout-kind="bug"] {
+  --callout-color: #9a4b32;
+  --callout-bg: #faede5;
+  --callout-border: #debaaa;
+}
+.callout[data-callout-kind="example"] {
+  --callout-color: #66578a;
+  --callout-bg: #f1edf7;
+  --callout-border: #c9bddf;
+}
+.callout[data-callout-kind="quote"] {
+  --callout-color: #636b65;
+  --callout-bg: #f0f1ed;
+  --callout-border: #c5cac1;
+}
+/* Preserve important -> tip in OFM, but give this authored identifier its own emphasis color. */
+.callout[data-callout="important"] {
+  --callout-color: #765181;
+  --callout-bg: #f4edf7;
+  --callout-border: #d1b8d9;
+}
+.callout-title {
+  @apply flex items-center gap-[8px] text-[length:inherit] font-semibold text-[var(--callout-color)];
+  line-height: 1.6;
+}
+.callout-title-inner {
+  @apply min-w-0 flex-[1];
+}
+.callout-icon {
+  @apply flex flex-[0_0_20px] w-[20px];
+}
+.callout-icon svg {
+  @apply w-[20px] h-[20px];
+}
+.callout-content {
+  @apply ml-[28px];
+}
+.callout-content > :first-child {
+  margin-block-start: 8px;
+}
+.callout-content > :last-child {
+  margin-block-end: 0;
+}
+.callout-content p {
+  margin-block-end: 19px;
+}
+.callout-content:empty {
+  @apply hidden;
+}
+.callout pre {
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+.callout > summary {
+  @apply cursor-pointer list-none;
+}
+.callout > summary::-webkit-details-marker {
+  @apply hidden;
+}
+.callout-fold {
+  @apply text-[22px] font-normal;
+  line-height: 1;
+}
+.callout[open] > .callout-title .callout-fold {
+  transform: rotate(90deg);
+}
+.welcome-note {
+  @apply mt-[24px] mr-0 mb-[32px] ml-0 font-hand font-normal;
+  line-height: 1.4;
+}
+.welcome-note br {
+  @apply hidden;
+}
+.welcome-quote {
+  @apply text-[38px] block text-[#4a5642];
+}
+.welcome-label {
+  @apply text-[32px] text-[#596650] block mt-[10px];
+}

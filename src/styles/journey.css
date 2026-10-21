@@ -1,0 +1,18 @@
+/* Journey page and empty state. */
+.journey-page {
+  @apply min-h-[62vh];
+}
+.journey-empty {
+  @apply pt-[66px] pr-[20px] pb-[86px] pl-[20px] text-center;
+}
+.empty-symbol {
+  @apply text-[48px] text-[#879978];
+  line-height: 1.2;
+}
+.journey-empty h2 {
+  @apply text-[24px] font-normal my-[18px] mx-0;
+}
+.journey-empty a {
+  @apply text-[15px];
+  text-decoration: none;
+}

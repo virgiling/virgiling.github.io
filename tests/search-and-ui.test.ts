@@ -47,5 +47,7 @@ test('recursive archive keeps each source once, directory lead first and tags se
 test('homepage sidebar order differs from reading pages without fabricating backlinks',async()=>{
   const home={...note('index.md'),kind:'landing'},about={...note('about.md'),kind:'landing',links:['index.md']};
   const html=await renderComponent('ReadingSidebar',{note:home,pages:[home,about],config:siteConfig});assert.ok(html.indexOf('最近更新')<html.indexOf('关系图谱'));assert.ok(!html.includes('反向链接'));
-  const other=await renderComponent('ReadingSidebar',{note:about,pages:[home,about],config:siteConfig});assert.match(other,/反向链接 <small>0/);
+  const other=await renderComponent('ReadingSidebar',{note:about,pages:[home,about],config:siteConfig});assert.match(other,/反向链接<\/h2><small class="rail-count">0/);
+  assert.ok(other.indexOf('关系图谱')<other.indexOf('ON THIS PAGE'));
+  assert.ok(other.indexOf('ON THIS PAGE')<other.indexOf('反向链接'));
 });

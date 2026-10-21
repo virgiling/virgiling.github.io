@@ -1,0 +1,248 @@
+/* A single reading layout for home, about, and articles. */
+.article-layout {
+  @apply grid gap-[var(--reading-gap)] pt-[43px];
+  grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
+  row-gap: 0;
+}
+.reading-discussion {
+  grid-column: 1;
+  min-width: 0;
+}
+.series-neighbors {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.series-neighbors a {
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+.series-neighbors a[rel="next"] {
+  text-align: right;
+}
+.series-neighbors span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+.article {
+  @apply min-w-0 text-[length:var(--reading-font-size)];
+  line-height: 1.95;
+}
+.article-header {
+  @apply mb-[30px];
+}
+.breadcrumb {
+  @apply text-[13px] text-accent mb-[26px];
+  letter-spacing: 0.06em;
+}
+.breadcrumb ol {
+  @apply flex flex-wrap gap-y-[4px] gap-x-[10px] list-none m-0 p-0;
+}
+.breadcrumb li {
+  @apply flex gap-[10px] items-baseline min-w-0;
+}
+.breadcrumb li + li:before {
+  @apply text-muted;
+  content: "/";
+}
+.breadcrumb a {
+  @apply text-accent;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+.article-header > h1 {
+  @apply text-[32px] mt-[12px];
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.reading-meta {
+  @apply flex items-center gap-y-[5px] gap-x-[21px] flex-wrap font-hand text-[18px] text-metadata font-normal;
+  line-height: 1.8;
+}
+.reading-meta > span {
+  @apply inline-flex items-center gap-[7px] whitespace-nowrap;
+}
+.reading-meta time {
+  font: inherit;
+}
+.meta-icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.read-time {
+  @apply pl-[13px];
+  border-left: 1px solid #cdd6c4;
+}
+.series-return,
+.article-tags {
+  @apply flex gap-y-[8px] gap-x-[15px] flex-wrap mt-[13px];
+}
+.prose {
+  @apply text-[length:var(--reading-font-size)];
+  line-height: 1.95;
+  overflow-wrap: break-word;
+}
+.prose p {
+  @apply mt-0 mr-0 mb-[19px] ml-0;
+}
+.prose a {
+  overflow-wrap: anywhere;
+}
+.prose .csl-entry {
+  display: grid;
+  grid-template-columns: minmax(4em, max-content) minmax(0, 1fr);
+  gap: 0.75em;
+  margin-block: 0.75em;
+}
+.prose .reference-venue {
+  color: var(--muted);
+}
+.prose del,
+.prose s {
+  text-decoration-line: line-through;
+  text-decoration-style: double;
+}
+.prose > :is(p, ul, ol, blockquote) {
+  max-width: var(--prose-measure);
+}
+@supports (text-autospace: normal) {
+  .prose {
+    text-autospace: normal;
+  }
+  .prose :is(pre, code, kbd) {
+    text-autospace: no-autospace;
+  }
+}
+.prose h1 + h2 {
+  margin-top: 20px;
+}
+.prose h1 {
+  @apply text-[30px] mt-[40px] mr-0 mb-[20px] ml-0 pb-[10px];
+  border-bottom: 1px solid #cfd8c5;
+  scroll-margin-top: 36px;
+}
+.prose h2 {
+  @apply flex items-baseline gap-[13px] text-[26px] mt-[44px] mr-0 mb-[21px] ml-0 pb-[10px];
+  border-bottom: 1px solid #cfd8c5;
+  scroll-margin-top: 36px;
+}
+.prose h3 {
+  @apply flex items-baseline gap-[10px] text-[21px] mt-[29px] mr-0 mb-[16px] ml-0;
+  scroll-margin-top: 36px;
+}
+.prose h3 .heading-text {
+  @apply pb-[3px];
+  border-bottom: 1px dashed #b3c1a7;
+}
+.heading-anchor {
+  @apply font-body font-normal text-[17px] text-[#658257] shrink-0;
+  text-decoration: none;
+}
+.heading-anchor:hover {
+  @apply text-[#304c26];
+}
+.prose blockquote {
+  @apply my-[25px] mx-0 pt-[5px] pr-0 pb-[5px] pl-[21px] text-[#5b6854];
+  border-left: 2px solid #aeba9e;
+}
+.prose blockquote p:last-child {
+  @apply mb-0;
+}
+.prose ul,
+.prose ol {
+  @apply pl-[27px] mt-[16px] mr-0 mb-[22px] ml-0;
+}
+.prose li {
+  @apply pl-[3px] my-[9px] mx-0;
+}
+.prose li p {
+  @apply mb-[5px];
+}
+.prose mark {
+  @apply text-inherit py-[1px] px-[4px];
+  background: #e9eedb;
+}
+.prose :not(pre) > code {
+  @apply text-[.8em] py-[2px] px-[6px] rounded-[5px];
+  color: #334b31;
+  background: #e2e6df;
+  overflow-wrap: anywhere;
+}
+.prose pre {
+  @apply rounded-[9px] overflow-auto my-[25px] mx-0 py-[20px] px-[23px] text-[14px] max-w-full text-[#3e4d36];
+  background: #f1f2ec;
+  border: 1px solid #e4e7db;
+  line-height: 1.95;
+  tab-size: 2;
+}
+.prose pre code {
+  @apply text-[length:inherit];
+}
+.preview-button svg {
+  @apply inline-block w-[12px] h-[12px] align-middle;
+}
+.code-block {
+  position: relative;
+  margin-block: 25px;
+}
+.prose .code-block pre {
+  margin: 0;
+}
+.copy-code {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  opacity: 0;
+  pointer-events: none;
+}
+.code-block:hover .copy-code,
+.code-block:focus-within .copy-code {
+  opacity: 1;
+  pointer-events: auto;
+}
+.preview-button {
+  @apply align-middle text-[12px] text-[#486447] ml-[5px] py-0 px-[5px] rounded-[4px];
+  border: 1px solid #b8c3ad;
+  background: transparent;
+  line-height: 1.6;
+}
+@media (hover: hover) and (pointer: fine) {
+  .preview-button {
+    border-color: transparent;
+    color: var(--muted);
+    opacity: 0.5;
+  }
+  a[data-preview]:is(:hover, :focus-visible) + .preview-button,
+  .preview-button:is(:hover, :focus-visible) {
+    border-color: #b8c3ad;
+    color: var(--accent);
+    opacity: 1;
+  }
+}
+@media (any-pointer: coarse) {
+  .preview-button {
+    min-width: 32px;
+    min-height: 32px;
+    border-color: #b8c3ad;
+    color: var(--accent);
+    opacity: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

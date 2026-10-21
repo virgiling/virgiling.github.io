@@ -20,10 +20,11 @@ test('archive omits the root frame and counts only represented cards and mapped 
   assert.equal(page.querySelector('[data-folder-root=""]'), null);
   assert.equal(page.querySelector('[data-note="link.md"],[data-note="orphan-toc.md"]'), null);
   assert.equal(page.querySelector('[data-directory-moc]')?.getAttribute('href'), url('story-toc'));
-  assert.equal(page.querySelector('.archive-count')?.textContent?.trim(), '2 则笔记，慢慢生长。');
+  assert.equal(page.querySelector('.archive-count'), null);
+  assert.equal(page.querySelector('.eyebrow'), null);
   const chip = page.querySelector('.archive-directories a')!;
-  assert.equal(chip.querySelector('.archive-directory-number')?.textContent, '01');
-  assert.equal(chip.querySelector('.archive-directory-count')?.textContent, '2');
+  assert.equal(chip.querySelector('.archive-directory-name')?.textContent, '个人随笔');
+  assert.equal(chip.querySelector('.archive-directory-count')?.textContent, '2 则');
   assert.ok(chip.hasAttribute('data-control-motion'));
   assert.ok(page.querySelector('.folder-heading-link[data-control-motion]'));
 });

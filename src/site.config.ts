@@ -4,7 +4,6 @@ const schema = z.object({
   site: z.url(),
   base: z.string().regex(/^\/(?:[\w-]+\/)*$/),
   brand: z.object({
-    mark: z.string(),
     name: z.string(),
     byline: z.string(),
     author: z.string(),
@@ -41,7 +40,6 @@ export const siteConfig = schema.parse({
   site: "https://virgiling.wiki",
   base: process.env.SITE_BASE || "/",
   brand: {
-    mark: "栞",
     name: "忘れてください",
     byline: "",
     author: "Dian 'Virgil' Ling",

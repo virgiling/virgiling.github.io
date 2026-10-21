@@ -49,7 +49,7 @@ test('root outlines are omitted, nested outlines stay cards, and a public MoC-on
   assert.ok(html.includes('data-directory-moc="tools-toc.md"'));assert.ok(!html.includes('data-note="tools-toc.md"'));
 });
 
-test('archive represents each MoC once as a native heading link, preserving labels, indexes and counts',async()=>{
+test('archive represents each MoC once as a native heading link, preserving labels and counts',async()=>{
   const notes=[note('01-courses/a.md'),{...note('01-courses/index.md'),isDirectoryIndex:true},note('courses-toc.md')];
   const dirs=mapDirectoryMocs(notes,[{path:'01-courses',title:'Courses & notes'}]);
   const html=await renderComponent('Archive',{notes,config:{directories:dirs}}),tree=parse(html);
@@ -58,14 +58,8 @@ test('archive represents each MoC once as a native heading link, preserving labe
   assert.equal(attrs(links[0]).href,'/preview/courses-toc');assert.equal(text(find(links[0].parentNode,n=>attrs(n).class==='folder-heading-name')[0]),'Courses & notes');
   assert.equal(attrs(links[0])['aria-label'],'打开 Courses & notes');assert.equal(find(links[0],n=>attrs(n).class==='folder-link-arrow').length,1);
   assert.equal(find(tree,n=>'data-note' in attrs(n)).length,2);assert.ok(!html.includes('data-folder-root=""'));
-  assert.ok(text(tree).includes('3 则笔记，慢慢生长。'));assert.ok(!html.includes('篇目录导读'));assert.ok(!html.includes('按目录浏览'));
+  assert.ok(!html.includes('篇目录导读'));assert.ok(!html.includes('按目录浏览'));
   assert.ok(html.indexOf('data-note="01-courses/index.md"')<html.indexOf('data-note="01-courses/a.md"'));
-});
-
-test('garden summary counts unique notes and explicit themes, not synthesized tag ancestors',async()=>{
-  const a={...note('folder/a.md'),tags:['topic/sub']},b={...note('folder/b.md'),tags:['topic/sub','tools']};
-  const tree=parse(await renderComponent('Archive',{notes:[a,b,a]}));
-  assert.equal(text(find(tree,n=>attrs(n).class==='archive-count')[0]),'2 则笔记，2 个主题，慢慢生长。');
 });
 
 test('snapshot plugin integrates only discoverable MoCs; breadcrumbs share links without changing page identity',async()=>{

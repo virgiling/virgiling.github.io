@@ -1,0 +1,49 @@
+/* Home-only activity: latest article updates, not fabricated edit history. */
+.recent-updates {
+  @apply list-none m-0 p-0;
+}
+.recent-updates li {
+  @apply grid items-baseline gap-[12px] py-[9px];
+  grid-template-columns: minmax(0, 1fr) auto;
+  line-height: 1.65;
+}
+.recent-updates a {
+  @apply text-[13px];
+  overflow-wrap: anywhere;
+}
+.recent-updates time {
+  @apply text-[10px] whitespace-nowrap text-muted;
+}
+.update-heatmap {
+  @apply mt-[14px];
+}
+.heatmap-range {
+  @apply text-[12px] text-muted mt-0 mr-0 mb-[7px] ml-0;
+  line-height: 1.6;
+}
+.update-heatmap svg {
+  @apply block w-full h-auto max-w-[280px];
+}
+.heatmap-day {
+  fill: #e7ebdf;
+  background: #e7ebdf;
+}
+.heatmap-day.level-1 {
+  fill: #c4d2b6;
+  background: #c4d2b6;
+}
+.heatmap-day.level-2 {
+  fill: #9db888;
+  background: #9db888;
+}
+.heatmap-day.level-3 {
+  fill: #769b61;
+  background: #769b61;
+}
+.heatmap-day.level-4 {
+  fill: #486c3e;
+  background: #486c3e;
+}
+.heatmap-day.is-future {
+  fill: transparent;
+}

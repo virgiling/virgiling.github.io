@@ -13,11 +13,14 @@ const activity = articleActivity(pages, config);
 ---
 
 <section class="side-section home-activity" aria-labelledby="updates-heading">
-  <h2 class="side-title" id="updates-heading">
+  <div class="rail-head">
+    <h2 class="side-title" id="updates-heading">
+      最近更新
+    </h2>
     <a href={url("updates")} aria-label="查看全部最近更新">
-      最近更新 <span aria-hidden="true">↗</span>
+      全部 <span aria-hidden="true">→</span>
     </a>
-  </h2>
+  </div>
   {activity.recent.length ? (
     <ol class="recent-updates">
       {activity.recent.map((note) => (

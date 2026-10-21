@@ -1,0 +1,47 @@
+/* Knowledge sidebar. The rail itself scrolls, like a margin note column. */
+.sidebar {
+  @apply sticky overflow-y-auto pt-0 pr-[4px] pb-[24px] pl-0 text-[14px] text-muted;
+  top: calc(var(--topbar-height, 0px) + 24px);
+  max-height: calc(100dvh - var(--topbar-height, 0px) - 48px);
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  scrollbar-width: thin;
+}
+.sidebar > .side-section {
+  flex-shrink: 0;
+}
+.sidebar .toc-scroll,
+.sidebar .backlinks {
+  max-height: none;
+  overflow: visible;
+}
+.side-section + .side-section {
+  @apply mt-[32px];
+}
+.rail-head {
+  @apply flex items-center justify-between gap-[12px] mb-[9px];
+}
+.rail-head > a,
+.rail-head > button {
+  @apply text-[12px] text-muted no-underline;
+  line-height: 1;
+  border: 0;
+  background: none;
+}
+.rail-head > a {
+  @apply text-accent underline;
+}
+.rail-head > a:hover,
+.rail-head > button:hover {
+  color: var(--ink);
+}
+.rail-count {
+  @apply text-[10px] text-muted;
+}
+.side-title {
+  @apply text-[12px] font-semibold text-muted m-0;
+  letter-spacing: 0.12em;
+}

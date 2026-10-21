@@ -37,13 +37,11 @@ const represented = new Set(
     (root) => [...root.members, ...(root.moc ? [root.moc.slug] : [])],
   ),
 );
-const count = represented.size;
 const tags = [
   ...new Set(
     notes.filter((n) => represented.has(n.slug)).flatMap(linkableTags),
   ),
 ];
-const themes = tags.length;
 function hasDirectory(
   node: import("../ui/archive").FolderNode | undefined,
   path: string,
@@ -58,18 +56,14 @@ function hasDirectory(
 
 <main class="shell archive-page" id="main">
   <div class="page-intro">
-    <div class="eyebrow">A DIGITAL GARDEN</div>
     <h1>文章</h1>
-    <p class="archive-count">
-      {count} 则笔记，{themes ? `${themes} 个主题，` : ""}慢慢生长。
-    </p>
   </div>
   {pagination && (
     <>
       <nav class="archive-directories" aria-label="按目录浏览">
         {pagination.directories
           .filter((d) => d.root)
-          .map((d, index) => (
+          .map((d) => (
             <a
               class="archive-control"
               data-control-motion
@@ -79,15 +73,12 @@ function hasDirectory(
               }
               aria-current={d.path === slice?.root.path ? "true" : undefined}
             >
-              <span class="archive-directory-number" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span>{d.label}</span>
+              <span class="archive-directory-name">{d.label}</span>
               <span
                 class="archive-directory-count"
                 aria-label={`${d.count} 则笔记`}
               >
-                {d.count}
+                {d.count} 则
               </span>
             </a>
           ))}

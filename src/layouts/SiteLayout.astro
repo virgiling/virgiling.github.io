@@ -94,7 +94,6 @@ const { brand, footer } = siteConfig;
     <header class="topbar">
       <div class="shell header-inner">
         <a class="brand" href={url("")} aria-label={`${brand.name} 主页`}>
-          {brand.mark && <span class="brand-mark">{brand.mark}</span>}
           <span class="brand-name">
             {brand.name}
             {brand.byline && <small>{brand.byline}</small>}
@@ -110,12 +109,13 @@ const { brand, footer } = siteConfig;
         <button
           class="search-trigger"
           id="open-search"
+          aria-label="搜索"
           aria-haspopup="dialog"
           aria-controls="search-dialog"
         >
           <SearchIcon />
           <span>搜索</span>
-          <span class="key">⌘ K</span>
+          <kbd class="key">⌘ K</kbd>
         </button>
       </div>
     </header>

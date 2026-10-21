@@ -1,0 +1,24 @@
+/* Design tokens for palette, type stacks, and reading geometry. */
+:root {
+  color-scheme: light;
+  --paper: #faf9f6;
+  --surface: #fffefb;
+  --ink: #353a35;
+  --muted: #687068;
+  --line: #e2e4db;
+  --accent: #486447;
+  --soft: #eef1e8;
+  --metadata: #6d756a;
+  --shadow: 0 8px 24px #353f2b0b;
+  --font: "Notes Latin", "Notes CJK", "LXGW WenKai", serif;
+  --hand: "Notes Latin", cursive;
+  --code: Monaco, "SFMono-Regular", Consolas, monospace;
+  --reading-font-size: 18px;
+  --reading-width: 1180px;
+  --prose-measure: 40em;
+  --sidebar-width: clamp(256px, 19vw, 280px);
+  --reading-gap: clamp(40px, 3.2vw, 56px);
+  --card-radius: 16px;
+  --card-text-size: 15px;
+  --spotlight-radius: 24px;
+}

@@ -1,0 +1,224 @@
+/* Site shell — all identity text comes from src/site.config.ts. */
+.topbar {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.topbar[data-scroll-header] {
+  position: sticky;
+  top: 0;
+  z-index: 35;
+}
+.topbar.is-away {
+  transform: translateY(-100%);
+}
+.footer-links {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+}
+.archive-directories {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-block: 24px 8px;
+  font-size: 14px;
+}
+.archive-pagination {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-block: 24px;
+  font-size: 14px;
+}
+.archive-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--ink);
+  text-decoration: none;
+}
+.archive-control:not([aria-disabled]):is(:hover, :focus-within),
+.archive-directories [aria-current] {
+  background: var(--paper);
+}
+.archive-control.is-card-emphasized {
+  transform: translateY(-2px);
+}
+.archive-directory-count {
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.archive-directories .archive-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 10px;
+  min-height: 58px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.archive-directories .archive-directory-name {
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.archive-directories .archive-control:hover {
+  border-color: var(--accent);
+}
+.archive-directories [aria-current] {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+.archive-directories .archive-control:hover .archive-directory-name {
+  color: var(--accent);
+}
+.archive-directories [aria-current] .archive-directory-name {
+  color: var(--accent);
+  font-weight: 600;
+}
+.archive-pagination .archive-control {
+  width: 38px;
+  padding: 0;
+  background: transparent;
+  font-size: 18px;
+}
+.archive-pagination .archive-control:hover {
+  background: var(--soft);
+}
+.archive-pagination [aria-disabled] {
+  opacity: 0.4;
+}
+.archive-page-number {
+  min-width: 4em;
+  text-align: center;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.frame-page {
+  font-size: 13px;
+  color: var(--muted);
+}
+.archive-legacy-links a:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  clip: auto;
+}
+.header-inner {
+  @apply flex items-center min-h-[92px] gap-[36px];
+}
+.brand {
+  @apply flex items-center mr-auto text-ink min-w-0 min-h-[44px];
+  text-decoration: none;
+}
+.brand:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.brand-name {
+  @apply text-[25px] font-normal;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  overflow-wrap: anywhere;
+}
+.brand-name small {
+  @apply block text-[10px] mt-[4px] text-muted;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+}
+.topnav {
+  @apply flex gap-[28px] relative;
+}
+.topnav a {
+  @apply inline-flex items-center text-[17px] text-muted relative whitespace-nowrap min-h-[44px];
+  text-decoration: none;
+  line-height: 1;
+}
+.topnav a[aria-current] {
+  @apply text-ink;
+}
+.topnav a:hover {
+  @apply text-ink;
+}
+.topnav a[aria-current]:after {
+  @apply h-[1px] absolute bottom-[3px] left-[22%] right-[22%];
+  content: "";
+  background: var(--accent);
+}
+.topnav.has-motion-marker a[aria-current]:after {
+  @apply hidden;
+}
+.nav-motion-marker {
+  @apply absolute left-0 bottom-[3px] w-[1px] h-[1px] pointer-events-none;
+  background: var(--accent);
+  transform-origin: left;
+}
+.motion-pressed {
+  transform: scale(0.96);
+}
+.search-trigger {
+  @apply flex items-center gap-[10px] min-h-[44px] min-w-[152px] py-0 px-[16px] rounded-[999px] text-[14px] text-muted shrink-0 justify-center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  line-height: 1;
+}
+.search-trigger svg {
+  @apply w-[17px] h-[17px];
+}
+.search-trigger:hover {
+  @apply text-ink;
+  border-color: color-mix(in oklch, var(--ink) 48%, var(--line));
+}
+.key {
+  @apply text-[12px] whitespace-nowrap;
+  padding-left: 8px;
+  margin-left: 2px;
+  border-left: 1px solid var(--line);
+}
+.eyebrow {
+  @apply text-[11px] text-accent;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  font-family: "Notes Latin", serif;
+}
+.page-intro {
+  @apply mt-[57px] mr-0 mb-[38px] ml-0;
+}
+.page-intro h1,
+.article-header > h1 {
+  @apply relative pb-[23px] mt-[13px] mr-0 mb-[20px] ml-0;
+  letter-spacing: 0.015em;
+}
+.page-intro h1 {
+  @apply text-[42px];
+}
+.page-intro h1:after,
+.article-header > h1:after {
+  @apply absolute bottom-0 left-0 w-[64px] h-[3px] rounded-[3px];
+  content: "";
+  background: var(--accent);
+  box-shadow: 20px 4px 0 -1px #9baa89;
+}
+.archive-count {
+  @apply text-muted text-[15px];
+}
+.archive-count span {
+  @apply px-[9px];
+}
+.footer {
+  @apply flex justify-between gap-[20px] text-[13px] text-muted pt-[30px] pr-0 pb-[32px] pl-0 mt-[84px];
+  border-top: 1px solid var(--line);
+}
+.footer a {
+  @apply text-muted;
+  text-decoration: none;
+}

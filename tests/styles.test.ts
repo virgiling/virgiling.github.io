@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 import postcss from 'postcss';
 import {verifyStyles} from '../scripts/styles-contract';
+import {readSiteStyles} from './helpers/styles';
 
 test('Tailwind scans only renderer sources, with no automatic Vault scan or Preflight reset',async()=>{
   const css=await readFile('src/styles/site.css','utf8'),root=postcss.parse(css),sources:string[]=[],imports:string[]=[];
@@ -10,11 +11,12 @@ test('Tailwind scans only renderer sources, with no automatic Vault scan or Pref
   assert.deepEqual(sources,['"../layouts"','"../components"','"../pages"','"../ui"']);
   assert.ok(imports.some(i=>i.includes('utilities.css')&&i.includes('source(none)')));
   assert.ok(!imports.some(i=>i.includes('preflight')||i==='"tailwindcss"'));
-  assert.ok(css.includes('@theme inline'));assert.ok(css.includes('@apply flex'));
+  const inlined=(await readSiteStyles()).toString();
+  assert.ok(inlined.includes('@theme inline'));assert.ok(inlined.includes('@apply flex'));
 });
 
 test('inline tags share normal badge styling in base, hover and mobile rules without a second hash prefix',async()=>{
-  const root=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  const root=await readSiteStyles();
   const variants=new Set<string>();
   root.walkRules(rule=>{
     if(rule.selectors.includes('.tag')&&rule.selectors.includes('.inline-tag'))variants.add(rule.parent?.type==='atrule'&&rule.parent.name==='media'?'mobile':'base');
@@ -26,10 +28,10 @@ test('inline tags share normal badge styling in base, hover and mobile rules wit
 });
 
 test('narrow prose headings use inline text flow and hide only the permalink marker, not the explicit preview control',async()=>{
-  const root=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  const root=await readSiteStyles();
   const rules:{selectors:string[];declarations:Record<string,string>}[]=[];
   root.walkRules(rule=>{
-    if(rule.parent?.type!=='atrule'||rule.parent.name!=='media'||!rule.parent.params.includes('800px'))return;
+    if(rule.parent?.type!=='atrule'||rule.parent.name!=='media'||!rule.parent.params.includes('960px'))return;
     const declarations:Record<string,string>={};rule.walkDecls(decl=>{declarations[decl.prop]=decl.value;});
     rules.push({selectors:rule.selectors,declarations});
   });
@@ -39,7 +41,7 @@ test('narrow prose headings use inline text flow and hide only the permalink mar
 });
 
 test('prose deletion uses native double line-through without a positioning overlay or forced line thickness',async()=>{
-  const root=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  const root=await readSiteStyles();
   for(const selector of ['.prose del','.prose s']){
     const declarations:Record<string,string>={};
     root.walkRules(rule=>{if(rule.selectors.includes(selector))rule.walkDecls(decl=>{declarations[decl.prop]=decl.value;});});
@@ -61,7 +63,7 @@ test('all owned timed effects stay behind Motion; no native smooth scroll or tim
     assert.doesNotMatch(source,/\bsetInterval\s*\(/,`${file}: review persistent animation loops`);
     if(file!=='motion.ts')assert.doesNotMatch(source,/from\s*['"]motion(?:\/[^'"]*)?['"]/,`${file}: use the shared cancellation/reduced-motion boundary`);
   }
-  const css=postcss.parse(await readFile('src/styles/site.css','utf8'));
+  const css=await readSiteStyles();
   css.walkAtRules('apply',r=>assert.doesNotMatch(r.params,/\b(?:animate-|transition-|duration-)/));
   assert.throws(()=>verifyStyles('@keyframes bypass{to{opacity:1}}'),/bypass Motion/);
   assert.throws(()=>verifyStyles('a{transition:color .2s}'),/bypass Motion/);

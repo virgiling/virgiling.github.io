@@ -1,0 +1,282 @@
+/* Borderless frames with floating directory controls and article cards. */
+.archive-page {
+  @apply max-w-[900px];
+}
+.archive-page .page-intro {
+  margin-bottom: 8px;
+}
+.card-list {
+  @apply grid gap-[24px];
+  grid-template-columns: minmax(0, 1fr);
+}
+.friends-section {
+  @apply mt-[36px];
+}
+.friends-section h1 {
+  @apply text-[24px] mb-[12px];
+}
+.friend-grid {
+  @apply grid gap-[16px];
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+.friend-card {
+  @apply relative flex items-start gap-[14px] p-[18px] rounded-[16px] text-ink min-w-0;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.friend-avatar {
+  @apply grid place-items-center w-[48px] h-[48px] shrink-0 rounded-[12px] overflow-hidden text-[24px] text-accent;
+  background: var(--soft);
+}
+.friend-avatar img {
+  @apply w-full h-full;
+  object-fit: cover;
+}
+.friend-card strong {
+  @apply block text-[18px];
+  overflow-wrap: anywhere;
+}
+.friend-bio,
+.friend-domain,
+.friend-sync {
+  @apply block text-[13px] text-muted;
+  overflow-wrap: anywhere;
+}
+.friend-domain {
+  @apply mt-[8px];
+}
+.friend-posts {
+  @apply list-none p-0 m-0;
+}
+.friend-posts li {
+  @apply grid items-baseline gap-x-[12px] py-[8px];
+  grid-template-columns: minmax(0, 1fr) auto;
+  border-bottom: 1px solid var(--line);
+}
+.friend-post-summary {
+  @apply flex items-baseline gap-[6px] min-w-0;
+}
+.friend-post-author {
+  @apply block min-w-0 max-w-[28%] truncate text-[14px];
+  text-decoration: none;
+}
+.friend-post-separator {
+  @apply shrink-0 text-[14px] text-muted;
+}
+.friend-post-title {
+  @apply block min-w-0 flex-1 truncate text-[15px] text-ink;
+  text-decoration: none;
+}
+.friend-post-date {
+  @apply text-[12px] text-muted whitespace-nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.folder-tree {
+  @apply flex flex-col gap-[44px];
+}
+.folder-frame {
+  @apply p-0 min-w-0;
+  border: 0;
+  background: transparent;
+  transform-origin: 0 0;
+}
+.folder-frame-header {
+  @apply flex items-baseline gap-[12px] p-0 mb-[18px];
+  border: 0;
+}
+.folder-frame-header h2 {
+  @apply text-[28px] m-0;
+}
+.folder-heading-link {
+  @apply inline-flex flex-wrap items-center gap-x-[8px] gap-y-[4px] text-accent no-underline;
+}
+.folder-heading-name a {
+  text-decoration: none;
+}
+.folder-link-hint {
+  @apply inline-flex items-center justify-center min-w-[32px] min-h-[32px] text-[13px] font-normal whitespace-nowrap;
+}
+.folder-link-arrow {
+  @apply shrink-0;
+  transform: none;
+}
+.folder-heading-link.is-emphasized .folder-link-arrow {
+  transform: translateX(3px);
+}
+.frame-number {
+  @apply text-[11px] text-muted;
+}
+.folder-subframe {
+  @apply p-0 min-w-0 mt-[26px];
+  border: 0;
+  background: transparent;
+  transform-origin: 0 0;
+}
+.folder-subframe .folder-subframe {
+  @apply pl-[18px];
+}
+.folder-branch-heading {
+  @apply flex items-baseline gap-[10px] mt-0 mr-0 mb-[14px] ml-0 text-[18px] font-normal;
+}
+.folder-branch-heading > span {
+  @apply text-[#677b5b];
+}
+.card-stack {
+  @apply relative min-w-0;
+  scroll-margin-top: 30px;
+  transform-origin: 0 0;
+}
+.stack-count {
+  @apply absolute z-[110] top-[14px] left-[24px] inline-flex items-center min-h-[30px] py-[3px] px-[10px] text-[12px] text-accent rounded-[999px];
+  background: var(--soft);
+  border: 0;
+}
+.stack-count:disabled {
+  @apply opacity-[1];
+}
+.stack-deck {
+  @apply grid gap-[18px];
+  grid-template-columns: minmax(0, 1fr);
+}
+.stack-card {
+  @apply relative;
+  transform-origin: 0 0;
+}
+.stack-card:first-child .card-content {
+  @apply pt-[60px];
+}
+.note-card {
+  @apply flex flex-col min-w-0 h-full rounded-[var(--card-radius)];
+  border: 0;
+  background: var(--surface);
+  box-shadow:
+    0 8px 26px #353f2b0d,
+    0 1px 3px #353f2b08;
+}
+[data-card-motion].is-card-emphasized {
+  transform: scale(1.01);
+}
+.stack-ready:not(.is-open) .stack-deck {
+  @apply gap-0 pb-[calc((var(--stack-count)_-_1)*26px)];
+}
+.stack-ready:not(.is-open) .stack-card {
+  grid-area: 1/1;
+  transform: translate(calc(var(--i) * 6px), calc(var(--i) * 26px))
+    scale(calc(1 - var(--i) * 0.014));
+}
+.stack-ready:not(.is-open) .stack-card:nth-child(n + 2) {
+  background: #f0f3e9;
+}
+.stack-ready:not(.is-open)
+  .stack-card:nth-child(n + 2)
+  :is(.card-content, .card-footer) {
+  @apply invisible;
+}
+.stack-ready:not(.is-open) .stack-card:nth-child(n + 4) {
+  @apply invisible;
+}
+.ghost-title {
+  @apply hidden absolute bottom-[5px] left-[24px] right-[15px] overflow-hidden whitespace-nowrap text-[12px] text-[#7b8870] pointer-events-none;
+  text-overflow: ellipsis;
+}
+.stack-ready:not(.is-open) .ghost-title {
+  @apply block;
+}
+.card-content {
+  @apply relative flex-[1] p-[24px] block text-ink rounded-[var(--card-radius)];
+  text-decoration: none;
+}
+.card-content:hover {
+  text-decoration: none;
+}
+.card-main-link,
+.friend-main-link,
+.search-main-link {
+  @apply absolute inset-0 z-[1] rounded-[inherit];
+}
+.inline-tag {
+  overflow-wrap: anywhere;
+}
+:is(.card-content, .friend-card, .search-result) .inline-tag {
+  @apply relative z-[2];
+}
+.card-title-row {
+  @apply flex flex-wrap items-baseline gap-y-[6px] gap-x-[16px] mb-[10px];
+}
+.card-content :is(h2, h3, h4, h5, h6) {
+  @apply flex-[1_1_12rem] text-[23px] m-0;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+}
+.card-description {
+  @apply text-[length:var(--card-text-size)] text-[#62695f] m-0 overflow-hidden;
+  line-height: 1.85;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.card-footer {
+  @apply flex flex-wrap items-baseline gap-y-[10px] gap-x-[16px] pt-0 pr-[24px] pb-[20px] pl-[24px] text-[length:var(--card-text-size)] text-muted;
+}
+.card-created {
+  @apply whitespace-nowrap text-[length:var(--card-text-size)] text-muted;
+}
+.card-title-row .card-created {
+  @apply ml-auto;
+}
+.card-tags {
+  @apply flex flex-[1_1_auto] flex-wrap justify-end gap-[6px] min-w-0;
+}
+.card-tags .tag {
+  @apply max-w-full text-[length:inherit] py-[1px] px-[7px];
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+  border: 0;
+}
+.tag,
+.inline-tag {
+  @apply inline-block text-accent rounded-[9px] text-[16px] py-[4px] px-[10px];
+  background: #e7eddf;
+  border: 1px solid #cbd8c2;
+  text-decoration: none;
+  line-height: 1.5;
+}
+.tag:before {
+  @apply pr-[3px] text-[#68765d];
+  content: "#";
+}
+.tag:hover,
+.inline-tag:hover {
+  background: #d8e4cd;
+  border-color: #9db28d;
+  text-decoration: none;
+}
+.tag-page {
+  @apply max-w-[900px] pt-[35px];
+}
+.tag-page .page-intro {
+  @apply mt-[28px];
+}
+.tag-results {
+  @apply grid gap-[24px] list-none p-0 my-[30px] mx-0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.tag-results > li {
+  @apply min-w-0;
+}
+.tag-results .card-description {
+  -webkit-line-clamp: 2;
+}
+.tag-back {
+  @apply text-[15px];
+}
+.prose table {
+  @apply block max-w-full overflow-x-auto text-[15px] my-[22px] mx-0;
+  border-collapse: collapse;
+}
+.prose :is(th, td) {
+  @apply py-[8px] px-[12px] text-left;
+  border: 1px solid var(--line);
+}

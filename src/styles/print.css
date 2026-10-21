@@ -1,0 +1,35 @@
+/* Print layout: hide chrome and flatten reading constraints. */
+@media print {
+  .topbar,
+  .sidebar,
+  .reading-discussion,
+  .preview-button,
+  .copy-code,
+  .reading-progress,
+  .mobile-outline,
+  .popover,
+  dialog,
+  .skip,
+  .series-nav {
+    display: none !important;
+  }
+  .article-layout {
+    display: block;
+    padding-top: 0;
+  }
+  .shell {
+    width: 100%;
+    max-width: none;
+  }
+  .prose > :is(p, ul, ol, blockquote) {
+    max-width: none;
+  }
+  .prose pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+}

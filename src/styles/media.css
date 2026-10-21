@@ -1,0 +1,113 @@
+/* Figures, images, zoom, footnotes, freshness, task lists, and series/comments. */
+.prose figure {
+  @apply my-[25px] mx-0;
+}
+.prose img {
+  @apply block max-w-full h-auto mx-auto;
+  object-fit: contain;
+}
+.prose img[data-image-sized] {
+  width: auto;
+  max-width: min(100%, var(--image-width, 100%));
+  max-height: var(--image-height, none);
+}
+.image-zoom-link {
+  @apply block w-fit max-w-full mx-auto;
+  cursor: zoom-in;
+}
+/* medium-zoom pure entry: geometry/state only; Motion owns all interpolation. */
+.medium-zoom-overlay {
+  @apply fixed inset-0 opacity-0 z-[60];
+}
+.medium-zoom--opened .medium-zoom-overlay {
+  opacity: 1;
+}
+.medium-zoom-image {
+  cursor: zoom-in;
+}
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+.medium-zoom-image--opened {
+  @apply relative z-[61];
+  cursor: zoom-out;
+  will-change: transform;
+}
+.image-zoom-close {
+  @apply fixed top-[16px] right-[16px] z-[62] w-[44px] h-[44px] rounded-full text-[28px];
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.prose figcaption {
+  @apply text-[14px] text-center text-muted mt-[9px];
+  line-height: 1.7;
+}
+.prose .footnotes {
+  @apply text-[14px] mt-[36px] pt-[16px];
+  border-top: 1px solid var(--line);
+}
+.freshness-notice {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  border-left: 2px solid var(--line);
+  padding-left: 10px;
+  margin-block: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.freshness-notice svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  align-self: flex-start;
+  margin-top: 5px;
+}
+.freshness-notice p {
+  margin: 0;
+}
+.freshness-review {
+  border-left-color: #a6783c;
+  color: #826035;
+}
+.prose .contains-task-list {
+  @apply list-none pl-0;
+}
+.prose .task-list-item {
+  @apply my-[7px] mx-0;
+}
+.task-list-item input {
+  @apply mr-[7px];
+  accent-color: var(--accent);
+}
+.prose hr {
+  @apply my-[30px] mx-0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.series-nav,
+.article-bottom {
+  @apply pt-[20px] mt-[35px] text-[14px];
+  border-top: 1px solid var(--line);
+}
+.article-bottom a {
+  text-decoration: none;
+}
+.comments-entry {
+  @apply mt-[48px] py-[25px] px-0 flex flex-col gap-[20px] items-stretch;
+  border-top: 1px solid var(--line);
+}
+.giscus-host,
+.giscus-host iframe {
+  @apply w-full;
+}
+.giscus-host:empty {
+  @apply hidden;
+}
+.comments-entry h2 {
+  @apply text-[23px] my-[8px] mx-0;
+}
+.comments-entry p {
+  @apply text-[14px] text-muted m-0;
+}

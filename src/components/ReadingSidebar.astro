@@ -28,15 +28,16 @@ const home = note.source === "index.md";
   </section>
   {!home && (
     <section class="side-section backlinks-section">
-      <h2 class="side-title">
-        反向链接 <small>{incoming.length}</small>
-      </h2>
+      <div class="rail-head">
+        <h2 class="side-title">反向链接</h2>
+        <small class="rail-count">{incoming.length}</small>
+      </div>
       {incoming.length ? (
         <ul class="backlinks">
           {incoming.map((page) => (
             <li>
               <TaggedText
-                text={`↗ ${page.title}`}
+                text={page.title}
                 tags={linkableTags(page)}
                 href={page.url}
                 linkAttributes={{ "data-preview": page.slug }}

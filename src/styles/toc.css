@@ -1,0 +1,86 @@
+/* Table of contents, backlinks, and reading progress. */
+.toc-scroll {
+  @apply max-h-[34vh] overflow-y-auto overscroll-contain;
+  scrollbar-width: thin;
+}
+.toc-track {
+  @apply relative pl-0 ml-[2px];
+  border-left: 1px solid var(--line);
+}
+.toc {
+  @apply list-none p-0 m-0;
+}
+.toc-entry {
+  @apply relative block pt-[6px] pr-[8px] pb-[6px] pl-[15px] text-muted text-[13px];
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.toc-entry:before {
+  @apply absolute left-[3px] w-[3px] h-[3px] rounded-[50%];
+  content: "";
+  top: calc(6px + 0.7em);
+  background: color-mix(in oklch, var(--muted) 58%, var(--paper));
+}
+.toc-entry a:not(.inline-tag) {
+  color: inherit;
+  text-decoration: none;
+}
+.toc-entry:hover {
+  @apply text-ink;
+}
+.toc li[data-depth="3"] .toc-entry {
+  @apply pl-[35px] text-[12px];
+}
+.toc li[data-depth="3"] .toc-entry:before {
+  @apply left-[23px];
+}
+.toc li[data-depth="3"] .toc-entry:after {
+  @apply absolute left-[14px] top-0 bottom-0 w-px;
+  content: "";
+  background: var(--line);
+}
+.toc-entry.is-read,
+.toc-entry[aria-current] {
+  @apply text-ink;
+}
+.toc-entry[aria-current]:before {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 12%, transparent);
+}
+.toc-marker {
+  @apply absolute left-[-1px] top-0 w-px h-[32px] pointer-events-none;
+  background: var(--accent);
+  transform-origin: top;
+}
+.backlinks {
+  @apply list-none p-0 m-0;
+}
+.backlinks li {
+  @apply relative min-h-[40px] py-[8px] pl-[19px];
+  line-height: 1.65;
+}
+.backlinks li:before {
+  @apply absolute left-0 top-[8px] text-[10px] text-muted;
+  content: "↖";
+  line-height: 1.8;
+}
+.backlinks a {
+  @apply text-[12.5px] text-ink;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.backlinks a:hover {
+  color: var(--accent);
+}
+.side-empty {
+  @apply text-[13px];
+}
+.reading-progress {
+  @apply fixed left-0 top-0 w-full h-[2px] z-[40];
+  background: #81996c;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.mobile-outline {
+  @apply hidden;
+}
