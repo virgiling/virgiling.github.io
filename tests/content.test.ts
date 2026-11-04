@@ -36,7 +36,7 @@ test('publication precedes compilation and every discovery resource uses D',asyn
     assert.equal(s.notes.find(n=>n.unlisted)?.comments,false);
   });
 });
-test('unavailable wiki, Markdown, reference and embed targets retain authored labels and native 404 popout links without revealing unpublished metadata',async()=>{
+test('unavailable wiki, Markdown, reference and embed targets retain authored labels and native 404 links without icons or unpublished metadata',async()=>{
   await fixture({
     'a.md':md('[[00-Osaka-02|大阪 (Osaka)-Day1-梅田]]\n\n正文 [[Secret|作者写的标题]] 和 [[Missing]]。\n\n![[Secret|嵌入说明]]\n\n[**保留强调**](Secret.md)\n\n[引用的名称][absent]\n\n[absent]: Missing.md\n\n![[Hidden|未列出的嵌入]]\n\n[[B#不存在的章节|章节名称]]\n\n<a href="missing-html">HTML 名称</a>\n\n![图片说明](missing.png)\n\n![[sized-image.png|120x80]]\n\n[[B]] [[Hidden]]'),
     'Secret.md':'---\npublish: false\ntitle: PRIVATE_TITLE_CANARY\naliases: [PRIVATE_ALIAS_CANARY]\n---\nPRIVATE_BODY_CANARY',
@@ -48,11 +48,8 @@ test('unavailable wiki, Markdown, reference and embed targets retain authored la
     const fallback=[...document.querySelectorAll<HTMLAnchorElement>(`a[href="${url('404')}"]:not(.preview-button)`)];
     assert.deepEqual(fallback.map(link=>link.textContent),['大阪 (Osaka)-Day1-梅田','作者写的标题','Missing','嵌入说明','保留强调','引用的名称','未列出的嵌入','章节名称','HTML 名称']);
     assert.ok(fallback.find(link=>link.textContent==='保留强调')!.querySelector('strong'));
-    for(const link of fallback){
-      const pin=link.nextElementSibling!;
-      assert.equal(pin.tagName,'A');assert.equal(pin.getAttribute('href'),url('404'));assert.ok(pin.classList.contains('preview-button'));
-      assert.equal(link.hasAttribute('data-preview'),false);assert.equal(pin.hasAttribute('data-open-preview'),false);
-    }
+    for(const link of fallback)assert.equal(link.hasAttribute('data-preview'),false);
+    assert.equal(document.querySelector('.preview-button,[data-open-preview]'),null);
     assert.doesNotMatch(a.html,/该内容未公开或不可用|#unavailable|PRIVATE_(?:TITLE|ALIAS|BODY)_CANARY|UNLISTED_(?:TITLE|BODY)_CANARY/);
     assert.ok(document.querySelector(`a[href="${url('B')}"][data-preview="B.md"]`));
     assert.ok(document.querySelector(`a[href="${url('Hidden')}"]:not([data-preview])`));
@@ -72,7 +69,7 @@ test('unavailable local images disappear without replacing their captions; valid
     assert.ok(images.some(image=>image.getAttribute('src')!.startsWith(url('media/'))));
     assert.ok(images.some(image=>image.getAttribute('src')==='https://example.test/ok.jpg'));
     assert.equal(document.querySelector(`a[href="${url('404')}"]:not(.preview-button)`)!.textContent,'显式附件链接');
-    assert.equal(document.querySelectorAll('.preview-button').length,1);
+    assert.equal(document.querySelector('.preview-button,[data-open-preview]'),null);
     assert.deepEqual(s.assets.map(asset=>asset.source),['ok.png']);
   });
 });
@@ -135,7 +132,8 @@ test('heading wikilinks display resolved labels in the TOC while preserving old 
     const {document}=parseHTML(course.html),network=document.querySelector('#01-coursescs144indexstanford-cs144-computer-network')!;
     assert.equal(course.headings[4].text,'Stanford CS144 Computer Network');
     assert.equal(network.querySelector('a[data-preview]')!.getAttribute('href'),url('01-courses/CS144/'));
-    assert.equal(network.querySelector('button.preview-button')!.getAttribute('data-open-preview'),'01-courses/CS144/index.md');
+    assert.equal(network.querySelector('a[data-preview]')!.getAttribute('data-preview'),'01-courses/CS144/index.md');
+    assert.equal(network.querySelector('.preview-button,[data-open-preview]'),null);
     assert.equal(network.querySelector('.heading-anchor')!.getAttribute('href'),'#'+network.id);
     assert.match(a.html,/href="\/courses#01-coursescs144indexstanford-cs144-computer-network"/);
   });
@@ -176,6 +174,9 @@ test('27 callout identifiers, fold modes and nested callouts survive sanitizatio
   for(const kind of Object.keys(calloutAliases)){
     await fixture({'a.md':md(`> [!${kind.toUpperCase()}]- Title\n> Body\n>\n> > [!tip] Nested\n> > Inner`)},async root=>{
       const n=(await buildSnapshot(root)).notes[0];assert.match(n.html,new RegExp(`data-callout="${kind}"`));assert.match(n.html,/<details/);assert.match(n.html,/Nested/);assert.match(n.html,/callout-icon/);
+      const {document}=parseHTML(n.html),outer=document.querySelector('.callout')!,inner=outer.querySelector('.callout')!;
+      assert.equal(outer.getAttribute('data-callout-kind'),calloutAliases[kind]);
+      assert.equal(inner.getAttribute('data-callout-kind'),'tip');
     });
   }
 });

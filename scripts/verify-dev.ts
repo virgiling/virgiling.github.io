@@ -29,11 +29,14 @@ try{
   const parser=new DOMParser() as unknown as globalThis.DOMParser;
   const preview=extractPreviewContent(home,'index.md',new URL(origin+base),'dev-popout',parser);
   assert.equal(preview.container.querySelector('.prose')!.textContent,parser.parseFromString(home,'text/html').querySelector('.prose')!.textContent);
+  assert.equal(parser.parseFromString(home,'text/html').querySelector('.preview-button,[data-open-preview]'),null,'Dev HTML must omit inline preview icons');
+  const underlineModule=await page(base+'src/runtime/link-underline.ts');assert.ok(underlineModule.includes('backgroundSize')&&underlineModule.includes('external-link-mark'),'Vite must compile the external-only underline controller');
   const previewModule=await page(base+'src/runtime/preview.ts');assert.ok(previewModule.includes('extractPreviewContent'),'Vite must serve the full-preview controller');
+  const positionModule=await page(base+'src/runtime/preview-position.ts');assert.ok(positionModule.includes('availableHeight')&&positionModule.includes('crossAxis'),'Vite must compile adaptive preview positioning');
   await page(base+'src/runtime/preview-content.ts');
   const cardMotionModule=await page(base+'src/runtime/card-motion.ts');assert.ok(cardMotionModule.includes('[data-card-motion]:not(.stack-card)'),'Vite must compile the scoped card Motion controller');
   const siteModule=await page(base+'src/runtime/site.ts');assert.ok(siteModule.includes('initCardMotion'),'The real site entry must initialize card motion');
-  for(const name of ['initCodeCopy','initScrollHeader'])assert.ok(siteModule.includes(name),`Site entry must initialize ${name}`);
+  for(const name of ['initCodeCopy','initScrollHeader','initLinkUnderline'])assert.ok(siteModule.includes(name),`Site entry must initialize ${name}`);
   await page(base+'src/runtime/code-copy.ts');await page(base+'src/runtime/scroll-header.ts');
   const archiveContinuation=await page(base+'articles/2');
   assert.equal(parser.parseFromString(archiveContinuation,'text/html').querySelectorAll('.folder-frame').length,1,'Dev routing must serve directory continuation pages');
@@ -73,5 +76,5 @@ try{
   server.watcher.emit('all','change',resolve('content/index.md'));await delay(150);
   const refreshed=await page();assert.ok(!refreshed.includes(canary),'Astro route props must also be invalidated');assert.equal(compilations,first+1);
   await page();assert.equal(compilations,first+1,'new revision should compile only once');
-  console.log(JSON.stringify({base,status:'passed',checks:['inline #CCF link and tag route','full article extraction and Vite preview modules','Vite opt-in card Motion module and actual site entry','Vite code-copy and scroll-header modules + archive continuation route','warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','Journey projection + actual Vite map/Motion/Leaflet/CSS dependency compilation','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation'],contentCompilations:compilations}));
+  console.log(JSON.stringify({base,status:'passed',checks:['inline #CCF link and tag route','full article extraction and Vite adaptive preview-position modules','Vite opt-in card Motion module and actual site entry','Vite code-copy, scroll-header and link-underline modules + archive continuation route','no inline preview icons in dev HTML','warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','Journey projection + actual Vite map/Motion/Leaflet/CSS dependency compilation','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation'],contentCompilations:compilations}));
 }finally{console.log=log;await server.stop();}

@@ -13,7 +13,7 @@ import {validateGraph} from '../src/runtime/graph-view';
 import {hasBiro,biroPath,biroURL,legacyBiroBytes} from '../src/fonts';
 import {createRequire} from 'node:module';
 import {readMapData,groupPoints,type MapData} from '../src/maps/types';
-const root=resolve('dist'),base=siteConfig.base,files:string[]=[];
+const root=resolve('dist'),base=siteConfig.base,siteOrigin=new URL(siteConfig.site).origin,files:string[]=[];
 async function walk(dir:string){for(const entry of await readdir(dir,{withFileTypes:true})){const path=resolve(dir,entry.name);if(entry.isDirectory())await walk(path);else files.push(relative(root,path));}}
 await walk(root);const all=new Set(files),html=new Map<string,{ids:Set<string>;links:{value:string;kind:string}[]}>();
 const initialCSS=new Set<string>(),maps=new Map<string,MapData>();
@@ -32,7 +32,7 @@ const usedHan=new Set<number>();
 const archiveEntries=new Set<string>(),archiveMocs:{source:string;href:string;root:string}[]=[];
 const commentTitles=new Map<string,string>();
 const attributes=(node:any)=>Object.fromEntries((node.attrs||[]).map((a:{name:string;value:string})=>[a.name,a.value]));
-const errors:string[]=[],stats={pages:0,localLinks:0,initialJsGzipMax:0,cssGzip:0,cssGzipTotal:0,deferredCssGzip:0,mapJsGzip:0,leafletSpriteBytes:0,journeyPoints:0,journeyPlaces:0,fontBytes:0,searchGzip:0,graphGzip:0,archiveMocLinks:0};
+const errors:string[]=[],stats={pages:0,localLinks:0,internalTextLinks:0,externalTextLinks:0,initialJsGzipMax:0,cssGzip:0,cssGzipTotal:0,deferredCssGzip:0,mapJsGzip:0,leafletSpriteBytes:0,journeyPoints:0,journeyPlaces:0,fontBytes:0,searchGzip:0,graphGzip:0,archiveMocLinks:0};
 function output(path:string){
   if(!path.startsWith(base))return undefined;let local=decodeURIComponent(path.slice(base.length));
   if(!local)return 'index.html';
@@ -73,6 +73,15 @@ for(const file of files){
     if(classes.includes('sidebar'))sidebarPosition=position;
     if(classes.includes('reading-discussion'))discussionPosition=position;
     if(classes.includes('copy-code'))errors.push(`${file}: copy buttons must be added only when JavaScript is active`);
+    if(classes.includes('preview-button')||'data-open-preview' in attrs)errors.push(`${file}: removed inline preview pin returned`);
+    if(classes.includes('internal-link')){
+      stats.internalTextLinks++;
+      if(node.tagName!=='a'||new URL(attrs.href||'',siteConfig.site).origin!==siteOrigin)errors.push(`${file}: internal text-link marker must stay on a same-origin anchor`);
+    }
+    if(classes.includes('external-link-mark')){
+      stats.externalTextLinks++;const target=new URL(attributes(node.parentNode).href||'',siteConfig.site);
+      if(node.tagName!=='span'||node.parentNode?.tagName!=='a'||attrs['aria-hidden']!=='true'||node.childNodes.length||!['http:','https:'].includes(target.protocol)||target.origin===siteOrigin)errors.push(`${file}: external marker must be an empty, decorative child of an off-site HTTP(S) link`);
+    }
     if(classes.some((c:string)=>['code-toolbar','code-language'].includes(c)))errors.push(`${file}: removed code toolbar returned`);
     if(node.tagName==='meta'&&attrs.property==='og:image'&&attrs.content!==new URL(base+'favicon.png',siteConfig.site).href)errors.push(`${file}: sharing image must reuse the configured favicon`);
     if(node.tagName==='title'&&node.parentNode?.tagName==='head')pageTitle=node.childNodes.map((child:{value?:string})=>child.value||'').join('');
@@ -211,6 +220,7 @@ for(const [file,page] of html){
     }
   }
 }
+assert.ok(stats.internalTextLinks>0&&stats.externalTextLinks>0,'Published prose must retain both internal and external link affordances');
 const favicon=await readFile(resolve(root,'favicon.png'));
 assert.deepEqual(favicon,await readFile('public/favicon.png'),'Build must preserve the original favicon bytes');
 const icon=imageSize(favicon);assert.equal(icon.type,'png');assert.equal(icon.width,32);assert.equal(icon.height,32);

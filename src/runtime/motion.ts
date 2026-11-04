@@ -1,5 +1,10 @@
 import { animate } from "motion/mini";
-import { frame, cancelFrame, type DOMKeyframesDefinition } from "motion";
+import {
+  frame,
+  cancelFrame,
+  type DOMKeyframesDefinition,
+  type Easing,
+} from "motion";
 export { durations } from "./timing";
 export type MotionElement = HTMLElement | SVGElement;
 export interface MotionDocument extends EventTarget {
@@ -36,6 +41,7 @@ export function transition(
   element: MotionElement,
   keyframes: DOMKeyframesDefinition,
   duration = 0.2,
+  ease: Easing = [0.22, 1, 0.36, 1],
 ): Promise<boolean> {
   stop(element);
   if (reduced.matches) return Promise.resolve(true);
@@ -56,7 +62,7 @@ export function transition(
     });
   const native = animate(element, keyframes, {
     duration,
-    ease: [0.22, 1, 0.36, 1],
+    ease,
   });
   return new Promise((resolve) => {
     const record = { native, restore, resolve };

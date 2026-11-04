@@ -9,6 +9,7 @@ import { initCardMotion } from "./card-motion";
 import { initImageZoom } from "./image-zoom";
 import { initNavigationMotion } from "./navigation-motion";
 import { initCodeCopy } from "./code-copy";
+import { initLinkUnderline } from "./link-underline";
 import { initScrollHeader, shortcutLabel } from "./scroll-header";
 import { initNotePreview, type PreviewRecord } from "./preview";
 const $ = <T extends Element = HTMLElement>(s: string) =>
@@ -26,12 +27,14 @@ let imageZoom = initImageZoom(),
   localGraphs = initLocalGraphs(),
   cardMotion = initCardMotion(),
   codeCopy = initCodeCopy(),
+  linkUnderline = initLinkUnderline(),
   scrollHeader = initScrollHeader();
 addEventListener("pagehide", () => {
   imageZoom.destroy();
   localGraphs.destroy();
   cardMotion.destroy();
   codeCopy.destroy();
+  linkUnderline.destroy();
   scrollHeader.destroy();
 });
 addEventListener("pageshow", (event) => {
@@ -40,6 +43,7 @@ addEventListener("pageshow", (event) => {
     localGraphs = initLocalGraphs();
     cardMotion = initCardMotion();
     codeCopy = initCodeCopy();
+    linkUnderline = initLinkUnderline();
     scrollHeader = initScrollHeader();
   }
 });

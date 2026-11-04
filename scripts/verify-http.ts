@@ -70,9 +70,12 @@ try{
       assert.ok(targetPage.getElementById(decodeURIComponent(target.hash.slice(1))),'Directory link must land on its actual frame');
     }
   }
+  for(const source of [home,article])assert.equal(parser.parseFromString(source,'text/html').querySelector('.preview-button,[data-open-preview]'),null,'HTTP pages must omit inline preview icons');
   const preview=extractPreviewContent(article,'03-tools/obsidian-plugin.md',new URL(origin+base+'03-tools/obsidian-plugin'),'http-popout',parser);
   const authored=parser.parseFromString(article,'text/html').querySelector('.prose')!;
   assert.equal(preview.container.querySelector('.prose')!.textContent,authored.textContent,'HTTP article preview must include the full prose, not its summary');
+  assert.ok(authored.querySelectorAll('.external-link-mark').length>0,'HTTP article must include its external-link marks');
+  for(const selector of ['.external-link-mark','.internal-link'])assert.equal(preview.container.querySelector('.prose')!.querySelectorAll(selector).length,authored.querySelectorAll(selector).length,`HTTP preview preserves ${selector}`);
   assert.equal(preview.container.querySelector('[data-comments],[data-local-graph],script,.preview-button'),null);
   assert.equal(images.length,2);
   for(const image of images){
@@ -90,6 +93,6 @@ try{
   for(const address of fontURLs){assert.ok(new URL(address).pathname.startsWith(base));const response=await fetch(address);assert.equal(response.status,200);assert.match(response.headers.get('content-type')||'',/font\/woff2/);assert.equal(Buffer.from(await response.arrayBuffer()).subarray(0,4).toString(),'wOF2');}
   assert.equal((await fetch(origin+base+'missing-http-fixture')).status,404);
   const fallback=parser.parseFromString(await(await fetch(origin+base+'404')).text(),'text/html');
-  assert.equal(fallback.querySelector('main h1')?.textContent,'页面未找到','Unavailable links and popout icons must reach the site 404 page');
+  assert.equal(fallback.querySelector('main h1')?.textContent,'页面未找到','Unavailable links must reach the site 404 page');
   console.log(`HTTP checks passed: ${paths.length} resources/deep links including supplied Biro, original favicon, ${images.length} direct OSS image URLs, ${fontURLs.size} generated UI fonts, Journey ${journey.points.length} points/${groupPoints(journey.points).length} places with ${mapAssets.length} deferred map assets, and 404, base=${base}`);
 }finally{server.kill('SIGTERM');await Promise.race([once(server,'exit'),delay(3000)]);if(server.exitCode===null)server.kill('SIGKILL');}

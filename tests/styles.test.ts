@@ -27,7 +27,7 @@ test('inline tags share normal badge styling in base, hover and mobile rules wit
   assert.deepEqual(variants,new Set(['base','hover','mobile']));
 });
 
-test('narrow prose headings use inline text flow and hide only the permalink marker, not the explicit preview control',async()=>{
+test('narrow prose headings use inline text flow and hide only the permalink marker',async()=>{
   const root=await readSiteStyles();
   const rules:{selectors:string[];declarations:Record<string,string>}[]=[];
   root.walkRules(rule=>{
@@ -37,7 +37,7 @@ test('narrow prose headings use inline text flow and hide only the permalink mar
   });
   for(const selector of ['.prose h2','.prose h3'])assert.ok(rules.some(rule=>rule.selectors.includes(selector)&&rule.declarations.display==='block'),`${selector} must not split inline links and text into flex columns`);
   assert.ok(rules.some(rule=>rule.selectors.includes('.prose .heading-anchor')&&rule.declarations.display==='none'));
-  assert.ok(!rules.some(rule=>rule.selectors.includes('.preview-button')&&rule.declarations.display==='none'),'Touch users still need explicit full-article previews');
+  assert.ok(!rules.some(rule=>rule.selectors.includes('.preview-button')),'Removed inline preview icons must not retain responsive styles');
 });
 
 test('prose deletion uses native double line-through without a positioning overlay or forced line thickness',async()=>{

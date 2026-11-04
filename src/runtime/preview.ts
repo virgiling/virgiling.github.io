@@ -31,10 +31,12 @@ export function initNotePreview({
     hideTimer: ReturnType<typeof setTimeout> | undefined,
     request: AbortController | undefined,
     requestTimer: ReturnType<typeof setTimeout> | undefined;
-  let floating: Promise<typeof import("@floating-ui/dom")> | undefined;
+  let floating: Promise<typeof import("./preview-position")> | undefined;
   let engine: Promise<typeof import("./preview-content")> | undefined,
     defaultLoader: ReturnType<typeof createPreviewLoader> | undefined;
   const listeners: (() => void)[] = [];
+  const resizeObserver = new ResizeObserver(() => void position());
+  resizeObserver.observe(pop);
   function listen(
     target: EventTarget,
     event: string,
@@ -58,15 +60,11 @@ export function initNotePreview({
     const current = anchor,
       token = generation;
     try {
-      const { computePosition, flip, shift, offset } = await (floating ??=
-        import("@floating-ui/dom"));
+      const { positionPreview } = await (floating ??=
+        import("./preview-position"));
       if (current !== anchor || token !== generation || pop.hidden)
         return false;
-      const { x, y } = await computePosition(current, pop, {
-        strategy: "fixed",
-        placement: "bottom-start",
-        middleware: [offset(10), flip(), shift({ padding: 14 })],
-      });
+      const { x, y } = await positionPreview(current, pop);
       if (current !== anchor || token !== generation || pop.hidden)
         return false;
       pop.style.left = `${x}px`;
@@ -145,11 +143,7 @@ export function initNotePreview({
     title.textContent = record.title;
     fullLink.href = pageURL.href;
     const authoredURL = new URL(
-      target.getAttribute("href") ||
-        (target.hasAttribute("data-open-preview")
-          ? target.previousElementSibling?.getAttribute("href")
-          : undefined) ||
-        record.url,
+      target.getAttribute("href") || record.url,
       location.href,
     );
     let fragment = "";
@@ -234,15 +228,6 @@ export function initNotePreview({
     listen(link, "blur", scheduleHide);
     listen(link, "click", () => hide());
   });
-  document
-    .querySelectorAll<HTMLElement>("[data-open-preview]")
-    .forEach((button) =>
-      listen(
-        button,
-        "click",
-        () => void show(button, button.dataset.openPreview, true),
-      ),
-    );
   listen(pop, "pointerenter", () => clearTimeout(hideTimer));
   listen(pop, "pointerleave", scheduleHide);
   listen(pop, "focusout", scheduleHide);
@@ -287,7 +272,7 @@ export function initNotePreview({
     else if (
       !pop.hidden &&
       !pop.contains(target) &&
-      !target.closest("[data-preview],[data-open-preview]")
+      !target.closest("[data-preview]")
     )
       hide();
   });
@@ -304,6 +289,7 @@ export function initNotePreview({
     position,
     destroy() {
       hide();
+      resizeObserver.disconnect();
       listeners.splice(0).forEach((remove) => remove());
     },
   };

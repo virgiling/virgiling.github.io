@@ -1,6 +1,14 @@
 import assert from 'node:assert/strict';
 import postcss,{type AnyNode} from 'postcss';
 
+// Reference palette: independent opaque surfaces, not near-identical paper tints.
+export const expectedCalloutBackgrounds: Record<string,string> = {
+  note:'#edf2f8', abstract:'#eaf3f2', info:'#eaf3f7', todo:'#eff1f8',
+  tip:'#edf4e9', success:'#e9f4ed', question:'#f8f3e4', warning:'#fbf0de',
+  failure:'#f8eeee', danger:'#f9e9e7', bug:'#faede5', example:'#f1edf7',
+  quote:'#f0f1ed', important:'#f4edf7',
+};
+
 /** Inspect actual Vite/Tailwind output, not a mock of the source stylesheet. */
 export function verifyStyles(css:string){
   const root=postcss.parse(css);
@@ -20,6 +28,12 @@ export function verifyStyles(css:string){
     const found=entries.some(e=>e.selector===selector&&(media?e.media.includes(media):!e.media)&&Object.entries(expected).every(([k,v])=>e.declarations[k]===v));
     assert.ok(found,`Compiled CSS contract missing: ${selector} ${media} ${JSON.stringify(expected)}`);
   }
+  has(':root',{'--paper':'#faf9f6','--surface':'#fffefb','--ink':'#353a35','--muted':'#687068','--accent':'#486447','--metadata':'#6d756a'});
+  has('body',{background:'var(--paper)'});
+  has('.internal-link',{background:'var(--soft)'});
+  assert.ok(entries.some(e=>/^\.external-link-mark:{1,2}after$/.test(e.selector)&&e.declarations.content==='"↗"'),'External text links need their quiet arrow marker');
+  has('a.is-link-underlined',{'text-decoration-color':'#0000','background-size':'100% 2px','box-decoration-break':'clone'});
+  assert.ok(!entries.some(e=>e.selector.includes('preview-button')),'Removed inline pin styles returned');
   has('[hidden]',{display:'none!important'});
   has('.sr-only',{position:'absolute',width:'1px',height:'1px',overflow:'hidden','clip-path':'inset(50%)'});
   has('.header-inner',{display:'flex','min-height':'92px'});
@@ -42,6 +56,12 @@ export function verifyStyles(css:string){
   has('.reading-meta',{'font-family':'var(--hand)','font-size':'18px'});
   has('.reading-meta',{'font-size':'17px'},'560');
   has('.prose',{'font-size':'var(--reading-font-size)','line-height':'1.95'});
+  has('.callout',{background:'var(--callout-bg)','--callout-border':'#bbcbdc'});
+  has('.callout-title',{color:'var(--callout-color)'});
+  for(const [kind,background] of Object.entries(expectedCalloutBackgrounds)){
+    const selector=kind==='note'?'.callout':`.callout[data-callout${kind==='important'?'':'-kind'}=${kind}]`;
+    has(selector,{'--callout-bg':background});
+  }
   has('.prose pre',{'font-size':'14px','line-height':'1.95','border-radius':'9px',background:'#f1f2ec',border:'1px solid #e4e7db'});
   has('.copy-code',{position:'absolute',top:'8px',right:'8px',width:'32px',height:'32px',opacity:'0','pointer-events':'none'});
   for(const selector of ['.code-block:hover .copy-code','.code-block:focus-within .copy-code'])has(selector,{opacity:'1','pointer-events':'auto'});
@@ -56,8 +76,9 @@ export function verifyStyles(css:string){
   has('.image-zoom-close',{'width':'44px','height':'44px'});
   has('.comments-entry',{display:'flex','flex-direction':'column','align-items':'stretch'});
   has('.giscus-host',{width:'100%'});
-  has('.popover',{width:'600px',position:'fixed'});
-  has('.popover-body',{'overflow':'auto','overscroll-behavior':'contain'});
+  has('.popover',{width:'600px',position:'fixed',display:'flex','flex-direction':'column','max-height':'calc(100dvh - 28px)'});
+  has('.popover-top',{'flex-shrink':'0'});
+  has('.popover-body',{'overflow':'auto','overscroll-behavior':'contain','min-height':'0','max-height':'65dvh'});
   assert.ok(entries.some(e=>e.selector==='.popover-body'&&e.declarations['max-height']?.includes('dvh')),'Full previews need a viewport-bounded scroll area');
   has('.folder-heading-link',{display:'inline-flex',color:'var(--accent)'});
   has('.folder-heading-name a',{'text-decoration':'none'});

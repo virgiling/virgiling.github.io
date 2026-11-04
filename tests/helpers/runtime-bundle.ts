@@ -7,6 +7,7 @@ type Runtime = Omit<Motion, "transition" | "stop"> &
   typeof import("../../src/runtime/graph") &
   typeof import("../../src/runtime/interactions") &
   typeof import("../../src/runtime/card-motion") &
+  typeof import("../../src/runtime/link-underline") &
   typeof import("../../src/runtime/stacks") &
   Pick<typeof import("../../src/runtime/search"), "initSearch"> &
   Pick<typeof import("../../src/runtime/graph-assets"), "loadGraphAssets"> &
@@ -16,6 +17,7 @@ type Runtime = Omit<Motion, "transition" | "stop"> &
       element: Element,
       keyframes: Parameters<Motion["transition"]>[1],
       duration?: Parameters<Motion["transition"]>[2],
+      ease?: Parameters<Motion["transition"]>[3],
     ): ReturnType<Motion["transition"]>;
     stop(element: Element): void;
     initNavigationMotion(options: {
@@ -31,7 +33,7 @@ type Runtime = Omit<Motion, "transition" | "stop"> &
 const bundle = await build({
   stdin: {
     contents:
-      "export * from './src/runtime/motion.ts';export {initGraph} from './src/runtime/graph.ts';export * from './src/runtime/interactions.ts';export * from './src/runtime/card-motion.ts';export {initNavigationMotion} from './src/runtime/navigation-motion.ts';export {initSearch} from './src/runtime/search.ts';export {loadGraphAssets} from './src/runtime/graph-assets.ts';export {visibleHeadingIndex,revealCalloutAncestors} from './src/runtime/toc.ts';export {initStacks} from './src/runtime/stacks.ts';",
+      "export * from './src/runtime/motion.ts';export {initGraph} from './src/runtime/graph.ts';export * from './src/runtime/interactions.ts';export * from './src/runtime/card-motion.ts';export * from './src/runtime/link-underline.ts';export {initNavigationMotion} from './src/runtime/navigation-motion.ts';export {initSearch} from './src/runtime/search.ts';export {loadGraphAssets} from './src/runtime/graph-assets.ts';export {visibleHeadingIndex,revealCalloutAncestors} from './src/runtime/toc.ts';export {initStacks} from './src/runtime/stacks.ts';",
     resolveDir: resolve("."),
   },
   bundle: true,
@@ -79,6 +81,8 @@ function style(): TestStyle {
 }
 interface TestAnimation {
   keyframes: PropertyIndexedKeyframes;
+  duration: number;
+  easing: string;
   playState: AnimationPlayState;
   currentTime: number;
   playbackRate: number;
@@ -114,9 +118,11 @@ export class Element extends EventTarget {
   click() {
     this.dispatchEvent(new Event("click"));
   }
-  animate(keyframes: PropertyIndexedKeyframes, options: { duration: number }) {
+  animate(keyframes: PropertyIndexedKeyframes, options: { duration: number; easing?: string }) {
     const animation: TestAnimation = {
       keyframes,
+      duration: options.duration,
+      easing: options.easing || "linear",
       playState: "running",
       currentTime: options.duration,
       playbackRate: 1,

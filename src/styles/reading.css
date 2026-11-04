@@ -180,9 +180,6 @@
 .prose pre code {
   @apply text-[length:inherit];
 }
-.preview-button svg {
-  @apply inline-block w-[12px] h-[12px] align-middle;
-}
 .code-block {
   position: relative;
   margin-block: 25px;
@@ -211,35 +208,4 @@
 .code-block:focus-within .copy-code {
   opacity: 1;
   pointer-events: auto;
-}
-.preview-button {
-  @apply align-middle text-[12px] text-[#486447] ml-[5px] py-0 px-[5px] rounded-[4px];
-  border: 1px solid #b8c3ad;
-  background: transparent;
-  line-height: 1.6;
-}
-@media (hover: hover) and (pointer: fine) {
-  .preview-button {
-    border-color: transparent;
-    color: var(--muted);
-    opacity: 0.5;
-  }
-  a[data-preview]:is(:hover, :focus-visible) + .preview-button,
-  .preview-button:is(:hover, :focus-visible) {
-    border-color: #b8c3ad;
-    color: var(--accent);
-    opacity: 1;
-  }
-}
-@media (any-pointer: coarse) {
-  .preview-button {
-    min-width: 32px;
-    min-height: 32px;
-    border-color: #b8c3ad;
-    color: var(--accent);
-    opacity: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
 }

@@ -9,34 +9,13 @@ import { visit } from "unist-util-visit";
 import { rehypeCallouts } from "../markdown/callouts";
 import { rehypeFigures } from "../markdown/figures";
 import { codeBlockFrames } from "../markdown/code-blocks";
+import { linkAffordances } from "../markdown/link-affordances";
 import { textOf } from "./parse";
-import { url } from "../site.config";
+import { siteConfig, url } from "../site.config";
 import type { Citations } from "../markdown/citations";
 import type { Note, Asset } from "./types";
 
 const t = (value: string) => ({ type: "text", value });
-const pinIcon = () => ({
-  type: "element",
-  tagName: "svg",
-  properties: {
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.7,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    ariaHidden: "true",
-    focusable: "false",
-  },
-  children: [
-    {
-      type: "element",
-      tagName: "path",
-      properties: { d: "M8 3h8M9 3v6l-3 4v2h12v-2l-3-4V3M12 15v6" },
-      children: [],
-    },
-  ],
-});
 const schema: any = {
   ...defaultSchema,
   clobberPrefix: "",
@@ -203,41 +182,9 @@ export async function renderNote(
             else delete n.properties[attr];
           }
         }
-        const missing = n.properties.href === url("404");
-        if (
-          n.tagName === "a" &&
-          (n.properties.dataPreview || missing) &&
-          textOf(n)
-            .replace(/[\u200B\uFEFF]/g, "")
-            .trim() &&
-          n.properties.href !== note.url &&
-          !n.properties.className?.includes("preview-button") &&
-          parent &&
-          index !== undefined
-        ) {
-          parent.children.splice(index + 1, 0, {
-            type: "element",
-            tagName: missing ? "a" : "button",
-            properties: {
-              className: ["preview-button"],
-              ...(missing
-                ? {
-                    href: url("404"),
-                    ariaLabel: "打开未找到页面：" + textOf(n),
-                  }
-                : {
-                    type: "button",
-                    dataOpenPreview: n.properties.dataPreview,
-                    ariaLabel: "固定预览：" + textOf(n),
-                    ariaHasPopup: "dialog",
-                    ariaControls: "note-preview",
-                  }),
-            },
-            children: [pinIcon()],
-          });
-        }
       });
     })
+    .use(linkAffordances, siteConfig.site)
     .use(stringify);
   const hast = await processor.run(tree);
   note.readingText = textOf(hast);

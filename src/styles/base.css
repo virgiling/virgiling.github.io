@@ -26,6 +26,30 @@ a {
 a:hover {
   text-decoration-thickness: 2px;
 }
+.internal-link {
+  background: var(--soft);
+}
+.external-link-mark::after {
+  content: "↗";
+  font-size: 0.75em;
+  vertical-align: super;
+}
+/* Motion draws external-link underlines in each wrapped inline fragment. */
+a.is-link-underlined {
+  text-decoration-color: transparent;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+@media print, (forced-colors: active) {
+  a.is-link-underlined {
+    text-decoration-color: currentColor;
+    background-image: none;
+  }
+}
 button {
   @apply text-inherit cursor-pointer;
 }

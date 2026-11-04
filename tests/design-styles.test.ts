@@ -21,7 +21,7 @@ test('reading polish keeps decorative typography, full-column prose, and code si
   assert.match(values('.prose pre'),/background: #f1f2ec/);
   assert.match(values('.prose pre'),/border: 1px solid #e4e7db/);
   assert.equal(values('.wikilink'),'');
-  assert.match(values('.preview-button'),/min-width: 32px/);
+  assert.equal(values('.preview-button'),'');
 });
 
 test('copy affordance floats without a toolbar or extra code frame and is revealed only by hover or focus',async()=>{

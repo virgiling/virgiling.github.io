@@ -230,9 +230,6 @@
   .callout {
     @apply p-[14px];
   }
-  .preview-button {
-    @apply py-[2px] px-[5px] text-[12px];
-  }
   .welcome-quote {
     @apply text-[32px];
   }

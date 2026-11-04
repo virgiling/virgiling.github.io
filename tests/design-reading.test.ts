@@ -50,9 +50,9 @@ test('summary extraction skips structural noise, prefers abstract bodies and pre
     assert.match(code.querySelector('.code-block pre code')!.textContent,/console.log/);
     assert.equal(code.querySelector('button.copy-code'),null,'no inert copy button without JS');
     const self=doc(note('self').html);
-    const pins=[...self.querySelectorAll('.preview-button')];
-    assert.equal(pins.length,1,'keep chapter previews, not empty or whole-page self pins');
-    assert.match(pins[0].getAttribute('aria-label')!,/本页章节/);
+    assert.equal(self.querySelector('.preview-button,[data-open-preview]'),null);
+    const chapter=[...self.querySelectorAll('a[data-preview]')].find(a=>a.textContent==='本页章节');
+    assert.ok(chapter?.getAttribute('href')?.includes('#'),'chapter links retain native navigation and preview');
   }finally{await rm(root,{recursive:true,force:true});}
 });
 

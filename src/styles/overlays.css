@@ -1,13 +1,14 @@
 /* Popover and Spotlight: Motion owns all timed transitions. No animated blur/backdrop filters. */
 .popover {
-  @apply fixed w-[600px] max-w-[calc(100vw_-_28px)] rounded-[14px] z-[60] overflow-hidden;
+  @apply fixed flex flex-col w-[600px] max-w-[calc(100vw_-_28px)] rounded-[14px] z-[60] overflow-hidden;
+  max-height: calc(100dvh - 28px);
   background: var(--surface);
   border: 1px solid #d5dfcb;
   box-shadow: 0 14px 45px #34432924;
   line-height: 1.65;
 }
 .popover-top {
-  @apply flex items-center gap-[10px] py-[9px] px-[15px] text-[12px] text-accent;
+  @apply flex shrink-0 items-center gap-[10px] py-[9px] px-[15px] text-[12px] text-accent;
   background: #f0f3e9;
 }
 .pin-button,
@@ -28,7 +29,8 @@
 }
 .popover-body {
   @apply relative pt-[20px] pr-[22px] pb-[23px] pl-[22px] overflow-auto;
-  max-height: min(65dvh, calc(100dvh - 90px));
+  min-height: 0;
+  max-height: 65dvh;
   overscroll-behavior: contain;
   overflow-wrap: anywhere;
 }
