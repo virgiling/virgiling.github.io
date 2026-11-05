@@ -27,6 +27,16 @@ test('inline tags share normal badge styling in base, hover and mobile rules wit
   assert.deepEqual(variants,new Set(['base','hover','mobile']));
 });
 
+test('internal link highlights have small rounded corners and horizontal breathing room on every wrapped line',async()=>{
+  const root=await readSiteStyles(),declarations:Record<string,string>={};
+  root.walkRules(rule=>{if(rule.selectors.includes('.internal-link'))rule.walkDecls(decl=>{declarations[decl.prop]=decl.value;});});
+  assert.equal(declarations.background,'var(--soft)');
+  assert.equal(declarations['border-radius'],'4px');
+  assert.equal(declarations.padding,'0 2px','keep the original line height, with only horizontal padding');
+  for(const property of ['box-decoration-break','-webkit-box-decoration-break'])assert.equal(declarations[property],'clone');
+  for(const property of ['display','white-space','color','font-size','line-height','transition','animation'])assert.equal(declarations[property],undefined,property);
+});
+
 test('narrow prose headings use inline text flow and hide only the permalink marker',async()=>{
   const root=await readSiteStyles();
   const rules:{selectors:string[];declarations:Record<string,string>}[]=[];

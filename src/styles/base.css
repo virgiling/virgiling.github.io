@@ -28,6 +28,10 @@ a:hover {
 }
 .internal-link {
   background: var(--soft);
+  border-radius: 4px;
+  padding: 0 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 .external-link-mark::after {
   content: "↗";

@@ -30,7 +30,7 @@ export function verifyStyles(css:string){
   }
   has(':root',{'--paper':'#faf9f6','--surface':'#fffefb','--ink':'#353a35','--muted':'#687068','--accent':'#486447','--metadata':'#6d756a'});
   has('body',{background:'var(--paper)'});
-  has('.internal-link',{background:'var(--soft)'});
+  has('.internal-link',{background:'var(--soft)','border-radius':'4px',padding:'0 2px','box-decoration-break':'clone'});
   assert.ok(entries.some(e=>/^\.external-link-mark:{1,2}after$/.test(e.selector)&&e.declarations.content==='"↗"'),'External text links need their quiet arrow marker');
   has('a.is-link-underlined',{'text-decoration-color':'#0000','background-size':'100% 2px','box-decoration-break':'clone'});
   assert.ok(!entries.some(e=>e.selector.includes('preview-button')),'Removed inline pin styles returned');
