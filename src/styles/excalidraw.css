@@ -1,0 +1,18 @@
+.excalidraw-embed {
+  width: 100%;
+  margin-inline: auto;
+}
+.excalidraw-embed .remark-excalidraw {
+  width: 100%;
+  overflow: auto;
+}
+.excalidraw-embed svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+.excalidraw-embed [role="status"] {
+  color: var(--muted);
+  font-size: 0.875em;
+}

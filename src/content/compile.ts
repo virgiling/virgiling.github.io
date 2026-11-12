@@ -4,6 +4,7 @@ import { noteSummary } from "./summary";
 import { url } from "../site.config";
 import { linkableTags, tagAncestors, tagPath } from "../inline-tags";
 import { MediaAssets } from "./assets";
+import { Drawings } from "./drawings";
 import { createTransclusion } from "./transclusion";
 import { parseNote, textOf, withoutComments } from "./parse";
 import { renderNote } from "./render";
@@ -17,6 +18,7 @@ export class Compiler {
   tagURLs: Set<string>;
   citations: Citations;
   private media: MediaAssets;
+  private drawings: Drawings;
   constructor(
     public root: string,
     public notes: Note[],
@@ -26,6 +28,7 @@ export class Compiler {
     this.resolver = new Resolver(notes, diagnostics);
     this.citations = new Citations(root, diagnostics);
     this.media = new MediaAssets(this.assets);
+    this.drawings = new Drawings(root, files, this.assets, diagnostics);
     this.tagURLs = new Set(
       [
         ...tagAncestors(
@@ -34,8 +37,11 @@ export class Compiler {
       ].map((tag) => url(tagPath(tag))),
     );
   }
-  asset(from: Note, target: string) {
-    return this.media.resolve(this.root, this.files, from, target);
+  async asset(from: Note, target: string) {
+    return (
+      (await this.drawings.resolve(from, target)) ??
+      this.media.resolve(this.root, this.files, from, target)
+    );
   }
   async compile(note: Note) {
     const { walk, footnotes } = createTransclusion({

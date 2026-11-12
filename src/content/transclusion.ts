@@ -1,6 +1,7 @@
 import { url } from "../site.config";
 import { htmlLiteralContexts, rawHTMLTags } from "../markdown/inline-tags";
 import { rewriteText } from "./inline";
+import { drawingEmbed } from "../markdown/excalidraw";
 import type { Resolver } from "./resolve";
 import type { Note, Asset } from "./types";
 
@@ -78,6 +79,8 @@ export function createTransclusion({
       if (node.url?.startsWith(url("media/"))) return node;
       const asset = await resolveAsset(owner, node.url);
       if (asset) {
+        if (asset.kind === "excalidraw" && node.type === "image")
+          return drawingEmbed(asset, node.alt || "Excalidraw");
         node.url = asset.url;
       } else if (node.type === "image") {
         resolver.warn(

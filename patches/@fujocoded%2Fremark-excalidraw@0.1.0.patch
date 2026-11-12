@@ -1,0 +1,73 @@
+diff --git a/dist/component.d.ts b/dist/component.d.ts
+index 3b646b66339e0e727a16b96f115b44f7ee900c84..0cb5ace33a5e06ef3036f8343cb4db60e3e544cd 100644
+--- a/dist/component.d.ts
++++ b/dist/component.d.ts
+@@ -6,12 +6,16 @@ interface ExcalidrawComponentProps {
+   fileContent: string;
+   height?: number | string;
+   width?: number | string;
++  onRender?: (svg: SVGSVGElement) => void;
++  onError?: (error: unknown) => void;
+ }
+ declare function ExcalidrawComponent({
+   alt,
+   fileContent,
+   height,
+-  width
++  width,
++  onRender,
++  onError
+ }: ExcalidrawComponentProps): react0.JSX.Element;
+ //#endregion
+ export { ExcalidrawComponent, ExcalidrawComponentProps };
+\ No newline at end of file
+diff --git a/dist/component.js b/dist/component.js
+index 2d4897f2599e3446d3c5206aed9dd15230cc8d29..7f99455560bf74ba4a229e1f72f0cc0b0eca7fef 100644
+--- a/dist/component.js
++++ b/dist/component.js
+@@ -6,7 +6,7 @@ function toPositiveNumber(value) {
+ 	const numberValue = Number(value);
+ 	return Number.isFinite(numberValue) && numberValue > 0 ? numberValue : void 0;
+ }
+-function ExcalidrawComponent({ alt, fileContent, height, width }) {
++function ExcalidrawComponent({ alt, fileContent, height, width, onRender, onError }) {
+ 	const containerRef = useRef(null);
+ 	const dimensions = {
+ 		height: toPositiveNumber(height),
+@@ -19,7 +19,9 @@ function ExcalidrawComponent({ alt, fileContent, height, width }) {
+ 			const svg = await exportToSvg({
+ 				...JSON.parse(fileContent),
+ 				appState: {
+-					theme: THEME.DARK,
++					theme: THEME.LIGHT,
++					exportWithDarkMode: false,
++					exportEmbedScene: false,
+ 					exportBackground: false
+ 				},
+ 				type: "png"
+@@ -29,9 +31,13 @@ function ExcalidrawComponent({ alt, fileContent, height, width }) {
+ 			if (alt) svg.setAttribute("aria-label", alt);
+ 			if (dimensions.width) svg.setAttribute("width", String(Math.round(dimensions.width)));
+ 			if (dimensions.height) svg.setAttribute("height", String(Math.round(dimensions.height)));
++			else if (dimensions.width) svg.removeAttribute("height");
+ 			containerRef.current.replaceChildren(svg);
++			onRender?.(svg);
+ 		}
+-		renderDrawing();
++		renderDrawing().catch((error) => {
++			if (isMounted) onError?.(error);
++		});
+ 		return () => {
+ 			isMounted = false;
+ 		};
+@@ -39,7 +45,9 @@ function ExcalidrawComponent({ alt, fileContent, height, width }) {
+ 		alt,
+ 		dimensions.height,
+ 		dimensions.width,
+-		fileContent
++		fileContent,
++		onRender,
++		onError
+ 	]);
+ 	const aspectRatio = dimensions.width && dimensions.height ? `${dimensions.width} / ${dimensions.height}` : void 0;
+ 	return /* @__PURE__ */ jsx("div", {

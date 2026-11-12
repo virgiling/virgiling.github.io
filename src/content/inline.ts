@@ -3,6 +3,7 @@ import { url } from "../site.config";
 import { inlineTagParts, sliceTagParts } from "../inline-tags";
 import { inlineTagNodes, sourceText } from "../markdown/inline-tags";
 import { mediaTypes } from "./assets";
+import { drawingEmbed, drawingWikiAlias } from "../markdown/excalidraw";
 import { selectEmbedded, scopeEmbedIds } from "./embeds";
 import { wikiLabel } from "./parse";
 import type { Resolver } from "./resolve";
@@ -88,7 +89,14 @@ export async function rewriteText(node: any, context: TextContext) {
       if (embedded) {
         const size = /^(\d{1,4})(?:x(\d{1,4}))?$/.exec(match[3] || "");
         const ext = posix.extname(media.output);
-        if ([".mp3", ".wav", ".ogg", ".m4a", ".mp4", ".webm"].includes(ext))
+        if (media.kind === "excalidraw") {
+          const drawing = drawingWikiAlias(match[3]);
+          children.push(
+            drawingEmbed(media, wikiLabel(target, drawing.label), drawing.size),
+          );
+        } else if (
+          [".mp3", ".wav", ".ogg", ".m4a", ".mp4", ".webm"].includes(ext)
+        )
           children.push({
             type: "text",
             value: "",
@@ -145,7 +153,13 @@ export async function rewriteText(node: any, context: TextContext) {
         embedded &&
         mediaTypes.has(posix.extname(target.split("#")[0]).toLowerCase()) &&
         /^\d{1,4}(?:x\d{1,4})?$/.test(match[3] || "");
-      children.push(unavailable(sizeAlias ? wikiLabel(target) : label));
+      const fallback =
+        embedded && /\.excalidraw(?:\.md)?$/i.test(target)
+          ? wikiLabel(target, drawingWikiAlias(match[3]).label)
+          : sizeAlias
+            ? wikiLabel(target)
+            : label;
+      children.push(unavailable(fallback));
       continue;
     }
     if (record && !note.links.includes(result.note.id))

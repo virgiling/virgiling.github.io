@@ -72,6 +72,10 @@ test('heatmap intensity remains ordered while graph text and semantic callout co
   assert.equal(values['.callout']['--callout-border'], '#bbcbdc');
   assert.equal(values['.callout[data-callout-kind="success"]']['--callout-border'], '#a7cdb4');
   assert.equal(values['.callout[data-callout-kind="warning"]']['--callout-border'], '#debf89');
+  assert.equal(values['.callout[data-callout-kind="aigc"]']['--callout-color'], '#94465f');
+  assert.equal(values['.callout[data-callout-kind="aigc"]']['--callout-border'], '#e2bac9');
+  assert.notEqual(expectedCalloutBackgrounds.aigc, expectedCalloutBackgrounds.info);
+  assert.notEqual(expectedCalloutBackgrounds.aigc, expectedCalloutBackgrounds.danger);
 });
 
 test('rendered callout kinds and aliases select independent opaque backgrounds, also when nested', async () => {

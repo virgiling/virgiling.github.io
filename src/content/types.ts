@@ -47,11 +47,16 @@ export interface Diagnostic {
   code: string;
   message: string;
 }
-export interface Asset {
+interface AssetLocation {
   source: string;
   output: string;
   url: string;
 }
+export interface DrawingAsset extends AssetLocation {
+  kind: "excalidraw";
+  content: string;
+}
+export type Asset = (AssetLocation & { kind?: "media" }) | DrawingAsset;
 export interface DirectoryMeta {
   path: string;
   title: string;

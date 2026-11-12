@@ -1,18 +1,22 @@
 /* Baseline-inspired spacing; site-specific opaque tints keep nested callout colors independent. */
 .callout {
-  @apply my-[25px] mx-0 p-[16px] rounded-[10px] text-inherit;
+  @apply my-[25px] mx-0 p-[16px] rounded-[10px];
   --callout-color: #446487;
   --callout-bg: #edf2f8;
   --callout-border: #bbcbdc;
   background: var(--callout-bg);
   border: 1px solid var(--callout-border);
-  font: inherit;
   overflow-wrap: anywhere;
 }
 .callout[data-callout-kind="abstract"] {
   --callout-color: #3d6c72;
   --callout-bg: #eaf3f2;
   --callout-border: #aacacb;
+}
+.callout[data-callout-kind="aigc"] {
+  --callout-color: #94465f;
+  --callout-bg: #f9edf2;
+  --callout-border: #e2bac9;
 }
 .callout[data-callout-kind="info"] {
   --callout-color: #366d83;
@@ -83,7 +87,7 @@
   @apply min-w-0 flex-[1];
 }
 .callout-icon {
-  @apply flex flex-[0_0_20px] w-[20px];
+  @apply flex flex-[0_0_20px];
 }
 .callout-icon svg {
   @apply w-[20px] h-[20px];
@@ -100,7 +104,8 @@
 .callout-content p {
   margin-block-end: 19px;
 }
-.callout-content:empty {
+.callout-content:empty,
+.welcome-note br {
   @apply hidden;
 }
 .callout pre {
@@ -123,9 +128,6 @@
 .welcome-note {
   @apply mt-[24px] mr-0 mb-[32px] ml-0 font-hand font-normal;
   line-height: 1.4;
-}
-.welcome-note br {
-  @apply hidden;
 }
 .welcome-quote {
   @apply text-[38px] block text-[#4a5642];

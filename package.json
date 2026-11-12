@@ -23,6 +23,7 @@
     "verify:dev": "tsx scripts/verify-dev.ts",
     "measure:dev": "tsx scripts/measure-dev.ts",
     "measure:cpu": "tsx scripts/measure-interaction-cpu.ts",
+    "measure:excalidraw": "tsx scripts/measure-excalidraw.ts",
     "content:report": "tsx scripts/content-report.ts",
     "friends:sync": "tsx scripts/sync-friends.ts",
     "validate": "bun run format:check && bun run check && bun run test && bun run build && bun run verify"
@@ -32,6 +33,7 @@
     "@citation-js/core": "0.7.21",
     "@citation-js/plugin-bibtex": "0.7.21",
     "@floating-ui/dom": "1.8.0",
+    "@fujocoded/remark-excalidraw": "0.1.0",
     "@quartz-community/bases-page": "1.0.0",
     "@shikijs/rehype": "4.4.3",
     "astro": "7.3.5",
@@ -46,9 +48,12 @@
     "hast-util-to-html": "9.0.5",
     "image-size": "2.0.2",
     "lucide": "1.49.0",
+    "lz-string": "1.5.0",
     "medium-zoom": "1.1.0",
     "motion": "13.4.4",
     "punycode": "2.3.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "rehype-citation": "2.3.2",
     "rehype-mathjax": "7.1.0",
     "rehype-raw": "7.0.0",
@@ -72,6 +77,8 @@
     "@types/d3-selection": "3.0.12",
     "@types/d3-zoom": "3.0.9",
     "@types/node": "24.10.1",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
     "esbuild": "0.28.2",
     "linkedom": "0.18.12",
     "parse5": "8.0.1",
@@ -87,6 +94,7 @@
     "medium-zoom@1.1.0": "patches/medium-zoom@1.1.0.patch",
     "astro-leaflet@1.12.0": "patches/astro-leaflet@1.12.0.patch",
     "leaflet@1.9.4": "patches/leaflet@1.9.4.patch",
-    "rehype-citation@2.3.2": "patches/rehype-citation@2.3.2.patch"
+    "rehype-citation@2.3.2": "patches/rehype-citation@2.3.2.patch",
+    "@fujocoded/remark-excalidraw@0.1.0": "patches/@fujocoded%2Fremark-excalidraw@0.1.0.patch"
   }
 }

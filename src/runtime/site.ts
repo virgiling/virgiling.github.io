@@ -7,6 +7,7 @@ import { initLocalGraphs } from "./local-graph";
 import { initInteractionMotion } from "./interactions";
 import { initCardMotion } from "./card-motion";
 import { initImageZoom } from "./image-zoom";
+import { initExcalidraw } from "./excalidraw";
 import { initNavigationMotion } from "./navigation-motion";
 import { initCodeCopy } from "./code-copy";
 import { initLinkUnderline } from "./link-underline";
@@ -24,6 +25,7 @@ const toc = initOnThisPage();
 const shortcut = document.querySelector(".search-trigger .key");
 if (shortcut) shortcut.textContent = shortcutLabel(navigator.userAgent);
 let imageZoom = initImageZoom(),
+  excalidraw = initExcalidraw(),
   localGraphs = initLocalGraphs(),
   cardMotion = initCardMotion(),
   codeCopy = initCodeCopy(),
@@ -31,6 +33,7 @@ let imageZoom = initImageZoom(),
   scrollHeader = initScrollHeader();
 addEventListener("pagehide", () => {
   imageZoom.destroy();
+  excalidraw.destroy();
   localGraphs.destroy();
   cardMotion.destroy();
   codeCopy.destroy();
@@ -40,6 +43,7 @@ addEventListener("pagehide", () => {
 addEventListener("pageshow", (event) => {
   if (event.persisted) {
     imageZoom = initImageZoom();
+    excalidraw = initExcalidraw();
     localGraphs = initLocalGraphs();
     cardMotion = initCardMotion();
     codeCopy = initCodeCopy();

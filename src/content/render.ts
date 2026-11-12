@@ -8,6 +8,7 @@ import shiki from "@shikijs/rehype";
 import { visit } from "unist-util-visit";
 import { rehypeCallouts } from "../markdown/callouts";
 import { rehypeFigures } from "../markdown/figures";
+import { rehypeExcalidraw } from "../markdown/excalidraw";
 import { codeBlockFrames } from "../markdown/code-blocks";
 import { linkAffordances } from "../markdown/link-affordances";
 import { textOf } from "./parse";
@@ -48,6 +49,13 @@ const schema: any = {
       "dataTag",
     ],
     blockquote: [["dataCalloutMarker", "1"], "className"],
+    figure: [
+      "className",
+      "dataExcalidraw",
+      "dataLabel",
+      "dataWidth",
+      "dataHeight",
+    ],
     audio: ["src", "controls", "preload"],
     video: ["src", "controls", "preload"],
     img: [
@@ -102,6 +110,7 @@ export async function renderNote(
       });
     })
     .use(sanitize, schema)
+    .use(() => rehypeExcalidraw(context.assets))
     .use(rehypeCallouts)
     .use(rehypeFigures)
     .use(() => (tree: any) => {

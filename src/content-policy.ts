@@ -12,7 +12,6 @@ export const contentPolicy = {
     "05-project",
     "30-tasks",
     "00-copilot",
-    "Excalidraw",
   ],
   ignoredExtensions: [".canvas", ".bib", ".csl"],
 };
@@ -27,6 +26,18 @@ export function classifyContentPath(path: string) {
     throw new Error("Content path must be relative and normalized");
   if (parts.some((p) => contentPolicy.ignoredDirectories.includes(p)))
     return "ignored";
+  if (parts.includes("Excalidraw")) {
+    if (normalized === "Excalidraw") return "drawing-directory";
+    if (
+      normalized === "Excalidraw/drawing" ||
+      (normalized.startsWith("Excalidraw/drawing/") &&
+        !parts.slice(2).includes("Excalidraw"))
+    )
+      return /\.excalidraw(?:\.md)?$/i.test(normalized)
+        ? "drawing"
+        : "drawing-directory";
+    return "ignored";
+  }
   const extension = posix.extname(normalized).toLowerCase();
   if (contentPolicy.ignoredExtensions.includes(extension)) return "ignored";
   if (extension === ".base") return "base";

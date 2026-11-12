@@ -170,7 +170,7 @@ test('safe HTML, mathematical SVG, Shiki, inline footnotes and poetry',async()=>
     assert.ok(!n.html.includes('<script>'));assert.ok(!n.html.includes('onerror'));assert.match(n.html,/<svg/);assert.match(n.html,/shiki/);assert.match(n.html,/<pre[^>]*>[\s\S]*<code>[\s\S]*One[\s\S]*Two[\s\S]*<\/code><\/pre>/);assert.ok(!n.html.includes('One<br>'));
   });
 });
-test('27 callout identifiers, fold modes and nested callouts survive sanitization',async()=>{
+test('all configured callout identifiers, fold modes and nested callouts survive sanitization',async()=>{
   for(const kind of Object.keys(calloutAliases)){
     await fixture({'a.md':md(`> [!${kind.toUpperCase()}]- Title\n> Body\n>\n> > [!tip] Nested\n> > Inner`)},async root=>{
       const n=(await buildSnapshot(root)).notes[0];assert.match(n.html,new RegExp(`data-callout="${kind}"`));assert.match(n.html,/<details/);assert.match(n.html,/Nested/);assert.match(n.html,/callout-icon/);

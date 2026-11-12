@@ -16,7 +16,7 @@ interface CalloutOptions {
   classes?: string[];
   ariaLabel?: Properties["ariaLabel"];
 }
-// Site usage groups, not extra OFM types. Canonical types and aliases follow Obsidian Help.
+// Site usage groups. Standard types/aliases follow Obsidian Help; aigc is a site extension.
 export const calloutGroups: {
   id: string;
   label: string;
@@ -25,7 +25,7 @@ export const calloutGroups: {
   {
     id: "information",
     label: "记录与说明",
-    types: { note: [], abstract: ["summary", "tldr"], info: [] },
+    types: { note: [], abstract: ["summary", "tldr"], info: [], aigc: [] },
   },
   {
     id: "guidance",
@@ -77,6 +77,12 @@ const path = (d: string) => element("path", { d }),
 export const warningIconPath = "m12 3 10 18H2z M12 9v5 M12 17h.01";
 // Small geometric line icons authored for this site; no Baseline/SF Symbols assets.
 function icon(kind: string) {
+  if (kind === "aigc")
+    return element(
+      "span",
+      { className: ["callout-icon"], ariaHidden: "true" },
+      [calloutText("✨")],
+    );
   const shapes: Record<string, ElementContent[]> = {
     note: [path("m5 15 10-10 4 4-10 10-5 1z M13 7l4 4")],
     abstract: [
@@ -132,7 +138,11 @@ export function calloutNode({
     ? calloutAliases[type]
     : "note";
   if (!title.some((n) => n.type !== "text" || n.value.trim()))
-    title = [calloutText(type[0].toUpperCase() + type.slice(1))];
+    title = [
+      calloutText(
+        kind === "aigc" ? "AIGC" : type[0].toUpperCase() + type.slice(1),
+      ),
+    ];
   body = body.filter((n) => n.type !== "text" || n.value.trim());
   const props: Properties = {
     className: ["callout", ...classes],

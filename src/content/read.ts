@@ -101,7 +101,8 @@ export async function readContent(
         await walk(path);
         continue;
       }
-      if (!entry.isFile()) continue;
+      if (!entry.isFile() || classifyContentPath(path) === "drawing-directory")
+        continue;
       safePath(path);
       files.add(path);
       if (classifyContentPath(path) !== "markdown") continue;
@@ -186,9 +187,13 @@ export async function readContent(
   }
   return { notes, files };
 }
-export async function contentFile(root: string, path: string) {
+export async function contentFile(
+  root: string,
+  path: string,
+  kind: "asset" | "drawing" = "asset",
+) {
   safePath(path);
-  if (classifyContentPath(path) !== "asset")
+  if (classifyContentPath(path) !== kind)
     throw new Error("Not a publishable asset");
   const base = await realpath(root),
     target = await realpath(resolve(base, path));

@@ -11,6 +11,7 @@ import {verifyDevGraph} from './dev-graph-contract';
 import {DOMParser} from 'linkedom';
 import {extractPreviewContent} from '../src/runtime/preview-content';
 import {verifyDevMap} from './map-contract';
+import {verifyDevExcalidraw} from './excalidraw-contract';
 
 // Programmatic server on a separate port: no browser, no lock-file replacement,
 // no content edits. Watch events below are synthetic; the submodule stays clean.
@@ -69,6 +70,7 @@ try{
   assert.ok(environment?.runner,'Astro rendering environment must be available');
   const module=await environment.runner.import(resolve('src/content/snapshot.ts'));
   const snapshot=await module.getSnapshot();assert.equal(compilations,first,'test must use the same snapshot as HTTP rendering');
+  await verifyDevExcalidraw(origin,base,snapshot);
   const note=snapshot.notes.find((n:{source:string;title:string})=>n.source==='index.md'),canary='DEV_ROUTE_CACHE_CANARY';note.title=canary;
   assert.ok((await page()).includes(canary),'seed the cached route props in memory, without editing source files');
   server.watcher.emit('all','change',resolve('content/private/ignored.md'));await delay(150);
@@ -76,5 +78,7 @@ try{
   server.watcher.emit('all','change',resolve('content/index.md'));await delay(150);
   const refreshed=await page();assert.ok(!refreshed.includes(canary),'Astro route props must also be invalidated');assert.equal(compilations,first+1);
   await page();assert.equal(compilations,first+1,'new revision should compile only once');
-  console.log(JSON.stringify({base,status:'passed',checks:['inline #CCF link and tag route','full article extraction and Vite adaptive preview-position modules','Vite opt-in card Motion module and actual site entry','Vite code-copy, scroll-header and link-underline modules + archive continuation route','no inline preview icons in dev HTML','warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','Journey projection + actual Vite map/Motion/Leaflet/CSS dependency compilation','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation'],contentCompilations:compilations}));
+  server.watcher.emit('all','change',resolve('content/Excalidraw/drawing/fixture.excalidraw.md'));await delay(150);
+  await page();assert.equal(compilations,first+2,'drawing changes must invalidate content and route caches');
+  console.log(JSON.stringify({base,status:'passed',checks:['inline #CCF link and tag route','full article extraction and Vite adaptive preview-position modules','Vite opt-in card Motion module and actual site entry','Vite code-copy, scroll-header and link-underline modules + archive continuation route','no inline preview icons in dev HTML','warm/concurrent cache reuse','actual graph validation','HTTP-served graph dependency import/mount/draw/reset/cleanup','Journey projection + actual Vite map/Motion/Leaflet/CSS dependency compilation','generated UI font CSS/URLs/WOFF2 responses','Biro declaration/binary','ignored-path no-op','content + Astro route cache invalidation','Excalidraw fixture JSON/HTML, lazy modules and drawing watcher'],contentCompilations:compilations}));
 }finally{console.log=log;await server.stop();}

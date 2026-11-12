@@ -3,7 +3,7 @@ import postcss,{type AnyNode} from 'postcss';
 
 // Reference palette: independent opaque surfaces, not near-identical paper tints.
 export const expectedCalloutBackgrounds: Record<string,string> = {
-  note:'#edf2f8', abstract:'#eaf3f2', info:'#eaf3f7', todo:'#eff1f8',
+  note:'#edf2f8', aigc:'#f9edf2', abstract:'#eaf3f2', info:'#eaf3f7', todo:'#eff1f8',
   tip:'#edf4e9', success:'#e9f4ed', question:'#f8f3e4', warning:'#fbf0de',
   failure:'#f8eeee', danger:'#f9e9e7', bug:'#faede5', example:'#f1edf7',
   quote:'#f0f1ed', important:'#f4edf7',
