@@ -95,6 +95,10 @@ export function verifyStyles(css:string){
   assert.ok(!entries.some(e=>e.selector==='.inline-tag'&&e.declarations['text-decoration-line']==='underline'),'Inline tags must look like badges, not ordinary underlined links');
   assert.ok(!entries.some(e=>e.selector.includes('.inline-tag')&&/:{1,2}before$/.test(e.selector)&&e.declarations.content&&!['none','""',"''"].includes(e.declarations.content)),'Inline tag text already contains its # prefix');
   has('.toc-scroll',{'overscroll-behavior':'contain'});
+  has('.toc-entry',{'margin-left':'var(--toc-indent)'});
+  has('.toc-child .toc-entry',{'font-size':'12px'});
+  has('.toc-child .toc-entry:after',{left:'-6px'});
+  has('.outline-dialog .toc-child .toc-entry',{'font-size':'15px'});
   has('.graph',{'max-width':'280px'},'960');
   has('.update-heatmap svg',{'max-width':'280px'});
   has('.graph svg[data-local-graph]',{'touch-action':'none',cursor:'default'});

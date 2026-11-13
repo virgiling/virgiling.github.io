@@ -183,7 +183,7 @@ dialog::backdrop {
 .outline-dialog .toc-entry {
   @apply text-[16px];
 }
-.outline-dialog .toc li[data-depth="3"] .toc-entry {
+.outline-dialog .toc-child .toc-entry {
   @apply text-[15px];
 }
 .outline-relations {

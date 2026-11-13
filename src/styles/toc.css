@@ -14,6 +14,7 @@
   @apply relative block pt-[6px] pr-[8px] pb-[6px] pl-[15px] text-muted text-[13px];
   line-height: 1.55;
   overflow-wrap: anywhere;
+  margin-left: var(--toc-indent);
 }
 .toc-entry:before {
   @apply absolute left-[3px] w-[3px] h-[3px] rounded-[50%];
@@ -28,14 +29,11 @@
 .toc-entry:hover {
   @apply text-ink;
 }
-.toc li[data-depth="3"] .toc-entry {
-  @apply pl-[35px] text-[12px];
+.toc-child .toc-entry {
+  @apply text-[12px];
 }
-.toc li[data-depth="3"] .toc-entry:before {
-  @apply left-[23px];
-}
-.toc li[data-depth="3"] .toc-entry:after {
-  @apply absolute left-[14px] top-0 bottom-0 w-px;
+.toc-child .toc-entry:after {
+  @apply absolute left-[-6px] top-0 bottom-0 w-px;
   content: "";
   background: var(--line);
 }

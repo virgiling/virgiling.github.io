@@ -7,6 +7,8 @@ interface Props {
   linkTags?: boolean;
 }
 const { headings, mobile = false, linkTags = true } = Astro.props;
+const outline = headings.filter((heading) => heading.depth <= 3);
+const rootDepth = Math.min(3, ...outline.map((heading) => heading.depth));
 ---
 
 <nav class="on-this-page" aria-label={`${mobile ? "移动端 " : ""}ON THIS PAGE`}>
@@ -17,20 +19,22 @@ const { headings, mobile = false, linkTags = true } = Astro.props;
     <div class="toc-track">
       <span class="toc-marker" aria-hidden="true" hidden></span>
       <ol class="toc">
-        {headings
-          .filter((heading) => heading.depth <= 3)
-          .map((heading) => (
-            <li data-depth={heading.depth}>
-              <span class="toc-entry" data-heading={heading.id}>
-                <TaggedText
-                  text={heading.text}
-                  parts={heading.parts}
-                  enabled={linkTags}
-                  href={`#${encodeURIComponent(heading.id)}`}
-                />
-              </span>
-            </li>
-          ))}
+        {outline.map((heading) => (
+          <li
+            data-depth={heading.depth}
+            class:list={{ "toc-child": heading.depth > rootDepth }}
+            style={{ "--toc-indent": `${(heading.depth - rootDepth) * 20}px` }}
+          >
+            <span class="toc-entry" data-heading={heading.id}>
+              <TaggedText
+                text={heading.text}
+                parts={heading.parts}
+                enabled={linkTags}
+                href={`#${encodeURIComponent(heading.id)}`}
+              />
+            </span>
+          </li>
+        ))}
       </ol>
     </div>
   </div>

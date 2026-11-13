@@ -246,9 +246,6 @@
     @apply text-[13px];
     padding-block: 8px;
   }
-  .toc li[data-depth="3"] .toc-entry {
-    @apply text-[12px];
-  }
   .side-empty,
   .backlinks a {
     @apply text-[13px];

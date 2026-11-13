@@ -130,11 +130,12 @@ export async function renderNote(
         return index + 2;
       });
     })
+    // Math must consume its pre/code markers before Shiki's text fallback.
+    .use(mathjax)
     .use(shiki, {
       theme: "catppuccin-latte",
       fallbackLanguage: "text",
     })
-    .use(mathjax)
     .use(() => (tree: any) => {
       visit(tree, "element", (n: any, index, parent: any) => {
         if (n.tagName === "input") {
