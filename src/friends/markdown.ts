@@ -15,6 +15,13 @@ export function plainText(node: any): string {
   if (node.tagName === "script" || node.tagName === "style") return "";
   return node.value ?? (node.children || []).map(plainText).join("");
 }
+// The table lists the person's name or handle first in the bio, such as
+// "Ada (Researcher)". A bio without parentheses has no name to extract,
+// so the display name is used instead.
+function sortName(friend: Friend) {
+  const lead = friend.bio.match(/^([^(（]*)[(（]/)?.[1].trim();
+  return lead || friend.name;
+}
 export function parseFriendLinks(html: string) {
   const tree = fromHtml(html, { fragment: true });
   const friends: Friend[] = [],
@@ -84,5 +91,8 @@ export function parseFriendLinks(html: string) {
       return index;
     }
   });
+  friends.sort((a, b) =>
+    sortName(a).localeCompare(sortName(b), "en", { sensitivity: "base" }),
+  );
   return { friends, html: toHtml(tree) };
 }

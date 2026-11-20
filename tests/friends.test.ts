@@ -30,6 +30,20 @@ test('ordinary Markdown-rendered tables support old and extended friend fields w
   assert.equal(cards.querySelector('.friend-avatar img')!.getAttribute('src'),'https://ada.example.com/avatar.png');assert.equal(cards.querySelector('.friend-bio')!.textContent,'Compiler researcher');
 });
 
+test('friend cards sort by the name at the start of the bio instead of table order',()=>{
+  const table=(rows:string)=>`<table><tr><th>链接</th><th>简介</th></tr>${rows}</table>`;
+  const names=parseFriendLinks(table(
+    '<tr><td><a href="https://ross.example.com/">aaa</a></td><td>Rossqaq (Engineer)</td></tr>'+
+    '<tr><td><a href="https://ada.example.com/">zzz</a></td><td>Ada (Researcher)</td></tr>'+
+    '<tr><td><a href="https://pyuyi.example.com/">Pyuyi</a></td><td>Math/AI Interpretability/Causal Inference/RSI.</td></tr>'+
+    '<tr><td><a href="https://nora.example.com/">Nora</a></td><td>Nora (Designer)</td></tr>'+
+    '<tr><td><a href="https://jiang.example.com/">bbb</a></td><td>Jiangnan Li (Master Student)</td></tr>'+
+    '<tr><td><a href="https://zoe.example.com/">Adele</a></td><td>Zebra researcher</td></tr>'+
+    '<tr><td><a href="https://apple.example.com/">Zoe</a></td><td>Apple researcher</td></tr>'
+  )).friends.map(friend=>friend.name);
+  assert.deepEqual(names,['zzz','Adele','bbb','Nora','Pyuyi','aaa','Zoe']);
+});
+
 test('friend cards have no extra headings and recent posts read author-title-date in one row',async()=>{
   const post={author:'A very long author <name>',authorUrl:friend.url,title:'A long title with "quotes" & details',url:friend.url+'post',date:'2026-08-03T12:00:00.000Z'};
   const {document}=parseHTML(`<html><body>${await FriendCards([friend])}${await FriendCircle([post],[])}</body></html>`);
